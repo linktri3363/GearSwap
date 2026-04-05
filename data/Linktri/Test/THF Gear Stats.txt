@@ -1,0 +1,120 @@
+Pillager's Attire Set +4
+
+Head	Pillager's Bonnet +4
+DEF:126 HP+74 MP+43 STR+30 DEX+42 VIT+30 AGI+42 INT+30 MND+33 CHR+31
+Accuracy+63 Ranged Accuracy+43 Magic Accuracy+63 Evasion+124 Magic Evasion+108 "Magic Def. Bonus"+4 Haste+8%
+Critical hit damage +5% Weapon Skill Damage +9%
+Body	Pillager's Vest +4
+DEF:156 HP+108 MP+64 STR+34 DEX+49 VIT+34 AGI+43 INT+33 MND+36 CHR+33
+Accuracy+70 Magic Accuracy+70 Evasion+119 Magic Evasion+119 "Magic Def. Bonus"+8 Haste+4%
+"Triple Attack"+7% "Hide" duration +100 Critical hit damage +6%
+Hands	Pillager's Armlets +4
+DEF:114 HP+57 STR+21 DEX+50 VIT+42 AGI+30 INT+22 MND+43 CHR+27
+Accuracy+58 Magic Accuracy+58 Evasion+94 Magic Evasion+92 "Magic Def. Bonus"+4 Haste +5%
+"Dual Wield" +5 "Trick Attack"damage +20 Critical hit damage +4%
+Legs	Pillager's Culottes +4
+DEF:138 HP+90 STR+39 DEX+20 VIT+26 AGI+35 INT+40 MND+30 CHR+21
+Accuracy+64 Attack+35 Magic Accuracy+64 Evasion+108 Magic Evasion+124 "Magic Def. Bonus"+7 Haste+6%
+"Triple Attack"+5% Critical hit damage +5%
+Feet	Pillager's Poulaines +4
+DEF:96 HP+39 STR+22 DEX+39 VIT+22 AGI+52 MND+22 CHR+40
+Accuracy+62 Ranged Accuracy+33 Magic Accuracy+62 Evasion+142 Magic Evasion+124 "Magic Def. Bonus"+7 Haste+4%
+"Steal"+15 "Flee" duration +18 "Resist Gravity"+20 Movement speed+18%
+Set Bonus: +Accuracy, Ranged Accuracy, and Magic Accuracy
+
+Set bonus scales up as additional pieces are equipped to a maximum of 5 pieces:
+2 pieces = +15 to Accuracy, Ranged Accuracy, and Magic Accuracy
+3 pieces = +30 to Accuracy, Ranged Accuracy, and Magic Accuracy
+4 pieces = +45 to Accuracy, Ranged Accuracy, and Magic Accuracy
+5 pieces = +60 to Accuracy, Ranged Accuracy, and Magic Accuracy
+
+Skulker's Attire Set +3
+
+Head	Skulker's Bonnet +3
+DEF:130 HP+71 STR+31 DEX+43 VIT+29 AGI+39 INT+23 MND+23 CHR+23
+Accuracy+61 Attack+61 Magic Accuracy+61 Evasion+99 Magic Evasion+109 “Magic Def. Bonus”+7 Haste+8%
+"Triple Attack"+6% “Accomplice”+21% “Collaborator”+21% Physical damage limit +10%
+Body	Skulker's Vest +3
+DEF:161 HP+93 STR+40 DEX+51 VIT+34 AGI+48 INT+31 MND+31 CHR+31
+Accuracy+64 Attack+64 Magic Accuracy+64 Evasion+105 Magic Evasion+119 “Magic Def. Bonus”+10 Dagger skill +38 Haste+6%
+Augments “Conspirator” Weapon Skill Damage +12%
+Hands	Skulker's Armlets +3
+DEF:121 HP+57 STR+27 DEX+53 VIT+39 AGI+27 INT+22 MND+40 CHR+27
+Accuracy+62 Attack+72 Magic Accuracy+62 Evasion+86 Magic Evasion+93 “Magic Def. Bonus”+6 Haste+5%
+“Sneak Attack”+30 Damage taken -11%
+Legs	Skulker's Culottes +3
+DEF:142 HP+80 STR+44 DEX+18 VIT+26 AGI+30 INT+40 MND+27 CHR+21
+Accuracy+63 Attack+63 Magic Accuracy+63 Evasion+97 Magic Evasion+125 “Magic Def. Bonus”+9 Haste+6%
+“Despoil”+13 Critical hit rate +7% Damage taken -13%
+Feet	Skulker's Poulaines +3
+DEF:103 HP+45 STR+27 DEX+39 VIT+22 AGI+57 MND+22 CHR+40
+Accuracy+60 Attack+60 Magic Accuracy+60 Evasion+130 Magic Evasion+125 “Magic Def. Bonus”+9 Haste+4%
+“Treasure Hunter”+5 “Despoil” effect +8 Damage taken -11%
+Set Bonus: Augments “Triple Attack”
+
+Set Augments "Triple Attack" effect.
+Causes all three attacks of a triple attack round to occasionally deal triple damage.
+Triggers on both the main and off hands when dual wielding.
+The set bonus on this armor is activated by wearing two or more pieces of Empyrean Armor +2, Reforged Empyrean Armor, Reforged Empyrean Armor +1, Reforged Empyrean Armor +2, and/or Reforged Empyrean Armor +3. Pieces can mix and match between different tiers of these sets to still gain the set bonus.
+Each separate piece provides an additional +1% chance of activation (minimum +2% from wearing two pieces), up to a maximum of +5%.
+
+Plunderer's Attire Set +4
+
+Head	Plunderer's Bonnet +4
+DEF:127 HP+66 MP+53 STR+36 DEX+41 VIT+36 AGI+35 INT+34 MND+31 CHR+32
+Accuracy+49 Attack+72 Magic Accuracy+42 Evasion+89 Magic Evasion+113 "Magic Defense Bonus"+5 Haste+8%
+"Triple Attack"+4% "Mug"+5
+20x: Enhances "Aura Steal" effect
+Body	Plunderer's Vest +4
+DEF:157 HP+89 MP+74 STR+46 DEX+46 VIT+39 AGI+45 INT+36 MND+33 CHR+33
+Accuracy+45 Attack+75 Magic Accuracy+45 Evasion+94 Magic Evasion+124 "Magic Defense Bonus"+9 Haste+4% Enmity+30
+"Trick Attack" damage +10 Critical hit rate +6% Critical hit damage +5%
+20x: Enhances "Ambush" effect
+Hands	Plunderer's Armlets +4
+DEF:115 HP+55 STR+24 DEX+43 VIT+45 AGI+13 INT+23 MND+38 CHR+34
+Accuracy+50 Attack+73 Magic Accuracy+43 Evasion+84 Magic Evasion+97 "Magic Defense Bonus"+5 Haste+5%
+"Treasure Hunter"+4
+20x: Enhances "Perfect Dodge" effect
+Legs	Plunderer's Culottes +4
+DEF:135 HP+77 STR+47 DEX+21 VIT+34 AGI+33 INT+46 MND+30 CHR+24
+Accuracy+51 Attack+74 Magic Accuracy+44 Evasion+83 Magic Evasion+129 "Magic Defense Bonus"+8 Haste+6%
+"Gilfinder"+4 Weapon Skill Damage +9%
+20x: Enhances "Feint" effect
+Feet	Plunderer's Poulaines +4
+DEF:97 HP+43 STR+27 DEX+37 VIT+27 AGI+47 MND+22 CHR+43
+Accuracy+41 Attack+71 Magic Accuracy+41 Evasion+117 Magic Evasion+129 "Magic Defense Bonus"+8 Haste+4%
+"Triple Attack"+5% "Triple Attack" damage +11
+20x: Enhances "Assassin's Charge" effect
+
+Gleti's Armor Set
+
+Head	Gleti's Mask
+DEF:152 HP+68 STR+33 DEX+28 VIT+30 AGI+23 INT+19 MND+19 CHR+19
+Accuracy+40 Attack+40 Magic Accuracy+40 Evasion+83 Magic Evasion+86 "Magic Def. Bonus"+13 Haste+6%
+Enmity-8 Physical damage limit +6% "Regain"+2 Critical hit rate +5% Physical damage taken -6%
+Pet: Accuracy+50 Ranged Accuracy+50 Magic Accuracy+50
+20x: Rank: 25 [1] Attack+25 [2] "Counter"+9 [3] Accuracy+10 Mag. Acc.+10 [4] "Regen"+2
+Body	Gleti's Cuirass
+DEF:184 HP+91 STR+39 DEX+34 VIT+39 AGI+26 INT+26 MND+26 CHR+26
+Accuracy+40 Attack+40 Magic Accuracy+40 Evasion+94 Magic Evasion+102 "Magic Def. Bonus"+15 Haste+3%
+Physical damage limit +9% "Waltz" potency +10% "Regain"+3 Critical hit rate +8% Physical damage taken -9%
+Pet: Accuracy+50 Ranged Accuracy+50 Magic Accuracy+50
+20x: Rank: 25 [1] Attack+25 [2] "Double Attack"+9% [3] Accuracy+10 Mag. Acc.+10 [4] Occ. inc. resist. to stat. ailments +5
+Hands	Gleti's Gauntlets
+DEF:138 HP+68 STR+20 DEX+42 VIT+43 AGI+15 INT+14 MND+30 CHR+24
+Accuracy+40 Attack+40 Magic Accuracy+40 Evasion+72 Magic Evasion+75 "Magic Def. Bonus"+12 Haste+3%
+"Regain"+2 Physical damage limit +7% Critical hit rate +6% Physical damage taken -7%
+Pet: Accuracy+50 Ranged Accuracy+50 Magic Accuracy+50 Damage taken -8%
+20x: Rank: 25 [1] Attack+25 [2] "Store TP"+7 [3] Accuracy+10 Mag. Acc.+10 [4] DEX+3
+Legs	Gleti's Breeches
+DEF:165 HP+79 STR+49 VIT+37 AGI+23 INT+30 MND+20 CHR+17
+Accuracy+40 Attack+40 Magic Accuracy+40 Evasion+77 Magic Evasion+112 "Magic Def. Bonus"+14 Haste+5%
+Physical damage limit +8% "Sic" and "Ready" ability delay -5 "Regain"+3 Critical hit rate +7% Physical damage taken -8%
+Pet: Acc.+50 Ranged Acc.+50 Magic Acc.+50
+20x: Rank: 25 [1] Attack+25 [2] "Subtle Blow"+13 [3] Accuracy+10 Mag. Acc.+10 [4] "Triple Attack"+3%
+Feet	Gleti's Boots
+DEF:119 HP+57 STR+28 DEX+29 VIT+26 AGI+33 MND+12 CHR+26
+Accuracy+40 Attack+40 Magic Accuracy+40 Evasion+110 Magic Evasion+112 "Magic Def. Bonus"+13 Haste+3%
+"Regain"+2 Physical damage limit +5% Critical hit rate +4% Physical damage taken -5%
+Pet: Accuracy+50 Ranged Accuracy+50 Magic Accuracy+50 Summoned Pet: Lv.+1
+20x: Rank: 25 [1] Attack+25 [2] Evasion+13 [3] Accuracy+10 Mag. Acc.+10 [4] STR+3
