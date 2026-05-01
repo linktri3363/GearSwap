@@ -198,11 +198,11 @@ function init_gear_sets()
     sets.Suppa = {ear1 = "Sherida Earring",ear2 = "Suppanomimi"}
     sets.DWEarrings = {ear1 = "Dudgeon Earring", ear2 = "Heartseeker Earring"}
     sets.DWMax = {
-        ear1 = "Dudgeon Earring",
-        ear2 = "Heartseeker Earring",
-        body = "Horos Casaque +4",
-        hands={ name="Floral Gauntlets", augments={'Rng.Acc.+15','Accuracy+15','"Triple Atk."+3','Magic dmg. taken -4%',}},
-        waist = "Sailfi Belt +1"
+        ear1 = "Dudgeon Earring",           -- DW+7% (set bonus with Heartseeker)
+        ear2 = "Heartseeker Earring",       -- DW+7% (set bonus with Dudgeon)
+        body = "Macu. Casaque +3",          -- DW+11%
+        back = { name="Toetapper Mantle", augments={'"Store TP"+3','"Dual Wield"+2','"Rev. Flourish"+30','Weapon skill damage +3%',}}, -- DW+2%
+        waist = "Reiki Yotai"               -- DW+7% | Total gear DW: +34%
     }
 
     -- Weapons sets
@@ -272,7 +272,7 @@ function init_gear_sets()
         back = gear.stp_jse_back,
         waist = "Sailfi Belt +1",
         legs = "Gleti's Breeches",
-        feet = "Horos Toe Shoes +4"     -- Step Accuracy +24, Step TP -20
+        feet = "Horos Toe Sh. +4"       -- Step Accuracy +24, Step TP -20
     }
 
     sets.Enmity = {
@@ -436,7 +436,7 @@ function init_gear_sets()
         body = "Nyame Mail",
         hands = "Maxixi Bangles +4",
         ring1 = "Ilabrat Ring",
-        ring2 = "Ephramad's Ring",
+        ring2 = "Gere Ring",
         back = gear.wsd_jse_back,
         waist = "Sailfi Belt +1",
         legs = "Horos Tights +4",
@@ -841,12 +841,12 @@ function init_gear_sets()
         head = "Gleti's Mask",              -- Regain +2/tick, HP +147
         neck = "Loricate Torque +1",        -- DT -6%
         ear1 = "Sanare Earring",            -- MEVA
-        ear2 = { name="Odnowa Earring +1", augments={'Path: A',}}, -- DT -3%, HP +110
+        ear2 = "Odnowa Earring",           -- MDT -2%, HP conversion
         body = "Macu. Casaque +3", 			-- DT -14%
         hands = "Regal Gloves",             -- Converts 20% damage to TP, DT +20%, HP +342, DEX +40, Acc +45
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Chirich Ring +1",          -- Store TP +10
-        back = { name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Store TP"+10','Phys. dmg. taken-10%',}}, -- PDT -10%
+        back = gear.stp_jse_back,          -- DT -5%, STP+10
         waist = "Sailfi Belt +1",           -- 
         legs = "Gleti's Breeches",          -- Regain +2/tick, HP +209, PDT -8%
         feet = "Gleti's Boots"              -- Regain +2/tick, HP +157, PDT -5%
@@ -1001,6 +1001,54 @@ function user_job_post_precast(spell, spellMap, eventArgs)
         
         if state.Buff['Saber Dance'] and spell.english == "Rudra's Storm" then
             equip({legs = "Horos Tights +4"})
+        end
+    end
+end
+
+-- ======================================================================
+-- JOB POST PRECAST - Content-aware WS gear optimization
+-- This overrides DNC.lua's job_post_precast since gear file loads after.
+-- Replicates DNC.lua's Moonshade/Climactic Flourish logic, then adds
+-- ContentMode-aware PDL swaps on top for high-buff content.
+-- Roller's Ring is NOT handled here - job_aftercast covers that.
+-- ======================================================================
+function job_post_precast(spell, spellMap, eventArgs)
+    if spell.type ~= 'WeaponSkill' then return end
+
+    -- Step 1: Replicate DNC.lua Moonshade swap logic
+    -- Swap out Moonshade when TP bonus pushes us over effective 3000 cap
+    local WSset = standardize_set(get_precast_set(spell, spellMap))
+    if WSset.ear1 == "Moonshade Earring" or WSset.ear2 == "Moonshade Earring" then
+        if get_effective_player_tp(spell, WSset) > 3200 then
+            local wsacc = check_ws_acc()
+            if wsacc:contains('Acc') and not buffactive['Sneak Attack'] and sets.AccMaxTP then
+                equip(sets.AccMaxTP[spell.english] or sets.AccMaxTP)
+            elseif sets.MaxTP then
+                equip(sets.MaxTP[spell.english] or sets.MaxTP)
+            end
+        end
+    end
+
+    -- Step 2: Replicate DNC.lua Climactic Flourish overlay
+    if state.Buff['Climactic Flourish'] and sets.buff['Climactic Flourish'] then
+        equip(sets.buff['Climactic Flourish'])
+    end
+
+    -- Step 3: ContentMode-aware PDL swaps for high-buff content
+    -- Only applies in Sortie/Odyssey where attack is high enough to hit pDIF cap
+    if is_high_buff_situation() then
+        -- All WSs: Ephramad's Ring in ring1 for PDL+10%
+        -- Exception: don't override ring1 if Climactic Flourish already set it
+        -- (Climactic Flourish set only touches head, so ring1 is safe to set here)
+        equip({ring1 = "Ephramad's Ring"})
+
+        -- Ruthless Stroke: also swap legs to Maculele Tights +3 for PDL+10%
+        -- giving PDL+20% total with Ephramad's Ring
+        -- Exception: Saber Dance active → keep Horos Tights +4 for WSD bonus
+        if spell.english == "Ruthless Stroke" then
+            if not state.Buff['Saber Dance'] then
+                equip({legs = "Maculele Tights +3"})
+            end
         end
     end
 end
