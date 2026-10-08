@@ -1,0 +1,17 @@
+sets.exported = {
+    main="Mpaca's Staff",
+    sub="Umbra Strap",
+    ammo="Staunch Tathlum +1",
+    head="Wicce Petasos +3",
+    body="Jhakri Robe +2",
+    hands="Wicce Gloves +3",
+    legs="Assid. Pants +1",
+    feet="Wicce Sabots +3",
+    neck="Loricate Torque +1",
+    waist="Carrier's Sash",
+    left_ear="Alabaster Earring",
+    right_ear="Etiolation Earring",
+    left_ring="Shneddick Ring +1",
+    right_ring="Stikini Ring",
+    back="Aurist's Cape +1",
+}

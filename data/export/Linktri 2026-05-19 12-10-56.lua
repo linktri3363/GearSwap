@@ -1,0 +1,17 @@
+sets.exported = {
+    main="Burtgang",
+    sub="Priwen",
+    ammo="Staunch Tathlum +1",
+    head="Chev. Armet +3",
+    body="Councilor's Garb",
+    hands="Chev. Gauntlets +3",
+    legs="Chev. Cuisses +3",
+    feet="Chev. Sabatons +3",
+    neck={ name="Kgt. Beads +2", augments={'Path: A',}},
+    waist="Null Belt",
+    left_ear="Etiolation Earring",
+    right_ear={ name="Chev. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','Damage taken-5%',}},
+    left_ring="Shneddick Ring +1",
+    right_ring="Murky Ring",
+    back={ name="Rudianos's Mantle", augments={'VIT+20','Eva.+10 /Mag. Eva.+10','Enmity+10',}},
+}
