@@ -8,8 +8,8 @@ sets.buff.RolledEleven = {} --ring2="Roller's Ring"
 sets.buff.Doom = {waist="Gishdubar Sash"} --neck="Nicander's Necklace",ring1="Eshmun's Ring",ring2="Eshmun's Ring"
 sets.TreasureHunter = {head="Volte Cap",hands="Volte Bracers"}
 
-sets.precast.Item['Hallowed Water'] = {}
-sets.precast.Item['Holy Water'] = {}
+sets.midcast.Item['Hallowed Water'] = {}
+sets.midcast.Item['Holy Water'] = {}
 
 --Augmented items that you'll use among multiple jobs.
 gear.grioavolr_nuke_staff = {name="Grioavolr",augments={'"Conserve MP"+2','MP+83','Mag. Acc.+25','"Mag.Atk.Bns."+29','Magic Damage +5',}}

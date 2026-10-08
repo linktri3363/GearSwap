@@ -28,7 +28,7 @@ Setting up my Gearswaps and Github updating:
 
 8.) Move your old Gearswap folder on the desktop to the same directory as the new one to merge them. https://www.dropbox.com/s/vd5tqw7mw6t9xa6/Merge%201.png?dl=0 https://www.dropbox.com/s/i602azszzv2fl25/Merge%202.png?dl=0 Yes here. https://www.dropbox.com/s/gtt59xw556l04kd/Merge%203.png?dl=0 Yes for all. https://www.dropbox.com/s/n1myd584muntey3/Merge%204.png?dl=0 Skip these files. Make sure not to overwrite any files, choose skip or "do not replace" for any common files.
 
-9.) Inside your Gearswap\Data\ folder, first copy, then rename the "Selindrile" folder once for each of your characters' names. https://www.dropbox.com/s/wquioii9r16oho2/MoveData.png?dl=0 Rename all the files inside that folder as well, you can use Rename.bat (If it doesn't work you will have to rename these files manually. https://www.dropbox.com/s/lpz3t8va77mvh17/Charactername.png?dl=0
+9.) Inside your Gearswap\Data\ folder, first copy, then rename the "Mytha" folder once for each of your characters' names. https://www.dropbox.com/s/wquioii9r16oho2/MoveData.png?dl=0 Rename all the files inside that folder as well, you can use Rename.bat (If it doesn't work you will have to rename these files manually. https://www.dropbox.com/s/lpz3t8va77mvh17/Charactername.png?dl=0
 
 10.) For full functionality my gearswap and init files do depend on a few other addons that can be found in your launcher, I'll list them here: Addons: Shortcuts, Cancel, Itemizer. Plugins: Timers, Run
 

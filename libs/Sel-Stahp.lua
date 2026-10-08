@@ -344,6 +344,18 @@ function check_reaction(act)
 			return
 		elseif ProshellraAbility:contains(act_info.name) and sets.Sheltered then
 			send_command('gs c softequip sets.Sheltered') return
+		elseif act_info.name == 'Phalanx' then
+			--[[
+			if 'Accession' then
+				if sets.Phalanx_Received then
+					send_command('gs c softequip sets.Phalanx_Received')
+				elseif sets.midcast.Phalanx then
+					send_command('gs c softequip sets.midcast.Phalanx')
+				elseif sets.Enhancing_Received then
+					send_command('gs c softequip sets.Enhancing_Received')
+				end
+			end
+			--]]
 		end
 	end
 
@@ -433,8 +445,7 @@ windower.raw_register_event('incoming text',function(original) --Abyssea Proc De
 			send_command('gs c weapons initialize')
 		end
 	elseif original:startswith("The fiend appears vulnerable to") then
-		local proc_target = windower.ffxi.get_mob_by_target('bt')
-		local proc_target_id = proc_target.id
+		local proc_target_id = windower.ffxi.get_mob_by_target('bt').id or ''
 		if original:find("elemental weapon skills!") then
 			if elemental_ws_proc_target_id ~= proc_target_id then
 				elemental_ws_proc_target_id = proc_target_id

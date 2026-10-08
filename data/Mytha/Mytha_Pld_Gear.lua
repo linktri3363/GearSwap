@@ -1,4 +1,4 @@
-function user_job_setup()
+function character_user_job_setup()
 
 	-- Options: Override default values	
 	state.OffenseMode:options('Normal','Acc')
@@ -30,8 +30,6 @@ function user_job_setup()
 	send_command('bind !f11 gs c cycle ExtraDefenseMode')
 	send_command('bind @` gs c cycle RuneElement')
 	send_command('bind ^pause gs c toggle AutoRuneMode')
-	send_command('bind ^q gs c set IdleMode Kiting')
-	send_command('bind !q gs c set IdleMode PDT')
 	send_command('bind @f8 gs c toggle AutoTankMode')
 	send_command('bind @f10 gs c toggle TankAutoDefense')
 	send_command('bind ^@!` gs c cycle SkillchainMode')

@@ -59,7 +59,6 @@ function job_setup()
 	state.Buff.Convergence = buffactive.Convergence or false
 	state.Buff.Diffusion = buffactive.Diffusion or false
 	state.Buff.Efflux = buffactive.Efflux or false
-	state.Buff['Aftermath: Lv.3'] = buffactive['Aftermath: Lv.3'] or false
 	state.Buff['Unbridled Learning'] = buffactive['Unbridled Learning'] or false
 	state.Buff['Unbridled Wisdom'] = buffactive['Unbridled Wisdom'] or false
 
@@ -228,7 +227,6 @@ function job_setup()
 		'Pyric Bulwark','Tearing Gust','Thunderbolt','Tourbillion','Uproot'
 	}
 
-	update_melee_groups()
 	init_job_states({"Capacity","AutoFoodMode","AutoTrustMode","AutoWSMode","AutoNukeMode","AutoShadowMode","AutoStunMode","AutoDefenseMode",},{"AutoBuffMode","AutoSambaMode","AutoRuneMode","Weapons","OffenseMode","WeaponskillMode","IdleMode","Passive","RuneElement","LearningMode","CastingMode","TreasureMode"})
 end
 
@@ -364,13 +362,6 @@ end
 -- Job-specific hooks for non-casting events.
 -------------------------------------------------------------------------------------------------------------------
 
--- Called when a player gains or loses a buff.
--- buff == buff gained or lost
--- gain == true if the buff was gained, false if it was lost.
-function job_buff_change(buff, gain)
-	update_melee_groups()
-end
-
 -- Custom spell mapping.
 -- Return custom spellMap value that can override the default spell mapping.
 -- Don't return anything to allow default spell mapping to be used.
@@ -450,7 +441,7 @@ function job_tick()
 end
 
 function check_arts()
-	if (player.sub_job == 'SCH' and not (state.Buff['SJ Restriction'] or arts_active())) and (buffup ~= '' or (not data.areas.cities:contains(world.area) and ((state.AutoArts.value and in_combat) or state.AutoBuffMode.value ~= 'Off'))) then
+	if (player.sub_job == 'SCH' and not (buffactive['SJ Restriction'] or arts_active())) and (buffup ~= '' or (not in_town and ((state.AutoArts.value and in_combat) or state.AutoBuffMode.value ~= 'Off'))) then
 
 		local abil_recasts = windower.ffxi.get_ability_recasts()
 
@@ -469,18 +460,10 @@ end
 -- Utility functions specific to this job.
 -------------------------------------------------------------------------------------------------------------------
 
-function update_melee_groups()
-	if player.equipment.main then
-		classes.CustomMeleeGroups:clear()
 
-		if player.equipment.main == "Tizona" and state.Buff['Aftermath: Lv.3'] then
-				classes.CustomMeleeGroups:append('AM')
-		end
-	end
-end
 
 function job_check_buff()
-	if state.AutoBuffMode.value ~= 'Off' and not data.areas.cities:contains(world.area) then
+	if state.AutoBuffMode.value ~= 'Off' and not in_town then
 		if in_combat and player.sub_job == 'WAR' then
 			local abil_recasts = windower.ffxi.get_ability_recasts()
 

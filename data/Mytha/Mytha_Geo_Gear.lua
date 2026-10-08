@@ -1,4 +1,4 @@
-function user_job_setup()
+function character_user_job_setup()
 
 	-- Options: Override default values
     state.OffenseMode:options('Normal')

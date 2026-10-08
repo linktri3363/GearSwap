@@ -97,7 +97,6 @@ function self_command(commandArgs)
 
 	if not eventArgs.handled and not midaction() and not (pet_midaction() or ((petWillAct + 2) > os.clock())) then
 		handle_equipping_gear(player.status)
-		
 		if handleCmd and handleCmd == 'softequip' then
 			local set = get_table_from_string(commandArgs[1])
 			equip(set)
@@ -128,15 +127,17 @@ function handle_set(cmdParams)
 
 	if state_var then
 		local oldVal = state_var.value
-		state_var:set(cmdParams[2])
+		local state_name = {table.remove(cmdParams, 1)}
+		local set_value = table.concat(cmdParams, ' ')
+		state_var:set(set_value)
 		local newVal = state_var.value
 
 		if toggleset and newVal == oldVal and newVal ~= 'Single' then
-			handle_reset(cmdParams)
+			handle_reset(state_name)
 			return
 		end
 
-		local descrip = state_var.description or cmdParams[1]
+		local descrip = state_var.description or set_value
 		if state_change then
 			state_change(descrip, newVal, oldVal)
 		end
@@ -159,6 +160,9 @@ function handle_smartstun(cmdParams)
 	if cmdParams[1] then
 		if cmdParams[1] == '<me>' or cmdParams[1] == 'me' then
 			target = player.id
+		elseif cmdParams[1] == '<bt>' or cmdParams[1] == 'bt' then
+			local bt = windower.ffxi.get_mob_by_target('bt') or false
+			target = bt and bt.id or false
 		elseif cmdParams[1] == '<t>' or cmdParams[1] == 't' then
 			if player.target.type ~= 'NONE' and player.target.id then
 				target = player.target.id
@@ -419,15 +423,18 @@ function handle_update(cmdParams)
 	end
 
 	if not eventArgs.handled and not midaction() and not (pet_midaction() or ((petWillAct + 2) > os.clock())) then
+		if check_internal_weapons then
+			equip_weaponset()
+		end
 		handle_equipping_gear(player.status)
-	end
-
-	if cmdParams == 'user' then
-		display_current_state()
 	end
 
 	update_job_states()
 	update_combat_form()
+	
+	if cmdParams[1] == 'user' then
+		display_current_state()
+	end
 end
 
 
@@ -479,6 +486,7 @@ function handle_naked()
 end
 
 function handle_weapons(cmdParams)
+	local cached_weapon_state = state.Weapons.value
 	local weaponSet
 
 	if type(cmdParams) == 'string' then
@@ -489,7 +497,7 @@ function handle_weapons(cmdParams)
 
 	if weaponSet == nil then
 	elseif weaponSet:lower() == 'default' then
-		if not data.jobs.dual_wield_jobs:contains(player.main_job) and (player.sub_job == 'DNC' or player.sub_job == 'NIN') and state.Weapons:contains(default_dual_weapons) and sets.weapons[default_dual_weapons] then
+		if not data.jobs.dual_wield_jobs:contains(player.main_job) and can_dual_wield and state.Weapons:contains(default_dual_weapons) and sets.weapons[default_dual_weapons] then
 			state.Weapons:set(default_dual_weapons)
 		elseif default_weapons and state.Weapons:contains(default_weapons) and sets.weapons[default_weapons] then
 			state.Weapons:set(default_weapons)
@@ -497,9 +505,12 @@ function handle_weapons(cmdParams)
 			state.Weapons:reset()
 		end
 	elseif weaponSet:lower() == 'initialize' then
-		if not data.jobs.dual_wield_jobs:contains(player.main_job) and (player.sub_job == 'DNC' or player.sub_job == 'NIN') and weapon_sets['Dual'] then
+		if not data.jobs.dual_wield_jobs:contains(player.main_job) and can_dual_wield and weapon_sets['Dual'] then
 			state.WeaponSets:set('Dual')
 			state.Weapons:options(unpack(weapon_sets[state.WeaponSets.value]))
+			if sets.weapons[default_dual_weapons] then
+				state.Weapons:set(default_dual_weapons)
+			end
 		elseif weapon_sets['Default'] then
 			state.WeaponSets:set('Default')
 			state.Weapons:options(unpack(weapon_sets[state.WeaponSets.value]))
@@ -508,7 +519,7 @@ function handle_weapons(cmdParams)
 			end
 		elseif data.jobs.mage_jobs:contains(player.main_job) and not data.jobs.mage_jobs:contains(player.sub_job) and state.Weapons:contains(default_weapons) and sets.weapons[default_weapons] then
 			state.Weapons:set(default_weapons)
-		elseif not data.jobs.dual_wield_jobs:contains(player.main_job) and (player.sub_job == 'DNC' or player.sub_job == 'NIN') and state.Weapons:contains(default_dual_weapons) and sets.weapons[default_dual_weapons] then
+		elseif not data.jobs.dual_wield_jobs:contains(player.main_job) and can_dual_wield and state.Weapons:contains(default_dual_weapons) and sets.weapons[default_dual_weapons] then
 			state.Weapons:set(default_dual_weapons)
 		elseif data.jobs.mage_jobs:contains(player.main_job) and not data.jobs.mage_jobs:contains(player.sub_job) and default_weapons and state.Weapons:contains(default_weapons) and sets.weapons[default_weapons] then
 			state.Weapons:set(default_weapons)
@@ -527,20 +538,22 @@ function handle_weapons(cmdParams)
 		add_to_chat(123,"Error: A weapons set for ["..weaponSet.."] does not exist.")
 	end
 
-	if autows_list[state.Weapons.value] then
-		if type(autows_list[state.Weapons.value]) == "table" then
-			autows 		= autows_list[state.Weapons.value][1]
-			autowstp 	= autows_list[state.Weapons.value][2]
-		else
-			autows 		= autows_list[state.Weapons.value]
+	if cached_weapon_state ~= state.Weapons.value or weaponSet:lower() == 'initialize' then
+		state_change('Weapons', state.Weapons.value, cached_weapon_state)
+		if autows_list[state.Weapons.value] then
+			if type(autows_list[state.Weapons.value]) == "table" then
+				autows 		= autows_list[state.Weapons.value][1]
+				autowstp 	= autows_list[state.Weapons.value][2]
+			else
+				autows 		= autows_list[state.Weapons.value]
+			end
 		end
 	end
-
-	equip_weaponset()
-	if state.DisplayMode.value then update_job_states()	end
 end
 
 function equip_weaponset()
+	check_internal_weapons = false
+
 	if state.Weapons.value == 'None' then
 		internal_enable_set("Weapons")
 	elseif sets.weapons[state.Weapons.value] and not state.UnlockWeapons.value then
@@ -635,6 +648,9 @@ function handle_elemental(cmdParams)
 	if cmdParams[1] then
 		if cmdParams[1] == '<me>' or cmdParams[1] == 'me' then
 			target = player.id
+		elseif cmdParams[1] == '<bt>' or cmdParams[1] == 'bt' then
+			local bt = windower.ffxi.get_mob_by_target('bt') or false
+			target = bt and bt.id or false
 		elseif cmdParams[1] == '<t>' or cmdParams[1] == 't' then
 			if player.target.type ~= 'NONE' and player.target.id then
 				target = player.target.id
@@ -660,6 +676,7 @@ function handle_elemental(cmdParams)
 	if handle_job_elemental and handle_job_elemental(command, target) then
 		return
 	end
+
 	if command == 'spikes' then
 		windower.chat.input('/ma "'..data.elements.spikes_of[state.ElementalMode.value]..' Spikes" <me>')
 	elseif command == 'enspell' then
@@ -750,7 +767,25 @@ function handle_elemental(cmdParams)
 
 	elseif command == 'bardsong' then
 		windower.chat.input('/ma "'..data.elements.threnody_of[state.ElementalMode.value]..' Threnody" '..target)
+	elseif command == 'carol' then
+		windower.chat.input('/ma "'..data.elements.weak_to[state.ElementalMode.value]..' Carol" '..target)
+	elseif command == 'carol2' then
+		windower.chat.input('/ma "'..data.elements.weak_to[state.ElementalMode.value]..' Carol II " '..target)
+	elseif command == 'threnody' then
+		if state.ElementalMode.value == 'Lightning' then
+			if silent_can_cast('Ltng. Threnody II') then
+				windower.chat.input('/ma "Ltng. Threnody II" '..target)
+			else
+				windower.chat.input('/ma "Ltng. Threnody" '..target)
+			end
+			return
+		end
 
+		if silent_can_cast(state.ElementalMode.value..' Threnody II') then
+			windower.chat.input('/ma "'..state.ElementalMode.value..' Threnody II " '..target)
+		else
+			windower.chat.input('/ma "'..state.ElementalMode.value..' Threnody" '..target)
+		end
 	else
 		add_to_chat(123,'Unrecognized elemental command.')
 	end
@@ -839,8 +874,6 @@ end
 
 function handle_abyred()
 	local procs = {}
-
-	elemental_ws_proc_element = 'darkness'
 
 	for proc in pairs(abyssea_elemental_ws_proc_weapons_map[elemental_ws_proc_element]) do
 		table.insert(procs, proc)
@@ -932,8 +965,8 @@ function handle_facemob(cmdParams)
 		target = player
 	end
 
-	local self_vector = windower.ffxi.get_mob_by_id(player.id)
-	local angle = (math.atan2((target.y - self_vector.y), (target.x - self_vector.x))*180/math.pi)*-1
+	local self = windower.ffxi.get_mob_by_id(player.id)
+	local angle = (math.atan2((target.y - self.y), (target.x - self.x))*180/math.pi)*-1
 	windower.ffxi.turn((angle):radian())
 end
 
@@ -1029,6 +1062,7 @@ function handle_enmity(cmdParams)
 		if not cmdParams:contains('short') then
 			for i, ability in ipairs(data.abilities.enmity.long_cooldown) do
 				local ability_id = get_ability_id_by_name(ability)
+				local ability_recast_id = res.job_abilities[ability_id].recast_id
 				local targets_enemy = res.job_abilities[ability_id].targets:contains('Enemy')
 
 				if silent_can_ability(ability) and abil_recasts[ability_recast_id] < latency and not ((cmdParams:contains('aoe') and targets_enemy) or (cmdParams:contains('target') and not targets_enemy)) then
@@ -1073,6 +1107,45 @@ end
 
 function handle_runeelement()
 	windower.chat.input('/ja "'..state.RuneElement.value..'" <me>')
+end
+
+function handle_customrunes(cmdParams)
+	handle_autorunes(cmdParams)
+end
+
+function handle_autorunes(cmdParams)
+	if cmdParams[1] == 'off' or cmdParams[1] == 'clear' then
+		custom_runes = {}
+		add_to_chat(122,'Custom Runes cleared.')
+		if state.DisplayMode.value then update_job_states()	end
+		return
+	elseif not (#cmdParams == 2 or #cmdParams == 3) then
+		if #cmdParams == 0 then
+			add_to_chat(122,'Custom Auto Runes currently set to: ('..table.concat(custom_runes, ', ')..')')
+		else
+			add_to_chat(123,'Autorunes requires two or three arguments.')
+		end
+		return
+	end
+	
+	custom_runes = {}
+	for i in pairs(cmdParams) do
+		local rune_to_set = cmdParams[i]:ucfirst()
+		
+		if data.elements.rune_of[rune_to_set] then
+			rune_to_set = data.elements.rune_of[rune_to_set]
+		end
+		
+		if data.abilities.runes:contains(rune_to_set) then
+			table.insert(custom_runes, rune_to_set)
+		else
+			add_to_chat(123, '['..cmdParams[i]..'] is not a valid rune, setting custom runes failed.')
+			if state.DisplayMode.value then update_job_states()	end
+			return
+		end
+	end
+	add_to_chat(122,'Custom Runes currently set to: ('..table.concat(custom_runes, ', ')..')')
+	if state.DisplayMode.value then update_job_states()	end
 end
 
 function handle_shadows()
@@ -1579,6 +1652,10 @@ function handle_test(cmdParams)
 	elseif job_test then
 		job_test(cmdParams)
 	end
+end
+
+function handle_equiptest()
+	table.vprint(player.equipment)
 end
 
 -------------------------------------------------------------------------------------------------------------------

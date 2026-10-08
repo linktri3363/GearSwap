@@ -1,5 +1,5 @@
 -- Setup vars that are user-dependent.
-function user_job_setup()
+function character_user_job_setup()
     state.OffenseMode:options('Normal','SomeAcc','Acc','FullAcc','Fodder')
     state.HybridMode:options('Normal','DTLite','PDT')
     state.WeaponskillMode:options('Match','Normal','SomeAcc','Acc','FullAcc','Fodder','Proc')
@@ -18,9 +18,6 @@ function user_job_setup()
 	send_command('bind !backspace input /ja "Third Eye" <me>')
 	send_command('bind @` gs c cycle SkillchainMode')
 	send_command('bind !@^` gs c cycle Stance')
-	send_command('bind !r gs c set skipprocweapons false;gs c weapons ProcWeapon;gs c set WeaponskillMode Proc;gs c update')
-	send_command('bind ^r gs c set skipprocweapons true;gs c weapons Default;gs c set WeaponskillMode Normal;gs c update')
-	send_command('bind ^q gs c weapons Bow;gs c update')
 
     select_default_macro_book()
 end

@@ -1,4 +1,4 @@
-function user_job_setup()
+function character_user_job_setup()
 	-- Options: Override default values
 	state.OffenseMode:options('Normal','Acc')
 	state.HybridMode:options('Normal','DT')
@@ -22,9 +22,6 @@ function user_job_setup()
 	send_command('bind @` gs c cycle MagicBurstMode')
 	send_command('bind @f10 gs c cycle RecoverMode')
 	send_command('bind @f8 gs c toggle AutoNukeMode')
-	send_command('bind !r gs c weapons None;gs c update')
-	send_command('bind !q gs c weapons NukeWeapons;gs c update')
-	send_command('bind ^q gs c weapons Swords;gs c update')
 	send_command('bind !f7 gs c cycle CarnMode')
 
 	select_default_macro_book()
@@ -169,7 +166,7 @@ function init_gear_sets()
 		
 	sets.midcast.SongDebuff.DW = {main="Kali",sub="Kali"} --Only weapons in this set. This set is overlayed onto  SongDebuff
 
-	-- For song defbuffs (accuracy primary, duration secondary)
+	-- For song debuffs (accuracy primary, duration secondary)
 	sets.midcast.SongDebuff.Resistant = {main="Daybreak",sub="Ammurapi Shield",range="Blurred Harp +1",ammo=empty,
 		head="Inyanga Tiara +2",neck="Mnbw. Whistle +1",ear1="Regal Earring",ear2="Digni. Earring",
 		body="Inyanga Jubbah +2",hands="Inyan. Dastanas +2",ring1="Metamorph Ring +1",ring2="Stikini Ring +1",

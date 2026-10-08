@@ -95,7 +95,6 @@ function job_setup()
 
 	state.Buff["Avatar's Favor"] = buffactive["Avatar's Favor"] or false
 	state.Buff["Astral Conduit"] = buffactive["Astral Conduit"] or false
-	state.Buff['Aftermath: Lv.3'] = buffactive['Aftermath: Lv.3'] or false
 
 	avatars = S{"Carbuncle", "Fenrir", "Diabolos", "Ifrit", "Titan", "Leviathan", "Garuda", "Shiva", "Ramuh", "Odin", "Alexander", "Cait Sith", "Siren"}
 	spirits = S{"LightSpirit", "DarkSpirit", "FireSpirit", "EarthSpirit", "WaterSpirit", "AirSpirit", "IceSpirit", "ThunderSpirit"}
@@ -122,13 +121,12 @@ function job_setup()
 	pacts.buffspecial2 = {['Carbuncle']='Pacifying Ruby',['Leviathan']='Soothing Current',['Shiva']='Crystal Blessing'}
 	pacts.debuff1 = {['Shiva']='Diamond Storm', ['Ramuh']='Shock Squall', ['Leviathan']='Tidal Roar', ['Fenrir']='Lunar Cry',
 		['Diabolos']='Pavor Nocturnus', ['Cait Sith']='Eerie Eye', ['Siren']='Lunatic Voice'}
-	pacts.debuff2 = {['Shiva']='Sleepga', ['Leviathan']='Slowga', ['Fenrir']='Lunar Roar', ['Diabolos']='Somnolence', ['Ramuh']='Thunderspark',
-		['Siren']='Bitter Elegy'}
+	pacts.debuff2 = {['Shiva']='Sleepga', ['Leviathan']='Slowga', ['Fenrir']='Lunar Roar', ['Diabolos']='Somnolence', ['Ramuh']='Thunderspark',['Siren']='Bitter Elegy'}
 	pacts.sleep = {['Shiva']='Sleepga', ['Diabolos']='Nightmare', ['Cait Sith']='Mewing Lullaby'}
 	pacts.nuke2 = {['Ifrit']='Fire II', ['Shiva']='Blizzard II', ['Garuda']='Aero II', ['Titan']='Stone II',
 		['Ramuh']='Thunder II', ['Leviathan']='Water II', ['Siren']='Tornado II'}
 	pacts.nuke4 = {['Ifrit']='Fire IV', ['Shiva']='Blizzard IV', ['Garuda']='Aero IV', ['Titan']='Stone IV',
-		['Ramuh']='Thunder IV', ['Leviathan']='Water IV', ['Siren']='Torando II'}
+		['Ramuh']='Thunder IV', ['Leviathan']='Water IV', ['Siren']='Tornado II'}
 	pacts.bp70 = {['Ifrit']='Flaming Crush', ['Shiva']='Rush', ['Garuda']='Predator Claws', ['Titan']='Mountain Buster',
 		['Ramuh']='Chaotic Strike', ['Leviathan']='Spinning Dive', ['Carbuncle']='Meteorite', ['Fenrir']='Eclipse Bite',
 		['Diabolos']='Nether Blast',['Cait Sith']='Regal Scratch'}
@@ -138,15 +136,14 @@ function job_setup()
 	pacts.bp99 = {['Ifrit']='Conflag Strike',['Titan']='Crag Throw',['Ramuh']='Volt Strike', ['Siren']='Hysteric Assault'}
 	pacts.astralflow = {['Ifrit']='Inferno', ['Shiva']='Diamond Dust', ['Garuda']='Aerial Blast', ['Titan']='Earthen Fury',
 		['Ramuh']='Judgment Bolt', ['Leviathan']='Tidal Wave', ['Carbuncle']='Searing Light', ['Fenrir']='Howling Moon',
-		['Diabolos']='Ruinous Omen', ['Cait Sith']="Altana's Favor"}
+		['Diabolos']='Ruinous Omen', ['Cait Sith']="Altana's Favor",['Siren']='Clarsach Call'}
 
 	--Most commonly used offensive pacts by avatar split into two categories.
 	pacts.physical = {['Carbuncle']='Poison Nails',['Fenrir']='Eclipse Bite',['Ifrit']='Flaming Crush',['Titan']='Mountain Buster',
 		['Leviathan']='Spinning Dive',['Garuda']='Predator Claws',['Shiva']='Rush',['Ramuh']='Volt Strike',['Diabolos']='Blindside',
 		['Cait Sith']='Regal Gash',['Siren']='Hysteric Assault'}
 	pacts.magical = {['Carbuncle']='Holy Mist',['Fenrir']='Lunar Bay',['Ifrit']='Meteor Strike',['Titan']='Geocrush',
-		['Leviathan']='Grand Fall',['Garuda']='Wind Blade',['Shiva']='Heavenly Strike',['Ramuh']='Thunderstorm',['Diabolos']='Nether Blast',
-		['Cait Sith']='Level ? Holy',['Siren']='Sonic Buffet'}
+		['Leviathan']='Grand Fall',['Garuda']='Wind Blade',['Shiva']='Heavenly Strike',['Ramuh']='Thunderstorm',['Diabolos']='Nether Blast',['Cait Sith']='Level ? Holy',['Siren']='Sonic Buffet'}
 
 	ConduitLock = true
 	ConduitLocked = nil
@@ -191,10 +188,10 @@ function job_filter_precast(spell, spellMap, eventArgs)
 		if player.tp > 999 and available_ws:contains(190) then
 			add_to_chat(122,'Not enough MP to Pact while using Conduit, using Myrkr!')
 			windower.chat.input('/ws Myrkr <me>')
-		elseif player.sub_job == 'SCH' and not state.Buff['SJ Restriction'] and buffactive['Sublimation: Complete'] then
+		elseif player.sub_job == 'SCH' and not buffactive['SJ Restriction'] and buffactive['Sublimation: Complete'] then
 			add_to_chat(122,'Not enough MP to Pact while using Conduit, using Sublimation!')
 			windower.chat.input('/ja Sublimation <me>')
-		elseif player.sub_job == 'RDM' and not state.Buff['SJ Restriction'] and abil_recasts[49] < latency and player.mp > 0 and player.hp > 400 and state.AutoConvert.value then
+		elseif player.sub_job == 'RDM' and not buffactive['SJ Restriction'] and abil_recasts[49] < latency and player.mp > 0 and player.hp > 400 and state.AutoConvert.value then
 			add_to_chat(122,'Not enough MP to Pact while using Conduit, Converting!')
 			eventArgs.cancel = true
 			windower.chat.input('/ja Convert <me>')
@@ -237,7 +234,7 @@ function job_aftercast(spell, spellMap, eventArgs)
 				internal_enable_set("OneHour")
 			end
 			local currentSet = (get_pet_midcast_set(spell, spellMap))
-			if state.Buff['Aftermath: Lv.3'] then
+			if buffactive['Aftermath: Lv.3'] then
 				if sets.midcast.Pet[spell.english] and sets.midcast.Pet[spell.english].AM then
 					currentSet = set_combine(currentSet, sets.midcast.Pet[spell.english].AM)
 				elseif spellMap == 'PhysicalBloodPactRage' and sets.midcast.Pet.PhysicalBloodPactRage.AM then
@@ -501,7 +498,7 @@ end
 -- Custom uber-handling of Elemental Siphon
 function handle_siphoning()
 	local abil_recasts = windower.ffxi.get_ability_recasts()
-	if data.areas.cities:contains(world.area) then
+	if in_town then
 		add_to_chat(122, 'Cannot use Elemental Siphon in a city area.')
 		return
 	elseif abil_recasts[175] > 0 then
@@ -596,7 +593,7 @@ end
 -- commandArgs is the split of the self-command.
 -- gs c [pact] [pacttype]
 function handle_pacts(commandArgs)
-	if data.areas.cities:contains(world.area) then
+	if in_town then
 		add_to_chat(123, 'Abort:You cannot use pacts in town.')
 		return
 	end

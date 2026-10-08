@@ -60,7 +60,6 @@ function job_setup()
 
 	state.Buff['Killer Instinct'] = buffactive['Killer Instinct'] or false
 	state.Buff["Unleash"] = buffactive["Unleash"] or false
-	state.Buff['Aftermath: Lv.3'] = buffactive['Aftermath: Lv.3'] or false
 
 	-- 'Out of Range' distance; WS will auto-cancel
 	target_distance = 6
@@ -246,7 +245,6 @@ function job_setup()
 	base_chargetimer = base_chargetimer - (2 * windower.ffxi.get_player().merits.sic_recast)
 
 	update_pet_groups()
-	update_melee_groups()
 	init_job_states({"Capacity","AutoFoodMode","AutoTrustMode","AutoCallPet","AutoFightMode","AutoRewardMode","AutoReadyMode","AutoWSMode","AutoJumpMode","AutoShadowMode","AutoStunMode","AutoDefenseMode"},{"AutoBuffMode","AutoSambaMode","AutoRuneMode","Weapons","OffenseMode","WeaponskillMode","PetMode","IdleMode","Passive","RuneElement","JugMode","RewardMode","TreasureMode",})
 end
 
@@ -523,7 +521,6 @@ end
 -------------------------------------------------------------------------------------------------------------------
 
 function job_buff_change(buff, gain)
-	update_melee_groups()
 	if buff == 'Unleash' and UnleashLocked and not gain then
 		UnleashLocked = false
 		internal_enable_set("OneHour")
@@ -538,11 +535,7 @@ function job_status_change(newStatus, oldStatus, eventArgs)
 end
 
 function get_custom_wsmode(spell, spellMap, default_wsmode)
-		if default_wsmode ~= 'Fodder' then
-				if spell.english == "Ruinator" and (world.day_element == 'Water' or world.day_element == 'Wind' or world.day_element == 'Ice') then
-						return 'Mekira'
-				end
-		end
+
 end
 
 -------------------------------------------------------------------------------------------------------------------
@@ -553,7 +546,6 @@ end
 -- Set eventArgs.handled to true if we don't want automatic equipping of gear.
 function job_update(cmdParams, eventArgs)
 	update_pet_groups()
-	update_melee_groups()
 end
 
 -- Set eventArgs.handled to true if we don't want the automatic display to be run.
@@ -594,15 +586,6 @@ end
 -------------------------------------------------------------------------------------------------------------------
 -- Utility functions specific to this job.
 -------------------------------------------------------------------------------------------------------------------
-function update_melee_groups()
-	if player.equipment.main then
-		classes.CustomMeleeGroups:clear()
-
-		if player.equipment.main == "Aymur" and state.Buff['Aftermath: Lv.3'] then
-				classes.CustomMeleeGroups:append('AM')
-		end
-	end
-end
 
 function job_self_command(commandArgs, eventArgs)
 	if commandArgs[1]:lower() == 'showcharge' then
@@ -658,7 +641,7 @@ function check_pet()
 				end
 			end
 		end
-	elseif state.AutoCallPet.value and not data.areas.cities:contains(world.area) then
+	elseif state.AutoCallPet.value and not in_town then
 		local abil_recasts = windower.ffxi.get_ability_recasts()
 		if abil_recasts[94] < latency then
 			windower.chat.input('/ja "Bestial Loyalty" <me>')
@@ -720,7 +703,7 @@ function job_zone_change(new_id,old_id)
 end
 
 function handle_ready(commandArgs)
-	if data.areas.cities:contains(world.area) then
+	if in_town then
 		add_to_chat(123, 'Abort:You cannot use ready in town.')
 		return
 	elseif not pet.isvalid then

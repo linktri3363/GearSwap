@@ -1,5 +1,5 @@
 -- Setup vars that are user-dependent.  Can override this function in a sidecar file.
-function user_job_setup()
+function character_user_job_setup()
 	state.OffenseMode:options('Normal','Acc')
 	state.RangedMode:options('Normal', 'Acc')
 	state.WeaponskillMode:options('Match','Acc','Proc')
@@ -37,9 +37,6 @@ function user_job_setup()
 	send_command('bind ^@!\\\\ gs c toggle LuzafRing')
 	send_command('bind @!^f9 gs c toggle RngHelper')
 
-	send_command('bind !r gs c weapons DualSavageWeapons;gs c update')
-	send_command('bind ^q gs c weapons DualAeolian;gs c update')
-	send_command('bind !q gs c weapons DualLeadenRanged;gs c update')
 	send_command('bind @pause roller roll')
 
 	select_default_macro_book()

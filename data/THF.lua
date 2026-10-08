@@ -68,13 +68,11 @@ function job_setup()
 	state.Buff['Sneak Attack'] = buffactive['Sneak Attack'] or false
 	state.Buff['Trick Attack'] = buffactive['Trick Attack'] or false
 	state.Buff['Feint'] = buffactive['Feint'] or false
-	state.Buff['Aftermath: Lv.3'] = buffactive['Aftermath: Lv.3'] or false
 
 	autows = "Rudra's Storm"
 	rangedautows = "Last Stand"
 	autofood = 'Soy Ramen'
 
-	update_melee_groups()
 	init_job_states({"Capacity","AutoFoodMode","AutoTrustMode","AutoWSMode","AutoJumpMode","AutoShadowMode","AutoStunMode","AutoDefenseMode"},{"AutoBuffMode","AutoSambaMode","AutoRuneMode","Weapons","OffenseMode","WeaponskillMode","IdleMode","Passive","RuneElement","TreasureMode",})
 end
 
@@ -171,14 +169,6 @@ end
 -- Job-specific hooks for non-casting events.
 -------------------------------------------------------------------------------------------------------------------
 
--- Called when a player gains or loses a buff.
--- buff == buff gained or lost
--- gain == true if the buff was gained, false if it was lost.
-function job_buff_change(buff, gain)
-	update_melee_groups()
-end
-
-
 -------------------------------------------------------------------------------------------------------------------
 -- User code that supplements standard library decisions.
 -------------------------------------------------------------------------------------------------------------------
@@ -236,7 +226,6 @@ end
 -- Called by the 'update' self-command.
 function job_update(cmdParams, eventArgs)
 	th_update(cmdParams, eventArgs)
-	update_melee_groups()
 end
 
 -- Function to display the current relevant user state when doing an update.
@@ -284,7 +273,7 @@ end
 -------------------------------------------------------------------------------------------------------------------
 
 function job_check_buff()
-	if state.AutoBuffMode.value ~= 'Off' and not data.areas.cities:contains(world.area) then
+	if state.AutoBuffMode.value ~= 'Off' and not in_town then
 		if in_combat and player.sub_job == 'WAR' then
 			local abil_recasts = windower.ffxi.get_ability_recasts()
 
@@ -312,15 +301,5 @@ function have_buff(buff_name, eventArgs)
 			equip(sets.TreasureHunter)
 		end
 		eventArgs.handled = true
-	end
-end
-
-function update_melee_groups()
-	if player.equipment.main then
-		classes.CustomMeleeGroups:clear()
-
-		if player.equipment.main == "Vajra" and state.Buff['Aftermath: Lv.3'] then
-				classes.CustomMeleeGroups:append('AM')
-		end
 	end
 end

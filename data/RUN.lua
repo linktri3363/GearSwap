@@ -53,8 +53,6 @@ end
 
 -- Setup vars that are user-independent.
 function job_setup()
-
-	state.Buff['Aftermath: Lv.3'] = buffactive['Aftermath: Lv.3'] or false
 	state.Buff['Valiance'] = buffactive['Valiance'] or false
 	state.Buff['Vallation'] = buffactive['Vallation'] or false
 	state.Buff['Embolden'] = buffactive['Embolden'] or false
@@ -63,11 +61,10 @@ function job_setup()
 	state.Buff.Seigan = buffactive.Seigan or false
 	state.Stance = M{['description']='Stance','Hasso','Seigan','None'}
 	state.Steps = M{['description']='Current Step', 'Quickstep','Box Step','Stutter Step'}
-	
+
 	autows = 'Resolution'
 	autofood = 'Miso Ramen'
-	
-	update_melee_groups()
+
 	init_job_states({"Capacity","AutoFoodMode","AutoTrustMode","AutoTankMode","AutoWSMode","AutoNukeMode","AutoJumpMode","AutoShadowMode","AutoStunMode","AutoDefenseMode"},{"AutoBuffMode","AutoSambaMode","AutoRuneMode","Weapons","OffenseMode","WeaponskillMode","Stance","IdleMode","Passive","RuneElement","CastingMode","PhysicalDefenseMode","MagicalDefenseMode","ResistDefenseMode","ExtraDefenseMode","TreasureMode",})
 end
 
@@ -96,7 +93,7 @@ function job_precast(spell, spellMap, eventArgs)
 		return
 	end
 
-	if spell.type == 'WeaponSkill' and state.AutoBuffMode.value ~= 'Off' and not state.Buff['SJ Restriction'] then
+	if spell.type == 'WeaponSkill' and state.AutoBuffMode.value ~= 'Off' and not buffactive['SJ Restriction'] then
 		local abil_recasts = windower.ffxi.get_ability_recasts()
 		if player.sub_job == 'SAM' and player.tp > 1850 and abil_recasts[140] < latency then
 			eventArgs.cancel = true
@@ -132,6 +129,10 @@ function job_post_precast(spell, spellMap, eventArgs)
 				end
 			end
 		end
+	elseif spell.action_type == 'Magic' then
+		if (state.Buff['Valiance'] or state.Buff['Vallation']) and sets.precast.FC.Inspiration then
+			equip(sets.precast.FC.Inspiration)
+		end
 	elseif spell.english == 'Lunge' or spell.english == 'Swipe' then
 		if weather_rune_match() then
 			if item_available('Hachirin-no-Obi') then
@@ -148,9 +149,7 @@ end
 -- Run after the default midcast() is done.
 -- eventArgs is the same one used in job_midcast, in case information needs to be persisted.
 function job_post_midcast(spell, spellMap, eventArgs)
-	if spell.skill == 'Enhancing Magic' and state.Buff.Embolden and sets.buff.Embolden then
-		equip(sets.buff.Embolden)
-	end
+
 end
 
 
@@ -158,8 +157,14 @@ function job_aftercast(spell)
 
 end
 
-function job_buff_change(buff, gain)
-	update_melee_groups()
+function job_buff_change(buff, gain, eventArgs)
+	if buff == 'Embolden' then
+		if gain then
+			internal_disable_set(sets.buff.Embolden, "Ability")
+		else
+			internal_enable_set("Ability")
+		end
+	end
 end
 
 -------------------------------------------------------------------------------------------------------------------
@@ -209,8 +214,6 @@ function job_customize_idle_set(idleSet)
 end
 
 function job_update(cmdParams, eventArgs)
-	update_melee_groups()
-	
 	if player.sub_job ~= 'SAM' and state.Stance.value ~= "None" then
 		state.Stance:set("None")
 	end
@@ -279,39 +282,8 @@ function job_check_buff()
 	return false
 end
 
-function check_flash_foil()
-	if silent_check_silence() then return false end
-	local spell_recasts = windower.ffxi.get_spell_recasts()
-	
-	if not buffactive['Enmity Boost'] and spell_recasts[476] < spell_latency then
-		windower.chat.input('/ma "Crusade" <me>')
-		add_tick_delay()
-		return true
-	elseif spell_recasts[112] < spell_latency then
-		windower.chat.input('/ma "Flash" <t>')
-		add_tick_delay()
-		return true
-	elseif spell_recasts[840] < spell_latency then
-		windower.chat.input('/ma "Foil" <me>')
-		add_tick_delay()
-		return true
-	else
-		return false
-	end
-end
-
-function update_melee_groups()
-	if player.equipment.main then
-		classes.CustomMeleeGroups:clear()
-		
-		if player.equipment.main == "Epeolatry" and state.Buff['Aftermath: Lv.3'] then
-				classes.CustomMeleeGroups:append('AM')
-		end
-	end	
-end
-
 function check_hasso()
-	if player.sub_job == 'SAM' and player.status == 'Engaged' and wielding() == 'Two-Handed' and state.Stance.value ~= 'None' and not (state.Buff.Hasso or state.Buff.Seigan or state.Buff['SJ Restriction'] or silent_check_amnesia()) then
+	if player.sub_job == 'SAM' and player.status == 'Engaged' and wielding() == 'Two-Handed' and state.Stance.value ~= 'None' and not (state.Buff.Hasso or state.Buff.Seigan or buffactive['SJ Restriction'] or silent_check_amnesia()) then
 		
 		local abil_recasts = windower.ffxi.get_ability_recasts()
 		
