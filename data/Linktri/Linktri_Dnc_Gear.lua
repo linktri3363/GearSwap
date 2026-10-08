@@ -1227,7 +1227,11 @@ function user_job_customize_melee_set(meleeSet)
     end
     
     -- Content-specific adjustments
-    if state.ContentMode and state.ContentMode.value == "Odyssey" then
+    -- LINKTRI: gated to Normal/DTLite with no DefenseMode. Ungated, a manual ContentMode of
+    -- "Odyssey" put Ilabrat Ring over DTFull's Defending Ring (DT-10%), dropping the capped
+    -- DT-50% set to ~DT-42%, and over Aminon's Murky Ring. Same gating as the Hoxne overlay.
+    if state.ContentMode and state.ContentMode.value == "Odyssey" and state.DefenseMode.value == 'None'
+            and (state.HybridMode.value == 'Normal' or state.HybridMode.value == 'DTLite') then
         meleeSet = set_combine(meleeSet, {
             ring1 = "Ilabrat Ring"             -- More accuracy for Odyssey
         })
