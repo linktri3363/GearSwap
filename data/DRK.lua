@@ -51,12 +51,9 @@ end
 
 	-- Setup vars that are user-independent.
 function job_setup()
-
 	state.Buff.Souleater = buffactive.Souleater or false
 	state.Buff['Dark Seal'] = buffactive['Dark Seal'] or false
 	state.Buff['Nether Void'] = buffactive['Nether Void'] or false
-	state.Buff['Aftermath'] = buffactive['Aftermath'] or false
-	state.Buff['Aftermath: Lv.3'] = buffactive['Aftermath: Lv.3'] or false
 	state.Buff['Third Eye'] = buffactive['Third Eye'] or false
 	state.Buff.Hasso = buffactive.Hasso or false
 	state.Buff.Seigan = buffactive.Seigan or false
@@ -66,8 +63,6 @@ function job_setup()
 	autows = 'Resolution'
 	autofood = 'Soy Ramen'
 
-	update_melee_groups()
-	
 	wants_dark_seal = S{
 	'Absorb-STR','Absorb-DEX','Absorb-VIT','Absorb-Attri',
 	'Absorb-INT','Absorb-MND','Absorb-CHR','Absorb-AGI','Absorb-ACC', 'Dread Spikes', 'Drain II', 'Drain III'}
@@ -90,7 +85,7 @@ function job_precast(spell, spellMap, eventArgs)
 			windower.chat.input:schedule(1.1,'/ws "Entropy" <t>')
 			add_tick_delay(2.1)
 			return
-		elseif player.sub_job == 'SAM' and not state.Buff['SJ Restriction'] then
+		elseif player.sub_job == 'SAM' and not buffactive['SJ Restriction'] then
 			if player.tp > 1850 and not buffactive['Consume Mana'] and abil_recasts[140] < latency then
 				eventArgs.cancel = true
 				windower.chat.input('/ja "Sekkanoki" <me>')
@@ -105,18 +100,18 @@ function job_precast(spell, spellMap, eventArgs)
 				return
 			end
 		end
-	elseif spell.skill == 'Dark Magic' and wants_dark_seal:contains(spell.english) and (state.DrainSwapWeaponMode.value == 'Always' or tonumber(state.DrainSwapWeaponMode.value) > player.tp) then
-		internal_enable_set("Weapons")
+	elseif spell.skill == 'Dark Magic' then
+		if wants_dark_seal:contains(spell.english) and state.DrainSwapWeaponMode.value ~= 'Never' then
+			if state.DrainSwapWeaponMode.value == 'Always' or tonumber(state.DrainSwapWeaponMode.value) > player.tp then
+				internal_enable_set("Weapons")
+			end
+		end
 	end
 end
 
 function job_aftercast(spell, spellMap, eventArgs)
 	if not spell.interrupted then
-		if spell.skill == 'Dark Magic' then
-			if (spellMap == "Drain" or spellMap == "Absorb" or spell.english == 'Dread Spikes') and state.DrainSwapWeaponMode.value ~= 'Never' then			
-				equip_weaponset()
-			end
-		elseif (spell.english == 'Sleep' or spell.english == 'Sleepga') then
+		if (spell.english == 'Sleep' or spell.english == 'Sleepga') then
 			if state.UseCustomTimers.value then
 				send_command('@timers c "'..spell.english..' ['..spell.target.name..']" 60 down spells/00220.png')
 			end
@@ -232,33 +227,14 @@ function job_tick()
 end
 
 function job_update(cmdParams, eventArgs)
-	update_melee_groups()
-
 	if player.sub_job ~= 'SAM' and state.Stance.value ~= "None" then
 		state.Stance:set("None")
 		update_job_states()
 	end
 end
 
-function job_buff_change(buff, gain)
-	update_melee_groups()
-end
-
-function update_melee_groups()
-	classes.CustomMeleeGroups:clear()
-
-	if data.areas.adoulin:contains(world.area) and buffactive.Ionis then
-		classes.CustomMeleeGroups:append('Adoulin')
-	end
-
-	if (player.equipment.main == "Liberator" and buffactive['Aftermath: Lv.3']) then
-			classes.CustomMeleeGroups:append('AM')
-	end
-
-end
-
 function check_hasso()
-	if player.sub_job == 'SAM' and player.status == 'Engaged' and wielding() == 'Two-Handed' and state.Stance.value ~= 'None' and not (state.Buff.Hasso or state.Buff.Seigan or state.Buff['SJ Restriction'] or silent_check_amnesia()) then
+	if player.sub_job == 'SAM' and player.status == 'Engaged' and wielding() == 'Two-Handed' and state.Stance.value ~= 'None' and not (state.Buff.Hasso or state.Buff.Seigan or buffactive['SJ Restriction'] or silent_check_amnesia()) then
 
 		local abil_recasts = windower.ffxi.get_ability_recasts()
 
@@ -279,7 +255,7 @@ function check_hasso()
 end
 
 function job_check_buff()
-	if state.AutoBuffMode.value ~= 'Off' and not data.areas.cities:contains(world.area) then
+	if state.AutoBuffMode.value ~= 'Off' and not in_town then
 		if in_combat then
 			local abil_recasts = windower.ffxi.get_ability_recasts()
 

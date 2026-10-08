@@ -310,7 +310,7 @@ function job_tick()
 end
 
 function check_arts()
-	if (player.sub_job == 'SCH' and not (state.Buff['SJ Restriction'] or arts_active())) and (buffup ~= '' or (not data.areas.cities:contains(world.area) and ((state.AutoArts.value and player.in_combat) or state.AutoBuffMode.value ~= 'Off'))) then
+	if (player.sub_job == 'SCH' and not (buffactive['SJ Restriction'] or arts_active())) and (buffup ~= '' or (not in_town and ((state.AutoArts.value and player.in_combat) or state.AutoBuffMode.value ~= 'Off'))) then
 	
 		local abil_recasts = windower.ffxi.get_ability_recasts()
 
@@ -381,6 +381,7 @@ function handle_job_elemental(command, target)
 		return true
 	elseif command == 'aja' then
 		windower.chat.input('/ma "'..data.elements.nukega_of[state.ElementalMode.value]..'ja" '..target..'')
+		return true
 	end
 	return false
 end

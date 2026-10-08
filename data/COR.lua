@@ -67,6 +67,7 @@ function job_setup()
 	-- Whether to automatically generate bullets.
 	state.AutoAmmoMode = M(true,'Auto Ammo Mode')
 	state.UseDefaultAmmo = M(true,'Use Default Ammo')
+	state.TrueShotMode = M(true,'True Shot Mode')
 	state.Buff['Triple Shot'] = buffactive['Triple Shot'] or false
 
 	-- Whether to use Luzaf's Ring
@@ -77,6 +78,7 @@ function job_setup()
 	rangedautows = 'Last Stand'
 	autofood = 'Sublime Sushi'
 	ammostock = 98
+	displayroll = true
 
 	define_roll_values()
 	init_job_states({"Capacity","AutoFoodMode","AutoTrustMode","LuzafRing","AutoWSMode","RngHelper","AutoShadowMode","AutoStunMode","AutoDefenseMode"},{"AutoBuffMode","AutoSambaMode","AutoRuneMode","Weapons","OffenseMode","RangedMode","WeaponskillMode","ElementalMode","IdleMode","Passive","RuneElement","CompensatorMode","RollMode","TreasureMode",})
@@ -124,8 +126,8 @@ function job_precast(spell, spellMap, eventArgs)
 		end
 	end
 	
-	if spell.action_type == 'Ranged Attack' or spell.name == 'Shadowbind' or (spell.type == 'WeaponSkill' and spell.skill == 'Marksmanship') then
-		do_bullet_checks(spell, spellMap, eventArgs)
+	if uses_ammo(spell) then
+		do_ammo_checks(spell, spellMap, eventArgs)
 	end
 end
 
@@ -138,7 +140,9 @@ function job_post_midcast(spell, spellMap, eventArgs)
 				equip(sets.buff['Triple Shot'])
 			end
 		end
-
+		if state.TrueShotMode.value and sets.TrueShot and check_sweetspot(spell) then
+			equip(sets.TrueShot)
+		end
 		if state.Buff.Barrage and sets.buff.Barrage then
 			equip(sets.buff.Barrage)
 		end
@@ -153,24 +157,12 @@ function job_self_command(commandArgs, eventArgs)
 end
 
 function job_midcast(spell, action, spellMap, eventArgs)
-	--Probably overkill but better safe than sorry.
-	if spell.action_type == 'Ranged Attack' then
-		if is_rare(player.equipment.ammo) then
-			enable('ammo')
-			equip({ammo=empty})
-			add_to_chat(123,"Abort Ranged Attack: Don't shoot your good ammo!")
-			return
-		end
-	end
+
 end
 
 -- Set eventArgs.handled to true if we don't want any automatic gear equipping to be done.
 function job_aftercast(spell, spellMap, eventArgs)
 	if spell.type == 'CorsairRoll' and not spell.interrupted then
-		if state.CompensatorMode.value ~= 'Never' then
-			equip_weaponset()
-		end
-		
 		if not state.RollMode.value:endswith('Lock') then
 			state.RollMode:reset()
 		end
@@ -322,6 +314,7 @@ function define_roll_values()
 end
 
 function display_roll_info(spell)
+	if not displayroll then return end
 	rollinfo = rolls[spell.english]
 	local rollsize = (state.LuzafRing.value and 'Large') or 'Small'
 
@@ -333,25 +326,7 @@ end
 
 
 -- Determine whether we have sufficient ammo for the action being attempted.
-function do_bullet_checks(spell, spellMap, eventArgs)
-
-	if is_rare(player.equipment.ammo) then
-		cancel_spell()
-		eventArgs.cancel = true
-		enable('ammo')
-
-		if sets.weapons[state.Weapons.value].ammo and item_available(sets.weapons[state.Weapons.value].ammo) then
-			equip({ammo=sets.weapons[state.Weapons.value].ammo})
-		elseif item_available(gear.RAbullet) then
-			equip({ammo=gear.RAbullet})
-		else
-			equip({ammo=empty})
-		end
-
-		add_to_chat(123,"Abort: Don't shoot your good ammo!")
-		return
-	end
-
+function do_ammo_checks(spell, spellMap, eventArgs)
 	local bullet_name
 	local bullet_min_count = 1
 	
@@ -419,4 +394,15 @@ end
 function job_tick()
 	if check_ammo() then return true end
 	return false
+end
+
+function check_sweetspot(spell)
+	local modified_sweetspot_min = player.model_size + spell.target.model_size + 3.0209
+	local modified_sweetspot_max = player.model_size + spell.target.model_size + 4.3189
+
+	if (spell.target.distance >= modified_sweetspot_min) and (spell.target.distance <= modified_sweetspot_max) then
+		return true
+	else
+		return false
+	end
 end

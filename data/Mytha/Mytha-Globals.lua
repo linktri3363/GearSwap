@@ -2,20 +2,17 @@
 
 state.DisplayMode = M(true, 'Display Mode') --Set this to false if you don't want to display modes at the bottom of your screen.
 --Uncomment the settings below and change the values to edit the display's look.
---displayx = 3
---displayy = 1062
---displayfont = 'Arial'
---displaysize = 12
---displaybold = true
---displaybg = 0
---displaystroke = 2
---displaytransparancy = 192
---state.DisplayColors = {
-    -- h='\\cs(255, 0, 0)', -- Red for active booleans and non-default modals
-    -- w='\\cs(255,255,255)', -- White for labels and default modals
-    -- n='\\cs(192,192,192)', -- White for labels and default modals
-    -- s='\\cs(96,96,96)' -- Gray for inactive booleans
---}
+--display = {}
+--display.x = 3
+--display.y = 1062
+--display.font = 'Arial'
+--display.size = 12
+--display.bold = true
+--display.bg = 0
+--display.stroke = 2
+--display.transparancy = 192
+--display.colors = {}
+--display.labels = {}
 
 bayld_items = {'Tlalpoloani','Macoquetza','Camatlatia','Icoyoca','Tlamini','Suijingiri Kanemitsu',
 'Zoquittihuitz','Quauhpilli Helm','Chocaliztli Mask','Xux Hat','Quauhpilli Gloves','Xux Trousers',

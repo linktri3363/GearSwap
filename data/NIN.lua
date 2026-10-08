@@ -53,7 +53,6 @@ end
 -- Setup vars that are user-independent.  state.Buff vars initialized here will automatically be tracked.
 function job_setup()
 
-	state.Buff['Aftermath: Lv.3'] = buffactive['Aftermath: Lv.3'] or false
 	state.Buff.Migawari = buffactive.Migawari or false
 	state.Buff.Yonin = buffactive.Yonin or false
 	state.Buff.Innin = buffactive.Innin or false
@@ -68,7 +67,6 @@ function job_setup()
 
 	state.ElementalMode = M{['description'] = 'Elemental Mode','Fire','Water','Lightning','Earth','Wind','Ice','Light','Dark',}
 
-	update_melee_groups()
 	init_job_states({"Capacity","AutoFoodMode","AutoTrustMode","AutoWSMode","AutoNukeMode","ElementalWheel","AutoJumpMode","AutoShadowMode","AutoStunMode","AutoDefenseMode"},{"AutoBuffMode","AutoSambaMode","AutoRuneMode","Weapons","OffenseMode","WeaponskillMode","Stance","IdleMode","Passive","RuneElement","ElementalMode","CastingMode","TreasureMode",})
 end
 
@@ -80,16 +78,6 @@ end
 
 function job_filtered_action(spell, eventArgs)
 
-end
-
-function job_pretarget(spell, spellMap, eventArgs)
-	if spell.action_type == 'Ranged Attack' and (player.equipment.ammo == 'Togakushi Shuriken' or player.equipment.ammo == 'Happo Shuriken') then
-		cancel_spell()
-		add_to_chat(123,'Abort: Don\'t throw your good ammo!')
-	elseif spell.english == 'Sange' and (player.equipment.ammo == 'Togakushi Shuriken' or player.equipment.ammo == 'Happo Shuriken') then
-		cancel_spell()
-		add_to_chat(123,'Abort: Don\'t throw your good ammo!')
-	end
 end
 
 function job_precast(spell, spellMap, eventArgs)
@@ -174,13 +162,6 @@ end
 -- Job-specific hooks for non-casting events.
 -------------------------------------------------------------------------------------------------------------------
 
--- Called when a player gains or loses a buff.
--- buff == buff gained or lost
--- gain == true if the buff was gained, false if it was lost.
-function job_buff_change(buff, gain)
-	update_melee_groups()
-end
-
 function job_status_change(new_status, old_status)
 
 end
@@ -240,11 +221,6 @@ function job_customize_melee_set(meleeSet)
 	end
 
 	return meleeSet
-end
-
--- Called by the default 'update' self-command.
-function job_update(cmdParams, eventArgs)
-	update_melee_groups()
 end
 
 -------------------------------------------------------------------------------------------------------------------
@@ -338,16 +314,6 @@ function handle_job_elemental(command, target)
 	return false
 end
 
-function update_melee_groups()
-	if player.equipment.main then
-		classes.CustomMeleeGroups:clear()
-
-		if player.equipment.main == "Nagi" and state.Buff['Aftermath: Lv.3'] then
-				classes.CustomMeleeGroups:append('AM')
-		end
-	end
-end
-
 function check_stance()
 	if state.Stance.value ~= 'None' and in_combat then
 
@@ -370,8 +336,8 @@ function check_stance()
 end
 
 function job_check_buff()
-	if state.AutoBuffMode.value ~= 'Off' and not data.areas.cities:contains(world.area) then
-		if in_combat and not state.Buff['SJ Restriction'] then
+	if state.AutoBuffMode.value ~= 'Off' and not in_town then
+		if in_combat and not buffactive['SJ Restriction'] then
 			local abil_recasts = windower.ffxi.get_ability_recasts()
 
 			if player.sub_job == 'WAR' and not buffactive.Berserk and not is_defensive() and abil_recasts[1] < latency then

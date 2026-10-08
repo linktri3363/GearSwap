@@ -49,11 +49,9 @@ function get_sets()
 	include('Sel-Include.lua')
 end
 
-
 -- Setup vars that are user-independent.
 function job_setup()
 
-	state.Buff['Aftermath: Lv.3'] = buffactive['Aftermath: Lv.3'] or false
 	state.Buff['Spirit Surge'] = buffactive['Spirit Surge'] or false
 	state.Buff['Third Eye'] = buffactive['Third Eye'] or false
 	state.Buff.Hasso = buffactive.Hasso or false
@@ -72,7 +70,6 @@ function job_setup()
 		healing_breath_trigger_head = standardize_slot(sets.midcast.HB_Trigger.head)
 	end
 	
-	update_melee_groups()
 	init_job_states({"Capacity","AutoFoodMode","AutoTrustMode","AutoWSMode","AutoJumpMode","AutoShadowMode","AutoStunMode","AutoDefenseMode"},{"AutoBuffMode","AutoSambaMode","AutoRuneMode","Weapons","OffenseMode","WeaponskillMode","Stance","IdleMode","Passive","RuneElement","TreasureMode",})
 end
 
@@ -80,7 +77,7 @@ function job_precast(spell, spellMap, eventArgs)
 
 	if spell.type == 'WeaponSkill' and state.AutoBuffMode.value ~= 'Off' then
 		local abil_recasts = windower.ffxi.get_ability_recasts()
-		if player.sub_job == 'SAM' and not state.Buff['SJ Restriction'] then
+		if player.sub_job == 'SAM' and not buffactive['SJ Restriction'] then
 			if player.tp > 1850 and abil_recasts[140] < latency then
 				eventArgs.cancel = true
 				windower.chat.input('/ja "Sekkanoki" <me>')
@@ -171,12 +168,7 @@ function job_aftercast(spell, spellMap, eventArgs)
 	end
 end
 
-function job_buff_change(buff, gain)
-	update_melee_groups()
-end
-
 function job_update(cmdParams, eventArgs)
-	update_melee_groups()
 	find_breath_hpp()
 	
 	if player.sub_job ~= 'SAM' and state.Stance.value ~= "None" then
@@ -184,18 +176,11 @@ function job_update(cmdParams, eventArgs)
 	end
 end
 
-function update_melee_groups()
-	classes.CustomMeleeGroups:clear()
-
+function job_update_melee_groups()
 	if pet.isvalid then
 		classes.CustomMeleeGroups:append('Pet')
 	end
 
-	if player.equipment.main and player.equipment.main == "Ryunohige" and state.Buff['Aftermath: Lv.3'] then
-		classes.CustomMeleeGroups:append('AM')
-	end
-	
-  -- Spirit Surge modifies the custom melee groups
 	if state.Buff['Spirit Surge'] then
 		classes.CustomMeleeGroups:append('SpiritSurge')
 	end
@@ -225,7 +210,7 @@ function job_customize_melee_set(meleeSet)
 end
 
 function check_hasso()
-	if player.sub_job == 'SAM' and player.status == 'Engaged' and wielding() == 'Two-Handed' and state.Stance.value ~= 'None' and not (state.Buff.Hasso or state.Buff.Seigan or state.Buff['SJ Restriction'] or silent_check_amnesia()) then
+	if player.sub_job == 'SAM' and player.status == 'Engaged' and wielding() == 'Two-Handed' and state.Stance.value ~= 'None' and not (state.Buff.Hasso or state.Buff.Seigan or buffactive['SJ Restriction'] or silent_check_amnesia()) then
 		
 		local abil_recasts = windower.ffxi.get_ability_recasts()
 		
@@ -287,7 +272,7 @@ function job_check_buff()
 			windower.chat.input('/ja "Call Wyvern" <me>')
 			add_tick_delay()
 			return true
-		elseif state.Buff['SJ Restriction'] then
+		elseif buffactive['SJ Restriction'] then
 			return false
 		elseif player.sub_job == 'DRK' and not buffactive['Last Resort'] and abil_recasts[87] < latency then
 			windower.chat.input('/ja "Last Resort" <me>')

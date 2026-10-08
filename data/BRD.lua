@@ -75,21 +75,39 @@ function job_setup()
 
 	state.ExtraSongsMode = M{['description']='Extra Songs','None','Dummy','DummyLock','FullLength','FullLengthLock','Cheer','CheerLock'}
 	-- Whether to use Carn (or song daggers in general) under a certain tp threshhold even when weapons are locked.
+	state.AutoDummyMode = M(false, 'Auto Dummy Mode')
 	state.CarnMode = M{'Default','Always','300','1000','Never'}
 	state.Pianissimode = M(false, 'Use Miracle Cheer when Pianissimo is active.')
 
-	state.Buff['Aftermath: Lv.3'] = buffactive['Aftermath: Lv.3'] or false
 	state.Buff['Pianissimo'] = buffactive['Pianissimo'] or false
 	state.Buff['Nightingale'] = buffactive['Nightingale'] or false
 	state.Buff['Soul Voice'] =  buffactive['Soul Voice'] or false
+	state.Buff['Clarion Call'] = buffactive['Clarion Call'] or false
 
 	autows = "Rudra's Storm"
 	autofood = 'Pear Crepe'
 	
 	state.AutoSongMode = M(false, 'Auto Song Mode')
+	
+	brd_buff_ids = S{
+	195,196,197,198,199,200,201,202,203,204,205,206,
+	207,208,209,210,211,212,213,214,215,216,218,219,
+	220,221,222,223
+	}
+	
+	function set_current_brd_buffs()
+		current_brd_buffs = 0
+		for _,buff in ipairs(player.buff_details) do
+			if brd_buff_ids:contains(buff.id) then
+				current_brd_buffs = current_brd_buffs + 1
+			end
+		end
+	end
 
-	update_melee_groups()
-	init_job_states({"Capacity","AutoFoodMode","AutoTrustMode","AutoSongMode","AutoWSMode","AutoNukeMode","AutoShadowMode","AutoStunMode","AutoDefenseMode"},{"AutoBuffMode","AutoSambaMode","AutoRuneMode","Weapons","OffenseMode","WeaponskillMode","IdleMode","Passive","RuneElement","ExtraSongsMode","CastingMode","CarnMode","TreasureMode",})
+	current_brd_buffs = 0
+	set_current_brd_buffs()
+
+	init_job_states({"Capacity","AutoFoodMode","AutoTrustMode","AutoSongMode","AutoDummyMode","AutoWSMode","AutoNukeMode","AutoShadowMode","AutoStunMode","AutoDefenseMode"},{"AutoBuffMode","AutoSambaMode","AutoRuneMode","Weapons","OffenseMode","WeaponskillMode","IdleMode","Passive","RuneElement","ExtraSongsMode","CastingMode","CarnMode","TreasureMode",})
 end
 
 -------------------------------------------------------------------------------------------------------------------
@@ -127,6 +145,16 @@ function job_precast(spell, spellMap, eventArgs)
 	if spell.type == 'BardSong' then
 		if not sets.precast.FC[spell.english] and spell.targets.Enemy then
 			classes.CustomClass = 'SongDebuff'
+		end
+
+		if state.AutoDummyMode.value then
+			if spell.targets.Enemy or current_brd_buffs < 2 then
+				state.ExtraSongsMode:reset()
+			elseif current_brd_buffs < ((2 + info.ExtraSongs) + (state.Buff['Clarion Call'] and 1 or 0)) then
+				state.ExtraSongsMode:set('Dummy')
+			else
+				state.ExtraSongsMode:reset()
+			end
 		end
 
 		if state.CarnMode.value ~= 'Never' then
@@ -261,15 +289,17 @@ end
 
 -- Set eventArgs.handled to true if we don't want automatic gear equipping to be done.
 function job_aftercast(spell, spellMap, eventArgs)
-	if spell.type == 'BardSong' then
-		if state.CarnMode.value ~= 'Never' and not state.UnlockWeapons.value and state.Weapons.value ~= 'None' then
-			equip_weaponset(state.Weapons.value)
-		end
-	end
+
 end
 
 function job_buff_change(buff, gain)
-	update_melee_groups()
+	if brd_buff_ids:contains(buff_table_by_name[buff].id) then
+		if gain then
+			current_brd_buffs = current_brd_buffs + 1
+		else
+			current_brd_buffs = current_brd_buffs - 1
+		end
+	end
 end
 
 function job_get_spell_map(spell, default_spell_map)
@@ -294,12 +324,6 @@ end
 function job_zone_change(new_id,old_id)
 	state.AutoSongMode:reset()
 end
-
--- Called by the 'update' self-command.
-function job_update(cmdParams, eventArgs)
-	update_melee_groups()
-end
-
 
 -- Modify the default idle set after it was constructed.
 function job_customize_idle_set(idleSet)
@@ -355,22 +379,6 @@ function get_song_class(spell)
 	else
 		return 'SongEffect'
 	end
-end
-
--- Examine equipment to determine what our current TP weapon is.
-function update_melee_groups()
-	if player.equipment.main then
-		classes.CustomMeleeGroups:clear()
-
-		if player.equipment.main == "Carnwenhan" and state.Buff['Aftermath: Lv.3'] then
-				classes.CustomMeleeGroups:append('AM')
-		end
-	end
-end
-
-	-- Allow jobs to override this code
-function job_self_command(commandArgs, eventArgs)
-
 end
 
 function job_tick()

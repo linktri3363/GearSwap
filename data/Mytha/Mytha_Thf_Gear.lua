@@ -1,5 +1,5 @@
 -- Setup vars that are user-dependent.  Can override this function in a sidecar file.
-function user_job_setup()
+function character_user_job_setup()
 	-- Options: Override default values
 	state.OffenseMode:options('Normal','Acc')
 	state.HybridMode:options('Normal','DT')
@@ -20,11 +20,7 @@ function user_job_setup()
 	send_command('bind @` gs c cycle SkillchainMode')
 	send_command('bind @f10 gs c toggle AmbushMode')
 	send_command('bind ^backspace input /item "Thief\'s Tools" <t>')
-	send_command('bind ^q gs c weapons ProcWeapons;gs c set WeaponSkillMode proc;')
-	send_command('bind !q gs c weapons SwordThrowing')
 	send_command('bind !backspace input /ja "Hide" <me>')
-	send_command('bind ^r gs c weapons Default;gs c set WeaponSkillMode match') --Requips weapons and gear.
-	send_command('bind !r gs c weapons MagicWeapons')
 	send_command('bind ^\\\\ input /ja "Despoil" <t>')
 	send_command('bind !\\\\ input /ja "Mug" <t>')
 

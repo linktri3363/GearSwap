@@ -1,4 +1,4 @@
-function user_job_setup()
+function character_user_job_setup()
 	-- Options: Override default values
 	state.CastingMode:options('Normal','Resistant','Proc','OccultAcumen')
 	state.OffenseMode:options('Normal')
@@ -25,9 +25,7 @@ function user_job_setup()
 	send_command('bind @f9 gs c cycle DeathMode')
 	send_command('bind @f10 gs c cycle RecoverMode')
 	send_command('bind !pause gs c toggle AutoSubMode') --Automatically uses sublimation and Myrkr.
-	send_command('bind ^r gs c set skipprocweapons true;gs c reset weaponskillmode;gs c weapons Default;gs c set unlockweapons false')
-	send_command('bind !r gs c set skipprocweapons true;gs c reset weaponskillmode;gs c weapons none')
-	
+
 	select_default_macro_book()
 end
 
@@ -64,8 +62,6 @@ function init_gear_sets()
 		
 	sets.precast.FC.Cure = set_combine(sets.precast.FC, {body="Heka's Kalasiris"})
 	sets.precast.FC.Curaga = sets.precast.FC.Cure
-	
-	sets.precast.FC.Impact =  set_combine(sets.precast.FC, {head=empty,body="Crepuscular Cloak"})
 	sets.precast.FC.Dispelga = set_combine(sets.precast.FC, {main="Daybreak",sub="Genmei Shield"})
 	sets.precast.FC.Death = {}
 
@@ -193,10 +189,10 @@ function init_gear_sets()
 		head="Wicce Petasos +3",neck="Null Loop",ear1="Malignance Earring",ear2="Wicce Earring +1",
 		body="Wicce Coat +3",hands="Wicce Gloves +3",ring1="Stikini Ring +1",ring2="Metamor. Ring +1",
 		back="Null Shawl",waist="Null Belt",legs="Wicce Chausses +3",feet="Wicce Sabots +3"}
-		
+
 	sets.midcast.Impact = {main="Bunzi's Rod",sub="Ammurapi Shield",ammo="Pemphredo Tathlum",
-		head="Wicce Petasos +3",neck="Null Loop",ear1="Malignance Earring",ear2="Wicce Earring +1",
-		body="Wicce Coat +3",hands="Wicce Gloves +3",ring1="Stikini Ring +1",ring2="Metamor. Ring +1",
+		head=empty,neck="Null Loop",ear1="Malignance Earring",ear2="Wicce Earring +1",
+		body="Crepuscular Cloak",hands="Wicce Gloves +3",ring1="Stikini Ring +1",ring2="Metamor. Ring +1",
 		back="Null Shawl",waist="Null Belt",legs="Wicce Chausses +3",feet="Wicce Sabots +3"}
 		
 	-- Elemental Magic sets

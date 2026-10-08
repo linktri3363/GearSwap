@@ -71,6 +71,9 @@ function job_setup()
 		if cmdParams[1] then
 			if cmdParams[1] == '<me>' or cmdParams[1] == 'me' then
 				cureTarget = player
+			elseif cmdParams[1] == '<bt>' or cmdParams[1] == 'bt' then
+				local bt = windower.ffxi.get_mob_by_target('bt') or false
+				target = bt and bt.id or false
 			elseif cmdParams[1] == '<t>' or cmdParams[1] == 't' then
 				cureTarget = player.target
 			elseif tonumber(cmdParams[1]) then
@@ -267,7 +270,7 @@ function job_get_spell_map(spell, default_spell_map)
 			if state.Weapons.value ~= 'None' and not state.UnlockWeapons.value then
 				if state.Buff['Afflatus Solace'] then
 					if world.weather_element == 'Light' then
-						return '"MeleeLightWeatherCureSolace'
+						return 'MeleeLightWeatherCureSolace'
 					elseif world.day_element == 'Light' then
 						return 'MeleeLightDayCureSolace'
 					else
@@ -353,7 +356,7 @@ function job_tick()
 end
 
 function check_arts()
-	if buffup ~= '' or (not data.areas.cities:contains(world.area) and ((state.AutoArts.value and in_combat) or state.AutoBuffMode.value ~= 'Off')) then
+	if buffup ~= '' or (not in_town and ((state.AutoArts.value and in_combat) or state.AutoBuffMode.value ~= 'Off')) then
 		local abil_recasts = windower.ffxi.get_ability_recasts()
 
 		if abil_recasts[29] < latency and not state.Buff['Afflatus Solace'] and not state.Buff['Afflatus Misery'] then
@@ -361,7 +364,7 @@ function check_arts()
 			add_tick_delay()
 			return true
 
-		elseif player.sub_job == 'SCH' and not (state.Buff['SJ Restriction'] or arts_active()) and abil_recasts[228] < latency then
+		elseif player.sub_job == 'SCH' and not (buffactive['SJ Restriction'] or arts_active()) and abil_recasts[228] < latency then
 			send_command('@input /ja "Light Arts" <me>')
 			add_tick_delay()
 			return true

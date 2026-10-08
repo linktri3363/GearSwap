@@ -1,5 +1,5 @@
 -- Setup vars that are user-dependent.  Can override this function in a sidecar file.
-function user_job_setup()
+function character_user_job_setup()
     state.OffenseMode:options('Normal')
     state.CastingMode:options('Normal','Resistant','Proc','OccultAcumen','9k')
     state.IdleMode:options('Normal','PDT')
@@ -25,10 +25,8 @@ function user_job_setup()
 	send_command('bind @f8 gs c toggle AutoNukeMode')
 	send_command('bind @f10 gs c cycle RecoverMode')
 	send_command('bind !pause gs c toggle AutoSubMode') --Automatically uses sublimation and Myrkr.
-	send_command('bind ^r gs c set skipprocweapons true;gs c reset weaponskillmode;gs c weapons Default;gs c set unlockweapons false')
-	send_command('bind !r gs c set skipprocweapons true;gs c reset weaponskillmode;gs c weapons none')
-	
-    select_default_macro_book()
+
+	select_default_macro_book()
 end
 
 -- Define sets and vars used by this job file.
@@ -345,6 +343,7 @@ function init_gear_sets()
     sets.buff['Immanence'] = {hands="Arbatel Bracers +3"}
     sets.buff['Penury'] = {legs="Arbatel Pants +3"}
     sets.buff['Parsimony'] = {legs="Arbatel Pants +3"}
+	sets.buff['Focalization'] = {}
     sets.buff['Celerity'] = {}
     sets.buff['Alacrity'] = {}
     sets.buff['Klimaform'] = {feet="Arbatel Loafers +3"}
