@@ -32,7 +32,7 @@ function user_job_setup()
     -- Options: Override default values
     state.OffenseMode:options("Normal", "Acc", "FullAcc", "SubtleBlow", "Counter")
     state.WeaponskillMode:options("Match", "Normal", "Acc", "FullAcc")
-    state.HybridMode:options("Normal", "PDT", "Gleti")
+    state.HybridMode:options("Normal", "PDT", "Gleti", "PDTOffense") -- LINKTRI MODIFICATION: added armor-capped PDT-offense hybrid
     state.PhysicalDefenseMode:options("PDT")
     state.MagicalDefenseMode:options("MDT")
     state.ResistDefenseMode:options("MEVA")
@@ -51,7 +51,6 @@ function user_job_setup()
     )
 
     state.ExtraMeleeMode = M {["description"] = "Extra Melee Mode", "None"}
-
 
     -- Additional local binds
     send_command('bind ^` input /ja "Boost" <me>')
@@ -92,6 +91,16 @@ end
 
 -- Function to customize engaged sets to keep Boost gear equipped
 function job_customize_melee_set(meleeSet)
+    -- LINKTRI MODIFICATION: this override was clobbering MNK.lua's version, killing the Impetus body
+    -- swap and Footwork feet handling while engaged. Base logic restored below, Boost kept.
+    if state.OffenseMode.value ~= 'FullAcc' then
+        if state.Buff['Impetus'] then
+            meleeSet = set_combine(meleeSet, sets.buff.Impetus)
+        end
+        if buffactive.Footwork then
+            meleeSet = set_combine(meleeSet, sets.buff.Footwork)
+        end
+    end
     if buffactive['Boost'] then
         meleeSet = set_combine(meleeSet, sets.buff.Boost)
     end
@@ -125,7 +134,7 @@ function init_gear_sets()
         neck = "Loricate Torque +1",
         ear1 = "Etiolation Earring",
         ear2 = "Sanare Earring",
-        body = "Anch. Cyclas 4",
+        body = "Anch. Cyclas +4", -- LINKTRI MODIFICATION: fixed missing + (Chakra body was silently failing)
         hands = "Hesy. Gloves +4",
         ring1 = "Gere Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
@@ -145,7 +154,7 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
         neck = "Combatant's Torque",
-        ear1 = "",
+        ear1 = "Bhikku Earring +1", -- LINKTRI MODIFICATION: filled empty ear1 (Acc+13/MAcc+13/STP+4)
         ear2 = "Telos Earring",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
@@ -161,7 +170,7 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
         neck = "Combatant's Torque",
-        ear1 = "",
+        ear1 = "Bhikku Earring +1", -- LINKTRI MODIFICATION: filled empty ear1
         ear2 = "Telos Earring",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
@@ -211,7 +220,7 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Dampening Tam",
         neck = "Combatant's Torque",
-        ear1 = "",
+        ear1 = "Bhikku Earring +1", -- LINKTRI MODIFICATION: filled empty ear1
         ear2 = "Telos Earring",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
@@ -226,7 +235,7 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
         neck = "Combatant's Torque",
-        ear1 = "",
+        ear1 = "Bhikku Earring +1", -- LINKTRI MODIFICATION: filled empty ear1
         ear2 = "Telos Earring",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
@@ -244,6 +253,7 @@ function init_gear_sets()
 
     -- OPTIMIZED: Raging Fists with Bhikku pieces for WSD+12% and PDL+10%
     sets.precast.WS["Raging Fists"] = set_combine(sets.precast.WS, {
+        ammo = "Coiste Bodhar", -- LINKTRI MODIFICATION: reverted Knobkierrie -- gear WSD% is FIRST-HIT-ONLY, weak on 5-hit Raging Fists; Coiste DA adds hits across all swings
         head = "Mpaca's Cap",
         neck = "Rep. Plat. Medal",
         ear1 = "Moonshade Earring",
@@ -253,15 +263,16 @@ function init_gear_sets()
         ring1 = "Gere Ring",
         ring2 = "Epona's Ring",
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Eschan Stone",
+        waist = "Thunder Belt", -- LINKTRI MODIFICATION: Raging Fists = Impaction; Thunder Belt +0.1 fTP replicates across all 5 hits
         legs = "Mpaca's Hose",
         feet = "Bhikku Gaiters +3"
     })
     
     -- OPTIMIZED: Howling Fist with Bhikku hands for VIT and PDL
     sets.precast.WS["Howling Fist"] = set_combine(sets.precast.WS, {
+        ammo = "Coiste Bodhar", -- LINKTRI MODIFICATION: reverted Knobkierrie (WSD first-hit-only); Coiste DA adds hits
         head = "Mpaca's Cap",
-        neck = "Rep. Plat. Medal",
+        neck = "Light Gorget", -- LINKTRI MODIFICATION: Howling Fist = Transfixion/Impaction; Light Gorget (Transfixion) +0.1 fTP replicates all hits
         ear1 = "Moonshade Earring",
         ear2 = "Schere Earring",
         body = "Nyame Mail",
@@ -269,13 +280,14 @@ function init_gear_sets()
         ring1 = "Gere Ring",
         ring2 = "Epona's Ring",
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Eschan Stone",
+        waist = "Thunder Belt", -- LINKTRI MODIFICATION: Howling Fist is Impaction-aligned; elemental belt +0.1 fTP
         legs = "Mpaca's Hose",
         feet = "Mpaca's Boots"
     })
     
     -- OPTIMIZED: Asuran Fists - already using best pieces
     sets.precast.WS["Asuran Fists"] = set_combine(sets.precast.WS, {
+        ammo = "Coiste Bodhar", -- LINKTRI MODIFICATION: reverted Knobkierrie -- on 8-hit Asuran Fists, first-hit-only WSD+6% is ~+0.75%; Coiste DA adds hits across all 8 swings (Asuran cannot crit, so no crit ammo either)
         head = "Hes. Crown +4",
         neck = "Rep. Plat. Medal",
         ear1 = "Schere Earring",
@@ -301,17 +313,17 @@ function init_gear_sets()
 
     -- OPTIMIZED: Victory Smite with Anch hands for WSD+10%
     sets.precast.WS["Victory Smite"] = set_combine(sets.precast.WS, {
-        ammo = "Coiste Bodhar",
+        ammo = "Coiste Bodhar", -- LINKTRI MODIFICATION: Victory Smite CAN crit; Coiste DA adds crit-capable hits > Oshasha's first-hit-only WSD+3%
         head = "Mpaca's Cap",
-        neck = "Rep. Plat. Medal",
-        ear1 = "Schere Earring",
+        neck = "Light Gorget", -- LINKTRI MODIFICATION: Victory Smite = Light/Fragmentation (fTP-replicating); Light Gorget +0.1 fTP on EVERY hit
+        ear1 = "Moonshade Earring", -- LINKTRI MODIFICATION: TP Bonus+250 (swapped out above 3200 TP via sets.MaxTP)
         ear2 = "Sherida Earring",
         body = "Mpaca's Doublet",
         hands = "Anch. Gloves +4",
         ring1 = "Gere Ring",
         ring2 = "Epona's Ring",
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Eschan Stone",
+        waist = "Light Belt", -- LINKTRI MODIFICATION: pairs with Light Gorget for +0.2 fTP total on Light WS
         legs = "Mpaca's Hose",
         feet = "Mpaca's Boots"
     })
@@ -323,9 +335,9 @@ function init_gear_sets()
 
     -- OPTIMIZED: Shijin Spiral with Bhikku pieces for DEX and PDL
     sets.precast.WS["Shijin Spiral"] = set_combine(sets.precast.WS, {
-        ammo = "Coiste Bodhar",
+        ammo = "Coiste Bodhar", -- LINKTRI MODIFICATION: Shijin (5 hits, cannot crit); Coiste DA adds hits > first-hit-only WSD. NOTE: Mpaca's crit rate here is dead stat (Shijin can't crit) but its TA/Atk/PDL still count
         head = "Mpaca's Cap",
-        neck = "Rep. Plat. Medal",
+        neck = "Light Gorget", -- LINKTRI MODIFICATION: Shijin = Fusion/Reverberation; Fusion carries the Light element, so Light Gorget aligns & +0.1 fTP replicates all 5 hits
         ear1 = "Sherida Earring",
         ear2 = "Mache Earring +1",
         body = "Mpaca's Doublet",
@@ -333,7 +345,7 @@ function init_gear_sets()
         ring1 = "Gere Ring",
         ring2 = "Epona's Ring",
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Eschan Stone",
+        waist = "Light Belt", -- LINKTRI MODIFICATION: pairs with Light Gorget for +0.2 fTP on Fusion open
         legs = "Mpaca's Hose",
         feet = "Bhikku Gaiters +3"
     })
@@ -341,7 +353,7 @@ function init_gear_sets()
     sets.precast.WS["Tornado Kick"] = set_combine(sets.precast.WS, {
         ammo = "Coiste Bodhar",
         head = "Mpaca's Cap",
-        neck = "Rep. Plat. Medal",
+        neck = "Mnk. Nodowa +2", -- LINKTRI MODIFICATION: kick WS -- Kick Attacks+25 directly boosts the kick hits; also PDL+10%/DEX+15 (beats Rep. Plat. Medal here)
         ear1 = "Sherida Earring",
         ear2 = "Moonshade Earring",
         body = "Mpaca's Doublet",
@@ -349,13 +361,28 @@ function init_gear_sets()
         ring1 = "Gere Ring",
         ring2 = "Epona's Ring",
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Eschan Stone",
+        waist = "Thunder Belt", -- LINKTRI MODIFICATION: Tornado Kick = Impaction; Thunder Belt +0.1 fTP replicates across all hits
         legs = "Mpaca's Hose",
         feet = "Bhikku Gaiters +3"
     })
 
+    -- LINKTRI MODIFICATION: Dragon Kick built out as a kick WS. Fragmentation SC property (Thunder Belt aligns
+    -- via the Lightning element), fTP-replicating, TP-scaling fTP so it wants high TP + per-hit multipliers.
+    -- Kick Attacks feet (Anch. Gaiters +4 Kick Atk +120) + Mnk. Nodowa +2 (Kick Attacks+25) drive the kick damage.
     sets.precast.WS["Dragon Kick"] = set_combine(sets.precast.WS, {
-        feet = "Bhikku Gaiters +3"
+        ammo = "Coiste Bodhar",
+        head = "Mpaca's Cap",
+        neck = "Mnk. Nodowa +2",
+        ear1 = "Sherida Earring",
+        ear2 = "Moonshade Earring",
+        body = "Mpaca's Doublet",
+        hands = "Bhikku Gloves +3",
+        ring1 = "Gere Ring",
+        ring2 = "Epona's Ring",
+        back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
+        waist = "Thunder Belt",
+        legs = "Mpaca's Hose",
+        feet = "Anch. Gaiters +4" -- Kick Attacks attack +120 / Kick Attacks+10
     })
 
     -- OPTIMIZED: Final Heaven with Knobkierrie for WSD+10%
@@ -419,14 +446,14 @@ function init_gear_sets()
     -- NEW: Idle set optimized
     sets.idle = {
         ammo = "Staunch Tathlum +1",
-        head = "Malignance Chapeau",
+        head = "Bhikku Crown +3",
         neck = "Loricate Torque +1",
         ear1 = { name="Alabaster Earring", augments={'Path: A',}},
-        ear2 = "Sanare Earring",
-        body = "Hiza. Haramaki +2",
-        hands = "Malignance Gloves",
+        ear2 = "Hoxne Earring",
+        body = "Hiza. Haramaki +2", -- LINKTRI MODIFICATION: Regen+12 vs Cyclas Regen+5; idle DT still capped
+        hands = "Nyame Gauntlets",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
-        ring2 = "Chirich Ring +1",
+        ring2 = "Defending Ring",
         back = { name="Segomo's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','"Waltz" potency +10%','Damage taken-5%',}},
         waist = "Carrier's Sash",
         legs = "Bhikku Hose +3",
@@ -448,7 +475,7 @@ function init_gear_sets()
         ring2 = "Defending Ring",
         back = { name="Segomo's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','"Waltz" potency +10%','Damage taken-5%',}},
         waist = "Carrier's Sash",
-        legs = "Bhikku Hose",
+        legs = "Bhikku Hose +3", -- LINKTRI MODIFICATION: fixed missing +3 (was silently failing)
         feet = "Nyame Sollerets"
     }
 
@@ -500,7 +527,7 @@ function init_gear_sets()
         ring1 = "Gere Ring",
         ring2 = "Epona's Ring",
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Moonbow Belt +1",
+        waist = "Cornelia's Belt", -- LINKTRI MODIFICATION: Cornelia's Haste+10%/STR+10 // SWAP TO "Moonbow Belt +1" (DA+3%/STP) WHEN ACQUIRED
         legs = "Bhikku Hose +3",
         feet = "Bhikku Gaiters +3"
     }
@@ -517,7 +544,7 @@ function init_gear_sets()
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Reiki Yotai",
+        waist = "Eschan Stone", -- LINKTRI MODIFICATION: Reiki Yotai DW is wasted on H2H; Eschan Stone gives Acc+15/Atk+15
         legs = "Bhikku Hose +3",
         feet = "Bhikku Gaiters +3"
     }
@@ -526,14 +553,14 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
         neck = "Rep. Plat. Medal",
-        ear1 = "",
+        ear1 = "Bhikku Earring +1", -- LINKTRI MODIFICATION: filled empty ear1
         ear2 = "Telos Earring",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Reiki Yotai",
+        waist = "Eschan Stone", -- LINKTRI MODIFICATION: Reiki Yotai DW wasted on H2H; Eschan Stone Acc+15/Atk+15
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
@@ -541,20 +568,19 @@ function init_gear_sets()
     -- NEW: Subtle Blow set for TP denial
     sets.engaged.SubtleBlow = {
         ammo = "Coiste Bodhar",
-        head = "Hiza. Somen +2",
-        neck = "Rep. Plat. Medal",
-        ear1 = "Schere Earring",
-        ear2 = "Sherida Earring",
-        body = "Hiza. Haramaki +2",
-        hands = "Hizamaru Kote +2",
+        head = "Bhikku Crown +3",
+        neck = "Mnk. Nodowa +2",
+        ear1 = "Sherida Earring",
+        ear2 = "Bhikku Earring +1",
+        body = "Bhikku Cyclas +3",
+        hands = "Anch. Gloves +4",
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Reiki Yotai",
-        legs = "Hiza. Hizayoroi +2",
-        feet = "Hiza. Sune-Ate +2"
+        waist = "Cornelia's Belt", -- LINKTRI MODIFICATION: Cornelia's fallback // SWAP TO "Moonbow Belt +1" WHEN ACQUIRED
+        legs = "Mpaca's Hose",
+        feet = "Bhikku Gaiters +3"
     }
-    -- Total: ~60 Subtle Blow
 
     -- OPTIMIZED: Counter set with Hesy body for Counter Crit+30%
     sets.engaged.Counter = {
@@ -568,7 +594,7 @@ function init_gear_sets()
         ring1 = "Gere Ring",
         ring2 = "Epona's Ring",
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Reiki Yotai",
+        waist = "Cornelia's Belt", -- LINKTRI MODIFICATION: Haste+10%/STR+10/Counter+5, synergizes with Counter set (Reiki DW wasted on H2H)
         legs = "Anch. Hose +4",
         feet = "Hesy. Gaiters +4"
     }
@@ -594,7 +620,7 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
-        ear1 = "",
+        ear1 = "Bhikku Earring +1", -- LINKTRI MODIFICATION: filled empty ear1
         ear2 = "Sherida Earring",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
@@ -610,7 +636,7 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
-        ear1 = "",
+        ear1 = "Bhikku Earring +1", -- LINKTRI MODIFICATION: filled empty ear1
         ear2 = "Telos Earring",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
@@ -639,6 +665,26 @@ function init_gear_sets()
         feet = "Gleti's Boots"
     }
 
+    -- LINKTRI MODIFICATION: PDT-offense hybrid. Armor alone caps physical DT at -50
+    -- (Bhikku Crown+3 DT-11, Mpaca's Doublet PDT-10, Malig. Gloves DT-5, Bhikku Hose+3 DT-14,
+    -- Bhikku Gaiters+3 DT-10), leaving rings/waist/back fully offensive. Higher DPS than full Malignance
+    -- when the incoming threat is physical. Cycle via HybridMode if desired.
+    sets.engaged.PDTOffense = {
+        ammo = "Coiste Bodhar",
+        head = "Bhikku Crown +3",
+        neck = "Rep. Plat. Medal",
+        ear1 = "Schere Earring",
+        ear2 = "Sherida Earring",
+        body = "Mpaca's Doublet",
+        hands = "Malignance Gloves",
+        ring1 = "Gere Ring",
+        ring2 = "Epona's Ring",
+        back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
+        waist = "Cornelia's Belt",
+        legs = "Bhikku Hose +3",
+        feet = "Bhikku Gaiters +3"
+    }
+
     -- Hundred Fists/Impetus melee set//g mods
     sets.engaged.HF = set_combine(sets.engaged, {})
     sets.engaged.Acc.HF = set_combine(sets.engaged.Acc, {})
@@ -651,6 +697,11 @@ function init_gear_sets()
     sets.buff.Boost = {waist = "Ask Sash"}
 
     sets.FootworkWS = {feet = "Bhikku Gaiters +3"}
+
+    -- LINKTRI MODIFICATION: MaxTP sets — MNK.lua's job_post_precast swaps Moonshade out of a WS set
+    -- when effective TP > 3200. Without these defined, that swap silently did nothing.
+    sets.MaxTP = {ear1 = "Schere Earring"}
+    sets.AccMaxTP = {ear1 = "Bhikku Earring +1"}
     sets.DayIdle = {}
     sets.NightIdle = {}
     sets.Knockback = {}
@@ -672,8 +723,7 @@ function init_gear_sets()
 	
 	    -- Packing set for Porter Moogle
     sets.packing = {
-        main = "",
-        sub = "",
+        -- LINKTRI MODIFICATION: removed main=""/sub="" (empty strings don't unequip; use 'empty' if ever needed)
         ammo = "Staunch Tathlum +1",
         head = "Nyame Helm",
         neck = "Loricate Torque +1",
@@ -719,6 +769,7 @@ end
 
 -- Handle Boost buff to keep Ask Sash equipped
 function job_buff_change(buff, gain)
+    update_melee_groups() -- LINKTRI MODIFICATION: restore base MNK.lua behavior (Hundred Fists/AM melee groups)
     if buff == "Boost" then
         if gain then
             equip(sets.buff.Boost)

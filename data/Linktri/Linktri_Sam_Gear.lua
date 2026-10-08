@@ -71,8 +71,8 @@ function init_gear_sets()
     sets.precast.JA.Meditate = {head = "Wakido Kabuto +1", hands = "Sakonji Kote +1", back = gear.ws_jse_back}
     sets.precast.JA["Warding Circle"] = {head = "Wakido Kabuto +1"}
     sets.precast.JA["Blade Bash"] = {hands = "Sakonji Kote +1"}
-    sets.precast.JA["Sekkanoki"] = {hands = "Kasuga Kote +2"}
-    sets.precast.JA["Sengikori"] = {feet = "Kasuga Sune-Ate +2"}
+    sets.precast.JA["Sekkanoki"] = {hands = "Kasuga Kote +3"}
+    sets.precast.JA["Sengikori"] = {feet = "Kasuga Sune-Ate +3"}
 
     sets.precast.Step = {
         head = "Flam. Zucchetto +2",
@@ -373,7 +373,7 @@ function init_gear_sets()
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}},
         ear1 = "Etiolation Earring",
         ear2 = "Sanare Earring",
-        body = "Kasuga Domaru +2",
+        body = "Kasuga Domaru +3",
         hands = {name = "Nyame Gauntlets", augments = {"Path: B"}},
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Dark Ring",
@@ -481,13 +481,11 @@ function init_gear_sets()
     -- Optimized for Store TP and Haste to achieve 5-hit builds
     sets.engaged = {
         ammo = { name="Coiste Bodhar", augments={'Path: A',}},
-		head	= "Kasuga Kabuto +2",
-		body	= "Kasuga Domaru +2",
+		head	= "Kasuga Kabuto +3",
+		body	= "Kasuga Domaru +3",
         neck = "Asperity Necklace",
         ear1 = "Cessance Earring",
-        ear2 = {name = "Kasuga Earring +1",augments = {"System: 1 ID: 1676 Val: 0", "Accuracy+14", "Mag. Acc.+14", "Weapon skill damage +3%"}
-        },
-
+        ear2 = "Kasuga Earring +1",
         hands = {name = "Mpaca's Gloves", augments = {"Path: A"}},
         ring1 = "Petrov Ring",
         ring2 = "Chirich Ring +1",
@@ -501,11 +499,8 @@ function init_gear_sets()
         head = "Flam. Zucchetto +2",
         neck = "Asperity Necklace",
         ear1 = "Brutal Earring",
-        ear2 = {
-            name = "Kasuga Earring +1",
-            augments = {"System: 1 ID: 1676 Val: 0", "Accuracy+14", "Mag. Acc.+14", "Weapon skill damage +3%"}
-        },
-        body = "Kasuga Domaru +2",
+        ear2 = "Kasuga Earring +1",
+        body = "Kasuga Domaru +3",
         hands = {name = "Mpaca's Gloves", augments = {"Path: A"}},
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
@@ -519,11 +514,8 @@ function init_gear_sets()
         head = "Flam. Zucchetto +2",
         neck = "Asperity Necklace",
         ear1 = "Brutal Earring",
-        ear2 = {
-            name = "Kasuga Earring +1",
-            augments = {"System: 1 ID: 1676 Val: 0", "Accuracy+14", "Mag. Acc.+14", "Weapon skill damage +3%"}
-        },
-        body = "Kasuga Domaru +2",
+        ear2 = "Kasuga Earring +1",
+        body = "Kasuga Domaru +3",
         hands = {name = "Mpaca's Gloves", augments = {"Path: A"}},
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
@@ -537,11 +529,8 @@ function init_gear_sets()
         head = "Flam. Zucchetto +2",
         neck = "Asperity Necklace",
         ear1 = "Steelflash Earring",
-        ear2 = {
-            name = "Kasuga Earring +1",
-            augments = {"System: 1 ID: 1676 Val: 0", "Accuracy+14", "Mag. Acc.+14", "Weapon skill damage +3%"}
-        },
-        body = "Kasuga Domaru +2",
+        ear2 = "Kasuga Earring +1",
+        body = "Kasuga Domaru +3",
         hands = {name = "Mpaca's Gloves", augments = {"Path: A"}},
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
@@ -555,11 +544,8 @@ function init_gear_sets()
         head = "Flam. Zucchetto +2",
         neck = "Asperity Necklace",
         ear1 = "Cessance Earring",
-        ear2 = {
-            name = "Kasuga Earring +1",
-            augments = {"System: 1 ID: 1676 Val: 0", "Accuracy+14", "Mag. Acc.+14", "Weapon skill damage +3%"}
-        },
-        body = "Kasuga Domaru +2",
+        ear2 = "Kasuga Earring +1",
+        body = "Kasuga Domaru +3",
         hands = {name = "Mpaca's Gloves", augments = {"Path: A"}},
         ring1 = "Ephramad's Ring",
         ring2 = "Petrov Ring",
@@ -733,8 +719,8 @@ function init_gear_sets()
     sets.buff.Sleep = {neck = "Vim Torque +1"}
     sets.buff.Hasso = {hands = "Wakido Kote +1"}
     sets.buff["Third Eye"] = {} --legs="Sakonji Haidate +3"
-    sets.buff.Sekkanoki = {hands = "Kasuga Kote +2"}
-    sets.buff.Sengikori = {feet = "Kasuga Sune-Ate +2"}
+    sets.buff.Sekkanoki = {hands = "Kasuga Kote +3"}
+    sets.buff.Sengikori = {feet = "Kasuga Sune-Ate +3"}
     sets.buff["Meikyo Shisui"] = {feet = "Sak. Sune-Ate +1"}
 end
 

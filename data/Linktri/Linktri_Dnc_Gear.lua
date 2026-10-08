@@ -158,9 +158,8 @@ function user_job_setup()
     
     state.Weapons:set("MpuGandring")
     state.ExtraMeleeMode = M {["description"] = "Extra Melee Mode", "None", "Suppa", "DWEarrings", "DWMax"}
+    state.HoxneMode = M(false, 'Hoxne Ampulla Mode') -- LINKTRI: DA+100% enchantment mode; toggle via //gs c hoxne or Ctrl+Alt+H
     
-    -- Enhanced TP system options
-    state.TPMode = M{['description']='TP Mode', 'Normal', 'Conservative', 'Aggressive'}
     state.ContentMode = M{['description']='Content Mode', 'Auto', 'Odyssey', 'Sortie', 'General'}
 
     gear.stp_jse_back = { name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','"Store TP"+10','Damage taken-5%',}}
@@ -178,10 +177,9 @@ function user_job_setup()
     send_command('bind !backspace input /ja "Reverse Flourish" <me>')
     send_command('bind ^backspace input /ja "No Foot Rise" <me>')
     send_command("bind %~` gs c cycle SkillchainMode")
-    -- Enhanced system binds - FIXED: Windows+F9 for TPMode, Ctrl+F9 for HybridMode (from globals)
-    send_command("bind @f9 gs c cycle TPMode")
     send_command("bind ^f10 gs c cycle ContentMode")
-	send_command('bind ^!p gs c pas2')   -- Ctrl+Alt+P triggers Aminon script
+	send_command('bind ^!a gs c pas2')   -- Ctrl+Alt+A triggers Aminon script (LINKTRI: moved off ^!p, which collided with PorterPacker's addon-managed Ctrl+Alt+P pack keybind)
+	send_command('bind ^!h gs c hoxne')  -- Ctrl+Alt+H toggles Hoxne Ampulla mode (LINKTRI)
 
     select_default_macro_book()
 end
@@ -205,11 +203,28 @@ function init_gear_sets()
         waist = "Reiki Yotai"               -- DW+7% | Total gear DW: +34%
     }
 
+    -- LINKTRI: Hoxne Ampulla mode overlay (toggle: //gs c hoxne, or Ctrl+Alt+H).
+    -- With the enchantment active, DA is already capped at +100% from the ampulla alone, so
+    -- every DA% on gear is wasted - and every DA proc costs 1,000 gil. Triple Attack procs
+    -- are FREE (no charge) and hit harder, so this overlay strips all DA sources and stacks
+    -- TA + raw stats instead. Ammo is intentionally absent from the overlay: the hoxne toggle
+    -- equips the ampulla and disable()s the slot, so WS/waltz/step swaps can never unequip it
+    -- (unequipping drops the buff until re-used).
+    -- Deliberately unchanged: Sailfi Belt +1 (DA+5%) stays in WS sets since its STR+15 is still
+    -- the best owned WS waist, and Brutal Earring stays in Evisceration - their DA is just wasted.
+    sets.Hoxne = {
+        ear1 = "Odr Earring",           -- DEX+10, Acc+10, Crit+5% (replaces Sherida: DA+5%)
+        ear2 = "Hoxne Earring",         -- All stats +15 at Mastery Rank 7 (replaces Telos: DA+1%)
+        ring1 = "Gere Ring",            -- STR+10, Atk+16, TA+5%
+        ring2 = "Hetairoi Ring",        -- TA+2%, TA dmg+5, Crit+1%
+        waist = "Cornelia's Belt"       -- Haste+10%, STR+10 (replaces Sailfi Belt +1: DA+5%)
+    }
+
     -- Weapons sets
     sets.weapons.MpuGandring = {main = "Mpu Gandring",sub = "Centovente"}
 	sets.weapons.MpuGleti = {main = "Mpu Gandring",sub = "Gleti's Knife"}
-    sets.weapons.Aeneas = {main = { name="Qutrub Knife", augments={'Path: A',}},sub = "Ethereal Dagger"}
-    sets.weapons.Aeolian = {main ={ name="Malevolence", augments={'INT+7','"Mag.Atk.Bns."+5','"Fast Cast"+3',}}, sub = { name="Malevolence", augments={'INT+10','Mag. Acc.+10','"Mag.Atk.Bns."+10','"Fast Cast"+5',}}}
+    sets.weapons.Aeneas = {main = "Aeneas", sub = "Centovente"} -- LINKTRI: was Qutrub Knife/Ethereal Dagger placeholder; actual Aeneas (Path A) owned. Centovente TP Bonus+1000 stacks with Aeneas TP Bonus+500 for Exenterator
+    sets.weapons.Aeolian = {main = { name="Malevolence", augments={'INT+10','Mag. Acc.+10','"Mag.Atk.Bns."+10','"Fast Cast"+5',}}, sub = "Tauret"} -- LINKTRI: previous main was an unowned Malevolence augment (only one Malevolence in inventory); Tauret sub for Mag.Acc.
     sets.weapons.Twashtar = {main = { name="Twashtar", augments={'Path: A',}},sub = "Centovente"}
     sets.weapons.Ruthless = {main = { name="Twashtar", augments={'Path: A',}},sub = "Centovente"} -- Same as Twashtar, optimized for Ruthless Stroke spam
     sets.weapons.Kleos = {main = "Tauret",sub = "Gleti's Knife"}
@@ -230,11 +245,11 @@ function init_gear_sets()
     sets.precast.Waltz = {
         ammo = "Yamarang",
         head = "Horos Tiara +4",           -- Waltz potency +15%
-        neck = "Unmoving Collar",
+        neck = "Etoile Gorget +2",         -- LINKTRI: CHR+25 beats Unmoving CHR+8/VIT+8; gear waltz potency already at the +50% cap
         ear1 = "Infused Earring",
-        ear2 = "Odnowa Earring",
+        ear2 = "Odnowa Earring +1",
         body = "Maxixi Casaque +4",        -- Waltz potency +19%
-        hands = "Horos Bangles +4",        -- Waltz potency +12%
+        hands = "Horos Bangles +4",        -- LINKTRI: +4 carries no waltz potency (comment was wrong); kept for CHR+38
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Cacoethic Ring +1",
         back={ name="Toetapper Mantle", augments={'"Store TP"+3','"Dual Wield"+2','"Rev. Flourish"+30','Weapon skill damage +3%',}},
@@ -260,7 +275,7 @@ function init_gear_sets()
 
     -- Enhanced Step set - Optimized for accuracy and step landing
     sets.precast.Step = {
-        ammo = "Crepuscular Pebble",
+        ammo = "Yamarang",              -- LINKTRI: Acc+15/MAcc+15 for step landing; Pebble added nothing
         head = "Maxixi Tiara +4",       -- Step Accuracy +35
         neck = "Etoile Gorget +2",
         ear1 = "Telos Earring",
@@ -295,7 +310,7 @@ function init_gear_sets()
 
     sets.precast.Flourish1 = {}
     sets.precast.Flourish1["Violent Flourish"] = {
-        ammo = "Crepuscular Pebble",
+        ammo = "Yamarang",              -- LINKTRI: Acc+15/MAcc+15 for stun landing; Pebble added nothing
         head = "Maculele Tiara +3",
         neck = "Etoile Gorget +2",
         ear1 = "Telos Earring",
@@ -313,7 +328,7 @@ function init_gear_sets()
     sets.precast.Flourish1["Animated Flourish"] = sets.Enmity
 
     sets.precast.Flourish1["Desperate Flourish"] = {
-        ammo = "Crepuscular Pebble",
+        ammo = "Yamarang",              -- LINKTRI: Acc+15/MAcc+15 for gravity landing; Pebble added nothing
         head = "Maculele Tiara +3",
         neck = "Etoile Gorget +2",
         ear1 = "Telos Earring",
@@ -376,11 +391,6 @@ function init_gear_sets()
         feet = "Nyame Sollerets"
     }
 
-    sets.precast.WS.SomeAcc = set_combine(sets.precast.WS, {
-        neck = "Etoile Gorget +2",
-        ear2 = "Macu. Earring +1"
-    })
-    
     sets.precast.WS.Acc = set_combine(sets.precast.WS, {
         ammo = "Crepuscular Pebble",
         neck = "Etoile Gorget +2",
@@ -411,7 +421,7 @@ function init_gear_sets()
 
     -- Specific weaponskill sets.  Uses the base set if an appropriate WSMod version isn't found.
     sets.precast.WS["Rudra's Storm"] = {
-        ammo = "Crepuscular Pebble",
+        ammo = "Oshasha's Treatise",    -- LINKTRI: single-hit WS; WSD+3% beats Pebble PDL+3% outside attack-capped content. Acc variant keeps Pebble
         head = "Maculele Tiara +3",
         neck = "Etoile Gorget +2",
         ear1 = "Moonshade Earring",
@@ -422,13 +432,13 @@ function init_gear_sets()
         ring2 = "Gere Ring",
         back = gear.wsd_jse_back,
         waist = "Sailfi Belt +1",
-        legs = "Maculele Tights +3",
+        legs = "Nyame Flanchard",       -- LINKTRI: WSD+11% (R25); high-buff PDL swap to Maculele Tights +3 handled in job_post_precast
         feet = "Nyame Sollerets"
     }
     
     
     sets.precast.WS["Ruthless Stroke"] = {
-        ammo = "Coiste Bodhar",
+        ammo = "Oshasha's Treatise",    -- LINKTRI: single-hit WSD scaler; WSD+3% beats Coiste DA+3%
         head = "Maculele Tiara +3",
         neck = "Etoile Gorget +2",
         ear1 = "Moonshade Earring",
@@ -456,7 +466,7 @@ function init_gear_sets()
     sets.precast.WS["Rudra's Storm"].Fodder = set_combine(sets.precast.WS["Rudra's Storm"], {})
 
     sets.precast.WS["Shark Bite"] = {
-        ammo = "Crepuscular Pebble",
+        ammo = "Oshasha's Treatise",    -- LINKTRI: single-hit WS; WSD+3% beats Pebble PDL+3% outside attack-capped content. Acc variant keeps Pebble
         head = "Maculele Tiara +3",
         neck = "Etoile Gorget +2",
         ear1 = "Moonshade Earring",
@@ -467,7 +477,7 @@ function init_gear_sets()
         ring2 = "Gere Ring",
         back = gear.wsd_jse_back,
         waist = "Sailfi Belt +1",
-        legs = "Maculele Tights +3",
+        legs = "Nyame Flanchard",       -- LINKTRI: WSD+11% (R25); high-buff PDL swap to Maculele Tights +3 handled in job_post_precast
         feet = "Nyame Sollerets"
     }
     
@@ -544,7 +554,7 @@ function init_gear_sets()
 
     -- Enhanced Exenterator set
     sets.precast.WS["Exenterator"] = {
-        ammo = "Crepuscular Pebble",
+        ammo = "Coiste Bodhar",         -- LINKTRI: multi-hit WS; DA+3% beats Pebble's PDL+3%
         head = "Maculele Tiara +3",
         neck = "Asperity Necklace",
         ear1 = "Sherida Earring",
@@ -570,7 +580,7 @@ function init_gear_sets()
         ring1 = "Metamor. Ring +1",
         ring2 = "Dingir Ring",
         back = gear.wsd_jse_back,
-        waist = "Chaac Belt",
+        waist = "Orpheus's Sash",       -- LINKTRI: large magical WS boost at close range; .TH variant still applies Chaac Belt
         legs = "Nyame Flanchard",
         feet = "Nyame Sollerets"
     }
@@ -623,9 +633,9 @@ function init_gear_sets()
         waist = "Sailfi Belt +1"
     }
 	
-	sets.MaxTP["Ruthless Stroke"] = {
-    ear1 = "Odr Earring"  -- Only swap ear1, keep ear2 as Ishvara
-}
+    sets.MaxTP["Ruthless Stroke"] = {
+        ear1 = "Odr Earring"  -- Swap Moonshade for Odr at 3000 TP; ear2 stays Macu. Earring +1 from base set
+    }
 
     sets.Skillchain = {
         hands = "Macu. Bangles +3"
@@ -661,16 +671,16 @@ function init_gear_sets()
 
 	sets.idle = {
 			ammo = "Staunch Tathlum +1",              -- DT-3% (CHANGED)
-			head = "Gleti's Mask",                     
+			head = "Null Masque",                      -- DT-10%, Regen+3, Refresh+1, Regain+2 (LINKTRI: was Gleti's Mask PDT-6/Regain+2 - net regain unchanged, adds regen/refresh)
 			neck = "Loricate Torque +1",               -- DT-6%
-			ear1 = "Etiolation Earring",               
-			ear2 = "Sanare Earring",                   
+			ear1 = "Alabaster Earring",                -- DT-5%, Haste+5% (LINKTRI: idle now caps MDT as well as PDT)
+			ear2 = "Odnowa Earring +1",                -- DT-3%, MDT-1% (LINKTRI)
 			body = "Gleti's Cuirass",                  -- PDT-9%, Regain+3
 			hands = "Gleti's Gauntlets",               
 			ring1 = { name="Murky Ring", augments={'Path: A',}}, -- DT-4%
 			ring2 = "Defending Ring",                  -- DT-10% (CHANGED)
 			back = gear.stp_jse_back,                  -- DT-5%
-			waist = "Carrier's Sash",                  -- Elemental resist +15 (CHANGED)
+			waist = "Null Belt",                       -- MEva+30, Regen+3 (LINKTRI: was Carrier's Sash; swap back if stacking elemental resistance for specific content)
 			legs = "Gleti's Breeches",                 -- PDT-8%, Regain+3
 			feet = "Gleti's Boots"                     -- PDT-5%, Regain+2
 		}
@@ -712,18 +722,18 @@ function init_gear_sets()
     }
 
     sets.defense.MEVA = {
-        ammo = "Coiste Bodhar",
-        head = "Maxixi Tiara +4",
-        neck = "Yarak Torque",
+        ammo = "Staunch Tathlum +1",    -- LINKTRI: resist all status +11, DT-3%; Coiste added nothing to a resist set
+        head = "Malignance Chapeau",    -- LINKTRI: MEva+123 vs Maxixi 98, plus DT-6%
+        neck = "Loricate Torque +1",    -- LINKTRI: Yarak Torque unowned and adds zero MEva (katana/archery/evasion skill only)
         ear1 = "Etiolation Earring",
         ear2 = "Sanare Earring",
-        body = "Horos Casaque +4",
+        body = "Malignance Tabard",     -- LINKTRI: MEva+139 vs Horos 124, plus DT-9%
         hands = "Nyame Gauntlets",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Vengeful Ring",
         back = gear.stp_jse_back,
         waist = "Null Belt",
-        legs = "Rawhide Trousers",
+        legs = "Malignance Tights",     -- LINKTRI: MEva+150 vs Rawhide ~69
         feet = "Malignance Boots"
     }
 
@@ -731,8 +741,8 @@ function init_gear_sets()
 
     -- Engaged sets
 
-    -- OPTIMIZED: Normal Mode - Pure Offense with natural DT (-26%)
-    -- STP: 57, Haste: 27%, Multi-attack: DA+10%, TA+4%
+    -- OPTIMIZED: Normal Mode - Pure Offense with natural DT (-33%)
+    -- LINKTRI: legs now Malignance Tights. STP: 67, Haste: 30%, Multi-attack: DA+10%, TA+4%
     sets.engaged = {
         ammo = "Coiste Bodhar",
         head = "Maculele Tiara +3",            -- Haste+8%, STP+10, WSD+12%
@@ -745,18 +755,18 @@ function init_gear_sets()
         ring2 = "Chirich Ring +1",             -- STP+4
         back = gear.stp_jse_back,              -- DT-5%, STP+10
         waist = "Sailfi Belt +1",
-        legs = "Horos Tights +4",              -- Haste+6%, WSD+12%, Attack+74
+        legs = "Malignance Tights",            -- Haste+9%, STP+10, DT-7% (LINKTRI: Horos WSD+12% does nothing at TP time; Saber Dance overlay still swaps Horos Tights +4 in)
         feet = "Macu. Toe Sh. +3"              -- DT-10%, STP+12, Haste+5%
     }
 
     -- OPTIMIZED: DTLite Mode - Balanced Defense (-33% DT)
-    -- STP: 57 (same!), Haste: 30% (better!), Multi-attack: DA+10%, TA+4%
+    -- LINKTRI: with Alabaster Earring: ~32% DT, Haste 35% (overcapped), STP 62
     sets.engaged.DTLite = {
         ammo = "Coiste Bodhar",
         head = "Maculele Tiara +3",            -- Haste+8%, STP+10
         neck = "Etoile Gorget +2",
         ear1 = "Sherida Earring",              -- STP+5, DA+5%
-        ear2 = "Telos Earring",                -- Acc+10, DA+5%
+        ear2 = "Alabaster Earring",            -- DT-5%, Haste+5% (LINKTRI: keeps DTLite defensively distinct now that Normal shares Malignance Tights; Acc variants still override to Macu. Earring +1)
         body = "Horos Casaque +4",             -- PDT-6%, Haste+4%, TA+4%, Attack+96
         hands = "Malignance Gloves",           -- DT-5%, STP+12, Haste+4%
         ring1 = "Chirich Ring +1",             -- STP+4
@@ -767,14 +777,15 @@ function init_gear_sets()
         feet = "Macu. Toe Sh. +3"              -- DT-10%, STP+12, Haste+5%
     }
 
-    -- OPTIMIZED: DTFull Mode - Maximum Defense (-50% DT capped)
-    -- STP: 51, Haste: 28%, Multi-attack: DA+5%, TA+4%
+    -- OPTIMIZED: DTFull Mode - Maximum Defense (DT capped -50%)
+    -- LINKTRI revision: prior build totaled 52% DT (overcapped). Null Masque + Null Loop
+    -- + Telos keeps the 50% cap while gaining +4% haste, ~+100 acc/macc, and an offensive ear.
     sets.engaged.DTFull = {
         ammo = "Coiste Bodhar",
-        head = "Malignance Chapeau",           -- DT-6%, STP+8, Haste+6%
-        neck = "Loricate Torque +1",           -- DT-6%
+        head = "Null Masque",                  -- DT-10%, Haste+10%, Acc+50 (LINKTRI: was Malignance Chapeau)
+        neck = "Null Loop",                    -- DT-5%, Acc+50/MAcc+50 (LINKTRI: was Loricate Torque +1)
         ear1 = "Sherida Earring",              -- STP+5, DA+5%
-        ear2 = "Odnowa Earring",               -- DT-2%
+        ear2 = "Telos Earring",                -- Acc+10, DA+1%, STP+5 (LINKTRI: DT still capped at 50% after Null Masque/Null Loop swaps)
         body = "Horos Casaque +4",             -- PDT-6%, Haste+4%, TA+4%
         hands = "Malignance Gloves",           -- DT-5%, STP+12, Haste+4%
         ring1 = "Defending Ring",              -- DT-10%
@@ -841,7 +852,7 @@ function init_gear_sets()
         head = "Gleti's Mask",              -- Regain +2/tick, HP +147
         neck = "Loricate Torque +1",        -- DT -6%
         ear1 = "Sanare Earring",            -- MEVA
-        ear2 = "Odnowa Earring",           -- MDT -2%, HP conversion
+        ear2 = "Odnowa Earring +1",           -- MDT -2%, HP conversion
         body = "Macu. Casaque +3", 			-- DT -14%
         hands = "Regal Gloves",             -- Converts 20% damage to TP, DT +20%, HP +342, DEX +40, Acc +45
         ring1 = { name="Murky Ring", augments={'Path: A',}},
@@ -868,10 +879,11 @@ function init_gear_sets()
 
     -- Buff sets: Gear that needs to be worn to actively enhance a current player buff.
     sets.buff["Saber Dance"] = {legs="Horos Tights +4"}      
+    -- LINKTRI: trimmed overlay to head only. The ammo/body lines were overwriting WS pieces
+    -- (Nyame Mail WSD+12%, Oshasha's Treatise) during every Climactic-boosted weaponskill;
+    -- Horos Casaque +4 has no crit synergy. Maculele Tiara +3 is the actual Climactic piece.
     sets.buff["Climactic Flourish"] = {
-        ammo = "Coiste Bodhar",
-        head = "Maculele Tiara +3",
-        body = "Horos Casaque +4"
+        head = "Maculele Tiara +3"
     }
     sets.buff.Doom = set_combine(sets.buff.Doom, {})
     sets.buff.Sleep = {}
@@ -981,7 +993,10 @@ function user_job_post_precast(spell, spellMap, eventArgs)
         
         -- At 2000+ TP, Centovente gives effective 3000 TP (capped fTP)
         -- Swap Moonshade for damage earring
-        if current_tp >= 2000 then
+        -- LINKTRI: gated on Centovente actually being equipped. With other subs (e.g. Gleti's
+        -- Knife) this fired 250 effective TP early; job_post_precast's >3200 effective-TP
+        -- check still covers the non-Centovente case.
+        if current_tp >= 2000 and player.equipment.sub == "Centovente" then
             if sets.MaxTP[spell.english] then
                 equip(sets.MaxTP[spell.english])
             elseif sets.MaxTP then
@@ -1042,10 +1057,11 @@ function job_post_precast(spell, spellMap, eventArgs)
         -- (Climactic Flourish set only touches head, so ring1 is safe to set here)
         equip({ring1 = "Ephramad's Ring"})
 
-        -- Ruthless Stroke: also swap legs to Maculele Tights +3 for PDL+10%
-        -- giving PDL+20% total with Ephramad's Ring
-        -- Exception: Saber Dance active → keep Horos Tights +4 for WSD bonus
-        if spell.english == "Ruthless Stroke" then
+        -- LINKTRI: extended to Rudra's Storm and Shark Bite - their base sets now use
+        -- Nyame Flanchard (WSD+11% R25), so high-buff situations swap to Maculele Tights +3
+        -- for PDL+10% (PDL+20% total with Ephramad's Ring).
+        -- Exception: Saber Dance active -> keep Horos Tights +4 for its WSD/Saber augment
+        if spell.english == "Ruthless Stroke" or spell.english == "Rudra's Storm" or spell.english == "Shark Bite" then
             if not state.Buff['Saber Dance'] then
                 equip({legs = "Maculele Tights +3"})
             end
@@ -1164,6 +1180,14 @@ function user_job_customize_melee_set(meleeSet)
         })
     end
     
+    -- LINKTRI: Hoxne Ampulla overlay. Applied after ContentMode so its rings win, but before
+    -- Roller's Ring so a Lucky 11 ring still takes priority. Gated to Normal/DTLite with no
+    -- DefenseMode so it can't overwrite Defending Ring in DTFull or the Aminon/defense builds.
+    if state.HoxneMode and state.HoxneMode.value and state.DefenseMode.value == 'None'
+            and (state.HybridMode.value == 'Normal' or state.HybridMode.value == 'DTLite') then
+        meleeSet = set_combine(meleeSet, sets.Hoxne)
+    end
+
     -- Equip Roller's Ring if we have Lucky 11 rolls active
     if has_lucky_11_rolls() then
         meleeSet = set_combine(meleeSet, {[lucky_11_ring_slot] = "Roller's Ring"})
@@ -1179,17 +1203,28 @@ end
 
 -- Enhanced self command for new toggles
 function user_job_self_command(commandArgs, eventArgs)
-    if commandArgs[1]:lower() == 'tpmode' then
-        state.TPMode:cycle()
-        add_to_chat(122, 'TP Mode: '..state.TPMode.value)
-        eventArgs.handled = true
-    elseif commandArgs[1]:lower() == 'contentmode' then
+    if commandArgs[1]:lower() == 'contentmode' then
         state.ContentMode:cycle()
         add_to_chat(122, 'Content Mode: '..state.ContentMode.value)
         eventArgs.handled = true
 	elseif commandArgs[1]:lower() == 'pas2' then
         windower.send_command('exec AminonDNC.txt')
         add_to_chat(122, 'Getting jiggy! Go on Chainspell TP Denial!')
+        eventArgs.handled = true
+    -- LINKTRI: Hoxne Ampulla mode toggle. Locks the ammo slot while active so gear swaps
+    -- can never unequip the ampulla (which would drop the DA+100% buff).
+    elseif commandArgs[1]:lower() == 'hoxne' then
+        state.HoxneMode:toggle()
+        if state.HoxneMode.value then
+            enable('ammo')
+            equip({ammo = "Hoxne Ampulla"})
+            disable('ammo')
+            add_to_chat(122, 'Hoxne Ampulla mode ON - ammo locked. Use the ampulla to activate DA+100% (1,000g per DA proc; re-use after zoning).')
+        else
+            enable('ammo')
+            add_to_chat(122, 'Hoxne Ampulla mode OFF - ammo slot unlocked.')
+        end
+        handle_equipping_gear(player.status)
         eventArgs.handled = true
     end
 end
@@ -1218,6 +1253,11 @@ function user_job_display_current_job_state(eventArgs)
         msg = msg .. ', Kiting'
     end
 
+    -- LINKTRI: surface Hoxne Ampulla mode in the job state display
+    if state.HoxneMode and state.HoxneMode.value then
+        msg = msg .. ', HOXNE ($$)'
+    end
+
     msg = msg .. ', ['..state.MainStep.current
 
     if state.UseAltStep.value == true then
@@ -1227,9 +1267,6 @@ function user_job_display_current_job_state(eventArgs)
     msg = msg .. ']'
     
     -- Add enhanced mode display
-    if state.TPMode then
-        msg = msg .. ', TP: ' .. state.TPMode.value
-    end
     if state.ContentMode then
         msg = msg .. ', Content: ' .. state.ContentMode.value
     end

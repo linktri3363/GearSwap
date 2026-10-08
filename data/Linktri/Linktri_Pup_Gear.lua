@@ -28,6 +28,8 @@ register_unhandled_command(function (...)
     return false
 end)
 
+near_porter = false
+
 -- Setup vars that are user-dependent.  Can override this function in a sidecar file.
 function user_job_setup()
     state.OffenseMode:options("Normal", "Acc", "FullAcc", "Fodder")
@@ -147,10 +149,10 @@ function init_gear_sets()
 
     -- Precast sets to enhance JAs
     sets.precast.JA["Tactical Switch"] = {feet = "Pitre Babouches +2"}
-    sets.precast.JA["Repair"] = {ammo = "Automat. Oil +3", feet = "Foire Bab. +1", hands = "Foire Dastanas +1"}
-    sets.precast.JA["Maintenance"] = {ammo = "Automat. Oil +3", head = "Foire Taj +1"}
+    sets.precast.JA["Repair"] = {ammo = "Automat. Oil +3", feet = "Foire Bab. +2", hands = "Foire Dastanas +2"}
+    sets.precast.JA["Maintenance"] = {ammo = "Automat. Oil +3", head = "Foire Taj +2"}
 
-    sets.precast.JA.Maneuver = {main = "Ohtas", back = "Visucius's Mantle", body = "Foire Tobe +1"}
+    sets.precast.JA.Maneuver = {main = "Ohtas", back = "Visucius's Mantle", body = "Foire Tobe +2"}
 
     -- Pitre +2 Job Ability Enhancement Sets
     sets.precast.JA["Optimization"] = {head = "Pitre Taj +2"}
@@ -164,7 +166,7 @@ function init_gear_sets()
         head = "Mpaca's Cap",
         neck = "Unmoving Collar",
         ear1 = "Malignance Earring",
-        ear2 = "Odnowa Earring",
+        ear2 = "Odnowa Earring +1",
         body = "Mpaca's Doublet",
         hands = "Mpaca's Gloves",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
@@ -348,7 +350,7 @@ function init_gear_sets()
 
     -- The following sets are predictive and are equipped before we even know the ability will happen, as a workaround due to
     -- the fact that start of ability packets are too late in the case of Pup abilities, WS, and certain spells.
-    sets.midcast.Pet.PetEnmityGear = {head = "Anwig Salade", ear2 = "Odnowa Earring"}
+    sets.midcast.Pet.PetEnmityGear = {head = "Anwig Salade", ear2 = "Odnowa Earring +1"}
     sets.midcast.Pet.PetWSGear = {
         main = "Ohtas",
         head = "Kara. Cappello +3",
@@ -420,15 +422,15 @@ function init_gear_sets()
     sets.idle = {
         head = "Nyame Helm",
         neck = "Loricate Torque +1",
-        ear1 = "Odnowa Earring",
+        ear1 = "Alabaster Earring",
         ear2 = "Etiolation Earring",
-        body = "Nyame Mail",
+        body = "Kara. Farsetto +3",
         hands = "Nyame Gauntlets",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Stikini Ring",
         back = "Visucius's Mantle",
         waist = "Incarnation Sash",
-        legs = "Nyame Flanchard",
+        legs = "Kara. Pantaloni +3",
         feet = "Nyame Sollerets"
     }
 
@@ -452,7 +454,7 @@ function init_gear_sets()
         head = "Kara. Cappello +3",
         neck = "Loricate Torque +1",
         ear1 = "Enmerkar Earring",
-        ear2 = "Odnowa Earring",
+        ear2 = "Kara. Earring +1",
         body = "Kara. Farsetto +3",
         hands = "Karagoz Guanti +3",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
@@ -468,7 +470,7 @@ function init_gear_sets()
         head = "Kara. Cappello +3",
         neck = "Shulmanu Collar",
         ear1 = "Enmerkar Earring",
-        ear2 = "Domesticator's Earring",
+        ear2 = "Kara. Earring +1", --"Domesticator's Earring",
         body = "Kara. Farsetto +3",
         hands = "Karagoz Guanti +3",
         ring1 = "Varar Ring +1",
@@ -482,11 +484,11 @@ function init_gear_sets()
     sets.idle.Pet.Engaged.Ranged = set_combine(sets.idle.Pet.Engaged, {waist = "Klouskap Sash"})
     sets.idle.Pet.Engaged.Melee = set_combine(sets.idle.Pet.Engaged, {})
     sets.idle.Pet.Engaged.Tank =
-        set_combine(sets.idle.Pet.Engaged, {head = "Anwig Salade", waist = "Isa Belt", ear2 = "Odnowa Earring"})
+        set_combine(sets.idle.Pet.Engaged, {head = "Anwig Salade", waist = "Isa Belt", ear2 = "Odnowa Earring +1"})
     sets.idle.Pet.Engaged.Bruiser =
         set_combine(sets.idle.Pet.Engaged, {hands = "Mpaca's Gloves", feet = "Mpaca's Boots"})
     sets.idle.Pet.Engaged.LightTank =
-        set_combine(sets.idle.Pet.Engaged, {head = "Anwig Salade", waist = "Isa Belt", ear2 = "Odnowa Earring"})
+        set_combine(sets.idle.Pet.Engaged, {head = "Anwig Salade", waist = "Isa Belt", ear2 = "Odnowa Earring +1"})
     sets.idle.Pet.Engaged.Magic =
         set_combine(
         sets.idle.Pet.Engaged,
@@ -501,13 +503,28 @@ function init_gear_sets()
     sets.idle.Pet.Engaged.Heal = sets.idle.Pet.Engaged.Magic
     sets.idle.Pet.Engaged.Nuke = sets.idle.Pet.Engaged.Magic
 
+    sets.packing = {
+        head  = "Nyame Helm",
+        neck  = "Loricate Torque +1",
+        ear1  = "Alabaster Earring",
+        ear2  = "Kara. Earring +1",
+        body  = "Nyame Mail",
+        hands = "Nyame Gauntlets",
+        ring1 = { name="Murky Ring", augments={'Path: A',}},
+        ring2 = "Stikini Ring",
+        back  = "Visucius's Mantle",
+        waist = "Fucho-no-Obi",
+        legs  = "Nyame Flanchard",
+        feet  = "Nyame Sollerets"
+    }
+
     -- Defense sets
 
     sets.defense.PDT = {
         head = "Nyame Helm",
         neck = "Loricate Torque +1",
         ear1 = "Etiolation Earring",
-        ear2 = "Odnowa Earring",
+        ear2 = "Odnowa Earring +1",
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
@@ -522,7 +539,7 @@ function init_gear_sets()
         head = "Nyame Helm",
         neck = "Loricate Torque +1",
         ear1 = "Etiolation Earring",
-        ear2 = "Odnowa Earring",
+        ear2 = "Odnowa Earring +1",
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
@@ -537,7 +554,7 @@ function init_gear_sets()
         head = "Nyame Helm",
         neck = "Loricate Torque +1",
         ear1 = "Etiolation Earring",
-        ear2 = "Odnowa Earring",
+        ear2 = "Odnowa Earring +1",
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
@@ -732,6 +749,35 @@ function init_gear_sets()
     sets.weapons.Godhands = {main = "Godhands", range = "Neo Animator"}
 	sets.weapons.Prime = {main = "Varga Purnikawa", range = "Neo Animator"}
 	sets.weapons.Kenkonken = {main = "Kenkonken", range = "Neo Animator"}
+end
+
+function job_customize_idle_set(idleSet)
+    local currently_near_porter = near_porter_moogle()
+
+    if currently_near_porter then
+        if not near_porter then
+            windower.add_to_chat(160, "Near Porter Moogle - Using packing gear")
+            near_porter = true
+        end
+        return sets.packing
+    else
+        if near_porter then
+            windower.add_to_chat(160, "Left Porter Moogle area - Returning to normal gear")
+            near_porter = false
+        end
+    end
+
+    return idleSet
+end
+
+function near_porter_moogle()
+    local mobs = windower.ffxi.get_mob_array()
+    for i, mob in pairs(mobs) do
+        if mob.name == "Porter Moogle" and mob.distance and mob.distance < 36 then
+            return true
+        end
+    end
+    return false
 end
 
 -- Select default macro book on initial load or subjob change.

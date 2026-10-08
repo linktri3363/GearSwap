@@ -28,6 +28,8 @@ register_unhandled_command(function (...)
     return false
 end)
 
+near_porter = false
+
 -- Setup vars that are user-dependent.  Can override this function in a sidecar.
 function user_job_setup()
     state.OffenseMode:options('Normal','Acc')
@@ -387,6 +389,53 @@ function init_gear_sets()
         head="Beckoner's Horn +1",neck="Shulmanu Collar",ear1="Lugalbanda Earring",ear2="Gelos Earring",
         body="Beck. Doublet +1",hands={name="Gazu Bracelets +1", augments={'Path: A'}},ring1="Stikini Ring",ring2="Stikini Ring",
         back=gear.phys_jse_back,waist="Regal Belt",legs="Assid. Pants +1",feet="Beck. Pigaches +1"}
+
+    sets.packing = {
+        main  = {name="Mpaca's Staff", augments={'Path: A'}},
+        sub   = "Umbra Strap",
+        ammo  = "Impatiens",
+        head  = "Nyame Helm",
+        neck  = {name="Loricate Torque +1", augments={'Path: A'}},
+        ear1  = "C. Palug Earring",
+        ear2  = "Ethereal Earring",
+        body  = {name="Shomonjijoe +1", augments={'Path: A'}},
+        hands = "Nyame Gauntlets",
+        ring1 = "Defending Ring",
+        ring2 = "Stikini Ring",
+        back  = "Conveyance Cape",
+        waist = "Fucho-no-obi",
+        legs  = "Assid. Pants +1",
+        feet  = "Nyame Sollerets"
+    }
+end
+
+function job_customize_idle_set(idleSet)
+    local currently_near_porter = near_porter_moogle()
+
+    if currently_near_porter then
+        if not near_porter then
+            windower.add_to_chat(160, "Near Porter Moogle - Using packing gear")
+            near_porter = true
+        end
+        return sets.packing
+    else
+        if near_porter then
+            windower.add_to_chat(160, "Left Porter Moogle area - Returning to normal gear")
+            near_porter = false
+        end
+    end
+
+    return idleSet
+end
+
+function near_porter_moogle()
+    local mobs = windower.ffxi.get_mob_array()
+    for i, mob in pairs(mobs) do
+        if mob.name == "Porter Moogle" and mob.distance and mob.distance < 36 then
+            return true
+        end
+    end
+    return false
 end
 
 -- Select default macro book on initial load or subjob change.

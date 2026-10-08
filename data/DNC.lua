@@ -100,13 +100,19 @@ function job_setup()
 	function calculate_step_feet_reduction()
 		local tp_reduction = 0
 
-		if sets.precast.Step and sets.precast.Step.feet and standardize_set(sets.precast.Step).feet:startswith('Horos T. Shoes') then
-			if sets.precast.Step.feet:endswith('+2') then
+		-- LINKTRI MODIFICATION START: step feet detection
+		-- Original only matched 'Horos T. Shoes' +2/+3; the real short name is 'Horos Toe Sh. +4',
+		-- so step_feet_reduction was always 0 and step_cost() overestimated by 20 TP.
+		-- Added the 'Horos Toe Sh.' prefix and the +4 case (Step TP consumed -20).
+		local step_feet = sets.precast.Step and sets.precast.Step.feet and standardize_set(sets.precast.Step).feet
+		if step_feet and (step_feet:startswith('Horos T. Shoes') or step_feet:startswith('Horos Toe Sh.')) then
+			if step_feet:endswith('+2') then
 				tp_reduction = 10
-			elseif sets.precast.Step.feet:endswith('+3') then
+			elseif step_feet:endswith('+3') or step_feet:endswith('+4') then
 				tp_reduction = 20
 			end
 		end
+		-- LINKTRI MODIFICATION END
 
 		return tp_reduction
 	end

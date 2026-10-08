@@ -28,6 +28,8 @@ register_unhandled_command(function (...)
     return false
 end)
 
+near_porter = false
+
 -- Setup vars that are user-dependent.  Can override this function in a sidecar file.
 function user_job_setup()
 	state.OffenseMode:options('Normal','Acc')
@@ -103,7 +105,7 @@ function init_gear_sets()
 	
 	-- Precast sets to enhance JAs
 	sets.TreasureHunter = set_combine(sets.TreasureHunter, {})
-	sets.precast.JA['Bounty Shot'] = set_combine(sets.TreasureHunter, {hands="Amini Glove. +1"})
+	sets.precast.JA['Bounty Shot'] = set_combine(sets.TreasureHunter, {hands="Amini Glove. +3"})
 	sets.precast.JA['Camouflage'] = {body="Orion Jerkin +1"}
 	sets.precast.JA['Scavenge'] = {feet="Orion Socks +1"}
 	sets.precast.JA['Shadowbind'] = {hands="Orion Bracers +1"}
@@ -124,8 +126,8 @@ function init_gear_sets()
 	-- Ranged sets (snapshot)
 	
 	sets.precast.RA = {
-		head="Amini Gapette +1", --7
-		body="Amini Caban +1",hands="Carmine Fin. Ga. +1",ring1="Crepuscular Ring", --11
+		head="Amini Gapette +3", --7
+		body="Amini Caban +3",hands="Carmine Fin. Ga. +1",ring1="Crepuscular Ring", --11
 		back=gear.snapshot_jse_back,waist="Impulse Belt",legs="Orion Braccae +3",feet="Meg. Jam. +2"} --38
 		
 	sets.precast.RA.Flurry = set_combine(sets.precast.RA, {})
@@ -305,6 +307,50 @@ function init_gear_sets()
 	-- Custom buff sets
 	--------------------------------------
 	sets.buff.Doom = set_combine(sets.buff.Doom, {})
+
+	sets.packing = {
+		head  = "Nyame Helm",
+		neck  = "Loricate Torque +1",
+		ear1  = "Genmei Earring",
+		ear2  = "Sanare Earring",
+		body  = "Nyame Mail",
+		hands = "Nyame Gauntlets",
+		ring1 = "Defending Ring",
+		ring2 = "Dark Ring",
+		back  = "Moonlight Cape",
+		waist = "Fucho-no-obi",
+		legs  = "Nyame Flanchard",
+		feet  = "Nyame Sollerets"
+	}
+end
+
+function job_customize_idle_set(idleSet)
+    local currently_near_porter = near_porter_moogle()
+
+    if currently_near_porter then
+        if not near_porter then
+            windower.add_to_chat(160, "Near Porter Moogle - Using packing gear")
+            near_porter = true
+        end
+        return sets.packing
+    else
+        if near_porter then
+            windower.add_to_chat(160, "Left Porter Moogle area - Returning to normal gear")
+            near_porter = false
+        end
+    end
+
+    return idleSet
+end
+
+function near_porter_moogle()
+    local mobs = windower.ffxi.get_mob_array()
+    for i, mob in pairs(mobs) do
+        if mob.name == "Porter Moogle" and mob.distance and mob.distance < 36 then
+            return true
+        end
+    end
+    return false
 end
 
 -- Select default macro book on initial load or subjob change.

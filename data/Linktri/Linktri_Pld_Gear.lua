@@ -106,7 +106,7 @@ function init_gear_sets()
     sets.Enmity.DT = {
 	ammo	= "Staunch Tathlum",
     head	= { name="Sakpata's Helm", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-    body	= "Rev. Surcoat +2",
+    body	= "Rev. Surcoat +4",
     hands	= { name="Sakpata's Gauntlets", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
     legs	= { name="Sakpata's Cuisses", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
     feet	= { name="Sakpata's Leggings", augments={'HP+65','STR+12','Accuracy+13',}},
@@ -121,20 +121,20 @@ function init_gear_sets()
 		
     -- Precast sets to enhance JAs
     sets.precast.JA['Invincible'] = set_combine(sets.Enmity,{legs="Cab. Breeches +4"})
-    sets.precast.JA['Holy Circle'] = set_combine(sets.Enmity,{feet="Rev. Leggings +2"})
+    sets.precast.JA['Holy Circle'] = set_combine(sets.Enmity,{feet="Rev. Leggings +4"})
     sets.precast.JA['Sentinel'] = set_combine(sets.Enmity,{feet="Cab. Leggings +4"})
     sets.precast.JA['Rampart'] = set_combine(sets.Enmity,{head="Cab. Coronet +4"})
     sets.precast.JA['Fealty'] = set_combine(sets.Enmity,{body="Cab. Surcoat +4"})
     sets.precast.JA['Divine Emblem'] = set_combine(sets.Enmity,{feet="Chev. Sabatons +3"})
-    sets.precast.JA['Cover'] = set_combine(sets.Enmity, {body="Cab. Surcoat +4", head="Rev. Coronet"}) 
+    sets.precast.JA['Cover'] = set_combine(sets.Enmity, {body="Cab. Surcoat +4", head="Rev. Coronet +4"}) 
 	
     sets.precast.JA['Invincible'].DT = set_combine(sets.Enmity.DT,{legs="Cab. Breeches +4"})
-    sets.precast.JA['Holy Circle'].DT = set_combine(sets.Enmity.DT,{feet="Rev. Leggings +2"})
+    sets.precast.JA['Holy Circle'].DT = set_combine(sets.Enmity.DT,{feet="Rev. Leggings +4"})
     sets.precast.JA['Sentinel'].DT = set_combine(sets.Enmity.DT,{feet="Cab. Leggings +4"})
     sets.precast.JA['Rampart'].DT = set_combine(sets.Enmity.DT,{head="Cab. Coronet +4"})
     sets.precast.JA['Fealty'].DT = set_combine(sets.Enmity.DT,{body="Cab. Surcoat +4"})
     sets.precast.JA['Divine Emblem'].DT = set_combine(sets.Enmity.DT,{feet="Chev. Sabatons +3"})
-    sets.precast.JA['Cover'].DT = set_combine(sets.Enmity.DT, {body="Cab. Surcoat +4", head="Rev. Coronet"})
+    sets.precast.JA['Cover'].DT = set_combine(sets.Enmity.DT, {body="Cab. Surcoat +4", head="Rev. Coronet +4"})
 	
     sets.precast.JA['Chivalry'] = {
 	ammo  = "Pemphredo Tathlum",            
@@ -190,7 +190,7 @@ function init_gear_sets()
     sets.precast.FC = {
 	ammo	= "Staunch Tathlum +1",
     head	= { name="Sakpata's Helm", augments={'Accuracy+20','Mag. Acc.+12','"Fast Cast"+4',}},
-    body	= "Rev. Surcoat +2",
+    body	= "Rev. Surcoat +4",
     hands	= { name="Leyline Gloves", augments={'Accuracy+15','Mag. Acc.+15','"Mag.Atk.Bns."+15','"Fast Cast"+3',}},
     legs	= "Rawhide Trousers",
     feet	= { name="Founder's Greaves", augments={'Accuracy+30','"Fast Cast"+6','VIT+5',}},
@@ -372,7 +372,7 @@ function init_gear_sets()
     ammo="Staunch Tathlum +1",             -- DT-3%, SIRD+11%
     head="Sakpata's Helm",                -- Fast Cast+14%
     neck="Loricate Torque +1",             -- DT-6%, HP+60
-    body="Rev. Surcoat +2",                -- Fast Cast+15%, Enmity+10
+    body="Rev. Surcoat +4",                -- Fast Cast+15%, Enmity+10
     hands="Leyline Gloves",                -- Fast Cast+8%, M.Acc+25
     feet="Founder's Greaves",               -- Fast Cast+5–7% (augmented), HP+20
 	legs="Rawhide Trousers",                 -- Fast Cast+8%, DT-3%
@@ -389,7 +389,7 @@ function init_gear_sets()
     ammo="Staunch Tathlum +1",             -- DT-3%, SIRD+11%
     head="Sakpata's Helm",                -- Fast Cast+14%
     neck="Loricate Torque +1",             -- DT-6%, HP+60
-    body="Rev. Surcoat +2",                -- Fast Cast+15%, Enmity+10
+    body="Rev. Surcoat +4",                -- Fast Cast+15%, Enmity+10
     hands="Leyline Gloves",                -- Fast Cast+8%, M.Acc+25
     feet="Founder's Greaves",               -- Fast Cast+5–7% (augmented), HP+20
 	legs="Rawhide Trousers",                 -- Fast Cast+8%, DT-3%
@@ -752,7 +752,7 @@ function init_gear_sets()
     body={ name="Cab. Surcoat +4", augments={'Enhances "Fealty" effect',}},
     hands="Chev. Gauntlets +3",
     legs="Chev. Cuisses +3",
-    feet="Rev. Leggings +2",
+    feet="Rev. Leggings +4",
     neck={ name="Loricate Torque +1", augments={'Path: A'}},
     waist="Rumination Sash",
     ear1="Cryptic Earring",
@@ -856,11 +856,11 @@ function init_gear_sets()
     main	= "Sakpata's Sword",
     sub		= "Priwen",
     ammo	= "Staunch Tathlum +1",
-    head	= { name="Yorium Barbuta", augments={'Phalanx +3',}},
-    body	= { name="Odyss. Chestplate", augments={'Mag. Acc.+16','Sklchn.dmg.+1%','Phalanx +4','Accuracy+8 Attack+8','Mag. Acc.+20 "Mag.Atk.Bns."+20',}},
-    hands	= { name="Souv. Handsch. +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-    legs	= "Sakpata's Cuisses",
-    feet	= { name="Souveran Schuhs +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
+    head	= gear.valorous_phalanx_tank_head,
+    body	= gear.valorous_phalanx_tank_body,
+    hands	= gear.valorous_phalanx_tank_hands,
+    legs	= gear.valorous_phalanx_tank_legs,
+    feet	= gear.valorous_phalanx_tank_feet,
     neck	= "Incanter's Torque",
     waist	= "Olympus Sash",
     ear1	= "Mimir Earring",
@@ -917,8 +917,8 @@ function init_gear_sets()
   sets.idle = {
   ammo	= "Staunch Tathlum +1",
   head	= "Chev. Armet +3",
-  body	= "Sakpata's Plate",
-  hands	= "Regal Gloves",
+  body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
+  hands	= "Chev. Gauntlets +3",
   legs	= "Chev. Cuisses +3",
   feet	= "Chev. Sabatons +3",
   neck	= { name="Kgt. Beads +2", augments={'Path: A',}},
@@ -933,10 +933,10 @@ function init_gear_sets()
   sets.idle.elemental = { 
   ammo	= "Staunch Tathlum +1",
   head	= "Chev. Armet +3",
-  body	= "Sakpata's Plate",
+  body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
   hands	= "Cab. Gauntlets +4",
   legs	= "Chev. Cuisses +3",
-  feet	= "Rev. Leggings +2",
+  feet	= "Rev. Leggings +4",
   neck	= "Warder's Charm +1",
   waist	= "Carrier's Sash",
   ear1	= "Sanare Earring",
@@ -949,10 +949,10 @@ function init_gear_sets()
   sets.idle.Statresist = { 
   ammo	= "Staunch Tathlum +1",
   head	= "Chev. Armet +3",
-  body	= "Sakpata's Plate",
+  body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
   hands	= "Cab. Gauntlets +4",
   legs	= "Chev. Cuisses +3",
-  feet 	= "Rev. Leggings +2",
+  feet 	= "Rev. Leggings +4",
   neck	= "Warder's Charm +1",
   waist = "Carrier's Sash",
   ear1	= "Sanare Earring",
@@ -966,7 +966,7 @@ function init_gear_sets()
 sets.idle.Regen = {
   ammo	= "Staunch Tathlum +1",
   head	= "Null Masque",
-  body	= "Sakpata's Plate",
+  body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
   hands	= "Regal Gloves",
   legs	= "Chev. Cuisses +3",
   feet	= "Chev. Sabatons +3",
@@ -982,7 +982,7 @@ sets.idle.Regen = {
   sets.idle.Aminon = {
   ammo		= "Staunch Tathlum +1",
   head		= "Null Masque",
-  body		= "Sakpata's Plate",
+  body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
   hands		= "Sakpata's Gauntlets",
   legs		= "Sakpata's Cuisses",
   feet		= "Sakpata's Leggings",
@@ -998,7 +998,7 @@ sets.idle.Regen = {
    sets.idle.MEVA = {
    ammo		= "Staunch Tathlum +1",
    head		= "Null Masque",
-   body		= "Sakpata's Plate",
+   body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
    hands	= { name="Cab. Gauntlets +4", augments={'Path: A',}},
    legs		= "Chev. Cuisses +3",
    feet		= { name="Sakpata's Leggings", augments={'HP+65','STR+12','Accuracy+13',}},
@@ -1014,10 +1014,10 @@ sets.idle.Regen = {
     sets.idle.Block = {
 	ammo	= "Staunch Tathlum",
     head	= "Chev. Armet +3",
-    body	= "Sakpata's Plate",
+    body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
     hands	= "Sulev. Gauntlets +2",
     legs	= "Chev. Cuisses +3",
-    feet	= "Rev. Leggings +2",
+    feet	= "Rev. Leggings +4",
     neck	= "Null Loop",
     waist	= "Carrier's Sash",
     ear1	= "Genmei Earring",
@@ -1030,7 +1030,7 @@ sets.idle.Regen = {
     sets.idle.Tank = {
   ammo	= "Staunch Tathlum +1",
   head	= "Chev. Armet +3",
-  body	= "Sakpata's Plate",
+  body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
   hands	= "Regal Gloves",
   legs	= "Chev. Cuisses +3",
   feet	= "Chev. Sabatons +3",
@@ -1046,10 +1046,10 @@ sets.idle.Regen = {
 	sets.idle.Kiting = {
 	ammo 	= "Homiliary",
     head	= "Chev. Armet +3",
-    body	= "Sakpata's Plate",
+    body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
     hands	= "Sulev. Gauntlets +2",
     legs	= "Chev. Cuisses +3",
-    feet	= "Rev. Leggings +2",
+    feet	= "Rev. Leggings +4",
     neck	= { name="Kgt. Beads +2", augments={'Path: A'}},
     waist	= "Carrier's Sash",
     ear1	= "Genmei Earring",
@@ -1089,8 +1089,8 @@ sets.idle.Regen = {
     
     -- Extra defense sets.  Apply these on top of melee or defense sets.
 	sets.Knockback = {}
-    sets.MP = {head="Chev. Armet +3",neck="Incanter's Torque",ear2="Etiolation Earring",waist="Flume Belt +1",feet="Rev. Leggings +2"}
-	sets.passive.AbsorbMP = {head="Chev. Armet +3",neck="Incanter's Torque",ear2="Etiolation Earring",waist="Flume Belt +1",feet="Rev. Leggings +2"}
+    sets.MP = {head="Chev. Armet +3",neck="Incanter's Torque",ear2="Etiolation Earring",waist="Flume Belt +1",feet="Rev. Leggings +4"}
+	sets.passive.AbsorbMP = {head="Chev. Armet +3",neck="Incanter's Torque",ear2="Etiolation Earring",waist="Flume Belt +1",feet="Rev. Leggings +4"}
     sets.MP_Knockback = {}
     sets.Twilight = {head="Twilight Helm", body="Twilight Mail"}
 	sets.TreasureHunter = set_combine(sets.TreasureHunter, {})
@@ -1104,10 +1104,10 @@ sets.idle.Regen = {
     sets.defense.Block = {
 	ammo	= "Staunch Tathlum",
     head	= "Chev. Armet +3",
-    body	= "Sakpata's Plate",
+    body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
     hands	= "Sulev. Gauntlets +2",
     legs	= "Chev. Cuisses +3",
-    feet	= "Rev. Leggings +2",
+    feet	= "Rev. Leggings +4",
     neck	= "Null Loop",
     waist	= "Carrier's Sash",
     ear1	= "Genmei Earring",
@@ -1120,7 +1120,7 @@ sets.idle.Regen = {
 	sets.defense.Aminon = {
 	ammo	= "Staunch Tathlum +1",
     head	= "Sakpata's Helm",
-    body	= "Sakpata's Plate",
+    body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
     hands	= "Sakpata's Gauntlets",
     legs	= "Sakpata's Cuisses",
     feet	= "Sakpata's Leggings",
@@ -1137,7 +1137,7 @@ sets.idle.Regen = {
 	sets.defense.PDT = {
 	ammo	= "Homiliary",
     head	= "Chev. Armet +3",
-    body	= "Sakpata's Plate",
+    body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
     hands	= "Sakpata's Gauntlets",
     legs	= "Chev. Cuisses +3",
     feet	= "Sakpata's Leggings",
@@ -1153,7 +1153,7 @@ sets.idle.Regen = {
     sets.defense.PDT_HP = {
 	ammo	= "Homiliary",
     head	= "Chev. Armet +3",
-    body	= "Sakpata's Plate",
+    body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
     hands	= "Sakpata's Gauntlets",
     legs	= "Chev. Cuisses +3",
     feet	= "Sakpata's Leggings",
@@ -1169,7 +1169,7 @@ sets.idle.Regen = {
 	sets.defense.MDT = {
 	ammo	= "Homiliary",
     head	= "Chev. Armet +3",
-    body	= "Sakpata's Plate",
+    body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
     hands	= "Sakpata's Gauntlets",
     legs	= "Chev. Cuisses +3",
     feet	= "Sakpata's Leggings",
@@ -1185,7 +1185,7 @@ sets.idle.Regen = {
     sets.defense.MDT_HP = {
 	ammo	= "Homiliary",
     head	= "Chev. Armet +3",
-    body	= "Sakpata's Plate",
+    body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
     hands	= "Sakpata's Gauntlets",
     legs	= "Chev. Cuisses +3",
     feet	= "Sakpata's Leggings",
@@ -1201,7 +1201,7 @@ sets.idle.Regen = {
 	sets.defense.MEVA = {
     ammo 	= "Staunch Tathlum +1",               
     head 	= "Loess Barbuta",                 
-    body 	= "Sakpata's Plate",                 
+    body	= "Adamantite Armor",                   -- DT-20%, MEVA+107, MDB+20
     hands 	= "Sakpata's Gauntlets",             
     legs	= "Chev. Cuisses +3",          
     feet	= "Sakpata's Leggings",              
@@ -1439,6 +1439,7 @@ end
 function job_buff_change(buff, gain)
     if buff == 'Phalanx' then
         if gain then
+            send_command('input /p Phalanx up! Let\'s get weird!')
             -- Only auto-restore weapons when Phalanx was received from another player.
             -- If WE cast it (self_cast_phalanx == true), let normal gear logic handle it.
             if not self_cast_phalanx then

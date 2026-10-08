@@ -1,0 +1,120 @@
+We're going to be doing some work on optimizing the framework and gearsets for my Geomancer. First, I need you to become an expert on how Geomancer is played. https://www.bg-wiki.com/ffxi/Geomancer. You'll need to familiarize yourself with the various job traits (passive) and job abilities that are available to Geomancer. 
+
+Below are some player guides. (Validate player suggestions. )
+https://www.bg-wiki.com/ffxi/Compendium_of_Colure:_The_Art_of_Geomancy 
+https://www.ffxiah.com/forum/topic/41358/bubble-trouble-a-geomancer-guide
+
+(For the following geomancy armor sets, I don't have the +4 pants and feet but I will later today. Assume i have the +4 versions as we work through this.) 
+Head    Geomancy Galero +4
+DEF:122 HP+74 MP+89 STR+26 DEX+29 VIT+26 AGI+31 INT+36 MND+41 CHR+31
+Accuracy+57 Magic Accuracy+57 Evasion+96 Magic Evasion+120 "Magic Def. Bonus"+7 Elemental Magic Skill +20 Haste+6%
+"Cardinal Chant"+4
+Body    Geomancy Tunic +4
+DEF:152 HP+101 MP+147 STR+31 DEX+34 VIT+31 AGI+36 INT+39 MND+44 CHR+39
+Accuracy+60 Magic Accuracy+60 Evasion+101 Magic Evasion+125 "Magic Def. Bonus"+8 Dark Magic Skill +22 Haste+3%
+"Life Cycle"+14 "Refresh"+3
+Hands    Geomancy Mitaines +4
+DEF:110 HP+90 MP+78 STR+16 DEX+41 VIT+35 AGI+20 INT+29 MND+48 CHR+29
+Accuracy+58 Magic Accuracy+58 Evasion+82 Magic Evasion+82 "Magic Def. Bonus"+5 Geomancy Skill +20 Haste+3%
+Physical Damage Taken -3%
+Luopan: Damage Taken -13%
+Legs    Geomancy Pants +4
+DEF:134 HP+137 MP+116 STR+35 VIT+22 AGI+32 INT+44 MND+39 CHR+29
+Accuracy+59 Magic Accuracy+59 Evasion+87 Magic Evasion+152 "Magic Def. Bonus"+8 Haste+5%
+"Fast Cast"+15% Spell Interruption rate down 24%
+Feet    Geomancy Sandals +4
+DEF:92 HP+39 MP+93 STR+20 DEX+24 VIT+20 AGI+48 INT+27 MND+34 CHR+44
+Accuracy+56 Magic Accuracy+56 Evasion+115 Magic Evasion+152 "Magic Def. Bonus"+7 Haste+3%
+Movement Speed +18%
+Set Bonus: +Accuracy, Ranged Accuracy, and Magic Accuracy
+
+Head    Bagua Galero +4
+DEF:123 HP+101 MP+62 STR+27 DEX+24 VIT+29 AGI+24 INT+34 MND+29 CHR+29
+Accuracy+42 Magic Accuracy+51 Evasion+81 Magic Evasion+135 "Magic Attack Bonus"+52 "Magic Defense Bonus"+8 Haste+6%
+Augments "Concentric Pulse" "Drain" and "Aspir" potency +35
+Luopan: HP+600
+20x: Enhances "Primeval Zeal" effect
+Body    Bagua Tunic +4
+DEF:154 HP+124 MP+129 STR+34 DEX+31 VIT+36 AGI+31 INT+44 MND+39 CHR+39
+Accuracy+45 Magic Accuracy+45 Evasion+86 Magic Evasion+140 "Magic Attack Bonus"+66 "Magic Defense Bonus"+9 Haste+3%
+Geomancy skill +17
+20x: Enhances "Bolster" effect
+Hands    Bagua Mitaines +4
+DEF:109 HP+52 MP+44 STR+19 DEX+38 VIT+40 AGI+15 INT+34 MND+43 CHR+29
+Accuracy+43 Magic Accuracy+43 Evasion+67 Magic Evasion+97 "Magic Attack Bonus"+53 "Magic Defense Bonus"+6 Haste+3%
+Enmity-8 Magic Burst damage +12 "Refresh"+2 Elemental magic casting time -14%
+20x: Enhances "Curative Recantation" effect
+Legs    Bagua Pants +4
+DEF:133 HP+128 MP+59 STR+38 VIT+27 AGI+30 INT+52 MND+37 CHR+29
+Accuracy+44 Magic Accuracy+44 Evasion+85 Magic Evasion+167 "Magic Attack Bonus"+54 "Magic Defense Bonus"+9 Haste+5%
+"Indicolure" spell duration +21
+20x: Enhances "Mending Halation" effect
+Feet    Bagua Sandals +4
+DEF:92 HP+73 MP+44 STR+23 DEX+21 VIT+28 AGI+43 INT+35 MND+32 CHR+44
+Accuracy+41 Magic Accuracy+41 Evasion+100 Magic Evasion+167 "Magic Attack Bonus"+51 "Magic Defense Bonus"+8 Haste+3%
+Enfeebling magic skill +22
+Luopan: "Regen"+5
+20x: Enhances "Radial Arcana" effect
+
+Head    Azimuth Hood +3
+DEF:128 HP+61 MP+86 STR+24 DEX+24 VIT+24 AGI+16 INT+39 MND+32 CHR+32
+Accuracy+61 Magic Accuracy+61 “Magic Atk. Bonus”+51 Magic Damage +31 Evasion+83 Magic Evasion+136 “Magic Def. Bonus”+10 Geomancy skill +25 Haste+6%
+Damage taken -12% “Full Circle”+4
+Luopan: “Regen”+5
+Body    Azimuth Coat +3
+DEF:158 HP+80 MP+97 STR+29 DEX+34 VIT+34 AGI+34 INT+50 MND+43 CHR+43
+Accuracy+64 Magic Accuracy+64 “Magic Atk. Bonus”+59 Magic Damage+34 Evasion+88 Magic Evasion+141 “Magic Def. Bonus”+11 Elemental magic skill +28 Enmity-10 Haste+3%
+Magic Burst Damage II +5 “Refresh”+4
+Hands    Azimuth Gloves +3
+DEF:115 HP+48 MP+80 STR+16 DEX+40 VIT+38 AGI+20 INT+36 MND+47 CHR+32
+Accuracy+62 Magic Accuracy+62 “Magic Atk. Bonus”+52 Magic Damage +32 Evasion+69 Magic Evasion+98 “Magic Def. Bonus”+7 Enfeebling magic skill +28 Enmity-13 Haste+3%
+Damage taken -12%
+Legs    Azimuth Tights +3
+DEF:138 HP+68 MP+74 STR+31 VIT+23 AGI+31 INT+55 MND+38 CHR+32
+Accuracy+63 Magic Accuracy+63 “Magic Atk. Bonus”+58 Magic Damage +33 Evasion+74 Magic Evasion+168 “Magic Def. Bonus”+10 Dark magic skill +30 Haste+5%
+Magic Burst Damage +15
+Feet    Azimuth Gaiters +3
+DEF:98 HP+59 MP+70 STR+18 DEX+21 VIT+23 AGI+44 INT+34 MND+32 CHR+47
+Accuracy+60 Magic Accuracy+60 “Magic Atk. Bonus”+50 Magic Damage+30 Evasion+110 Magic Evasion+168 “Magic Def. Bonus”+10 Haste+3%
+“Indicolure” spell duration +30 Damage taken -11%
+Set Bonus: MP occasionally not depleted when using geomancy spells
+
+Head    Agwu's Cap
+DEF:126 HP+38 MP+59 STR+26 DEX+24 VIT+11 AGI+5 INT+33 MND+26 CHR+25
+Accuracy+40 Magic Accuracy+40 "Magic Atk. Bonus"+35 Magic Damage +20 Evasion+72 Magic Evasion+107 "Magic Def. Bonus"+6 Haste+6%
+"Fast Cast"+5% Magic burst damage +7 "Resist Silence"+9 Spell Interruption Rate Down 10%
+20x: Rank: 15 [1] "Mag. Atk. Bns."+15 [2] Magic Damage+8
+Body    Agwu's Robe
+DEF:154 HP+61 MP+88 STR+33 DEX+30 VIT+19 AGI+20 INT+47 MND+37 CHR+35
+Accuracy+40 Magic Accuracy+40 "Magic Atk. Bonus"+35 Magic Damage +20 Evasion+83 Magic Evasion+123 "Magic Def. Bonus"+9 Haste+3%
+Magic burst damage +10 "Fast Cast"+8% "Resist Silence"+12 "Refresh"+3
+20x: Rank: 15 [1] "Mag. Atk. Bns."+15 [2] Enmity-4 [
+Hands    Agwu's Gages
+DEF:116 HP+38 MP+73 STR+14 DEX+38 VIT+23 AGI+6 INT+33 MND+40 CHR+25
+Accuracy+40 Magic Accuracy+40 "Magic Atk. Bonus"+35 Magic Damage +20 Evasion+60 Magic Evasion+96 "Magic Def. Bonus"+5 Haste+3%
+"Fast Cast"+6% Magic burst damage +8 Potency of "Cure" effect received +10% "Resist Silence"+10
+20x: Rank: 15 [1] "Mag. Atk. Bns."+15 [2] Magic burst damage II +3
+Legs    Agwu's Slops
+DEF:137 HP+50 MP+59 STR+43 VIT+8 AGI+17 INT+49 MND+32 CHR+25
+Accuracy+40 Magic Accuracy+40 "Magic Atk. Bonus"+35 Magic Damage +20 Evasion+66 Magic Evasion+134 "Magic Def. Bonus"+8 Haste
+Magic burst damage +9 "Fast Cast"+7% Elemental magic status ailment effects +10 "Resist Silence"+11
+20x: Rank: 15 [1] "Mag. Atk. Bns."+15 [2] Damage Taken -5%
+Feet    Agwu's Pigaches
+DEF:99 HP+27 MP+44 STR+21 DEX+25 VIT+8 AGI+30 INT+30 MND+26 CHR+39
+Accuracy+40 Magic Accuracy+40 "Magic Atk. Bonus"+35 Magic Damage +20 Evasion+99 Magic Evasion+134 "Magic Def. Bonus"+6 Haste
+Magic burst damage +6 "Fast Cast"+4% "Resist Silence"+8 "Drain" and "Aspir" potency +20
+20x: Rank: 15 [1] "Mag. Atk. Bns."+15 [2] "Drain" and "Aspir" potency +8
+
+Murky Ring: DEF:10 MP+30 Spell interruption rate down 3% Damage taken -10% Pet: Accuracy+15 Ranged Accuracy+15 Magic Accuracy+15 Rank: 22 [1] Accuracy+15 Rng. Acc.+15 Mag. Acc.+15 [2] Evasion+7 Mag. Evasion+7
+
+Alabaster Earring:     DEF:10 HP+100 Haste+5% Damage taken -5% Pet: Accuracy+15 Ranged Accuracy+15 Magic Accuracy+15 Rank: 11 [1] Accuracy+11 Rng. Acc.+11 Mag. Acc.+11 
+
+Bunzi Rod:     DMG:144 Delay:216 MP+40 INT+15 MND+15 Accuracy+40 Magic Accuracy+40 "Magic Atk. Bonus"+35 Magic Damage+248 Club skill +242 Parrying skill +242 Magic Accuracy skill +255 Magic burst damage +10 "Cure" potency +30% Rank: 25 [1] DMG:+10 [2] "Mag. Atk. Bns."+25 [3] Accuracy+10 Mag. Acc.+10 [4] Enmity-3 
+
+(The rest of the Bunzi set cannot be equipped by Geomancer.) 
+
+There are many other items in my inventory that may appear ideal when looking at their stats, but cannot be equipped by Geomancer. You'll need to validate that all of your suggestions can be used by Geomancer.  
+
+Some of my one-handed weapons are listed as "sub" in the inventory file; that just means that they can either be main handed or wielded in the offhand if I have dual wield. 
+
+The mytha file is included for reference. This is the template file that my linktri_geo_gear.lua file is built from.

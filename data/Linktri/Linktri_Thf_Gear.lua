@@ -158,7 +158,7 @@ function init_gear_sets()
     sets.weapons.Aeneas = {main = "Aeneas", sub = "Gleti's Knife"}
     sets.weapons.Tauret = {main = "Tauret", sub = "Gleti's Knife"}
     sets.weapons.Savage = {main = "Naegling", sub = "Centovente"}
-    sets.weapons.ProcWeapons = {main = "Qutrub Knife", sub = "Ethereal Dagger"}
+    sets.weapons.ProcWeapons = {main = "Ethereal Dagger", sub = "Twinned Blade"}
     sets.weapons.Evisceration = {main = "Tauret", sub = "Gleti's Knife"}
     sets.weapons.Throwing = {main = "Qutrub Knife", sub = "Twinned Blade"}
     sets.weapons.SwordThrowing = {main = "Naegling", sub = "Gleti's Knife"}
@@ -166,13 +166,13 @@ function init_gear_sets()
     -- Red Proc Weaponsets for Abyssea
 
 -- Energy Drain & Cyclone (Dagger)
-sets.weapons.RedProcDagger = {main = "Ethereal Dagger", sub = "Qutrub Knife"}
+sets.weapons.RedProcDagger = {main = "Ethereal Dagger", sub = "Twinned Blade"}
 
 -- Seraph Blade & Red Lotus Blade (Dagger)  
 sets.weapons.RedProcSword = {main = "Twinned Blade", sub = "Ethereal Dagger"}
 
 -- Freezebite (Sword) - 2H weapon
-sets.weapons.RedProcGrSwd = {main = "Ophidian Sword"}
+sets.weapons.RedProcGrSwd = {main = "Irradiance Blade"}
 
 -- Shadow of Death (Scythe) - 2H weapon
 sets.weapons.RedProcScythe = {main = "Ark Scythe"}

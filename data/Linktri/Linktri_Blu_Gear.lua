@@ -104,8 +104,8 @@ function init_gear_sets()
 sets.weapons = {}
 
 sets.weapons.Tizbron = {
-    main="Qutrub Knife",
-    sub="Ethereal Dagger"
+    main="Naegling",
+    sub="Thibron"
 }
 
 sets.weapons.Tizalmace = {
@@ -130,13 +130,15 @@ sets.weapons.HybridWeapons = {
 
 sets.weapons.Naegbron = {
     main="Naegling",
-    sub="Sakpata's Sword"
+    sub="Thibron"
 }
 
 sets.weapons.Naegmace = {
     main="Naegling",
     sub="Almace"
 	 }
+
+
     --------------------------------------
     -- Start defining the sets
     --------------------------------------
@@ -162,7 +164,7 @@ sets.weapons.Naegmace = {
         feet="Carmine Greaves +1"
     }
 
-    sets.precast.FC['Blue Magic'] = set_combine(sets.precast.FC, {body="Hashishin Mintan +2"})
+    sets.precast.FC['Blue Magic'] = set_combine(sets.precast.FC, {body="Hashishin Mintan +3"})
 
     sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {body="Passion Jacket"})
 
@@ -207,8 +209,8 @@ sets.weapons.Naegmace = {
         ear2="Odr Earring",
         body="Assim. Jubbah +2",
         hands="Assim. Bazu. +2",
-        ring1="Stikini Ring +1",
-        ring2="Stikini Ring +1",
+        ring1="Stikini Ring",
+        ring2="Stikini Ring",
         back=gear.da_jse_back,
         waist="Olseni Belt",
         legs="Carmine Cuisses +1",
@@ -266,12 +268,13 @@ sets.weapons.Naegmace = {
     })
 
     sets.precast.WS["Chant du Cygne"] = set_combine(sets.precast.WS, {
-        head="Hashishin Kavuk +2",
+        ammo="Coiste Bodhar", -- LINKTRI MODIFICATION: multi-hit crit WS ammo
+        head={ name="Gleti's Mask", augments={'Path: A',}},
         neck="Mirage Stole +2",
         ear1="Mache Earring +1",
         ear2="Odr Earring",
-        body="Adhemar Jacket +1",
-        hands="Adhemar Wrist. +1",
+        body={ name="Gleti's Cuirass", augments={'Path: A',}},
+        hands={ name="Gleti's Gauntlets", augments={'Path: A',}},
         ring1="Epona's Ring",
         ring2="Begrudging Ring",
         back=gear.crit_jse_back,
@@ -281,11 +284,11 @@ sets.weapons.Naegmace = {
     })
 
     sets.precast.WS["Chant du Cygne"].Acc = set_combine(sets.precast.WS.Acc, {
-        head="Hashishin Kavuk +2",
+        head={ name="Gleti's Mask", augments={'Path: A',}}, -- LINKTRI MODIFICATION: full Gleti's crit set
         ear1="Mache Earring +1",
         ear2="Odr Earring",
-        body="Adhemar Jacket +1",
-        hands="Adhemar Wrist. +1",
+        body={ name="Gleti's Cuirass", augments={'Path: A',}},
+        hands={ name="Gleti's Gauntlets", augments={'Path: A',}},
         ring2="Begrudging Ring",
         back=gear.crit_jse_back,
         waist="Reiki Yotai",
@@ -294,8 +297,8 @@ sets.weapons.Naegmace = {
     })
 
     sets.precast.WS["Savage Blade"] = set_combine(sets.precast.WS, {
-        ammo="Aurgelmir Orb +1",
-        head="Hashishin Kavuk +2",
+        ammo="Oshasha's Treatise", -- LINKTRI MODIFICATION: single-hit-style WS damage ammo
+        head="Hashishin Kavuk +3",
         neck="Mirage Stole +2",
         ear1="Moonshade Earring",
         ear2="Ishvara Earring",
@@ -310,7 +313,7 @@ sets.weapons.Naegmace = {
     })
 
     sets.precast.WS["Savage Blade"].Acc = set_combine(sets.precast.WS.Acc, {
-        head="Hashishin Kavuk +2",
+        head="Hashishin Kavuk +3",
         neck="Mirage Stole +2",
         ear1="Moonshade Earring",
         ear2="Ishvara Earring",
@@ -330,7 +333,7 @@ sets.weapons.Naegmace = {
 
     sets.precast.WS["Sanguine Blade"] = {
         ammo="Ghastly Tathlum +1",
-        head="Hashishin Kavuk +2",
+        head="Hashishin Kavuk +3",
         neck="Sibyl Scarf",
         ear1="Regal Earring",
         ear2="Friomisi Earring",
@@ -341,7 +344,7 @@ sets.weapons.Naegmace = {
         back=gear.nuke_jse_back,
         waist="Orpheus's Sash",
         legs={ name="Luhlaza Shalwar +1", augments={'Enhances "Assimilation" effect',}},
-        feet="Hashi. Basmak +2"
+        feet="Hashi. Basmak +3"
     }
 
     sets.precast.WS["Red Lotus Blade"] = set_combine(sets.precast.WS["Sanguine Blade"], {
@@ -378,34 +381,34 @@ sets.weapons.Naegmace = {
     -- Physical Blue Magic
     sets.midcast['Blue Magic'].Physical = {
         ammo="Aurgelmir Orb +1",
-        head="Hashishin Kavuk +2",
+        head="Hashishin Kavuk +3",
         neck="Mirage Stole +2",
         ear1="Cessance Earring",
         ear2="Brutal Earring",
-        body="Hashishin Mintan +2",
-        hands="Hashi. Bazu. +2",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
         ring1="Epona's Ring",
         ring2="Ilabrat Ring",
         back=gear.da_jse_back,
         waist="Kentarch Belt +1",
-        legs="Hashishin Tayt +2",
-        feet="Hashi. Basmak +2"
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3"
     }
 
     sets.midcast['Blue Magic'].PhysicalAcc = {
         ammo="Falcon Eye",
-        head="Hashishin Kavuk +2",
+        head="Hashishin Kavuk +3",
         neck="Mirage Stole +2",
         ear1="Mache Earring +1",
-        ear2="Telos Earring",
-        body="Hashishin Mintan +2",
-        hands="Hashi. Bazu. +2",
-        ring1="Stikini Ring +1",
+        ear2="Hashi. Earring +1", -- LINKTRI MODIFICATION: BLU Sortie earring
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        ring1="Stikini Ring",
         ring2="Ilabrat Ring",
         back=gear.da_jse_back,
         waist="Kentarch Belt +1",
-        legs="Hashishin Tayt +2",
-        feet="Hashi. Basmak +2"
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3"
     }
 
     sets.midcast['Blue Magic'].PhysicalStr = set_combine(sets.midcast['Blue Magic'].Physical, {})
@@ -427,34 +430,34 @@ sets.weapons.Naegmace = {
     -- Magical Blue Magic
     sets.midcast['Blue Magic'].Magical = {
         ammo="Ghastly Tathlum +1",
-        head="Jhakri Coronal +2",
+        head="Hashishin Kavuk +3",
         neck="Sibyl Scarf",
         ear1="Regal Earring",
         ear2="Friomisi Earring",
-        body="Jhakri Robe +2",
-        hands="Jhakri Cuffs +2",
-        ring1="Stikini Ring +1",
-        ring2="Stikini Ring +1",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        ring1="Stikini Ring",
+        ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
-        legs="Jhakri Slops +2",
-        feet="Jhakri Pigaches +2"
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3"
     }
 
     sets.midcast['Blue Magic'].Magical.Resistant = {
-        ammo="Ghastly Tathlum +1",
-        head="Jhakri Coronal +2",
+        ammo="Pemphredo Tathlum",
+        head="Hashishin Kavuk +3",
         neck="Mirage Stole +2",
         ear1="Regal Earring",
         ear2="Digni. Earring",
-        body="Jhakri Robe +2",
-        hands="Jhakri Cuffs +2",
-        ring1="Stikini Ring +1",
-        ring2="Stikini Ring +1",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        ring1="Stikini Ring",
+        ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
-        legs="Jhakri Slops +2",
-        feet="Jhakri Pigaches +2"
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3"
     }
 
     sets.midcast['Blue Magic'].MagicalMnd = set_combine(sets.midcast['Blue Magic'].Magical, {})
@@ -466,36 +469,36 @@ sets.weapons.Naegmace = {
     sets.midcast['Blue Magic'].MagicalDex = set_combine(sets.midcast['Blue Magic'].Magical, {})
 
     sets.midcast['Blue Magic'].MagicAccuracy = {
-        ammo="Ghastly Tathlum +1",
-        head="Jhakri Coronal +2",
+        ammo="Pemphredo Tathlum",
+        head="Hashishin Kavuk +3",
         neck="Mirage Stole +2",
         ear1="Regal Earring",
         ear2="Digni. Earring",
-        body="Jhakri Robe +2",
-        hands="Jhakri Cuffs +2",
-        ring1="Stikini Ring +1",
-        ring2="Stikini Ring +1",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        ring1="Stikini Ring",
+        ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
-        legs="Jhakri Slops +2",
-        feet="Jhakri Pigaches +2"
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3"
     }
 
     -- Breath Spells
     sets.midcast['Blue Magic'].Breath = {
         ammo="Staunch Tathlum +1",
-        head="Jhakri Coronal +2",
+        head="Hashishin Kavuk +3",
         neck="Mirage Stole +2",
         ear1="Etiolation Earring",
         ear2="Sanare Earring",
-        body="Jhakri Robe +2",
-        hands="Jhakri Cuffs +2",
-        ring1="Stikini Ring +1",
-        ring2="Stikini Ring +1",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        ring1="Stikini Ring",
+        ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
-        legs="Jhakri Slops +2",
-        feet="Jhakri Pigaches +2"
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3"
     }
 
     -- Buff Blue Magic
@@ -511,7 +514,7 @@ sets.weapons.Naegmace = {
         ring2="Lebeche Ring",
         back="Perimede Cape",
         waist="Witful Belt",
-        legs="Hashishin Tayt +2",
+        legs="Hashishin Tayt +3",
         feet="Carmine Greaves +1"
     }
 
@@ -524,7 +527,7 @@ sets.weapons.Naegmace = {
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
         ring1={ name="Metamor. Ring +1", augments={'Path: A',}},
-        ring2="Stikini Ring +1",
+        ring2="Stikini Ring",
         back="Solemnity Cape",
         waist="Gishdubar Sash",
         legs="Jhakri Slops +2",
@@ -549,7 +552,7 @@ sets.weapons.Naegmace = {
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
         ring1={ name="Metamor. Ring +1", augments={'Path: A',}},
-        ring2="Stikini Ring +1",
+        ring2="Stikini Ring",
         back="Solemnity Cape",
         waist="Gishdubar Sash",
         legs="Jhakri Slops +2",
@@ -610,8 +613,8 @@ sets.weapons.Naegmace = {
         ear2="Digni. Earring",
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
-        ring1="Stikini Ring +1",
-        ring2="Stikini Ring +1",
+        ring1="Stikini Ring",
+        ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
         legs="Jhakri Slops +2",
@@ -626,8 +629,8 @@ sets.weapons.Naegmace = {
         ear2="Digni. Earring",
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
-        ring1="Stikini Ring +1",
-        ring2="Stikini Ring +1",
+        ring1="Stikini Ring",
+        ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
         legs="Jhakri Slops +2",
@@ -642,8 +645,8 @@ sets.weapons.Naegmace = {
         ear2="Digni. Earring",
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
-        ring1="Stikini Ring +1",
-        ring2="Stikini Ring +1",
+        ring1="Stikini Ring",
+        ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
         legs="Jhakri Slops +2",
@@ -658,8 +661,8 @@ sets.weapons.Naegmace = {
         ear2="Digni. Earring",
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
-        ring1="Stikini Ring +1",
-        ring2="Stikini Ring +1",
+        ring1="Stikini Ring",
+        ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
         legs="Jhakri Slops +2",
@@ -683,8 +686,8 @@ sets.weapons.Naegmace = {
         ear2="Friomisi Earring",
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
-        ring1="Stikini Ring +1",
-        ring2="Stikini Ring +1",
+        ring1="Stikini Ring",
+        ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
         legs="Jhakri Slops +2",
@@ -699,8 +702,8 @@ sets.weapons.Naegmace = {
         ear2="Digni. Earring",
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
-        ring1="Stikini Ring +1",
-        ring2="Stikini Ring +1",
+        ring1="Stikini Ring",
+        ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
         legs="Jhakri Slops +2",
@@ -717,7 +720,7 @@ sets.weapons.Naegmace = {
         body="Jhakri Robe +2",
         hands="Malignance Gloves",
         ring1={ name="Murky Ring", augments={'Path: A',}},
-        ring2="Stikini Ring +1",
+        ring2="Stikini Ring",
         back="Solemnity Cape",
         waist="Fucho-no-Obi",
         legs="Carmine Cuisses +1",
@@ -733,7 +736,7 @@ sets.weapons.Naegmace = {
         body="Malignance Tabard",
         hands="Malignance Gloves",
         ring1={ name="Murky Ring", augments={'Path: A',}},
-        ring2="Stikini Ring +1",
+        ring2="Stikini Ring",
         back="Solemnity Cape",
         waist="Fucho-no-Obi",
         legs="Malignance Tights",
@@ -742,6 +745,28 @@ sets.weapons.Naegmace = {
 
     sets.idle.Sphere = set_combine(sets.idle, {
         body="Mekosu. Harness"
+    })
+
+    -- LINKTRI MODIFICATION: fills the pre-existing 'DTHippo' IdleMode option, which was in
+    -- state.IdleMode:options() but had no matching set (silently fell back to base idle).
+    -- Slot-by-slot best-in-owned-gear for combined physical+magic survival, per confirmed stats:
+    --   head/hands/legs/feet = Gleti's (Mask/Gauntlets/Breeches/Boots): -6/-7/-8/-5% Physical
+    --     dmg taken, MDB+13/12/14/13, Regain+2/2/3/2, plus matching Physical dmg LIMIT (caps
+    --     any single hit) that neither Malignance nor Adamantite carry.
+    --   body = Adamantite Armor (All Jobs): -20% Damage Taken (covers magic too, unlike Gleti's
+    --     Cuirass's Physical-only -9%), MDB+20, HP+182, MP+118 -- the one slot where Adamantite
+    --     beats its Gleti's equivalent outright, and the only MP in this set (Gleti's has none).
+    --   ear1 = Alabaster Earring: DT-5%, HP+100 (Haste/Store TP do nothing while idle, so the
+    --     flat DT/HP is the better trade over Etiolation here).
+    -- Combined: ~46% stacked DT (26% Physical from the four Gleti's pieces + Adamantite's 20%
+    -- general), MDB+72, HP+454, MP+118, Regain+9, -26% physical damage limit.
+    sets.idle.DTHippo = set_combine(sets.idle.PDT, {
+        ear1={ name="Alabaster Earring", augments={'Path: A',}},
+        head={ name="Gleti's Mask", augments={'Path: A',}},
+        body="Adamantite Armor",
+        hands={ name="Gleti's Gauntlets", augments={'Path: A',}},
+        legs={ name="Gleti's Breeches", augments={'Path: A',}},
+        feet={ name="Gleti's Boots", augments={'Path: A',}}
     })
 
     -- Resting sets
@@ -754,7 +779,7 @@ sets.weapons.Naegmace = {
         body="Jhakri Robe +2",
         hands="Malignance Gloves",
         ring1={ name="Murky Ring", augments={'Path: A',}},
-        ring2="Stikini Ring +1",
+        ring2="Stikini Ring",
         back="Solemnity Cape",
         waist="Fucho-no-Obi",
         legs="Carmine Cuisses +1",
@@ -815,7 +840,24 @@ sets.weapons.Naegmace = {
     -- Variations for TP build
     sets.engaged = {
         ammo="Aurgelmir Orb +1",
-        head="Hashishin Kavuk +2",
+        head={ name="Gleti's Mask", augments={'Path: A',}}, -- LINKTRI MODIFICATION: full Gleti's balanced TP base
+        neck="Mirage Stole +2",
+        ear1="Cessance Earring",
+        ear2="Brutal Earring",
+        body={ name="Gleti's Cuirass", augments={'Path: A',}},
+        hands={ name="Gleti's Gauntlets", augments={'Path: A',}},
+        ring1="Petrov Ring",
+        ring2="Epona's Ring",
+        back=gear.stp_jse_back,
+        waist={ name="Sailfi Belt +1", augments={'Path: A',}},
+        legs={ name="Gleti's Breeches", augments={'Path: A',}},
+        feet={ name="Gleti's Boots", augments={'Path: A',}}
+    }
+
+    -- LINKTRI MODIFICATION: pure-offense Adhemar TP variant (OffenseMode Fodder / overpowered content)
+    sets.engaged.Fodder = {
+        ammo="Aurgelmir Orb +1",
+        head="Hashishin Kavuk +3",
         neck="Mirage Stole +2",
         ear1="Cessance Earring",
         ear2="Brutal Earring",
@@ -831,7 +873,7 @@ sets.weapons.Naegmace = {
 
     sets.engaged.Acc = {
         ammo="Falcon Eye",
-        head="Hashishin Kavuk +2",
+        head="Hashishin Kavuk +3",
         neck="Mirage Stole +2",
         ear1="Cessance Earring",
         ear2="Telos Earring",
@@ -853,8 +895,8 @@ sets.weapons.Naegmace = {
         ear2="Telos Earring",
         body="Assim. Jubbah +2",
         hands="Assim. Bazu. +2",
-        ring1="Stikini Ring +1",
-        ring2="Stikini Ring +1",
+        ring1="Stikini Ring",
+        ring2="Stikini Ring",
         back=gear.stp_jse_back,
         waist="Olseni Belt",
         legs="Carmine Cuisses +1",
@@ -895,11 +937,11 @@ sets.weapons.Naegmace = {
 
     -- Special sets
 
-    sets.buff['Burst Affinity'] = {legs="Assim. Shalwar +2", feet="Hashi. Basmak +2"}
+    sets.buff['Burst Affinity'] = {legs="Assim. Shalwar +2", feet="Hashi. Basmak +3"}
     sets.buff['Chain Affinity'] = {feet="Assim. Charuqs +1"}
     sets.buff.Convergence = {head="Luh. Keffiyeh +1"}
     sets.buff.Diffusion = {feet="Luhlaza Charuqs +1"}
-    sets.buff.Efflux = {back=gear.stp_jse_back, legs="Hashishin Tayt +2"}
+    sets.buff.Efflux = {back=gear.stp_jse_back, legs="Hashishin Tayt +3"}
 
     -- Learning Mode set
     sets.Learning = {hands="Assim. Bazu. +2"}
@@ -953,14 +995,79 @@ sets.packing = {
     body="Nyame Mail",
     hands={ name="Nyame Gauntlets", augments={'Path: B'} },
     ring1={ name="Murky Ring", augments={'Path: A',}},
-    ring2="Stikini Ring +1",
+    ring2="Stikini Ring",
     back="Umbra Cape",
     waist="Fucho-no-Obi",
     legs={ name="Nyame Flanchard", augments={'Path: B'} },
     feet={ name="Nyame Sollerets", augments={'Path: B'} }
 }
+    -- LINKTRI MODIFICATION: Bunzi's Rod (R30) + Culminus nuke/magic-burst loadout,
+    -- auto-equipped by job_post_midcast() below only while state.Weapons == 'None'
+    sets.BunziNuke = {
+        main={ name="Bunzi's Rod", augments={'DMG:+11','"Mag.Atk.Bns."+30','Accuracy+15 Mag. Acc.+15','Enmity-5',}},
+        sub="Culminus"
+    }
+
     sets.Kiting = {ring1="Shneddick Ring +1"}
 end
+
+-- LINKTRI MODIFICATION: Blue Magic spellMaps that should use the Bunzi's Rod / Culminus
+-- nuke loadout (magical-damage and magic-accuracy spells only -- NOT Physical spells,
+-- which rely on the equipped weapon's own accuracy/DMG and would be hurt by a club swap).
+-- LINKTRI MODIFICATION: Orpheus's Sash / Hachirin-no-Obi elemental affinity overlay.
+-- Orpheus's Sash affinity: +15 at <=1.93 yalms, tapering to +1 at >=13 yalms (1.01x-1.15x magic dmg).
+-- Hachirin-no-Obi: +10 day match, +10 single weather, +25 double weather (stacks with day).
+-- Reused from the live-validated BLM implementation (same tuning constants).
+local ORPHEUS_MIN_DIST = 1.93   -- distance at which Orpheus gives its max +15
+local ORPHEUS_MAX_DIST = 13.0   -- distance beyond which Orpheus gives only +1
+local ORPHEUS_MIN_WORTH = 2     -- below this affinity, leave the set's own waist alone
+
+local function nuke_waist_bonus(spell)
+    -- Returns the best waist for this cast based on day/weather/distance, or nil to
+    -- leave the set's default waist (e.g. Sailfi Belt +1) untouched.
+    local el = spell.element
+    if not el or el == 'None' then return nil end
+
+    -- Hachirin side: day + weather bonuses
+    local obi = 0
+    if world.day_element == el then obi = obi + 10 end
+    if world.weather_element == el then
+        local intensity = 1
+        if world.weather_id and gearswap and gearswap.res and gearswap.res.weather
+                and gearswap.res.weather[world.weather_id] then
+            intensity = gearswap.res.weather[world.weather_id].intensity or 1
+        end
+        obi = obi + (intensity == 2 and 25 or 10)
+    end
+
+    -- Orpheus side: distance-scaled affinity
+    local dist = (spell.target and spell.target.distance) or 21
+    local aff
+    if dist <= ORPHEUS_MIN_DIST then
+        aff = 15
+    elseif dist >= ORPHEUS_MAX_DIST then
+        aff = 1
+    else
+        aff = math.floor(15 - ((dist - ORPHEUS_MIN_DIST) * (14 / (ORPHEUS_MAX_DIST - ORPHEUS_MIN_DIST))))
+    end
+
+    if obi >= aff and obi > 0 then
+        return "Hachirin-no-Obi"
+    elseif aff >= ORPHEUS_MIN_WORTH then
+        return "Orpheus's Sash"
+    end
+    return nil
+end
+
+-- Confirmed via BG-Wiki's Elemental Weapon Skill category: these are the only WS in this
+-- file that actually gain from Affinity. Requiescat is light-flagged for resistance only
+-- and is NOT in that category, so it's deliberately excluded here.
+blu_elemental_ws = S{'Flash Nova','Red Lotus Blade','Sanguine Blade','Seraph Blade'}
+
+blu_nuke_spellmaps = S{
+    'Magical','MagicalMnd','MagicalChr','MagicalVit','MagicalDex','MagicalAgi',
+    'MagicAccuracy','Breath'
+}
 
 -- Function to customize idle sets based on current modes and conditions
 function job_customize_idle_set(idleSet)
@@ -981,8 +1088,106 @@ function job_customize_idle_set(idleSet)
             near_porter = false
         end
     end
-    
+
+    -- LINKTRI FIX (Jul 2026): this function previously returned idleSet unchanged outside
+    -- Porter Moogle range, silently never applying custom IdleMode variants (Sphere, PDT,
+    -- DTHippo). Confirmed live via //gs equipset: selecting DTHippo equipped plain sets.idle
+    -- (Jhakri Robe +2 body) instead of sets.idle.DTHippo (Adamantite Armor body). This combines
+    -- the matching sets.idle[ModeName] override on top whenever one exists.
+    if state.IdleMode.value ~= 'Normal' and sets.idle[state.IdleMode.value] then
+        idleSet = set_combine(idleSet, sets.idle[state.IdleMode.value])
+    end
+
     return idleSet
+end
+
+-- LINKTRI MODIFICATION: job_post_precast override.
+-- Reproduces BLU.lua's original job_post_precast in full (Moonshade Earring TP-cap swap,
+-- LearningMode gear), with one addition: confirmed elemental weaponskills get the same
+-- Orpheus's Sash / Hachirin-no-Obi distance overlay used for magical nukes above.
+function job_post_precast(spell, spellMap, eventArgs)
+
+    if spell.type == 'WeaponSkill' then
+        local WSset = standardize_set(get_precast_set(spell, spellMap))
+        local wsacc = check_ws_acc()
+
+        if (WSset.ear1 == "Moonshade Earring" or WSset.ear2 == "Moonshade Earring") then
+            -- Replace Moonshade Earring if we're at cap TP
+            if get_effective_player_tp(spell, WSset) > 3200 then
+                if wsacc:contains('Acc') and not buffactive['Sneak Attack'] and sets.AccMaxTP then
+                    equip(sets.AccMaxTP[spell.english] or sets.AccMaxTP)
+                elseif sets.MaxTP then
+                    equip(sets.MaxTP[spell.english] or sets.MaxTP)
+                else
+                end
+            end
+        end
+
+        -- LINKTRI MODIFICATION: Orpheus's Sash / Hachirin-no-Obi elemental affinity overlay
+        if blu_elemental_ws:contains(spell.english) then
+            local waist_bonus = nuke_waist_bonus(spell)
+            if waist_bonus then
+                equip({waist=waist_bonus})
+            end
+        end
+
+    end
+
+    -- If in learning mode, keep on gear intended to help with that, regardless of action.
+    if state.LearningMode.value then
+        equip(sets.Learning)
+    end
+end
+
+-- LINKTRI MODIFICATION: job_post_midcast override.
+-- This fully replaces BLU.lua's job_post_midcast (GearSwap does not chain same-named
+-- job functions -- the last-loaded definition wins). Every line of the original function
+-- is reproduced below unchanged, with one addition: while state.Weapons == 'None', magical
+-- Blue Magic spells equip sets.BunziNuke (Bunzi's Rod R30 + Culminus) for MAB/Magic Damage/
+-- Magic Accuracy. Physical Blue Magic spells are untouched, so meleeing/TP weapon sets are safe.
+function job_post_midcast(spell, spellMap, eventArgs)
+    -- Add enhancement gear for Chain Affinity, etc.
+    if not eventArgs.handled and spell.skill == 'Blue Magic' then
+        if spellMap == 'Healing' then
+            if (state.Weapons.value == 'None' or state.UnlockWeapons.value) and sets.midcast['Blue Magic'].UnlockedHealing then
+                equip(sets.midcast['Blue Magic'].UnlockedHealing)
+            end
+
+            if spell.target.type == 'SELF' then
+                if aoe_blue_magic_healing:contains(spell.english) then
+                    if (state.Weapons.value == 'None' or state.UnlockWeapons.value) and sets.midcast['Blue Magic'].UnlockedAoEHealing then
+                        equip(sets.midcast['Blue Magic'].UnlockedAoEHealing)
+                    elseif sets.midcast['Blue Magic'].AoEHealing then
+                        equip(sets.midcast['Blue Magic'].AoEHealing)
+                    end
+                elseif sets.Self_Healing then
+                    equip(sets.Self_Healing)
+                end
+            end
+        end
+
+        for buff,active in pairs(state.Buff) do
+            if active and sets.buff[buff] then
+                equip(sets.buff[buff])
+            end
+        end
+
+        -- LINKTRI MODIFICATION: Bunzi's Rod + Culminus nuke swap (unweaponed / 'None' mode only)
+        if state.Weapons.value == 'None' and blu_nuke_spellmaps:contains(spellMap) then
+            equip(sets.BunziNuke)
+        end
+
+        -- LINKTRI MODIFICATION: Orpheus's Sash / Hachirin-no-Obi elemental affinity overlay
+        local waist_bonus = nuke_waist_bonus(spell)
+        if waist_bonus then
+            equip({waist=waist_bonus})
+        end
+    end
+
+    -- If in learning mode, keep on gear intended to help with that, regardless of action.
+    if state.LearningMode.value == true then
+        equip(sets.Learning)
+    end
 end
 
 -- Select default macro book on initial load or subjob change.

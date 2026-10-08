@@ -102,7 +102,7 @@ function init_gear_sets()
 
     sets.Enmity = {
         head  = {name = "Eschite Helm", augments = {"HP+80", "Enmity+7", "Phys. dmg. taken -4"}},
-        body  = "Pumm. Lorica +3",
+        body  = "Pumm. Lorica +4",
         hands = {name = "Eschite Gauntlets", augments = {"Accuracy+20", '"Dbl.Atk."+4', "Enmity+7"}},
         legs  = {name = "Eschite Cuisses", augments = {"HP+80", "Enmity+7", "Phys. dmg. taken -4"}},
         feet  = "Eschite Greaves",
@@ -116,29 +116,29 @@ function init_gear_sets()
     -- Precast sets to enhance JAs
     sets.precast.JA["Berserk"] = {
         back = gear.da_jse_back,
-        body = "Pumm. Lorica +3",
-        feet = "Agoge Calligae +3" -- Enhances "Berserk" effect duration (base +3 bonus, no augment needed)
+        body = "Pumm. Lorica +4",
+        feet = "Agoge Calligae +4" -- Enhances "Berserk" effect duration (base +3 bonus, no augment needed)
     }
-    sets.precast.JA["Warcry"] = {head = "Agoge Mask +3"}
+    sets.precast.JA["Warcry"] = {head = "Agoge Mask +4"}
     sets.precast.JA["Defender"] = {
-        hands = "Agoge Mufflers +3"
+        hands = "Agoge Mufflers +4"
     }
     sets.precast.JA["Aggressor"] = {
-        head = "Agoge Mask +3",
-        body = "Agoge Lorica +3"
+        head = "Agoge Mask +4",
+        body = "Agoge Lorica +4"
     }
     sets.precast.JA["Mighty Strikes"] = {
-        hands = "Agoge Mufflers +3"
+        hands = "Agoge Mufflers +4"
     }
     sets.precast.JA["Warrior's Charge"] = {
-        legs = "Agoge Cuisses +3"
+        legs = "Agoge Cuisses +4"
     }
     sets.precast.JA["Tomahawk"] = {
         ammo = "Throwing Tomahawk",
-        feet = "Agoge Calligae +3"
+        feet = "Agoge Calligae +4"
     }
     sets.precast.JA["Retaliation"] = {
-        hands = "Pumm. Mufflers +3"
+        hands = "Pumm. Mufflers +4"
     }
     sets.precast.JA["Restraint"] = {
         hands = "Boii Mufflers +3"
@@ -201,7 +201,7 @@ function init_gear_sets()
     --       It is used in ear2 of WS sets as a TP dump piece (swap out at 3000 TP via sets.MaxTP).
     sets.precast.WS = {
         ammo = "Knobkierrie",
-        head = "Agoge Mask +3",
+        head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
         ear1 = "Ishvara Earring",
         ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
@@ -225,7 +225,7 @@ function init_gear_sets()
     -- (Naegling + Ternion Dagger +1) builds -- weapon swap handled in sets.weapons, not here.
     sets.precast.WS["Savage Blade"] = {
         ammo = "Knobkierrie",
-        head = "Agoge Mask +3",
+        head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
         ear1 = "Ishvara Earring",
         ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
@@ -242,7 +242,7 @@ function init_gear_sets()
     -- Upheaval - Meta great axe WS, VIT based
     sets.precast.WS["Upheaval"] = {
         ammo = "Knobkierrie",
-        head = "Agoge Mask +3",
+        head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
         ear1 = "Ishvara Earring",
         ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
@@ -259,12 +259,12 @@ function init_gear_sets()
     -- Resolution - Great sword WS, multi-hit
     sets.precast.WS["Resolution"] = {
         ammo = {name = "Coiste Bodhar", augments = {"Path: A"}},
-        head = {name = "Agoge Mask +3", augments = {'Enhances "Savagery" effect'}},
+        head = {name = "Agoge Mask +4", augments = {'Enhances "Savagery" effect'}},
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
         ear1 = "Brutal Earring",
         ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
-        body = "Agoge Lorica +3",
-        hands = "Agoge Mufflers +3",
+        body = "Agoge Lorica +4",
+        hands = "Agoge Mufflers +4",
         ring1 = "Ephramad's Ring",
         ring2 = "Beithir Ring",
         back = gear.da_jse_back,
@@ -276,12 +276,12 @@ function init_gear_sets()
     -- Decimation - Axe WS, multi-hit
     sets.precast.WS["Decimation"] = {
         ammo = {name = "Coiste Bodhar", augments = {"Path: A"}},
-        head = {name = "Agoge Mask +3", augments = {'Enhances "Savagery" effect'}},
+        head = {name = "Agoge Mask +4", augments = {'Enhances "Savagery" effect'}},
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
         ear1 = "Brutal Earring",
         ear2 = "Schere Earring",
-        body = "Agoge Lorica +3",
-        hands = "Agoge Mufflers +3",
+        body = "Agoge Lorica +4",
+        hands = "Agoge Mufflers +4",
         ring1 = "Ephramad's Ring",
         ring2 = "Beithir Ring",
         back = gear.da_jse_back,
@@ -315,7 +315,7 @@ function init_gear_sets()
     -- Stack both STR and MND equally. Nyame Mail Path B contributes MND alongside STR.
     sets.precast.WS["Judgment"] = {
         ammo = "Knobkierrie",
-        head = "Agoge Mask +3",
+        head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
         ear1 = "Ishvara Earring",
         ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
@@ -333,7 +333,7 @@ function init_gear_sets()
     -- Pure STR/WSD build. Mirrors Upheaval in structure; use on Shining One.
     sets.precast.WS["Impulse Drive"] = {
         ammo = "Knobkierrie",
-        head = "Agoge Mask +3",
+        head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
         ear1 = "Ishvara Earring",
         ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
@@ -380,7 +380,7 @@ function init_gear_sets()
         head = "Boii Mask +3",
         neck = "Null Loop",
         ear1 = {name = "Alabaster Earring", augments = {"Path: A"}},
-        ear2 = "Odnowa Earring",
+        ear2 = "Odnowa Earring +1",
         body = "Boii Lorica +3",
         hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
         ring1 = {name = "Murky Ring", augments = {"Path: A"}},
@@ -409,7 +409,7 @@ function init_gear_sets()
         head  = "Null Masque",
         neck  = "Null Loop",
         ear1  = "Cryptic Earring",
-        ear2  = "Odnowa Earring",
+        ear2  = "Odnowa Earring +1",
         body  = {name = "Sakpata's Plate", augments = {"Path: A"}},
         hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
         ring1 = {name = "Murky Ring", augments = {"Path: A"}},
@@ -426,7 +426,7 @@ function init_gear_sets()
         head = {name = "Nyame Helm", augments = {"Path: B"}},
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}},
         ear1 = {name = "Alabaster Earring", augments = {"Path: A"}},
-        ear2 = "Odnowa Earring",
+        ear2 = "Odnowa Earring +1",
         body = {name = "Sakpata's Plate", augments = {"Path: A"}},
         hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
         ring1 = "Defending Ring",
@@ -444,7 +444,7 @@ function init_gear_sets()
         head = {name = "Nyame Helm", augments = {"Path: B"}},
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}},
         ear1 = {name = "Alabaster Earring", augments = {"Path: A"}},
-        ear2 = "Odnowa Earring",
+        ear2 = "Odnowa Earring +1",
         body = {name = "Sakpata's Plate", augments = {"Path: A"}},
         hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
         ring1 = "Defending Ring",
@@ -470,7 +470,7 @@ function init_gear_sets()
         head = {name = "Nyame Helm", augments = {"Path: B"}},
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}},
         ear1 = {name = "Alabaster Earring", augments = {"Path: A"}},
-        ear2 = "Odnowa Earring",
+        ear2 = "Odnowa Earring +1",
         body = {name = "Sakpata's Plate", augments = {"Path: A"}},
         hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
         ring1 = "Defending Ring",
@@ -533,8 +533,8 @@ function init_gear_sets()
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
         waist = {name = "Sailfi Belt +1", augments = {"Path: A"}},
-        legs = "Pumm. Cuisses +3",
-        feet = "Pumm. Calligae +3"
+        legs = "Pumm. Cuisses +4",
+        feet = "Pumm. Calligae +4"
     }
 
     -- Hybrid sets for defensive TP

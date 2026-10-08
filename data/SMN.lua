@@ -742,10 +742,10 @@ function job_tick()
 end
 
 function check_favor()
-	if state.AutoFavor.value and pet.isvalid and not buffactive["Avatar's Favor"] and not (buffactive.amnesia or buffactive.impairment) then
+	if state.AutoFavor.value and pet.isvalid and player.main_job_level >= 55 and not buffactive["Avatar's Favor"] and not (buffactive.amnesia or buffactive.impairment) then
 		local abil_recasts = windower.ffxi.get_ability_recasts()
 
-		if abil_recasts[176] < latency then
+		if (abil_recasts[176] or 0) < latency then
 			windower.chat.input('/pet "Avatar\'s Favor" <me>')
 			add_tick_delay()
 			return true

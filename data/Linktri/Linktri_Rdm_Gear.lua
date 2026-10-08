@@ -28,6 +28,8 @@ register_unhandled_command(function (...)
     return false
 end)
 
+near_porter = false
+
 -- Helper function to convert item name to ID
 function item_name_to_id(name)
     if not name or name == "empty" then return nil end
@@ -63,6 +65,7 @@ function user_job_setup()
     state.Weapons:options(
         "None",
         "Naegling",
+		"DualMpuGandring",
         "DualWeapons",
         "DualWeaponsAcc",
         "DualEvisceration",
@@ -123,7 +126,7 @@ function init_gear_sets()
     -- Precast Sets
 
     -- Precast sets to enhance JAs
-    sets.precast.JA["Chainspell"] = {body = "Viti. Tabard +3"}
+    sets.precast.JA["Chainspell"] = {body = "Viti. Tabard +1"}
 
     -- Waltz set (chr and vit)
     sets.precast.Waltz = {}
@@ -142,7 +145,7 @@ function init_gear_sets()
         neck = "Voltsurge Torque",
         ear1 = "Loquac. Earring",
         ear2 = "Malignance Earring",
-        body = "Viti. Tabard +3",
+        body = "Viti. Tabard +1",
         hands = "Gende. Gages +1",
         ring1 = "Kishar Ring",
         ring2 = "Lebeche Ring",
@@ -160,7 +163,7 @@ function init_gear_sets()
     sets.precast.WS = {
         range = empty,
         ammo = "Voluspa Tathlum",
-        head = "Viti. Chapeau +3",
+        head = "Viti. Chapeau +1",
         neck = "Asperity Necklace",
         ear1 = "Cessance Earring",
         ear2 = "Sherida Earring",
@@ -403,7 +406,7 @@ function init_gear_sets()
         neck = "Debilis Medallion",
         ear1 = "Meili Earring",
         ear2 = "Mendi. Earring",
-        body = "Viti. Tabard +3",
+        body = "Viti. Tabard +1",
         hands = "Hieros Mittens",
         ring1 = "Haoma's Ring",
         ring2 = "Menelaus's Ring",
@@ -448,16 +451,16 @@ function init_gear_sets()
         back = { name="Ghostfyre Cape", augments={'Enfb.mag. skill +3','Enha.mag. skill +2','Enh. Mag. eff. dur. +17',}},
         waist = "Embla Sash",
         legs = { name="Telchine Braconi", augments={'Mag. Acc.+15','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
-        feet = "Leth. Houseaux +2"
+        feet = "Leth. Houseaux +3"
     }
 
     --Atrophy Gloves are better than Lethargy for me despite the set bonus for duration on others.
     sets.buff.ComposureOther = {
-        head = "Leth. Chappel +2",
-        body = "Lethargy Sayon +2",
-        hands = "Leth. Ganth. +2",
-        legs = "Leth. Fuseau +2",
-        feet = "Leth. Houseaux +2"
+        head = "Leth. Chappel +3",
+        body = "Lethargy Sayon +3",
+        hands = "Leth. Ganth. +3",
+        legs = "Leth. Fuseau +3",
+        feet = "Leth. Houseaux +3"
     }
 
     --Red Mage enhancing sets are handled in a different way from most, layered on due to the way Composure works
@@ -467,12 +470,12 @@ function init_gear_sets()
         head = "Befouled Crown",
         neck = "Incanter's Torque",
         ear2 = "Mimir Earring",
-        hands = "Viti. Gloves +3",
+        hands = "Viti. Gloves +1",
         back = { name="Ghostfyre Cape", augments={'Enfb.mag. skill +3','Enha.mag. skill +2','Enh. Mag. eff. dur. +17',}},
         waist = "Olympus Sash",
         legs = "Atrophy Tights +3"
     }
-    sets.midcast.Refresh = {head = "Amalric Coif +1", body = "Atrophy Tabard +3", legs = "Leth. Fuseau +2"}
+    sets.midcast.Refresh = {head = "Amalric Coif +1", body = "Atrophy Tabard +3", legs = "Leth. Fuseau +3"}
     sets.midcast.Aquaveil = {
         head = "Amalric Coif +1",
         hands = "Regal Cuffs",
@@ -484,7 +487,7 @@ function init_gear_sets()
     sets.midcast.Temper.DW = set_combine(sets.midcast.Temper, {sub = "Pukulatmuj"})
     sets.midcast.Enspell = sets.midcast.Temper
     sets.midcast.Enspell.DW = set_combine(sets.midcast.Enspell, {sub = "Pukulatmuj"})
-    sets.midcast.BoostStat = {hands = "Viti. Gloves +3"}
+    sets.midcast.BoostStat = {hands = "Viti. Gloves +1"}
     sets.midcast.Stoneskin = {
         neck = "Nodens Gorget",
         ear2 = "Earthcry Earring",
@@ -499,18 +502,18 @@ function init_gear_sets()
         sub = "Enki Strap",
         range = empty,
         ammo = "Regal Gem",
-        head = "Viti. Chapeau +3",
+        head = "Viti. Chapeau +1",
         neck = "Dls. Torque +2",
         ear1 = "Malignance Earring",
         ear2 = "Snotra Earring",
-        body = "Lethargy Sayon +2",
+        body = "Lethargy Sayon +3",
         hands = "Regal Gloves",
         ring1 = "Kishar Ring",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
         waist = "Obstin. Sash",
         legs = "Chironic Hose",
-        feet = "Vitiation Boots +3"
+        feet = "Vitiation Boots +1"
     }
 
     sets.midcast["Enfeebling Magic"].Resistant = {
@@ -518,7 +521,7 @@ function init_gear_sets()
         sub = "Enki Strap",
         range = empty,
         ammo = "Regal Gem",
-        head = "Viti. Chapeau +3",
+        head = "Viti. Chapeau +1",
         neck = "Dls. Torque +2",
         ear1 = "Malignance Earring",
         ear2 = "Snotra Earring",
@@ -529,7 +532,7 @@ function init_gear_sets()
         back = gear.nuke_jse_back,
         waist = "Luminary Sash",
         legs = "Chironic Hose",
-        feet = "Vitiation Boots +3"
+        feet = "Vitiation Boots +1"
     }
 
     sets.midcast.DurationOnlyEnfeebling =
@@ -552,7 +555,7 @@ function init_gear_sets()
     sets.midcast.SkillBasedEnfeebling =
         set_combine(
         sets.midcast["Enfeebling Magic"],
-        {ear1 = "Vor Earring", hands = "Leth. Ganth. +2", ring1 = "Stikini Ring", legs = "Psycloth Lappas"}
+        {ear1 = "Vor Earring", hands = "Leth. Ganth. +3", ring1 = "Stikini Ring", legs = "Psycloth Lappas"}
     )
 
     sets.midcast["Frazzle II"] = sets.midcast["Enfeebling Magic"].Resistant
@@ -670,7 +673,7 @@ function init_gear_sets()
         ear1 = "Malignance Earring",
         ear2 = "Snotra Earring",
         body = "Twilight Cloak",
-        hands = "Leth. Ganth. +2",
+        hands = "Leth. Ganth. +3",
         ring1 = "Metamor. Ring +1",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
@@ -689,7 +692,7 @@ function init_gear_sets()
         ear1 = "Malignance Earring",
         ear2 = "Snotra Earring",
         body = "Atrophy Tabard +3",
-        hands = "Leth. Ganth. +2",
+        hands = "Leth. Ganth. +3",
         ring1 = "Metamor. Ring +1",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
@@ -759,7 +762,7 @@ function init_gear_sets()
 
     -- Sets for special buff conditions on spells.
 
-    sets.buff.Saboteur = {hands = "Leth. Ganth. +2"}
+    sets.buff.Saboteur = {hands = "Leth. Ganth. +3"}
 
     sets.HPDown = {
         head = "Pixie Hairpin +1",
@@ -783,7 +786,7 @@ function init_gear_sets()
         neck = "Unmoving Collar +1",
         ear1 = "Gifted Earring",
         ear2 = "Mendi. Earring",
-        body = "Viti. Tabard +3",
+        body = "Viti. Tabard +1",
         hands = "Kaykaus Cuffs",
         ring1 = "Gelatinous Ring +1",
         ring2 = "Meridian Ring",
@@ -803,7 +806,7 @@ function init_gear_sets()
         sub = "Oneiros Grip",
         range = empty,
         ammo = "Impatiens",
-        head = "Viti. Chapeau +3",
+        head = "Viti. Chapeau +1",
         neck = "Loricate Torque +1",
         ear1 = "Etiolation Earring",
         ear2 = "Ethereal Earring",
@@ -823,7 +826,7 @@ function init_gear_sets()
         sub = "Umbra Strap",
         range = empty,
         ammo = "Homiliary",
-        head = "Viti. Chapeau +3",
+        head = "Viti. Chapeau +1",
         neck = "Loricate Torque +1",
         ear1 = "Etiolation Earring",
         ear2 = { name="Alabaster Earring", augments={'Path: A',}},
@@ -875,12 +878,13 @@ function init_gear_sets()
         feet = "Malignance Boots"
     }
 
+
     sets.idle.Weak = {
         main = "Bolelabunga",
         sub = "Sacro Bulwark",
         range = empty,
         ammo = "Homiliary",
-        head = "Viti. Chapeau +3",
+        head = "Viti. Chapeau +1",
         neck = "Loricate Torque +1",
         ear1 = "Etiolation Earring",
         ear2 = { name="Alabaster Earring", augments={'Path: A',}},
@@ -896,6 +900,25 @@ function init_gear_sets()
 
     sets.idle.DTHippo =
         set_combine(sets.idle.PDT, {back = "Umbra Cape", legs = "Carmine Cuisses +1", feet = "Hippo. Socks +1"})
+
+    sets.packing = {
+        main  = "Mpaca's Staff",
+        sub   = "Umbra Strap",
+        range = empty,
+        ammo  = "Homiliary",
+        head  = "Nyame Helm",
+        neck  = "Loricate Torque +1",
+        ear1  = "Etiolation Earring",
+        ear2  = { name="Alabaster Earring", augments={'Path: A',}},
+        body  = "Nyame Mail",
+        hands = "Nyame Gauntlets",
+        ring1 = "Defending Ring",
+        ring2 = { name="Murky Ring", augments={'Path: A',}},
+        back  = "Umbra Cape",
+        waist = "Fucho-no-obi",
+        legs  = "Nyame Flanchard",
+        feet  = "Nyame Sollerets"
+    }
 
     -- Defense sets
     sets.defense.PDT = {
@@ -965,8 +988,9 @@ function init_gear_sets()
     sets.NightIdle = {}
 
     -- Weapons sets
-    sets.weapons.Naegling = {main = "Naegling", sub = "Sacro Bulwark", range = empty}
-    sets.weapons.DualWeapons = {main = "Naegling", sub = "Thibron", range = empty}
+    sets.weapons.Naegling = {main = "Naegling", sub = "Thibron", range = empty}
+	sets.weapons.DualMpuGandring = {main = "Mpu Gandring", sub = "Thibron", range = empty}
+    sets.weapons.DualWeapons = {main = "Vorpal Sword", sub = "Qutrub Knife", range = empty}
     sets.weapons.DualWeaponsAcc = {main = "Naegling", sub = "Almace", range = empty}
     sets.weapons.DualEvisceration = {main = "Tauret", sub = "Almace", range = empty}
     sets.weapons.DualAeolian = {main = "Tauret", sub = "Bunzi's Rod", range = empty}
@@ -999,7 +1023,7 @@ function init_gear_sets()
         head = "Malignance Chapeau",
         neck = "Anu Torque",
         ear1 = "Brutal Earring",
-        ear2 = { name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Dbl.Atk."+5',}},
+        ear2 = "Leth. Earring +1",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
@@ -1029,7 +1053,7 @@ function init_gear_sets()
         head = "Malignance Chapeau",
         neck = "Anu Torque",
         ear1 = "Telos Earring",
-        ear2 = { name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Dbl.Atk."+5',}},
+        ear2 = "Leth. Earring +1",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
@@ -1045,7 +1069,7 @@ function init_gear_sets()
         head = "Malignance Chapeau",
         neck = "Anu Torque",
         ear1 = "Telos Earring",
-        ear2 = { name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Dbl.Atk."+5',}},
+        ear2 = "Leth. Earring +1",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
@@ -1061,7 +1085,7 @@ function init_gear_sets()
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
         ear1 = "Telos Earring",
-        ear2 = { name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Dbl.Atk."+5',}},
+        ear2 = "Leth. Earring +1",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
@@ -1077,7 +1101,7 @@ function init_gear_sets()
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
         ear1 = "Telos Earring",
-        ear2 = { name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Dbl.Atk."+5',}},
+        ear2 = "Leth. Earring +1",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
@@ -1093,7 +1117,7 @@ function init_gear_sets()
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
         ear1 = "Telos Earring",
-        ear2 = { name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Dbl.Atk."+5',}},
+        ear2 = "Leth. Earring +1",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
@@ -1109,7 +1133,7 @@ function init_gear_sets()
         head = "Malignance Chapeau",
         neck = "Anu Torque",
         ear1 = "Suppanomimi",
-        ear2 = { name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Dbl.Atk."+5',}},
+        ear2 = "Leth. Earring +1",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
@@ -1125,7 +1149,7 @@ function init_gear_sets()
         head = "Malignance Chapeau",
         neck = "Anu Torque",
         ear1 = "Suppanomimi",
-        ear2 = { name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Dbl.Atk."+5',}},
+        ear2 = "Leth. Earring +1",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
@@ -1157,7 +1181,7 @@ function init_gear_sets()
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
         ear1 = "Suppanomimi",
-        ear2 = { name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Dbl.Atk."+5',}},
+        ear2 = "Leth. Earring +1",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
@@ -1173,7 +1197,7 @@ function init_gear_sets()
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
         ear1 = "Suppanomimi",
-        ear2 = { name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Dbl.Atk."+5',}},
+        ear2 = "Leth. Earring +1",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
@@ -1199,6 +1223,35 @@ function init_gear_sets()
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
+end
+
+function job_customize_idle_set(idleSet)
+    local currently_near_porter = near_porter_moogle()
+
+    if currently_near_porter then
+        if not near_porter then
+            windower.add_to_chat(160, "Near Porter Moogle - Using packing gear")
+            near_porter = true
+        end
+        return sets.packing
+    else
+        if near_porter then
+            windower.add_to_chat(160, "Left Porter Moogle area - Returning to normal gear")
+            near_porter = false
+        end
+    end
+
+    return idleSet
+end
+
+function near_porter_moogle()
+    local mobs = windower.ffxi.get_mob_array()
+    for i, mob in pairs(mobs) do
+        if mob.name == "Porter Moogle" and mob.distance and mob.distance < 36 then
+            return true
+        end
+    end
+    return false
 end
 
 -- Select default macro book on initial load or subjob change.
@@ -1316,6 +1369,7 @@ end
 
 autows_list = {
     ["Naegling"] = "Savage Blade",
+	["DualMpuGandring"] = "Ruthless Stroke",
     ["DualWeapons"] = "Savage Blade",
     ["DualWeaponsAcc"] = "Savage Blade",
     ["DualEvisceration"] = "Evisceration",

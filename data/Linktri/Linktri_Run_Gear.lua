@@ -28,6 +28,8 @@ register_unhandled_command(function (...)
     return false
 end)
 
+near_porter = false
+
 function user_job_setup()
     state.OffenseMode:options("Normal", "Acc", "FullAcc")
     state.HybridMode:options("Tank", "Tank_HP", "Normal", "DTLite")
@@ -132,12 +134,12 @@ function init_gear_sets()
     -- Item sets.
 
     -- Precast sets to enhance JAs
-    sets.precast.JA["Vallation"] = set_combine(sets.Enmity, {body = "Runeist's Coat +3", legs = "Futhark Trousers +1"})
+    sets.precast.JA["Vallation"] = set_combine(sets.Enmity, {body = "Runeist's Coat +1", legs = "Futhark Trousers +1"})
     sets.precast.JA["Valiance"] = sets.precast.JA["Vallation"]
-    sets.precast.JA["Pflug"] = set_combine(sets.Enmity, {feet = "Runeist's Boots +3"})
+    sets.precast.JA["Pflug"] = set_combine(sets.Enmity, {feet = "Runeist's Boots +1"})
     sets.precast.JA["Battuta"] = set_combine(sets.Enmity, {head = "Futhark Bandeau +1"})
     sets.precast.JA["Liement"] = set_combine(sets.Enmity, {body = "Futhark Coat +1"})
-    sets.precast.JA["Gambit"] = set_combine(sets.Enmity, {hands = "Runeist's Mitons +3"})
+    sets.precast.JA["Gambit"] = set_combine(sets.Enmity, {hands = "Runeist's Mitons +1"})
     sets.precast.JA["Rayke"] = set_combine(sets.Enmity, {feet = "Futhark Boots +1"})
     sets.precast.JA["Elemental Sforzo"] = set_combine(sets.Enmity, {body = "Futhark Coat +1"})
     sets.precast.JA["Swordplay"] = set_combine(sets.Enmity, {hands = "Futhark Mitons +1"})
@@ -152,12 +154,12 @@ function init_gear_sets()
     sets.precast.JA["Animated Flourish"] = set_combine(sets.Enmity, {})
 
     sets.precast.JA["Vallation"].DT =
-        set_combine(sets.Enmity.DT, {body = "Runeist's Coat +3", legs = "Futhark Trousers +1"})
+        set_combine(sets.Enmity.DT, {body = "Runeist's Coat +1", legs = "Futhark Trousers +1"})
     sets.precast.JA["Valiance"].DT = sets.precast.JA["Vallation"].DT
-    sets.precast.JA["Pflug"].DT = set_combine(sets.Enmity.DT, {feet = "Runeist's Boots +3"})
+    sets.precast.JA["Pflug"].DT = set_combine(sets.Enmity.DT, {feet = "Runeist's Boots +1"})
     sets.precast.JA["Battuta"].DT = set_combine(sets.Enmity.DT, {head = "Futhark Bandeau +1"})
     sets.precast.JA["Liement"].DT = set_combine(sets.Enmity.DT, {body = "Futhark Coat +1"})
-    sets.precast.JA["Gambit"].DT = set_combine(sets.Enmity.DT, {hands = "Runeist's Mitons +3"})
+    sets.precast.JA["Gambit"].DT = set_combine(sets.Enmity.DT, {hands = "Runeist's Mitons +1"})
     sets.precast.JA["Rayke"].DT = set_combine(sets.Enmity.DT, {feet = "Futhark Boots +1"})
     sets.precast.JA["Elemental Sforzo"].DT = set_combine(sets.Enmity.DT, {body = "Futhark Coat +1"})
     sets.precast.JA["Swordplay"].DT = set_combine(sets.Enmity.DT, {hands = "Futhark Mitons +1"})
@@ -194,7 +196,7 @@ function init_gear_sets()
 
     -- Pulse sets, different stats for different rune modes, stat aligned.
     sets.precast.JA["Vivacious Pulse"] = {
-        head = "Erilaz Galea +1",
+        head = "Erilaz Galea +3",
         neck = "Incanter's Torque",
         ring1 = "Stikini Ring +1",
         ring2 = "Stikini Ring +1",
@@ -260,7 +262,7 @@ function init_gear_sets()
         neck = "Unmoving Collar +1",
         ear1 = "Odnowa Earring +1",
         ear2 = "Tuisto Earring",
-        body = "Runeist's Coat +3",
+        body = "Runeist's Coat +1",
         hands = "Leyline Gloves",
         ring1 = "Gelatinous Ring +1",
         ring2 = "Moonlight Ring",
@@ -439,7 +441,7 @@ function init_gear_sets()
         sets.midcast.FastRecast,
         {
             main = "Pukulatmuj +1",
-            head = "Erilaz Galea +1",
+            head = "Erilaz Galea +3",
             neck = "Incanter's Torque",
             ear1 = "Andoaa Earring",
             ear2 = "Mimir Earring",
@@ -474,7 +476,7 @@ function init_gear_sets()
 
     sets.midcast["Regen"] =
         set_combine(sets.midcast["Enhancing Magic"], {head = "Rune. Bandeau +3", neck = "Sacro Gorget"})
-    sets.midcast["Refresh"] = set_combine(sets.midcast["Enhancing Magic"], {head = "Erilaz Galea +1"})
+    sets.midcast["Refresh"] = set_combine(sets.midcast["Enhancing Magic"], {head = "Erilaz Galea +3"})
     sets.midcast.Stoneskin =
         set_combine(sets.midcast["Enhancing Magic"], {ear2 = "Earthcry Earring", waist = "Siegel Sash"})
     sets.midcast.Flash = set_combine(sets.Enmity, {})
@@ -533,7 +535,7 @@ function init_gear_sets()
         neck = "Loricate Torque +1",
         ear1 = "Genmei Earring",
         ear2 = "Ethereal Earring",
-        body = "Runeist's Coat +3",
+        body = "Runeist's Coat +1",
         hands = "Regal Gauntlets",
         ring1 = "Stikini Ring +1",
         ring2 = "Stikini Ring +1",
@@ -588,9 +590,27 @@ function init_gear_sets()
     sets.DayIdle = {}
     sets.NightIdle = {}
 
+    sets.packing = {
+        main  = "Aettir",
+        sub   = "Utu Grip",
+        ammo  = "Homiliary",
+        head  = "Rawhide Mask",
+        neck  = "Loricate Torque +1",
+        ear1  = "Genmei Earring",
+        ear2  = "Ethereal Earring",
+        body  = "Nyame Mail",
+        hands = "Regal Gauntlets",
+        ring1 = "Defending Ring",
+        ring2 = "Moonlight Ring",
+        back  = "Moonlight Cape",
+        waist = "Fucho-no-obi",
+        legs  = "Rawhide Trousers",
+        feet  = "Nyame Sollerets"
+    }
+
     -- Extra defense sets.  Apply these on top of melee or defense sets.
     sets.Knockback = {}
-    sets.MP = {ear2 = "Ethereal Earring", body = "Erilaz Surcoat +1", waist = "Flume Belt +1"}
+    sets.MP = {ear2 = "Ethereal Earring", body = "Erilaz Surcoat +3", waist = "Flume Belt +1"}
     sets.TreasureHunter = set_combine(sets.TreasureHunter, {})
 
     -- Weapons sets
@@ -625,7 +645,7 @@ function init_gear_sets()
         neck = "Unmoving Collar +1",
         ear1 = "Odnowa Earring +1",
         ear2 = "Tuisto Earring",
-        body = "Runeist's Coat +3",
+        body = "Runeist's Coat +1",
         hands = "Nyame Gauntlets",
         ring1 = "Gelatinous Ring +1",
         ring2 = "Moonlight Ring",
@@ -862,6 +882,35 @@ function init_gear_sets()
     sets.buff.Sleep = {head = "Frenzy Sallet"}
     sets.buff.Battuta = {hands = "Turms Mittens +1"}
     sets.buff.Embolden = {back = "Evasionist's Cape"}
+end
+
+function job_customize_idle_set(idleSet)
+    local currently_near_porter = near_porter_moogle()
+
+    if currently_near_porter then
+        if not near_porter then
+            windower.add_to_chat(160, "Near Porter Moogle - Using packing gear")
+            near_porter = true
+        end
+        return sets.packing
+    else
+        if near_porter then
+            windower.add_to_chat(160, "Left Porter Moogle area - Returning to normal gear")
+            near_porter = false
+        end
+    end
+
+    return idleSet
+end
+
+function near_porter_moogle()
+    local mobs = windower.ffxi.get_mob_array()
+    for i, mob in pairs(mobs) do
+        if mob.name == "Porter Moogle" and mob.distance and mob.distance < 36 then
+            return true
+        end
+    end
+    return false
 end
 
 -- Select default macro book on initial load or subjob change.

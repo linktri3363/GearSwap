@@ -28,6 +28,8 @@ register_unhandled_command(function (...)
     return false
 end)
 
+near_porter = false
+
 -- Setup vars that are user-dependent.  Can override this function in a sidecar file.
 function user_job_setup()
     state.OffenseMode:options("Normal", "Acc")
@@ -116,7 +118,7 @@ function init_gear_sets()
 
     -- Precast sets to enhance JAs
 
-    sets.precast.JA["Triple Shot"] = {body = "Chasseur's Frac +2"}
+    sets.precast.JA["Triple Shot"] = {body = "Chasseur's Frac +3"}
     sets.precast.JA["Snake Eye"] = {legs = "Lanun Trews +1"}
     sets.precast.JA["Wild Card"] = {feet = "Lanun Bottes +3"}
     sets.precast.JA["Random Deal"] = {body = "Lanun Frac +3"}
@@ -130,7 +132,7 @@ function init_gear_sets()
         ear1 = "Etiolation Earring",
         ear2 = "Sanare Earring",
         body = "Lanun Frac +3",
-        hands = "Chasseur's Gants +2",
+        hands = "Chasseur's Gants +3",
         ring1 = "Defending Ring",
         ring2 = "Dark Ring",
         back = gear.tp_jse_back,
@@ -141,11 +143,11 @@ function init_gear_sets()
 
     sets.precast.LuzafRing = {ring2 = "Luzaf's Ring"}
 
-    sets.precast.CorsairRoll["Caster's Roll"] = set_combine(sets.precast.CorsairRoll, {legs = "Chas. Culottes +2"})
+    sets.precast.CorsairRoll["Caster's Roll"] = set_combine(sets.precast.CorsairRoll, {legs = "Chas. Culottes +3"})
     sets.precast.CorsairRoll["Courser's Roll"] = set_combine(sets.precast.CorsairRoll, {feet = "Chass. Bottes +2"})
-    sets.precast.CorsairRoll["Blitzer's Roll"] = set_combine(sets.precast.CorsairRoll, {head = "Chass. Tricorne +2"})
-    sets.precast.CorsairRoll["Tactician's Roll"] = set_combine(sets.precast.CorsairRoll, {body = "Chasseur's Frac +2"})
-    sets.precast.CorsairRoll["Allies' Roll"] = set_combine(sets.precast.CorsairRoll, {hands = "Chasseur's Gants +2"})
+    sets.precast.CorsairRoll["Blitzer's Roll"] = set_combine(sets.precast.CorsairRoll, {head = "Chass. Tricorne +3"})
+    sets.precast.CorsairRoll["Tactician's Roll"] = set_combine(sets.precast.CorsairRoll, {body = "Chasseur's Frac +3"})
+    sets.precast.CorsairRoll["Allies' Roll"] = set_combine(sets.precast.CorsairRoll, {hands = "Chasseur's Gants +3"})
 
     sets.precast.CorsairShot = {
         ammo = gear.QDbullet,
@@ -159,7 +161,7 @@ function init_gear_sets()
         ring2 = "Dingir Ring",
         back = gear.tp_ranger_jse_back,
         waist = "Goading Belt",
-        legs = "Chas. Culottes +2",
+        legs = "Chas. Culottes +3",
         feet = "Carmine Greaves +1"
     }
 
@@ -258,7 +260,7 @@ function init_gear_sets()
 
     sets.precast.RA = {
         ammo = gear.RAbullet,
-        head = "Chass. Tricorne +2",
+        head = "Chass. Tricorne +3",
         neck = "Comm. Charm +2",
         body = "Laksa. Frac +3",
         hands = "Carmine Fin. Ga. +1",
@@ -620,7 +622,7 @@ function init_gear_sets()
         feet = "Malignance Boots"
     }
 
-    sets.buff["Triple Shot"] = {body = "Chasseur's Frac +2"}
+    sets.buff["Triple Shot"] = {body = "Chasseur's Frac +3"}
 
     -- Sets to return to when not performing an action.
 
@@ -882,6 +884,51 @@ function init_gear_sets()
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
+
+    sets.packing = {
+        ammo  = gear.RAbullet,
+        head  = "Nyame Helm",
+        neck  = "Loricate Torque +1",
+        ear1  = "Etiolation Earring",
+        ear2  = "Sanare Earring",
+        body  = "Nyame Mail",
+        hands = "Nyame Gauntlets",
+        ring1 = "Defending Ring",
+        ring2 = "Shadow Ring",
+        back  = "Moonlight Cape",
+        waist = "Fucho-no-obi",
+        legs  = "Nyame Flanchard",
+        feet  = "Nyame Sollerets"
+    }
+end
+
+function job_customize_idle_set(idleSet)
+    local currently_near_porter = near_porter_moogle()
+
+    if currently_near_porter then
+        if not near_porter then
+            windower.add_to_chat(160, "Near Porter Moogle - Using packing gear")
+            near_porter = true
+        end
+        return sets.packing
+    else
+        if near_porter then
+            windower.add_to_chat(160, "Left Porter Moogle area - Returning to normal gear")
+            near_porter = false
+        end
+    end
+
+    return idleSet
+end
+
+function near_porter_moogle()
+    local mobs = windower.ffxi.get_mob_array()
+    for i, mob in pairs(mobs) do
+        if mob.name == "Porter Moogle" and mob.distance and mob.distance < 36 then
+            return true
+        end
+    end
+    return false
 end
 
 -- Select default macro book on initial load or subjob change.

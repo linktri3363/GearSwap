@@ -162,22 +162,19 @@ function init_gear_sets()
 
     -- Precast sets to enhance JAs
 
-    sets.precast.JA["Tabula Rasa"] = {legs = "Peda. Pants +1"}
-    sets.precast.JA["Enlightenment"] = {body="Peda. Gown +1"} --body="Peda. Gown +1"
-
-    -- Fast cast sets for spells
-    -- CORRECTED: Replaced Amalric Coif +1 with Agwu's Cap, Acad. Bracers +3 with Arbatel Bracers +2
+    sets.precast.JA["Tabula Rasa"] = {legs = "Peda. Pants +3"}
+    sets.precast.JA["Enlightenment"] = {body="Peda. Gown +3"} 
 
     sets.precast.FC = {
         main = gear.grioavolr_fc_staff,
         sub = "Clerisy Strap +1",
         ammo = "Impatiens",
-        head = "Agwu's Cap",  -- CORRECTED: Was Amalric Coif +1
+        head = "Agwu's Cap", 
         neck = "Voltsurge Torque",
         ear1 = "Malignance Earring",
 		ear2 = "Enchntr. Earring +1",
         body = "Zendik Robe",
-        hands = "Arbatel Bracers +2",  -- CORRECTED: Was Acad. Bracers +3
+        hands = "Arbatel Bracers +3",
         ring1 = "Kishar Ring",
         ring2 = "Lebeche Ring",
         back = "Perimede Cape",
@@ -205,7 +202,7 @@ function init_gear_sets()
     -- CORRECTED: Replaced missing items with inventory equivalents
     sets.precast.WS["Myrkr"] = {
         ammo = "Pemphredo Tathlum",  -- CORRECTED: Was Ghastly Tathlum +1
-        head = "Arbatel Bonnet +2",  -- CORRECTED: Was Pixie Hairpin +1 (keep if you have it for dark)
+        head = "Arbatel Bonnet +3",  -- CORRECTED: Was Pixie Hairpin +1 (keep if you have it for dark)
         neck = "Sanctity Necklace",
         ear1 = "Evans Earring",
         ear2 = "Etiolation Earring",
@@ -386,7 +383,7 @@ function init_gear_sets()
 
     sets.midcast.BarElement = set_combine(sets.precast.FC["Enhancing Magic"], {legs = "Shedir Seraweels"})
 
-    sets.midcast.Storm = set_combine(sets.midcast["Enhancing Magic"], {feet = "Peda. Loafers +1"})
+    sets.midcast.Storm = set_combine(sets.midcast["Enhancing Magic"], {feet = "Peda. Loafers +3"})
 
     sets.midcast.Protect = set_combine(sets.midcast["Enhancing Magic"], {ring2 = "Sheltered Ring"})
     sets.midcast.Protectra = sets.midcast.Protect
@@ -396,12 +393,12 @@ function init_gear_sets()
 
     -- Custom spell classes
 
-    -- CORRECTED: Replaced Acad. Mortar. +3 with Arbatel Bonnet +2, Regal Earring with Arbatel Earring +1
+    -- CORRECTED: Replaced Acad. Mortar. +4 with Arbatel Bonnet +3, Regal Earring with Arbatel Earring +1
     sets.midcast["Enfeebling Magic"] = {
         main = "Daybreak",
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
-        head = "Arbatel Bonnet +2",  -- CORRECTED: Was Acad. Mortar. +3
+        head = "Arbatel Bonnet +3",  -- CORRECTED: Was Acad. Mortar. +4
         neck = "Erra Pendant",
         ear1 = "Malignance Earring",
 		ear2 = "Arbatel Earring +1",  -- CORRECTED: Was Regal Earring
@@ -415,17 +412,17 @@ function init_gear_sets()
         feet = "Uk'uxkaj Boots"
     }
 
-    -- CORRECTED: Replaced Acad. Mortar. +3, Regal Earring, Acad. Bracers +3
+    -- CORRECTED: Replaced Acad. Mortar. +4, Regal Earring, Acad. Bracers +3
     sets.midcast["Enfeebling Magic"].Resistant = {
         main = "Daybreak",
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
-        head = "Arbatel Bonnet +2",  -- CORRECTED: Was Acad. Mortar. +3
+        head = "Arbatel Bonnet +3",  -- CORRECTED: Was Acad. Mortar. +4
         neck = "Erra Pendant",
         ear1 = "Digni. Earring",
 		ear2 = "Arbatel Earring +1",  -- CORRECTED: Was Regal Earring
         body = "Chironic Doublet",
-        hands = "Arbatel Bracers +2",  -- CORRECTED: Was Acad. Bracers +3
+        hands = "Arbatel Bracers +3",  -- CORRECTED: Was Acad. Bracers +4
         ring1 = "Metamor. Ring +1",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
@@ -470,7 +467,7 @@ function init_gear_sets()
     sets.midcast["Divine Magic"] =
         set_combine(sets.midcast["Enfeebling Magic"], {ring2 = "Stikini Ring", feet = gear.chironic_nuke_feet})
 
-    -- CORRECTED: Replaced Amalric Coif +1, Regal Earring, Acad. Bracers +3
+    -- CORRECTED: Replaced Amalric Coif +1, Regal Earring, Acad. Bracers +4
     sets.midcast["Dark Magic"] = {
         main = "Rubicundity",
         sub = "Ammurapi Shield",
@@ -480,7 +477,7 @@ function init_gear_sets()
         ear1 = "Malignance Earring",
 		ear2 = "Arbatel Earring +1",  -- CORRECTED: Was Regal Earring
         body = "Chironic Doublet",
-        hands = "Arbatel Bracers +2",  -- CORRECTED: Was Acad. Bracers +3
+        hands = "Arbatel Bracers +3",  -- CORRECTED: Was Acad. Bracers +4
         ring1 = "Stikini Ring",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
@@ -528,7 +525,7 @@ function init_gear_sets()
         feet = "Agwu's Pigaches"  -- CORRECTED: Was Amalric Nails +1
     }
 
-    -- CORRECTED: Replaced Regal Earring, Acad. Bracers +3
+    -- CORRECTED: Replaced Regal Earring, Acad. Bracers +4
     -- NOTE: Keeping Pixie Hairpin +1 and Archon Ring for dark boost - verify you own them
     sets.midcast.Drain = {
         main = "Rubicundity",
@@ -539,7 +536,7 @@ function init_gear_sets()
         ear1 = "Malignance Earring",
 		ear2 = "Arbatel Earring +1",  -- CORRECTED: Was Regal Earring
         body = "Chironic Doublet",
-        hands = "Arbatel Bracers +2",  -- CORRECTED: Was Acad. Bracers +3
+        hands = "Arbatel Bracers +3",  -- CORRECTED: Was Acad. Bracers +4
         ring1 = "Evanescence Ring",
         ring2 = "Archon Ring",  -- Keep if you have it for dark boost
         back = gear.nuke_jse_back,
@@ -548,7 +545,7 @@ function init_gear_sets()
         feet = gear.merlinic_aspir_feet
     }
 
-    -- CORRECTED: Replaced Amalric Coif +1, Regal Earring, Acad. Bracers +3
+    -- CORRECTED: Replaced Amalric Coif +1, Regal Earring, Acad. Bracers +4
     sets.midcast.Drain.Resistant = {
         main = "Rubicundity",
         sub = "Ammurapi Shield",
@@ -558,7 +555,7 @@ function init_gear_sets()
         ear1 = "Malignance Earring",
 		ear2 = "Arbatel Earring +1",  -- CORRECTED: Was Regal Earring
         body = "Chironic Doublet",
-        hands = "Arbatel Bracers +2",  -- CORRECTED: Was Acad. Bracers +3
+        hands = "Arbatel Bracers +3",  -- CORRECTED: Was Acad. Bracers +4
         ring1 = "Stikini Ring",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
@@ -570,7 +567,7 @@ function init_gear_sets()
     sets.midcast.Aspir = sets.midcast.Drain
     sets.midcast.Aspir.Resistant = sets.midcast.Drain.Resistant
 
-    -- CORRECTED: Replaced Amalric Coif +1, Acad. Bracers +3
+    -- CORRECTED: Replaced Amalric Coif +1, Acad. Bracers +4
     sets.midcast.Stun = {
         main = gear.grioavolr_fc_staff,
         sub = "Clerisy Strap +1",
@@ -580,7 +577,7 @@ function init_gear_sets()
         ear1 = "Malignance Earring",
 		ear2 = "Enchntr. Earring +1",
         body = "Zendik Robe",
-        hands = "Arbatel Bracers +2",  -- CORRECTED: Was Acad. Bracers +3
+        hands = "Arbatel Bracers +3",  -- CORRECTED: Was Acad. Bracers +4
         ring1 = "Metamor. Ring +1",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
@@ -589,17 +586,17 @@ function init_gear_sets()
         feet = "Regal Pumps +1"
     }
 
-    -- CORRECTED: Replaced Acad. Mortar. +3, Regal Earring, Acad. Bracers +3
+    -- CORRECTED: Replaced Acad. Mortar. +4, Regal Earring, Acad. Bracers +4
     sets.midcast.Stun.Resistant = {
         main = "Daybreak",
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
-        head = "Arbatel Bonnet +2",  -- CORRECTED: Was Acad. Mortar. +3
+        head = "Arbatel Bonnet +3",  -- CORRECTED: Was Acad. Mortar. +4
         neck = "Erra Pendant",
         ear1 = "Malignance Earring",
 		ear2 = "Arbatel Earring +1",  -- CORRECTED: Was Regal Earring
         body = "Zendik Robe",
-        hands = "Arbatel Bracers +2",  -- CORRECTED: Was Acad. Bracers +3
+        hands = "Arbatel Bracers +3",  -- CORRECTED: Was Acad. Bracers +4
         ring1 = "Metamor. Ring +1",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
@@ -876,7 +873,7 @@ function init_gear_sets()
         feet = "Regal Pumps +1"
     }
 
-    -- CORRECTED: Replaced Regal Earring, Acad. Bracers +3, Amalric Nails +1
+    -- CORRECTED: Replaced Regal Earring, Acad. Bracers +4, Amalric Nails +1
     sets.midcast.Impact = {
         main = "Daybreak",
         sub = "Ammurapi Shield",
@@ -886,7 +883,7 @@ function init_gear_sets()
         ear1 = "Malignance Earring",
 		ear2 = "Arbatel Earring +1",  -- CORRECTED: Was Regal Earring
         body = "Twilight Cloak",
-        hands = "Arbatel Bracers +2",  -- CORRECTED: Was Acad. Bracers +3
+        hands = "Arbatel Bracers +3",  -- CORRECTED: Was Acad. Bracers +4
         ring1 = "Metamor. Ring +1",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
@@ -928,16 +925,16 @@ function init_gear_sets()
         ammo = "Homiliary",
         head = "Null Masque",
         neck = "Loricate Torque +1",
-        ear1 = "Etiolation Earring",
+        ear1 = "Alabaster Earring",
         ear2 = "Ethereal Earring",
-        body = "Jhakri Robe +2",
-        hands = gear.merlinic_refresh_hands,
-        ring1 = "Stikini Ring",
+        body = "Arbatel Gown +3",
+        hands = "Peda. Bracers +3",
+        ring1 = "Murky Ring",
         ring2 = "Stikini Ring",
         back = "Umbra Cape",
         waist = "Carrier's Sash",
-        legs = "Assid. Pants +1",
-        feet = gear.chironic_refresh_feet
+        legs = "Arbatel Pants +3",
+        feet = "Arbatel Loafers +3",
     }
 
     sets.idle.PDT = {
@@ -1106,17 +1103,16 @@ function init_gear_sets()
     }
 
     -- Buff sets: Gear that needs to be worn to actively enhance a current player buff.
-    sets.buff["Ebullience"] = {head = "Arbatel Bonnet +2"}
-    sets.buff["Rapture"] = {head = "Arbatel Bonnet +2"}
-    sets.buff["Perpetuance"] = {hands = "Arbatel Bracers +2"}
-    sets.buff["Immanence"] = {hands = "Arbatel Bracers +2"}
-    sets.buff["Penury"] = {legs = "Arbatel Pants +2"}
-    sets.buff["Parsimony"] = {legs = "Arbatel Pants +2"}
-    sets.buff["Celerity"] = {feet = "Peda. Loafers +1"}
-    sets.buff["Alacrity"] = {feet = "Peda. Loafers +1"}
-    sets.buff["Klimaform"] = {feet = "Arbatel Loafers +2"}
+    sets.buff["Ebullience"] = {head = "Arbatel Bonnet +3"}
+    sets.buff["Rapture"] = {head = "Arbatel Bonnet +3"}
+    sets.buff["Perpetuance"] = {hands = "Arbatel Bracers +3"}
+    sets.buff["Immanence"] = {hands = "Arbatel Bracers +3"}
+    sets.buff["Penury"] = {legs = "Arbatel Pants +3"}
+    sets.buff["Parsimony"] = {legs = "Arbatel Pants +3"}
+    sets.buff["Celerity"] = {feet = "Peda. Loafers +3"}
+    sets.buff["Alacrity"] = {feet = "Peda. Loafers +3"}
+    sets.buff["Klimaform"] = {feet = "Arbatel Loafers +3"}
 
-    -- NOTE: Pixie Hairpin +1 - verify you own this
     sets.HPDown = {
         head = "Pixie Hairpin +1",
         ear1 = "Mendicant's Earring",
@@ -1151,11 +1147,11 @@ function init_gear_sets()
     }
 
     sets.buff.Doom = set_combine(sets.buff.Doom, {})
-    sets.buff["Light Arts"] = {} --legs="Academic's Pants +3"
-    sets.buff["Dark Arts"] = {} --body="Academic's Gown +3"
+    sets.buff["Light Arts"] = {legs="Acad. Pants +4"}
+    sets.buff["Dark Arts"] = {body="Acad. Gown +4"}
 
-    -- CORRECTED: Replaced Acad. Mortar. +3 with Peda. M.Board +1
-    sets.buff.Sublimation = {head = "Peda. M.Board +1", waist = "Embla Sash"}  -- CORRECTED: Was Acad. Mortar. +3
+
+    sets.buff.Sublimation = {head = "Acad. Mortar. +4", waist = "Embla Sash"} 
     sets.buff.DTSublimation = {waist = "Embla Sash"}
 
     -- Weapons sets

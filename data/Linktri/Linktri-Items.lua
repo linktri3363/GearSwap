@@ -219,14 +219,18 @@ gear.valorous_magical_pet_legs = {
     name = "Valor. Hose",
     augments = {'Pet: "Mag.Atk.Bns."+28', 'Pet: "Regen"+3', "Pet: INT+13", "Pet: Attack+2 Pet: Rng.Atk.+2"}
 }
-gear.valorous_magical_pet_feet = {
-    name = "Valorous Greaves",
-    augments = {
-        'Pet: "Mag.Atk.Bns."+29',
-        'Pet: "Dbl.Atk."+1 Pet: Crit.hit rate +1',
-        "Pet: INT+9",
-        "Pet: Accuracy+1 Pet: Rng. Acc.+1",
-        "Pet: Attack+4 Pet: Rng.Atk.+4"
-    }
-}
+gear.valorous_magical_pet_feet = {name = "Valorous Greaves", augments = {'Pet: "Mag.Atk.Bns."+29', 'Pet: "Dbl.Atk."+1 Pet: Crit.hit rate +1', "Pet: INT+9", "Pet: Accuracy+1 Pet: Rng. Acc.+1", "Pet: Attack+4 Pet: Rng.Atk.+4"}}
+
 gear.valorous_wsd_feet = {name = "Valorous Greaves", augments = {"Accuracy+25", "Weapon skill damage +4%", "STR+5"}}
+
+
+--phalanx 
+gear.valorous_phalanx_tank_head = { name="Valorous Mask", augments={'INT+12','Magic burst dmg.+7%','Phalanx +4','Accuracy+1 Attack+1',}}
+
+gear.valorous_phalanx_tank_body = { name="Valorous Mail", augments={'STR+5','Rng.Atk.+26','Phalanx +4',}}
+	
+gear.valorous_phalanx_tank_hands = { name="Valorous Mitts", augments={'Enmity-4','Mag. Acc.+14 "Mag.Atk.Bns."+14','Phalanx +4','Accuracy+10 Attack+10',}}
+
+gear.valorous_phalanx_tank_legs = { name="Valorous Hose", augments={'Pet: Attack+11 Pet: Rng.Atk.+11','Magic burst dmg.+7%','Phalanx +4',}}
+
+gear.valorous_phalanx_tank_feet = { name="Valorous Greaves", augments={'Mag. Acc.+1','"Cure" spellcasting time -9%','Phalanx +5','Mag. Acc.+14 "Mag.Atk.Bns."+14',}}

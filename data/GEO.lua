@@ -296,6 +296,37 @@ function job_get_spell_map(spell, default_spell_map)
 end
 
 function job_customize_idle_set(idleSet)
+	-- =========================================================================
+	-- LINKTRI MODIFICATION - 2026-05-20
+	-- Purpose: Porter Moogle proximity detection for packing set.
+	-- Problem: This function overrides the gear file's job_customize_idle_set,
+	--          so the Porter Moogle logic in Linktri_Geo_Gear.lua never executes.
+	--          Additionally, Sel-Include applies sets.Kiting as an overlay AFTER
+	--          this function returns, stamping Geo. Sandals +4 over sets.packing.
+	-- Solution: Check Porter Moogle proximity at the top of this function.
+	--           Neutralize sets.Kiting inline before returning sets.packing so
+	--           Sel-Include's kiting overlay becomes a no-op.
+	--           Restore sets.Kiting when leaving Porter Moogle range.
+	-- Revert:   Delete the entire block between the LINKTRI MODIFICATION START
+	--           and LINKTRI MODIFICATION END markers below, inclusive.
+	--           No other changes were made to this function or this file.
+	-- =========================================================================
+	-- LINKTRI MODIFICATION START
+	if near_porter_moogle and near_porter_moogle() then
+		if not near_porter then
+			windower.add_to_chat(160, "Near Porter Moogle - Using packing gear")
+			near_porter = true
+		end
+		sets.Kiting = {}
+		return sets.packing
+	elseif near_porter then
+		windower.add_to_chat(160, "Left Porter Moogle area - Returning to normal gear")
+		near_porter = false
+		sets.Kiting = {feet="Geo. Sandals +4"}
+	end
+	-- LINKTRI MODIFICATION END
+	-- =========================================================================
+
 	if buffactive['Sublimation: Activated'] then
 		if (state.IdleMode.value == 'Normal' or state.IdleMode.value:contains('Sphere')) and sets.buff.Sublimation then
 			idleSet = set_combine(idleSet, sets.buff.Sublimation)
@@ -593,3 +624,347 @@ buff_spell_lists = {
 		{Name='Phalanx',	Buff='Phalanx',		SpellID=106,	Reapply=false},
 	},
 }
+
+-- =========================================================================
+-- LINKTRI MODIFICATION - 2026-05-20
+-- Purpose: Cardinal Chant direction display overlay.
+--
+-- Shows which Cardinal Chant bonus is active based on your position relative
+-- to the current battle target, with blend percentages for off-cardinal angles.
+-- Supports an always-on mode that keeps the display visible even without a
+-- battle target (showing the last known direction).
+--
+-- Cardinal Chant bonuses (YOUR position relative to TARGET):
+--   North of target -> Magic Critical Hit Chance
+--   South of target -> Magic Accuracy Bonus
+--   East  of target -> Magic Attack Bonus
+--   West  of target -> Magic Burst Bonus
+-- Intermediate angles blend adjacent bonuses proportionally.
+--
+-- FFXI coordinate system (confirmed in-game):
+--   +X = East,  -X = West
+--   +Y = North, -Y = South
+--
+-- Touch points in this file (all inside this single modification block):
+--   1. job_setup()        -- texts object init and config load (added below)
+--   2. job_self_command() -- 'cardinal' command branch (added below)
+--   3. End of file        -- all logic, prerender event, helper functions
+--
+-- Commands (//gs c cardinal <subcommand>):
+--   //gs c cardinal pos <x> <y>  -- Set and save display position
+--   //gs c cardinal show         -- Toggle display on/off (saves state)
+--   //gs c cardinal always       -- Toggle always-on mode (saves state)
+--   //gs c cardinal reset        -- Reset position to default (100, 100)
+--
+-- Config persisted to: <windower>/addons/GearSwap/data/GEO_cardinal_pos.lua
+--   Format: return {x=<n>, y=<n>, visible=<bool>, always_on=<bool>}
+--
+-- Revert instructions:
+--   1. Delete everything between LINKTRI MODIFICATION START and
+--      LINKTRI MODIFICATION END at the bottom of this file.
+--   2. In job_setup(): delete the two lines marked [CARDINAL CHANT INIT].
+--   3. In job_self_command(): delete the elseif branch marked [CARDINAL CHANT].
+--   No other changes were made to this file.
+-- =========================================================================
+-- LINKTRI MODIFICATION START
+
+-- -------------------------------------------------------------------------
+-- job_setup hook -- initialize texts object and load config after GearSwap
+-- is ready. Replaces the unsafe file-level texts.new() call.
+-- Copy these two lines into job_setup() and mark them [CARDINAL CHANT INIT].
+-- -------------------------------------------------------------------------
+local _orig_job_setup = job_setup
+function job_setup()
+	if _orig_job_setup then _orig_job_setup() end
+	cardinal_init()
+end
+
+-- -------------------------------------------------------------------------
+-- job_self_command hook -- wire 'cardinal' into the existing command handler.
+-- Copy the elseif branch into job_self_command() and mark [CARDINAL CHANT].
+-- -------------------------------------------------------------------------
+local _orig_job_self_command = job_self_command
+function job_self_command(commandArgs, eventArgs)
+	if commandArgs[1] and commandArgs[1]:lower() == 'cardinal' then
+		cardinal_command(commandArgs, eventArgs)  -- [CARDINAL CHANT]
+	elseif _orig_job_self_command then
+		_orig_job_self_command(commandArgs, eventArgs)
+	end
+end
+
+-- -------------------------------------------------------------------------
+-- Config persistence
+-- -------------------------------------------------------------------------
+local cardinal_config_path = windower.addon_path .. 'data/GEO_cardinal_pos.lua'
+local cardinal_defaults     = {x=100, y=100, visible=true, always_on=true}
+local cardinal_cfg          = {}
+local cardinal_display      = nil  -- texts object, created in cardinal_init()
+
+local function cardinal_load_config()
+	local f = io.open(cardinal_config_path, 'r')
+	if f then
+		local content = f:read('*all')
+		f:close()
+		local fn = loadstring(content)
+		if fn then
+			local ok, result = pcall(fn)
+			if ok and type(result) == 'table' then
+				cardinal_cfg.x         = result.x         or cardinal_defaults.x
+				cardinal_cfg.y         = result.y         or cardinal_defaults.y
+				cardinal_cfg.visible   = (result.visible   ~= nil) and result.visible   or cardinal_defaults.visible
+				cardinal_cfg.always_on = (result.always_on ~= nil) and result.always_on or cardinal_defaults.always_on
+				return
+			end
+		end
+	end
+	cardinal_cfg.x         = cardinal_defaults.x
+	cardinal_cfg.y         = cardinal_defaults.y
+	cardinal_cfg.visible   = cardinal_defaults.visible
+	cardinal_cfg.always_on = cardinal_defaults.always_on
+end
+
+local function cardinal_save_config()
+	local f = io.open(cardinal_config_path, 'w')
+	if f then
+		f:write('return {'
+			.. 'x='         .. tostring(cardinal_cfg.x)         .. ', '
+			.. 'y='         .. tostring(cardinal_cfg.y)         .. ', '
+			.. 'visible='   .. tostring(cardinal_cfg.visible)   .. ', '
+			.. 'always_on=' .. tostring(cardinal_cfg.always_on) .. '}\n')
+		f:close()
+	else
+		windower.add_to_chat(123, '[CardinalChant] ERROR: Could not save config to ' .. cardinal_config_path)
+	end
+end
+
+-- -------------------------------------------------------------------------
+-- Initialization (called from job_setup hook above)
+-- -------------------------------------------------------------------------
+function cardinal_init()
+	cardinal_load_config()
+
+	local settings = {
+		pos   = {x=cardinal_cfg.x, y=cardinal_cfg.y},
+		text  = {font='Arial', size=11},
+		flags = {draggable=true},
+	}
+	cardinal_display = texts.new('${value}', settings)
+	cardinal_display:bold(true)
+	cardinal_display:bg_alpha(160)
+	cardinal_display:bg_color(0, 0, 0)
+	cardinal_display:stroke_width(2)
+	cardinal_display:stroke_transparency(192)
+	cardinal_display:draggable(true)
+	cardinal_display:visible(false)  -- prerender controls actual visibility
+
+	-- Save position when drag is released
+	windower.register_event('mouse', function(type, x, y)
+		-- type 2 = mouse left release
+		if type == 2 and cardinal_display then
+			local new_x, new_y = cardinal_display:pos()
+			if new_x ~= cardinal_cfg.x or new_y ~= cardinal_cfg.y then
+				cardinal_cfg.x = new_x
+				cardinal_cfg.y = new_y
+				cardinal_save_config()
+			end
+		end
+	end)
+end
+
+-- -------------------------------------------------------------------------
+-- Direction calculation
+-- -------------------------------------------------------------------------
+-- Cardinal Chant direction: "East" means the TARGET is East of YOU (BG-wiki wording).
+-- Vector is calculated FROM me TO target: dx = target.x - me.x, dy = target.y - me.y
+-- atan2(dy, dx) where +X=East, +Y=North:
+--   0   deg = target is East  of me -> Mag. Atk. Bonus
+--   90  deg = target is North of me -> Magic Crit Chance
+--   180 deg = target is West  of me -> Magic Burst Bonus
+--   270 deg = target is South of me -> Mag. Acc. Bonus
+
+local cardinal_bonuses = {
+	[  0] = {dir='East',  arrow='->',  bonus='Mag. Atk. Bonus'},
+	[ 90] = {dir='North', arrow='^',   bonus='Magic Crit Chance'},
+	[180] = {dir='West',  arrow='<-',  bonus='Magic Burst Bonus'},
+	[270] = {dir='South', arrow='v',   bonus='Mag. Acc. Bonus'},
+}
+
+local cardinal_colors = {
+	['Mag. Atk. Bonus']   = '\\cs(255,120,80)',
+	['Magic Crit Chance'] = '\\cs(255,220,50)',
+	['Magic Burst Bonus'] = '\\cs(120,180,255)',
+	['Mag. Acc. Bonus']   = '\\cs(100,255,160)',
+}
+
+local function cardinal_get_direction(me, target)
+	local dx = target.x - me.x  -- vector FROM me TO target: positive = target is East of me
+	local dy = target.y - me.y  -- positive = target is North of me
+	if math.abs(dx) < 0.1 and math.abs(dy) < 0.1 then return nil end
+
+	local angle_deg = math.deg(math.atan2(dy, dx))
+	if angle_deg < 0 then angle_deg = angle_deg + 360 end
+
+	local cardinal_angles = {0, 90, 180, 270}
+	local lower_angle, upper_angle
+
+	for i = 1, #cardinal_angles do
+		local ca       = cardinal_angles[i]
+		local next_ca  = cardinal_angles[(i % #cardinal_angles) + 1]
+		local next_w   = (i == #cardinal_angles) and 360 or next_ca
+		local angle_w  = (i == #cardinal_angles and angle_deg < 45) and angle_deg + 360 or angle_deg
+		if angle_w >= ca and angle_w < next_w then
+			lower_angle = ca
+			upper_angle = next_ca
+			break
+		end
+	end
+
+	if not lower_angle then return nil end
+
+	local offset    = angle_deg - lower_angle
+	if offset < 0 then offset = offset + 360 end
+	local blend     = offset / 90
+	local lower_pct = math.floor((1 - blend) * 100 + 0.5)
+	local upper_pct = 100 - lower_pct
+
+	return {
+		lower     = cardinal_bonuses[lower_angle],
+		upper     = cardinal_bonuses[upper_angle % 360],
+		lower_pct = lower_pct,
+		upper_pct = upper_pct,
+		pure      = (lower_pct >= 95 or upper_pct >= 95),
+	}
+end
+
+-- Fill bar: 10 chars wide using Unicode block characters
+local function cardinal_bar(pct)
+	local filled = math.floor(pct / 10 + 0.5)
+	return string.rep('█', filled) .. string.rep('░', 10 - filled)
+end
+
+local function cardinal_build_display(result, no_target)
+	local white = '\\cs(255,255,255)'
+	local gray  = '\\cs(180,180,180)'
+	local title = '\\cs(200,200,255)  -- Cardinal Chant --\\cs(255,255,255)\n'
+
+	if no_target then
+		return title .. gray .. '     (no target)' .. white
+	end
+
+	if result.pure then
+		local data  = (result.lower_pct >= 95) and result.lower or result.upper
+		local color = cardinal_colors[data.bonus] or white
+		return title
+			.. color .. data.arrow .. ' ' .. data.dir .. white
+			.. gray  .. '  [' .. data.bonus .. ']\n'
+			.. gray  .. '  ' .. cardinal_bar(100) .. '  100%' .. white
+	else
+		local c1 = cardinal_colors[result.lower.bonus] or white
+		local c2 = cardinal_colors[result.upper.bonus] or white
+		return title
+			.. c1   .. result.lower.arrow .. ' ' .. result.lower.dir .. white
+			.. gray .. '  [' .. result.lower.bonus .. ']\n'
+			.. gray .. '  ' .. cardinal_bar(result.lower_pct) .. '  ' .. result.lower_pct .. '%\n'
+			.. c2   .. result.upper.arrow .. ' ' .. result.upper.dir .. white
+			.. gray .. '  [' .. result.upper.bonus .. ']\n'
+			.. gray .. '  ' .. cardinal_bar(result.upper_pct) .. '  ' .. result.upper_pct .. '%'
+			.. white
+	end
+end
+
+-- -------------------------------------------------------------------------
+-- prerender update
+-- -------------------------------------------------------------------------
+windower.register_event('prerender', function()
+	if not cardinal_display then return end
+	if not cardinal_cfg.visible then
+		cardinal_display:visible(false)
+		return
+	end
+
+	local me = windower.ffxi.get_mob_by_target('me')
+	local target = windower.ffxi.get_mob_by_target('t')
+
+	-- Use current selected target (t) as primary source.
+	-- This ensures the display updates immediately when you select a different target
+	-- rather than persisting on the last mob you had hate on (bt).
+	if not me then
+		cardinal_display:visible(false)
+		return
+	end
+
+	if not target then
+		if cardinal_cfg.always_on then
+			cardinal_display.value = cardinal_build_display(nil, true)
+			cardinal_display:visible(true)
+		else
+			cardinal_display:visible(false)
+		end
+		return
+	end
+
+	local result = cardinal_get_direction(me, target)
+	if not result then
+		cardinal_display:visible(false)
+		return
+	end
+
+	cardinal_display.value = cardinal_build_display(result, false)
+	cardinal_display:visible(true)
+end)
+
+-- -------------------------------------------------------------------------
+-- Command handler (called from job_self_command hook above)
+-- -------------------------------------------------------------------------
+function cardinal_command(commandArgs, eventArgs)
+	local sub = commandArgs[2] and commandArgs[2]:lower() or ''
+
+	if sub == 'pos' then
+		local x = tonumber(commandArgs[3])
+		local y = tonumber(commandArgs[4])
+		if x and y then
+			cardinal_cfg.x = x
+			cardinal_cfg.y = y
+			if cardinal_display then cardinal_display:pos(x, y) end
+			cardinal_save_config()
+			windower.add_to_chat(122, '[CardinalChant] Position set to (' .. x .. ', ' .. y .. ') and saved.')
+		else
+			windower.add_to_chat(123, '[CardinalChant] Usage: //gs c cardinal pos <x> <y>')
+		end
+
+	elseif sub == 'show' then
+		cardinal_cfg.visible = not cardinal_cfg.visible
+		if cardinal_display then cardinal_display:visible(cardinal_cfg.visible) end
+		cardinal_save_config()
+		windower.add_to_chat(122, '[CardinalChant] Display ' .. (cardinal_cfg.visible and 'shown' or 'hidden') .. '.')
+
+	elseif sub == 'always' then
+		cardinal_cfg.always_on = not cardinal_cfg.always_on
+		cardinal_save_config()
+		windower.add_to_chat(122, '[CardinalChant] Always-on mode ' .. (cardinal_cfg.always_on and 'enabled' or 'disabled') .. '.')
+
+	elseif sub == 'reset' then
+		cardinal_cfg.x         = cardinal_defaults.x
+		cardinal_cfg.y         = cardinal_defaults.y
+		cardinal_cfg.visible   = cardinal_defaults.visible
+		cardinal_cfg.always_on = cardinal_defaults.always_on
+		if cardinal_display then
+			cardinal_display:pos(cardinal_cfg.x, cardinal_cfg.y)
+			cardinal_display:visible(cardinal_cfg.visible)
+		end
+		cardinal_save_config()
+		windower.add_to_chat(122, '[CardinalChant] Reset to defaults.')
+
+	else
+		windower.add_to_chat(122, '[CardinalChant] Commands:')
+		windower.add_to_chat(122, '  //gs c cardinal pos <x> <y>  -- Set display position')
+		windower.add_to_chat(122, '  //gs c cardinal show          -- Toggle visibility')
+		windower.add_to_chat(122, '  //gs c cardinal always        -- Toggle always-on mode')
+		windower.add_to_chat(122, '  //gs c cardinal reset         -- Reset to defaults')
+	end
+
+	eventArgs.handled = true
+end
+
+-- LINKTRI MODIFICATION END
+-- =========================================================================
