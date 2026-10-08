@@ -1,0 +1,124 @@
+We're going to be doing some work on optimizing the framework and gearsets for my Black Mage. First, I need you to become an expert on how Black Mage is played. https://www.bg-wiki.com/ffxi/Black_Mage
+You'll need to familiarize yourself with the various job traits (passive) like Occult Accumen, and Conserve MP, and job abilities (Mana Wall, Mana Well, Cascade, Subtle Sorcery, Elemental Seal, Cascade) that are available to Black Mage. 
+
+Below are some player guides. (Validate player suggestions. )
+https://www.bg-wiki.com/ffxi/Community_Black_Mage_Guide
+https://www.ffxiah.com/forum/topic/49789/the-black-sacrament-a-guide-to-black-mage 
+
+I've included many of the full stats for many of the key pieces that are often used for Black Mage. 
+
+Head	Spaekona's Petasos +2
+DEF:103 HP+54 MP+48 STR+24 DEX+24 VIT+24 AGI+24 INT+32 MND+29 CHR+29
+Magic Accuracy +37 Magic Damage +32 Evasion+46 Magic Evasion+85 "Magic Atk. Bonus"+18 "Magic Def. Bonus"+5 Enmity-5 Haste+6%
+"Conserve MP"+5 Elemental magic casting time -5%
+Body	Spaekona's Coat +3
+DEF:143 HP+91 MP+98 STR+31 DEX+31 VIT+31 AGI+31 INT+39 MND+39 CHR+39
+Magic Accuracy +55 Magic Damage +48 Evasion+61 Magic Evasion+100 "Magic Def. Bonus"+7 Enmity-9 Haste +3%
+Enfeebling magic skill +21 Converts 2% of elemental magic damage dealt to MP
+Hands	Spaekona's Gloves +2
+DEF:91 HP+33 MP+96 STR+11 DEX+33 VIT+30 AGI+10 INT+32 MND+38 CHR+24
+Magic Accuracy +42 Magic Damage +34 Evasion+32 Magic Evasion+47 "Magic Def. Bonus"+3 Haste+3%
+Elemental magic skill +19 Magic Burst II Damage +4
+Legs	Spaekona's Tonban +2
+DEF:115 HP+64 MP+148 STR+30 VIT+17 AGI+22 INT+39 MND+29 CHR+24
+Magic Accuracy +39 Magic Damage +36 "Magic Atk. Bonus"+25 Evasion+37 Magic Evasion+117 "Magic Def. Bonus"+6 Enmity-5 Haste+5%
+Dark magic skill +19 "Drain" and "Aspir" potency +10
+Feet	Spaekona's Sabots +2
+DEF:73 HP+31 MP+33 STR+15 DEX+16 VIT+15 AGI+38 INT+27 MND+24 CHR+39
+Magic Accuracy +44 Magic Damage +30 "Magic Atk. Bonus"+21 Evasion+65 Magic Evasion+117 "Magic Def. Bonus"+5 Haste+3%
+Elemental magic casting time -5% Magic Burst Damage +5
+Set Bonus: +Accuracy, Ranged Accuracy, and Magic Accuracy
+
+Head	Archmage's Petasos +3
+DEF:115 HP+56 MP+52 STR+24 DEX+24 VIT+24 AGI+24 INT+34 MND+29 CHR+29
+Accuracy+37 Magic Accuracy+43 Evasion+56 Magic Evasion+95 "Magic Attack Bonus"+55 "Magic Defense Bonus"+7 Haste+6%
+Elemental Magic Skill +21 Enmity-7
+20x: Increases Ancient Magic damage and Magic Burst damage.
+Body	Archmage's Coat +3
+DEF:145 HP+74 MP+79 STR+31 DEX+31 VIT+31 AGI+31 INT+46 MND+39 CHR+39
+Accuracy+40 Magic Accuracy+40 Evasion+61 Magic Evasion+100 "Magic Attack Bonus"+52 "Magic Defense Bonus"+8 Haste+3%
+Elemental Magic Skill+24 Enmity-12 "Refresh"+3
+20x: Enhances "Manafont" effect
+Hands	Archmage's Gloves +3
+DEF:99 HP+42 MP+34 STR+16 DEX+38 VIT+35 AGI+15 INT+36 MND+43 CHR+29
+Accuracy+38 Magic Accuracy+38 Evasion+42 Magic Evasion+57 "Magic Attack Bonus"+50 "Magic Defense Bonus"+5 Haste+3%
+Elemental magic skill +23 Dark magic skill +23 Enmity-7 Magic Burst damage +20
+20x: Increases Elemental Magic Magic Accuracy.
+Legs	Archmage's Tonban +3
+DEF:123 HP+63 MP+85 STR+35 VIT+22 AGI+27 INT+50 MND+34 CHR+29
+Accuracy+39 Magic Accuracy+46 Evasion+47 Magic Evasion+127 "Magic Attack Bonus"+58 "Magic Defense Bonus"+8 Haste+5%
+Enmity-7 Magic Burst damage II +3
+20x: Increases Elemental Magic Debuff time and potency.
+Feet	Archmage's Sabots +3
+DEF:83 HP+33 MP+34 STR+20 DEX+21 VIT+20 AGI+43 INT+30 MND+29 CHR+44
+Accuracy+36 Magic Accuracy+42 Evasion+75 Magic Evasion+127 "Magic Attack Bonus"+54 "Magic Defense Bonus"+7 Haste+3%
+Elemental magic skill +17 Enmity-6 Elemental Magic status ailment effects +30
+20x: Increases Aspir Absorption Amount.
+
+Head	Wicce Petasos +3
+DEF:125 HP+61 MP+86 STR+22 DEX+25 VIT+27 AGI+16 INT+39 MND+32 CHR+32
+Accuracy+61 Magic Accuracy+61 "Magic Atk. Bonus"+51 Magic Damage+31 Evasion+83 Magic Evasion+136 “Magic Def. Bonus”+10 Elemental magic skill +35 Haste+6% Enmity-10
+Elemental magic casting time -18% Damage taken -11%
+Body	Wicce Coat +3
+DEF:154 HP+80 MP+132 STR+29 DEX+34 VIT+34 AGI+34 INT+50 MND+43 CHR+43
+Accuracy+64 Magic Accuracy+64 “Magic Atk. Bonus”+59 Magic Damage+34 Evasion+88 Magic Evasion+141 “Magic Def. Bonus”+11 Haste+3%
+Elemental magic recast delay -16% Magic Burst Damage II +5 “Refresh”+4
+Hands	Wicce Gloves +3
+DEF:110 HP+48 MP+50 STR+16 DEX+40 VIT+38 AGI+20 INT+38 MND+47 CHR+32
+Accuracy+62 Magic Accuracy+62 “Magic Atk. Bonus”+57 Magic Damage+32 Evasion+69 Magic Evasion+98 “Magic Def. Bonus”+7 Haste+3%
+Magic Critical Hit Rate +13% Magic critical hit damage +13% Damage taken -13%
+Legs	Wicce Chausses +3
+DEF:134 HP+68 MP+119 STR+31 VIT+23 AGI+31 INT+53 MND+38 CHR+32
+Accuracy+63 Magic Accuracy+63 “Magic Atk. Bonus”+58 Magic Damage+33 Evasion+74 Magic Evasion+168 “Magic Def. Bonus”+10 Haste+5%
+Magic Burst Damage+15 Increases magic effect duration +50
+Feet	Wicce Sabots +3
+DEF:95 HP+39 MP+50 STR+18 DEX+21 VIT+23 AGI+44 INT+36 MND+32 CHR+47
+Accuracy+60 Magic Accuracy+60 "Magic Atk. Bonus"+50 Magic Damage+30 Evasion+110 Magic Evasion+168 “Magic Def. Bonus”+10 Dark magic skill +35 Enmity-16 Haste+3%
+“Mana Wall”+25% Damage taken -11%
+Set Bonus: Augments “Conserve MP”
+
+Earring 2:  Wicce earring +2 Right ear: "Magic Atk. Bonus"+9 Magic Damage+9 [1] Magic Accuracy +20 [2] Enmity -10 [3] INT & MND +15 (This earring MUST be equipped in ear2 if it is used.)
+
+Head	Agwu's Cap
+DEF:126 HP+38 MP+59 STR+26 DEX+24 VIT+11 AGI+5 INT+33 MND+26 CHR+25
+Accuracy+40 Magic Accuracy+40 "Magic Atk. Bonus"+35 Magic Damage +20 Evasion+72 Magic Evasion+107 "Magic Def. Bonus"+6 Haste+6%
+"Fast Cast"+5% Magic burst damage +7 "Resist Silence"+9 Spell Interruption Rate Down 10%
+20x: Rank 30 [1] "Magic Atk. Bonus"+25 [2] Magic Damage+15 [3] Accuracy+15 Magic Accuracy+15 [4] Enmity-5
+Body	Agwu's Robe
+DEF:154 HP+61 MP+88 STR+33 DEX+30 VIT+19 AGI+20 INT+47 MND+37 CHR+35
+Accuracy+40 Magic Accuracy+40 "Magic Atk. Bonus"+35 Magic Damage +20 Evasion+83 Magic Evasion+123 "Magic Def. Bonus"+9 Haste+3%
+Magic burst damage +10 "Fast Cast"+8% "Resist Silence"+12 "Refresh"+3
+20x: Rank 30 [1] "Magic Atk. Bonus"+25 [2] Enmity-8 [3] Accuracy+15 Magic Accuracy+15 [4] Magic Damage+10
+Hands	Agwu's Gages
+DEF:116 HP+38 MP+73 STR+14 DEX+38 VIT+23 AGI+6 INT+33 MND+40 CHR+25
+Accuracy+40 Magic Accuracy+40 "Magic Atk. Bonus"+35 Magic Damage +20 Evasion+60 Magic Evasion+96 "Magic Def. Bonus"+5 Haste+3%
+"Fast Cast"+6% Magic burst damage +8 Potency of "Cure" effect received +10% "Resist Silence"+10
+20x: Rank 30 [1] "Magic Atk. Bonus"+25 [2] Magic Burst Damage II +6 [3] Accuracy+15 Magic Accuracy+15 [4] MND+5
+Legs	Agwu's Slops
+DEF:137 HP+50 MP+59 STR+43 VIT+8 AGI+17 INT+49 MND+32 CHR+25
+Accuracy+40 Magic Accuracy+40 "Magic Atk. Bonus"+35 Magic Damage +20 Evasion+66 Magic Evasion+134 "Magic Def. Bonus"+8 Haste
+Magic burst damage +9 "Fast Cast"+7% Elemental magic status ailment effects +10 "Resist Silence"+11
+20x: Rank 30 [1] "Magic Atk. Bonus"+25 [2] Damage taken -10% [3] Accuracy+15 Magic Accuracy+15 [4] INT+5
+Feet	Agwu's Pigaches
+DEF:99 HP+27 MP+44 STR+21 DEX+25 VIT+8 AGI+30 INT+30 MND+26 CHR+39
+Accuracy+40 Magic Accuracy+40 "Magic Atk. Bonus"+35 Magic Damage +20 Evasion+99 Magic Evasion+134 "Magic Def. Bonus"+6 Haste
+Magic burst damage +6 "Fast Cast"+4% "Resist Silence"+8 "Drain" and "Aspir" potency +20
+20x: Rank 30 [1] "Magic Atk. Bonus"+25 [2] "Drain" and "Aspir" potency +15 [3] Accuracy+15 Magic Accuracy+15 [4] Spell Interruption Rate Down 10%
+
+Murky Ring: DEF:10 MP+30 Spell interruption rate down 3% Damage taken -10% Pet: Accuracy+15 Ranged Accuracy+15 Magic Accuracy+15 Rank: 22 [1] Accuracy+15 Rng. Acc.+15 Mag. Acc.+15 [2] Evasion+7 Mag. Evasion+7
+
+Alabaster Earring:     DEF:10 HP+100 Haste+5% Damage taken -5% Pet: Accuracy+15 Ranged Accuracy+15 Magic Accuracy+15 Rank: 11 [1] Accuracy+11 Rng. Acc.+11 Mag. Acc.+11 
+
+Bunzi Rod:     DMG:144 Delay:216 MP+40 INT+15 MND+15 Accuracy+40 Magic Accuracy+40 "Magic Atk. Bonus"+35 Magic Damage+248 Club skill +242 Parrying skill +242 Magic Accuracy skill +255 Magic burst damage +10 "Cure" potency +30% Rank: 30 [1] DMG:+11 [2] "Mag. Atk. Bns."+30 [3] Accuracy+15 Mag. Acc.+15 [4] Enmity-5 
+
+Mpaca's Staff:     DMG:268 Delay:402 MP+50 INT+15 MND+15 Accuracy+40 Magic Accuracy+40 "Magic Atk. Bonus"+35 Magic Damage+263 Staff skill +242 Parrying skill +242 Magic Accuracy skill +255 Magic burst damage II +2 "Fast Cast"+5% "Refresh"+2 Rank: 30 [1] DMG:+21 [2] "Mag. Atk. Bns."+30 [3] Accuracy+15 Mag. Acc.+15 [4] INT/MND+5
+
+Null Masque:     DEF:138 HP+100 MP+70 STR+28 DEX+28 VIT+50 AGI+28 INT+28 MND+50 CHR+28 Accuracy+50 Magic Accuracy+50 Evasion+100 Magic Evasion+100 "Magic Def. Bonus"+8 Haste+10% "Regen"+3 "Refresh"+1 "Regain"+2 Damage taken -10%
+
+Raetic Rod +1:    DMG:193 Delay:280 HP+25 MP+25 Magic Accuracy+42 Club skill +215 Parrying skill +215 Magic Accuracy skill +242 "Cure" potency +23% "Cure" MP consumed +30% "Cure"+50 "Cure" potency II +10%
+
+There are many other items in my inventory that may appear ideal when looking at their stats, but cannot be equipped by Black Mage. You'll need to validate that all of your suggestions can be used by Black Mage.  
+
+Some of my one-handed weapons are listed as "sub" in the inventory file; that just means that they can either be main handed or wielded in the offhand if I have dual wield. 
+
+
