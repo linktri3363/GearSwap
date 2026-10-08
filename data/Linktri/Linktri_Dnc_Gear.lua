@@ -224,7 +224,7 @@ function init_gear_sets()
     sets.weapons.MpuGandring = {main = "Mpu Gandring",sub = "Centovente"}
 	sets.weapons.MpuGleti = {main = "Mpu Gandring",sub = "Gleti's Knife"}
     sets.weapons.Aeneas = {main = "Aeneas", sub = "Centovente"} -- LINKTRI: was Qutrub Knife/Ethereal Dagger placeholder; actual Aeneas (Path A) owned. Centovente TP Bonus+1000 stacks with Aeneas TP Bonus+500 for Exenterator
-    sets.weapons.Aeolian = {main = { name="Malevolence", augments={'INT+10','Mag. Acc.+10','"Mag.Atk.Bns."+10','"Fast Cast"+5',}}, sub = "Tauret"} -- LINKTRI: previous main was an unowned Malevolence augment (only one Malevolence in inventory); Tauret sub for Mag.Acc.
+    sets.weapons.Aeolian = {main = "Tauret", sub = "Aeneas"} -- LINKTRI: Malevolence is not DNC-equippable (game item data), so this set never equipped a main. Tauret: MAB+16, Magic Dmg+217, DEX/INT+15; Aeneas sub: Magic Dmg+155. Tauret is kept on a storage slip - unpack before using this set
     sets.weapons.Twashtar = {main = { name="Twashtar", augments={'Path: A',}},sub = "Centovente"}
     sets.weapons.Ruthless = {main = { name="Twashtar", augments={'Path: A',}},sub = "Centovente"} -- Same as Twashtar, optimized for Ruthless Stroke spam
     sets.weapons.Kleos = {main = "Tauret",sub = "Gleti's Knife"}
@@ -258,7 +258,9 @@ function init_gear_sets()
         feet = "Maxixi Toe Sh. +4"         -- Waltz potency +14%
     }
 
-    sets.Self_Waltz = {head = "Mummu Bonnet +2", body = "Vanya Robe", ring1 = "Defending Ring", ammo = "Yamarang",}
+    -- LINKTRI: removed Vanya Robe (not DNC-equippable). Body now stays Maxixi Casaque +4 from the
+    -- Waltz set: Waltz potency +19% and Waltz received +8%. Mummu Bonnet +2: Waltz received +9%.
+    sets.Self_Waltz = {head = "Mummu Bonnet +2", ring1 = "Defending Ring", ammo = "Yamarang",}
 
     -- Don't need any special gear for Healing Waltz.
     sets.precast.Waltz["Healing Waltz"] = {ammo = "Yamarang"}
@@ -290,16 +292,17 @@ function init_gear_sets()
         feet = "Horos Toe Sh. +4"       -- Step Accuracy +24, Step TP -20
     }
 
+    -- LINKTRI: ammo removed (Paeapua is not DNC-equippable; no owned DNC enmity ammo).
+    -- Rings upgraded: Pernicious (Enmity+5) and Supershear (Enmity+5) over Petrov (+4) and Vengeful (+3).
     sets.Enmity = {
-        ammo = "Paeapua",
         head = "Nyame Helm",
         neck = "Unmoving Collar",
         ear1 = "Ishvara Earring",
         ear2 = "Trux Earring",
         body = "Nyame Mail",
         hands = "Malignance Gloves",
-        ring1 = "Petrov Ring",
-        ring2 = "Vengeful Ring",
+        ring1 = "Pernicious Ring",
+        ring2 = "Supershear Ring",
         back = gear.stp_jse_back,
         waist = "Chaac Belt",
         legs = "Nyame Flanchard",
@@ -496,10 +499,10 @@ function init_gear_sets()
     -- Optimized Evisceration set for critical hits with your available gear
     sets.precast.WS["Evisceration"] = {
         ammo = "Coiste Bodhar",
-        head = "Blistering Sallet",
+        head = "Gleti's Mask",              -- LINKTRI: Crit+5%, PDL+6%, Atk+70/Acc+55 at R30 (Blistering Sallet NQ has no crit rate)
         neck = "Asperity Necklace",
         ear1 = "Sherida Earring",
-        ear2 = "Brutal Earring",
+        ear2 = "Odr Earring",               -- LINKTRI: DEX+10, Crit+5% (replaces Brutal Earring: DA only)
         body = "Gleti's Cuirass",
         hands = "Gleti's Gauntlets",
         ring1 = "Ilabrat Ring",
@@ -570,7 +573,7 @@ function init_gear_sets()
     }
 
     sets.precast.WS["Aeolian Edge"] = {
-        ammo = "Seraphic Ampulla",
+        ammo = "Pemphredo Tathlum",     -- LINKTRI: INT+4, MAcc+8, MAB+4 (Seraphic Ampulla is not DNC-equippable)
         head = "Nyame Helm",
         neck = "Baetyl Pendant",
         ear1 = "Ishvara Earring",
@@ -578,9 +581,9 @@ function init_gear_sets()
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
         ring1 = "Metamor. Ring +1",
-        ring2 = "Dingir Ring",
+        ring2 = "Ilabrat Ring",         -- LINKTRI: DEX+10 for Aeolian Edge's DEX/INT mod (Dingir Ring is not DNC-equippable)
         back = gear.wsd_jse_back,
-        waist = "Orpheus's Sash",       -- LINKTRI: large magical WS boost at close range; .TH variant still applies Chaac Belt
+        waist = "Orpheus's Sash",       -- LINKTRI: default; job_post_precast swaps in Hachirin-no-Obi on strong wind day/weather. .TH variant still applies Chaac Belt
         legs = "Nyame Flanchard",
         feet = "Nyame Sollerets"
     }
@@ -621,7 +624,7 @@ function init_gear_sets()
 
     sets.MaxTP["Evisceration"] = {
         ear1 = "Sherida Earring",
-        ear2 = "Brutal Earring",
+        ear2 = "Odr Earring",               -- LINKTRI: was Brutal Earring
         ring1 = "Ephramad's Ring",
         waist = "Sailfi Belt +1"
     }
@@ -651,7 +654,7 @@ function init_gear_sets()
         body = "Dread Jupon",
         hands = "Nyame Gauntlets",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
-        ring2 = "Kishar Ring",
+        ring2 = "Defending Ring",       -- LINKTRI: Kishar Ring is not DNC-equippable; no owned DNC ring helps recast, so DT-10%
         back = gear.stp_jse_back,
         waist = "Chaac Belt",
         legs = "Rawhide Trousers",
@@ -889,6 +892,49 @@ function init_gear_sets()
     sets.buff.Sleep = {}
 end
 
+-- ======================================================================
+-- LINKTRI MODIFICATION: Orpheus's Sash / Hachirin-no-Obi overlay for Aeolian Edge.
+-- Ported from Linktri_Blu_Gear.lua (same live-validated tuning as BLM/BLU).
+-- Orpheus's Sash: +15 at <=1.93 yalms, tapering to +1 at >=13 yalms.
+-- Hachirin-no-Obi: +10 day match, +10 single weather, +25 double weather (stacks with day).
+-- ======================================================================
+local ORPHEUS_MIN_DIST = 1.93
+local ORPHEUS_MAX_DIST = 13.0
+local ORPHEUS_MIN_WORTH = 2
+
+local function elemental_ws_waist(spell)
+    local el = spell.element
+    if not el or el == 'None' then return nil end
+
+    local obi = 0
+    if world.day_element == el then obi = obi + 10 end
+    if world.weather_element == el then
+        local intensity = 1
+        if world.weather_id and gearswap and gearswap.res and gearswap.res.weather
+                and gearswap.res.weather[world.weather_id] then
+            intensity = gearswap.res.weather[world.weather_id].intensity or 1
+        end
+        obi = obi + (intensity == 2 and 25 or 10)
+    end
+
+    local dist = (spell.target and spell.target.distance) or 21
+    local aff
+    if dist <= ORPHEUS_MIN_DIST then
+        aff = 15
+    elseif dist >= ORPHEUS_MAX_DIST then
+        aff = 1
+    else
+        aff = math.floor(15 - ((dist - ORPHEUS_MIN_DIST) * (14 / (ORPHEUS_MAX_DIST - ORPHEUS_MIN_DIST))))
+    end
+
+    if obi >= aff and obi > 0 then
+        return "Hachirin-no-Obi"
+    elseif aff >= ORPHEUS_MIN_WORTH then
+        return "Orpheus's Sash"
+    end
+    return nil
+end
+
 -- Simple function to check if we're in a high buff situation
 function is_high_buff_situation()
     local has_geo = false
@@ -1047,6 +1093,13 @@ function job_post_precast(spell, spellMap, eventArgs)
     -- Step 2: Replicate DNC.lua Climactic Flourish overlay
     if state.Buff['Climactic Flourish'] and sets.buff['Climactic Flourish'] then
         equip(sets.buff['Climactic Flourish'])
+    end
+
+    -- LINKTRI: Aeolian Edge waist - pick Orpheus's Sash or Hachirin-no-Obi per cast.
+    -- Only when the selected set wears Orpheus, so the Treasure Hunter variant's Chaac Belt is kept.
+    if spell.english == 'Aeolian Edge' and WSset.waist == "Orpheus's Sash" then
+        local waist = elemental_ws_waist(spell)
+        if waist then equip({waist = waist}) end
     end
 
     -- Step 3: ContentMode-aware PDL swaps for high-buff content
