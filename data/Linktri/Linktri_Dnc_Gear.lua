@@ -208,7 +208,7 @@ function init_gear_sets()
     -- every DA% on gear is wasted - and every DA proc costs 1,000 gil. Triple Attack procs
     -- are FREE (no charge) and hit harder, so this overlay strips all DA sources and stacks
     -- TA + raw stats instead. Ammo is intentionally absent from the overlay: the hoxne toggle
-    -- equips the ampulla and disable()s the slot, so WS/waltz/step swaps can never unequip it
+    -- equips the ampulla, auto-uses it once ready (hoxne_try_use), and disable()s the slot, so WS/waltz/step swaps can never unequip it
     -- (unequipping drops the buff until re-used).
     -- Deliberately unchanged: Sailfi Belt +1 (DA+5%) stays in WS sets since its STR+15 is still
     -- the best owned WS waist, and Brutal Earring stays in Evisceration - their DA is just wasted.
@@ -1258,6 +1258,41 @@ function job_customize_melee_set(meleeSet)
     return user_job_customize_melee_set(meleeSet)
 end
 
+-- ======================================================================
+-- LINKTRI MODIFICATION: Hoxne Ampulla auto-use.
+-- Game item data: the ampulla must be worn 5s before it can be used, with a 60s recast.
+-- Polls the item's own ready flag (Sel's get_usable_item extdata) once a second and
+-- uses it the moment it's ready. Deliberately NOT Sel's useItem system: that one moves
+-- the item to the satchel and unlocks the slot afterward, which would drop the buff.
+-- ======================================================================
+local HOXNE_MAX_TRIES = 15      -- 5s equip delay + margin for being mid-action
+
+function hoxne_try_use(attempt)
+    attempt = attempt or 1
+    if not (state.HoxneMode and state.HoxneMode.value) then return end
+    if player.equipment.ammo ~= "Hoxne Ampulla" then
+        add_to_chat(123, 'Hoxne: ampulla is not equipped - not using it.')
+        return
+    end
+
+    local item = get_usable_item("Hoxne Ampulla")
+    if item and item.usable and not midaction() then
+        windower.chat.input('/item "Hoxne Ampulla" <me>')
+        add_to_chat(122, 'Hoxne: using Hoxne Ampulla (DA+100%, 1,000g per DA proc).')
+    elseif attempt < HOXNE_MAX_TRIES then
+        coroutine.schedule(function() hoxne_try_use(attempt + 1) end, 1)
+    else
+        add_to_chat(123, 'Hoxne: ampulla still not ready (recast is 60s). Use it manually or toggle Hoxne mode again.')
+    end
+end
+
+-- Zoning drops the enchantment; re-use the ampulla once loaded in if Hoxne mode is still on.
+function user_job_zone_change(new_id, old_id)
+    if state.HoxneMode and state.HoxneMode.value then
+        coroutine.schedule(function() hoxne_try_use(1) end, 8)
+    end
+end
+
 -- Enhanced self command for new toggles
 function user_job_self_command(commandArgs, eventArgs)
     if commandArgs[1]:lower() == 'contentmode' then
@@ -1276,7 +1311,8 @@ function user_job_self_command(commandArgs, eventArgs)
             enable('ammo')
             equip({ammo = "Hoxne Ampulla"})
             disable('ammo')
-            add_to_chat(122, 'Hoxne Ampulla mode ON - ammo locked. Use the ampulla to activate DA+100% (1,000g per DA proc; re-use after zoning).')
+            add_to_chat(122, 'Hoxne Ampulla mode ON - ammo locked. Ampulla will be used automatically once ready (~5s), and again after zoning.')
+            coroutine.schedule(function() hoxne_try_use(1) end, 1)
         else
             enable('ammo')
             add_to_chat(122, 'Hoxne Ampulla mode OFF - ammo slot unlocked.')
