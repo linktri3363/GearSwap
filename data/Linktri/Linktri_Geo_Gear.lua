@@ -1,25 +1,9 @@
-fixed_pos = ''
-fixed_ts = os.time()
-local no_interruptions = true
 near_porter = false  -- Track if we're near Porter Moogle
 
 -- Skillchain / Magic Burst window tracking
 SCWindowOpen = false
 SCWindowTimer = 0
 SC_WINDOW_DURATION = 8  -- Skillchain window duration in seconds
-windower.raw_register_event('outgoing chunk',function(id,original,modified,injected,blocked)
-    if no_interruptions and (not blocked) then
-        if id == 0x15 then
-            if (gearswap.cued_packet or midaction()) and fixed_pos ~= '' and os.time()-fixed_ts < 5 then
-                return original:sub(1,4)..fixed_pos..original:sub(17)
-            else
-                fixed_pos = original:sub(5,16)
-                fixed_ts = os.time()
-            end
-        end
-    end
-end)
-
 -- Skillchain detection: listens for WS (cat 3), magic finish (cat 4), monster TP move (cat 11).
 -- Opens an 8-second MB window when a skillchain is detected via add_effect_message IDs.
 -- Skillchain message IDs confirmed from Ivaar's Skillchains addon:

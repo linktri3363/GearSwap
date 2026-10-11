@@ -2872,10 +2872,13 @@ end)
 
 windower.raw_register_event('outgoing chunk',function(id,original,modified,injected,blocked)
 	if not blocked and id == 0x15 and state.Uninterruptible.value == 'Full' then
-		if player.status ~= 'Event' and (gearswap.cued_packet or just_acted()) and fixed_pos ~= '' then
+		-- LINKTRI: 5-second safety cutoff (from Linktri's no_interruptions script) so a stuck
+		-- action state can never pin the reported position for long.
+		if player.status ~= 'Event' and (gearswap.cued_packet or just_acted()) and fixed_pos ~= '' and (os.clock() - (fixed_pos_time or 0)) < 5 then
 			return original:sub(1,4)..fixed_pos..original:sub(17)
 		else
 			fixed_pos = original:sub(5,16)
+			fixed_pos_time = os.clock()
 		end
 	end
 end)

@@ -4,7 +4,6 @@
 --             NOT add_effect_animation, which fires on any add effect (poison, enspell, etc.)
 -- Magic Burst: detected via message IDs 252/265/268-275 on category 4 (spell finish)
 --              restricted to player's own actions via act.actor_id == player.id
--- no_interruptions: locks position packets during casting to prevent movement interrupts; toggle with //gs c interrupts
 -------------------------------------------------------------------------------------------------------------------
 
 -- Skillchain window state
@@ -62,34 +61,9 @@ windower.raw_register_event('action', function(act)
     end
 end)
 
-fixed_pos = ''
-fixed_ts = os.time()
-local no_interruptions = true
-windower.raw_register_event('outgoing chunk',function(id,original,modified,injected,blocked)
-    if no_interruptions and (not blocked) then
-        if id == 0x15 then
-            if (gearswap.cued_packet or midaction()) and fixed_pos ~= '' and os.time()-fixed_ts < 5 then
-                return original:sub(1,4)..fixed_pos..original:sub(17)
-            else
-                fixed_pos = original:sub(5,16)
-                fixed_ts = os.time()
-            end
-        end
-    end
-end)
-
 register_unhandled_command(function (...)
     local commands = {...}
-    if commands[1] and commands[1]:lower() == 'interrupts' then
-        if (no_interruptions) then
-            windower.add_to_chat(160, "%s : Disabling \30\2no_interruptions\30\43":format(_addon.name))
-            no_interruptions = false
-        else
-            windower.add_to_chat(160, "%s : Enabling \30\2no_interruptions\30\43":format(_addon.name))
-            no_interruptions = true
-        end
-        return true
-    elseif commands[1] and commands[1]:lower() == 'mb' then
+    if commands[1] and commands[1]:lower() == 'mb' then
         if commands[2] and commands[2]:lower() == 'on' then
             SCWindowOpen = true
             SCWindowTimer = os.clock()
