@@ -93,3 +93,29 @@ bayld_items = {'Tlalpoloani','Macoquetza','Camatlatia','Icoyoca','Tlamini','Suij
 'Otomi Gloves','Kaabnax Hat','Kaabnax Trousers','Ejekamal Mask','Ejekamal Boots','Quiahuiz Helm','Quiahuiz Trousers',
 'Uk\'uxkaj Cap'}
 ]]
+
+-- LINKTRI MODIFICATION (2026-10-11): route automatic lockstyle through DressUp.
+-- Overrides check_lockstyle() from libs/Sel-Utility.lua (this file loads after it), so
+-- Selindrile's libs stay untouched for upstream merges. DressUp's self blink prevention
+-- otherwise swallows every new lockstyle and keeps the previous job's look.
+--   * Jobs with user_job_lockstyle() (per-weapon sets) keep their own set numbers;
+--     'du lockstyle open' first lets the new look through DressUp's blink prevention.
+--   * Jobs without one get 'du lockstyle', i.e. the set numbered by job ID
+--     (WAR=001 ... RUN=022), instead of Selindrile's '/lockstyle on' (current gear).
+-- Requires the modified DressUp (github.com/linktri3363/DressUp).
+function check_lockstyle()
+	if state.AutoLockstyle.value and style_lock and os.clock() > style_delay then
+		if user_job_lockstyle or user_lockstyle then
+			windower.send_command('du lockstyle open')
+			if user_job_lockstyle then
+				user_job_lockstyle()
+			else
+				user_lockstyle()
+			end
+		else
+			windower.send_command('du lockstyle')
+		end
+		style_lock = false
+		style_delay = os.clock() + 15
+	end
+end
