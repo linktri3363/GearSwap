@@ -918,55 +918,11 @@ function select_default_macro_book()
     set_macro_page(1, 6)
 end
 
--- Lockstyle function optimized for different weapon combinations
+-- LINKTRI MODIFICATION (2026-10-11): lockstyle sets are numbered by job ID (THF = 006).
+-- Every weapon branch already chose 006 except unarmed/other weapons, which fell back to
+-- 001 (WAR's set); the two full res.items scans per call are no longer needed.
 function user_job_lockstyle()
-    if player.equipment.main == nil or player.equipment.main == "empty" then
-        windower.chat.input("/lockstyleset 001")
-        return
-    end
-    
-    -- Find main weapon skill
-    local main_skill = nil
-    for id, item in pairs(res.items) do
-        if item.english == player.equipment.main then
-            main_skill = item.skill
-            break
-        end
-    end
-    
-    -- Find sub weapon skill (if equipped)
-    local sub_skill = nil
-    if player.equipment.sub and player.equipment.sub ~= "empty" then
-        for id, item in pairs(res.items) do
-            if item.english == player.equipment.sub then
-                sub_skill = item.skill
-                break
-            end
-        end
-    end
-    
-    -- Dagger in main hand (skill 2) - most common for THF
-    if main_skill == 2 then
-        if not sub_skill then -- Dagger/Nothing
-            windower.chat.input("/lockstyleset 006")
-        elseif sub_skill == 2 then -- Dagger/Dagger
-            windower.chat.input("/lockstyleset 006")
-        else
-            windower.chat.input("/lockstyleset 006") -- Catchall
-        end
-    -- Sword in main hand (skill 3)
-    elseif main_skill == 3 then
-        if not sub_skill then -- Sword/Nothing
-            windower.chat.input("/lockstyleset 006")
-        elseif sub_skill == 2 then -- Sword/Dagger
-            windower.chat.input("/lockstyleset 006")
-        else
-            windower.chat.input("/lockstyleset 006") -- Catchall
-        end
-    else
-        -- Default case for other weapon types
-        windower.chat.input("/lockstyleset 001")
-    end
+    windower.chat.input("/lockstyleset 006")
 end
 
 -- Auto-WS table for different weapons

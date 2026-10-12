@@ -948,9 +948,7 @@ function check_trust()
 end
 
 function user_job_lockstyle()
-    if state.Weapons.value == "Lionheart" then
-        windower.chat.input("/lockstyleset 034")
-    else
-        windower.chat.input("/lockstyleset 033")
-    end
+    -- LINKTRI MODIFICATION (2026-10-11): lockstyle sets are numbered by job ID (RUN = 022).
+    -- Was 034 (Lionheart) / 033 (other weapons); those were not per-weapon looks.
+    windower.chat.input("/lockstyleset 022")
 end
