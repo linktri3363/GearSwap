@@ -520,7 +520,7 @@ function init_gear_sets()
         sub = "Sors Shield",
         ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
         head = "Ebers Cap +3",
-        neck = "", --Debilis Medallion 4m on AH
+        neck = "Loricate Torque +1", -- LINKTRI: blank neck was skipped by GearSwap (neck never swapped). No owned Cursna neck (Debilis Medallion unowned); DT-6% while casting
         ear1 = "Meili Earring",
         ear2 = "Malignance Earring",
         body = "Ebers Bliaut +3",
@@ -559,7 +559,7 @@ function init_gear_sets()
         sub = "Ammurapi Shield",
         ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
         head={ name="Telchine Cap", augments={'Mag. Acc.+20','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
-        neck = "", -- Incanter's Torque Synergy from Melic, Henic, and Deceivers Torques obtained in Escha Ru'Aun
+        neck = "Loricate Torque +1", -- LINKTRI: blank neck was skipped by GearSwap; no owned enhancing neck (Incanter's Torque unowned), so DT-6%/SIRD while casting
         ear1 = "Andoaa Earring",
         ear2 = "", --Gifted Earring evaluate for appropriateness Conserve MP+3 Blood Boon +3
         body={ name="Telchine Chas.", augments={'Mag. Acc.+24','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
@@ -623,7 +623,7 @@ function init_gear_sets()
         sub = "Ammurapi Shield",
         ammo = "Staunch Tathlum +1",
         head = "Ebers Cap +3",
-        neck = "",
+        neck = "Loricate Torque +1", -- LINKTRI: blank neck was skipped by GearSwap; no owned enhancing neck, so DT-6%/SIRD while casting
         ear1 = "Andoaa Earring",
         ear2 = "", --Gifted Earring evaluate for appropriateness Conserve MP+3 Blood Boon +3
         body = "Ebers Bliaut +3",
@@ -715,7 +715,7 @@ function init_gear_sets()
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: C. Palug Crown not in inventory; Bunzi M.Acc+40
-        neck = "", -- Incanter's Torque Synergy from Melic, Henic, and Deceivers Torques obtained in Escha Ru'Aun
+        neck = "Null Loop", -- LINKTRI: blank neck was skipped by GearSwap; MAcc+50 for Repose/Flash/Banish landing (Holy keeps Baetyl Pendant)
         ear1 = "", --Digni. Earring Strophadia Reisenjima
         ear2 = "", --Regal Earring Ou Omen Boss
         body = "Inyanga Jubbah +2",
@@ -1187,7 +1187,7 @@ sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"]
     sets.engaged.Acc = {
         ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
         head = "Aya. Zucchetto +2",
-        neck = "", --Combatant's Torque
+        neck = "Combatant's Torque", -- LINKTRI: was blank (skipped by GearSwap); owned - combat skills +15, Store TP+4
         ear1 = "Telos Earring",
         ear2 = "Brutal Earring",
         body = "Ayanmo Corazza +2",
@@ -1219,7 +1219,7 @@ sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"]
     sets.engaged.DW.Acc = {
         ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
         head = "Aya. Zucchetto +2",
-        neck = "", --Combatant's Torque
+        neck = "Combatant's Torque", -- LINKTRI: was blank (skipped by GearSwap); owned - combat skills +15, Store TP+4
         ear1 = "Telos Earring",
         ear2 = "Suppanomimi",
         body = "Ayanmo Corazza +2",
