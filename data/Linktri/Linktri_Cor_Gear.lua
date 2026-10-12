@@ -917,31 +917,9 @@ function select_default_macro_book()
 end
 
 function user_job_lockstyle()
-    if player.equipment.main == nil or player.equipment.main == "empty" then
-        windower.chat.input("/lockstyleset 001")
-    elseif res.items:with('name', player.equipment.main) and res.items:with('name', player.equipment.main).skill == 3 then --Sword in main hand.
-        if player.equipment.sub == nil or player.equipment.sub == "empty" then --Sword/Nothing.
-            windower.chat.input("/lockstyleset 001")
-        elseif res.items:with('name', player.equipment.sub) and res.items:with('name', player.equipment.sub).shield_size then --Sword/Shield
-            windower.chat.input("/lockstyleset 002")
-        elseif res.items:with('name', player.equipment.sub) and res.items:with('name', player.equipment.sub).skill == 3 then --Sword/Sword.
-            windower.chat.input("/lockstyleset 003")
-        elseif res.items:with('name', player.equipment.sub) and res.items:with('name', player.equipment.sub).skill == 2 then --Sword/Dagger.
-            windower.chat.input("/lockstyleset 001")
-        else
-            windower.chat.input("/lockstyleset 001") --Catchall just in case something's weird.
-        end
-    elseif res.items:with('name', player.equipment.main) and res.items:with('name', player.equipment.main).skill == 2 then --Dagger in main hand.
-        if player.equipment.sub == nil or player.equipment.sub == "empty" then --Dagger/Nothing.
-            windower.chat.input("/lockstyleset 001")
-        elseif res.items:with('name', player.equipment.sub) and res.items:with('name', player.equipment.sub).shield_size then --Dagger/Shield
-            windower.chat.input("/lockstyleset 002")
-        elseif res.items:with('name', player.equipment.sub) and res.items:with('name', player.equipment.sub).skill == 2 then --Dagger/Dagger.
-            windower.chat.input("/lockstyleset 004")
-        else
-            windower.chat.input("/lockstyleset 001") --Catchall just in case something's weird.
-        end
-    end
+    -- LINKTRI MODIFICATION (2026-10-11): lockstyle sets are numbered by job ID (COR = 017).
+    -- Was 001-004 by main/sub weapon type; those were not per-weapon looks.
+    windower.chat.input("/lockstyleset 017")
 end
 
 autows_list = {

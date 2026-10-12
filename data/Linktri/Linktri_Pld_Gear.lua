@@ -47,7 +47,7 @@ function user_job_setup()
 	
     select_default_macro_book()
     update_defense_mode()
-	send_command('@wait 5;input /lockstyleset 7')
+	send_command('@wait 5;du lockstyle 7') -- LINKTRI MODIFICATION (2026-10-11): via DressUp so blink prevention doesn't swallow it
 end
 
 function init_gear_sets()
