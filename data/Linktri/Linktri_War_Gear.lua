@@ -24,14 +24,7 @@ function user_job_setup()
         "Loxotic", -- Blunt damage build on club (Judgment)
         "DualWeapons", -- Alias for NaeglingDual, kept for macro compatibility
         "Greatsword", -- Great Sword Resolution build
-        "ProcDagger",
-        "ProcSword",
-        "ProcGreatSword",
-        "ProcScythe",
-        "ProcPolearm",
-        "ProcGreatKatana",
-        "ProcClub",
-        "ProcStaff"
+        "ProcStaff" -- LINKTRI: other proc weapons removed (unowned, or not WAR-equippable: Hachimonji, Venabulum)
     )
 
     -- JSE Capes - Only using Cichol's Mantle (WAR JSE Cape)
@@ -69,15 +62,21 @@ function init_gear_sets()
     --------------------------------------
     -- Precast Sets
 
+    -- LINKTRI: Enmity rebuilt from owned, WAR-equippable gear (Lugalbanda Earring is not WAR-equippable;
+    -- Flamma Ring has no Enmity). Pummeler's head/hands outclass the Eschite pieces.
     sets.Enmity = {
-        head  = {name = "Eschite Helm", augments = {"HP+80", "Enmity+7", "Phys. dmg. taken -4"}},
+        ammo  = "Paeapua",                 -- Enmity+2
+        head  = "Pumm. Mask +4",           -- Enmity+12
+        neck  = "Unmoving Collar",         -- Enmity+9
+        ear1  = "Trux Earring",            -- Enmity+5
+        ear2  = "Cryptic Earring",         -- Enmity+4
         body  = "Pumm. Lorica +4",
-        hands = {name = "Eschite Gauntlets", augments = {"Accuracy+20", '"Dbl.Atk."+4', "Enmity+7"}},
+        hands = "Pumm. Mufflers +4",       -- Enmity+15
+        ring1 = "Pernicious Ring",         -- Enmity+5
+        ring2 = "Supershear Ring",         -- Enmity+5
+        back  = "Fravashi Mantle",         -- Enmity+6
         legs  = {name = "Eschite Cuisses", augments = {"HP+80", "Enmity+7", "Phys. dmg. taken -4"}},
         feet  = "Eschite Greaves",
-        ear1  = "Trux Earring",
-        ear2  = "Lugalbanda Earring",
-        ring1 = "Flamma Ring",
     }
     sets.Knockback = {}
     sets.passive.Twilight = {head = "Twilight Helm", body = "Twilight Mail"}
@@ -128,42 +127,50 @@ function init_gear_sets()
     sets.precast.Flourish1 = {}
 
     -- Fast cast sets for spells
+    -- LINKTRI: rebuilt from owned gear (Carmine Mask +1 is not WAR-equippable; Enchanter's/Loquacious
+    -- earrings, Leyline Gloves, Prolix Ring, Moonlight Cape and Flume Belt +1 are not owned).
+    -- FC: Sakpata's Helm 8 + Voltsurge 4 + Etiolation 1 = 13%; other slots carry DT, and Sailfi's
+    -- haste also shortens Utsusemi recast via FastRecast.
     sets.precast.FC = {
         ammo = "Impatiens",
-        head = "Carmine Mask +1",
+        head = {name = "Sakpata's Helm", augments = {"Path: A"}},
         neck = "Voltsurge Torque",
-        ear1 = "Enchntr. Earring +1",
-        ear2 = "Loquac. Earring",
+        ear1 = "Etiolation Earring",
+        ear2 = {name = "Alabaster Earring", augments = {"Path: A"}},
         body = {name = "Sakpata's Plate", augments = {"Path: A"}},
-        hands = "Leyline Gloves",
+        hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
         ring1 = "Lebeche Ring",
-        ring2 = "Prolix Ring",
-        back = "Moonlight Cape",
-        waist = "Flume Belt +1",
+        ring2 = "Defending Ring",
+        back = gear.da_jse_back,
+        waist = {name = "Sailfi Belt +1", augments = {"Path: A"}},
         legs = {name = "Sakpata's Cuisses", augments = {"Path: A"}},
         feet = {name = "Sakpata's Leggings", augments = {"Path: A"}}
     }
 
-    sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {neck = "Magoraga Beads"})
+    sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {}) -- LINKTRI: Magoraga Beads is not WAR-equippable
 
     -- Midcast Sets
     sets.midcast.FastRecast = set_combine(sets.precast.FC, {ammo = "Staunch Tathlum +1"})
-    sets.midcast.Utsusemi = set_combine(sets.midcast.FastRecast, {back = "Mujin Mantle"})
+    sets.midcast.Utsusemi = set_combine(sets.midcast.FastRecast, {}) -- LINKTRI: Mujin Mantle not owned
     sets.midcast.Cure = {}
 
-    sets.Self_Healing = {
-        neck = "Phalaina Locket",
-        hands = "Buremte Gloves",
-        ring2 = "Kunaji Ring",
-        waist = "Gishdubar Sash"
-    }
+    -- LINKTRI: emptied - Phalaina Locket, Buremte Gloves, Kunaji Ring and Gishdubar Sash are not owned.
+    sets.Self_Healing = {}
+    sets.Cure_Received = {}
 
-    sets.Cure_Received = {
-        neck = "Phalaina Locket",
-        hands = "Buremte Gloves",
-        ring2 = "Kunaji Ring",
-        waist = "Gishdubar Sash"
+    -- LINKTRI: Phalanx received. Sel-Stahp swaps this set in automatically when another player starts
+    -- casting Phalanx II on you (not while mid-action or in a full DefenseMode), and restores your
+    -- normal gear once it lands. Armor only (+22 Phalanx): Sakpata's Sword (+5) is left out because
+    -- swapping the main weapon would wipe TP. Sakpata's Cuisses (+5) beats Valorous Hose (+4).
+    sets.Phalanx_Received = {
+        head  = {name = "Valorous Mask", augments = {'INT+12','Magic burst dmg.+7%','Phalanx +4','Accuracy+1 Attack+1'}},
+        body  = {name = "Valorous Mail", augments = {'STR+5','Rng.Atk.+26','Phalanx +4'}},
+        hands = {name = "Valorous Mitts", augments = {'Enmity-4','Mag. Acc.+14 "Mag.Atk.Bns."+14','Phalanx +4','Accuracy+10 Attack+10'}},
+        legs  = {name = "Sakpata's Cuisses", augments = {"Path: A"}},
+        feet  = {name = "Valorous Greaves", augments = {'Mag. Acc.+1','"Cure" spellcasting time -9%','Phalanx +5','Mag. Acc.+14 "Mag.Atk.Bns."+14'}},
     }
+    -- Self-cast Phalanx (WAR/RDM) uses the same gear.
+    sets.midcast.Phalanx = set_combine(sets.midcast.FastRecast, sets.Phalanx_Received)
 
     -- Weaponskill sets
     -- NOTE: Moonshade Earring in inventory has Attack+4 / TP Bonus +250 augments.
@@ -184,8 +191,9 @@ function init_gear_sets()
         feet = {name = "Nyame Sollerets", augments = {"Path: B"}}
     }
 
-    sets.precast.WS.SomeAcc = set_combine(sets.precast.WS, {ear1 = "Cessance Earring"})
-    sets.precast.WS.Acc = set_combine(sets.precast.WS, {head = "Flam. Zucchetto +2", ear1 = "Cessance Earring", ear2 = "Telos Earring"})
+    -- LINKTRI: Cessance Earring not owned -> Telos Earring; Acc ear2 uses Boii Earring +2 (Acc+17).
+    sets.precast.WS.SomeAcc = set_combine(sets.precast.WS, {ear1 = "Telos Earring"})
+    sets.precast.WS.Acc = set_combine(sets.precast.WS, {head = "Flam. Zucchetto +2", ear1 = "Telos Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}})
     sets.precast.WS.FullAcc = set_combine(sets.precast.WS.Acc, {ring1 = "Chirich Ring +1", ring2 = "Chirich Ring +1"})
     sets.precast.WS.Fodder = set_combine(sets.precast.WS, {})
 
@@ -198,7 +206,7 @@ function init_gear_sets()
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
         ear1 = "Ishvara Earring",
         ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
-        body = {name = "Sakpata's Plate", augments = {"Path: A"}},
+        body = {name = "Nyame Mail", augments = {"Path: B"}}, -- LINKTRI: WSD+12% and more MND than Sakpata's Plate (no WSD)
         hands = "Boii Mufflers +3",
         ring1 = "Ephramad's Ring",
         ring2 = "Beithir Ring",
@@ -230,14 +238,14 @@ function init_gear_sets()
         ammo = {name = "Coiste Bodhar", augments = {"Path: A"}},
         head = {name = "Agoge Mask +4", augments = {'Enhances "Savagery" effect'}},
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Brutal Earring",
+        ear1 = {name = "Schere Earring", augments = {"Path: A"}}, -- LINKTRI: Brutal Earring not owned
         ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
         body = "Agoge Lorica +4",
         hands = "Agoge Mufflers +4",
         ring1 = "Ephramad's Ring",
         ring2 = "Beithir Ring",
         back = gear.da_jse_back,
-        waist = "Fotia Belt",
+        waist = {name = "Sailfi Belt +1", augments = {"Path: A"}}, -- LINKTRI: Fotia Belt not owned
         legs = {name = "Nyame Flanchard", augments = {"Path: B"}},
         feet = {name = "Sakpata's Leggings", augments = {"Path: A"}}
     }
@@ -247,8 +255,8 @@ function init_gear_sets()
         ammo = {name = "Coiste Bodhar", augments = {"Path: A"}},
         head = {name = "Agoge Mask +4", augments = {'Enhances "Savagery" effect'}},
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Brutal Earring",
-        ear2 = "Schere Earring",
+        ear1 = {name = "Schere Earring", augments = {"Path: A"}}, -- LINKTRI: Brutal Earring not owned
+        ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}, -- LINKTRI: DA+9% (right ear only)
         body = "Agoge Lorica +4",
         hands = "Agoge Mufflers +4",
         ring1 = "Ephramad's Ring",
@@ -262,10 +270,10 @@ function init_gear_sets()
     -- Rampage - Axe WS, critical hit based
     -- NOTE: Boii Earring +2 MUST be in ear2 slot.
     sets.precast.WS["Rampage"] = {
-        ammo = "Yetshila +1",
+        ammo = "Knobkierrie", -- LINKTRI: Yetshila +1 not owned
         head = "Boii Mask +3",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Brutal Earring",
+        ear1 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}}, -- LINKTRI: crit rate on Rampage/Ukko's Fury rises with TP
         ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}},
         body = {name = "Sakpata's Plate", augments = {"Path: A"}},
         hands = "Boii Mufflers +3",
@@ -335,8 +343,13 @@ function init_gear_sets()
     end
 
     -- Swap to these on Moonshade using WS if at 3000 TP
-    sets.MaxTP = {ear1 = "Brutal Earring", ear2 = "Cessance Earring"}
-    sets.AccMaxTP = {ear1 = "Cessance Earring", ear2 = "Telos Earring"}
+    -- LINKTRI: Brutal/Cessance earrings not owned. WAR.lua reads ear1 and ear2 of the base sets, so both
+    -- are always defined. Per-WS versions keep each WS's own non-Moonshade ear.
+    sets.MaxTP = {ear1 = "Ishvara Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}}
+    sets.AccMaxTP = {ear1 = "Telos Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}}
+    sets.MaxTP["Resolution"] = {ear1 = {name = "Schere Earring", augments = {"Path: A"}}, ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}}
+    sets.MaxTP["Rampage"] = {ear1 = "Telos Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}}
+    sets.MaxTP["Ukko's Fury"] = sets.MaxTP["Rampage"]
 
     -- Sets to return to when not performing an action.
 
@@ -372,7 +385,7 @@ function init_gear_sets()
 	
     -- Packing set for Porter Moogle
     sets.packing = {
-        main  = "Bravura",
+        main  = "Chango", -- LINKTRI: Bravura not owned
         sub   = "Utu Grip",
         ammo  = "Staunch Tathlum +1",
         head  = "Null Masque",
@@ -401,7 +414,7 @@ function init_gear_sets()
         ring1 = "Defending Ring",
         ring2 = {name = "Murky Ring", augments = {"Path: A"}},
         back = gear.da_jse_back, -- Cichol's Mantle: Damage taken-5%
-        waist = "Flume Belt +1",
+        waist = "Null Belt", -- LINKTRI: Flume Belt +1 not owned
         legs = {name = "Sakpata's Cuisses", augments = {"Path: A"}},
         feet = {name = "Sakpata's Leggings", augments = {"Path: A"}}
     }
@@ -418,7 +431,7 @@ function init_gear_sets()
         hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
         ring1 = "Defending Ring",
         ring2 = {name = "Murky Ring", augments = {"Path: A"}},
-        back = "Moonlight Cape",
+        back = gear.da_jse_back, -- LINKTRI: Moonlight Cape not owned; Cichol's Mantle DT-5%
         waist = "Carrier's Sash",
         legs = {name = "Sakpata's Cuisses", augments = {"Path: A"}},
         feet = {name = "Sakpata's Leggings", augments = {"Path: A"}}
@@ -430,7 +443,7 @@ function init_gear_sets()
     sets.Kiting = {ring2 = "Shneddick Ring +1"}
     sets.Reraise = {head = "Twilight Helm", body = "Twilight Mail"}
     sets.buff.Doom = {}
-    sets.buff.Sleep = {neck = "Vim Torque +1"}
+    sets.buff.Sleep = {} -- LINKTRI: Vim Torque +1 not owned
 
     -- Emergency survival set: auto-equips when HP drops to or below 50% while engaged.
     -- Prioritizes damage taken reduction and HP. Releases automatically when HP recovers above 50%.
@@ -455,7 +468,7 @@ function init_gear_sets()
     -- Single Wield (Naegling/Sword builds)
     sets.engaged = {
         ammo = {name = "Coiste Bodhar", augments = {"Path: A"}},
-        head = {name = "Flam. Zucchetto +2"},
+        head = "Boii Mask +3", -- LINKTRI: DA+7%, Crit+6%, DT-11%, more Acc/Atk than Flam. Zucchetto +2
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
         ear1 = "Schere Earring",
         ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}},
@@ -466,19 +479,18 @@ function init_gear_sets()
         back = gear.da_jse_back,
         waist = {name = "Sailfi Belt +1", augments = {"Path: A"}},
         legs = "Boii Cuisses +3",
-        feet = {name = "Flam. Gambieras +2"}
+        feet = "Pumm. Calligae +4" -- LINKTRI: DA+9%, Haste+4%, Acc/Atk over Flam. Gambieras +2
     }
 
     sets.engaged.SomeAcc = set_combine(sets.engaged, {
         neck = "Asperity Necklace",  -- Note: Combatant's Torque (Combat Skills+15, STP+1) craftable via Synergy if ingredients gathered
-        ear1 = "Cessance Earring",
+        ear1 = "Telos Earring", -- LINKTRI: Cessance Earring not owned
         ring1 = "Chirich Ring +1",
         back = "Null Shawl",
     })
 
     sets.engaged.Acc = set_combine(sets.engaged.SomeAcc, {
-        ear2 = "Telos Earring",
-        hands = {name = "Flam. Manopolas +2"}
+        hands = {name = "Flam. Manopolas +2"} -- LINKTRI: ear2 stays Boii Earring +2 (Acc+17 > Telos)
     })
 
     sets.engaged.FullAcc = set_combine(sets.engaged.Acc, {
@@ -494,7 +506,7 @@ function init_gear_sets()
     sets.engaged.TwoHanded = {
         ammo = {name = "Coiste Bodhar", augments = {"Path: A"}},
         head = {name = "Flam. Zucchetto +2"},
-        neck = "Vim Torque +1",
+        neck = {name = "War. Beads +2", augments = {"Path: A"}}, -- LINKTRI: Vim Torque +1 not owned
         ear1 = "Schere Earring",
         ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}},
         body = "Hjarrandi Breast.",
@@ -507,37 +519,29 @@ function init_gear_sets()
     }
 
     -- Hybrid sets for defensive TP
-    sets.engaged.PDT = set_combine(sets.engaged, {
-        ammo = "Staunch Tathlum +1",
-        head = {name = "Sakpata's Helm", augments = {"Path: A"}},
-        neck = {name = "Loricate Torque +1", augments = {"Path: A"}},
-        ear1 = {name = "Alabaster Earring", augments = {"Path: A"}},
+    -- LINKTRI: rebuilt. The old PDT/MDT stacked DT-73% (cap 50%), and the Acc variants overwrote
+    -- Defending Ring/Sakpata's hands, dropping DT to ~35%. sets.HybridDT is a DT core applied LAST
+    -- on every offense mode, so each hybrid set lands at DT-53% while the remaining slots stay offensive:
+    -- Boii Mask +3 11 + Sakpata's Plate 10 + Sakpata's Gauntlets 8 + Defending Ring 10
+    -- + Cichol's Mantle 5 + Sakpata's Cuisses 9 = 53% (PDT and MDT alike).
+    sets.HybridDT = {
+        head = "Boii Mask +3",
         body = {name = "Sakpata's Plate", augments = {"Path: A"}},
+        hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
         ring1 = "Defending Ring",
-        ring2 = {name = "Murky Ring", augments = {"Path: A"}},
+        back = gear.da_jse_back,
         legs = {name = "Sakpata's Cuisses", augments = {"Path: A"}},
-        back = gear.da_jse_back -- Cichol's Mantle: Damage taken-5%
-    })
+    }
 
-    sets.engaged.SomeAcc.PDT = set_combine(sets.engaged.PDT, sets.engaged.SomeAcc, {back = gear.da_jse_back})
-    sets.engaged.Acc.PDT = set_combine(sets.engaged.PDT, sets.engaged.Acc, {back = gear.da_jse_back})
-    sets.engaged.FullAcc.PDT = set_combine(sets.engaged.PDT, sets.engaged.FullAcc, {back = gear.da_jse_back})
+    sets.engaged.PDT = set_combine(sets.engaged, sets.HybridDT)
+    sets.engaged.SomeAcc.PDT = set_combine(sets.engaged.SomeAcc, sets.HybridDT)
+    sets.engaged.Acc.PDT = set_combine(sets.engaged.Acc, sets.HybridDT)
+    sets.engaged.FullAcc.PDT = set_combine(sets.engaged.FullAcc, sets.HybridDT)
 
-    sets.engaged.MDT = set_combine(sets.engaged, {
-        ammo = "Staunch Tathlum +1",
-        head = {name = "Sakpata's Helm", augments = {"Path: A"}},
-        neck = {name = "Loricate Torque +1", augments = {"Path: A"}},
-        ear1 = {name = "Alabaster Earring", augments = {"Path: A"}},
-        body = {name = "Sakpata's Plate", augments = {"Path: A"}},
-        ring1 = "Defending Ring",
-        ring2 = {name = "Murky Ring", augments = {"Path: A"}},
-        legs = {name = "Sakpata's Cuisses", augments = {"Path: A"}},
-        back = "Moonlight Cape"
-    })
-
-    sets.engaged.SomeAcc.MDT = set_combine(sets.engaged.MDT, sets.engaged.SomeAcc)
-    sets.engaged.Acc.MDT = set_combine(sets.engaged.MDT, sets.engaged.Acc)
-    sets.engaged.FullAcc.MDT = set_combine(sets.engaged.MDT, sets.engaged.FullAcc)
+    sets.engaged.MDT = set_combine(sets.engaged, sets.HybridDT)
+    sets.engaged.SomeAcc.MDT = set_combine(sets.engaged.SomeAcc, sets.HybridDT)
+    sets.engaged.Acc.MDT = set_combine(sets.engaged.Acc, sets.HybridDT)
+    sets.engaged.FullAcc.MDT = set_combine(sets.engaged.FullAcc, sets.HybridDT)
 
     -- Weapon sets
     sets.weapons.Chango = {main = "Chango", sub = "Utu Grip"}
@@ -547,13 +551,6 @@ function init_gear_sets()
     sets.weapons.Loxotic = {main = "Loxotic Mace +1", sub = "Blurred Shield +1"}
     sets.weapons.DualWeapons = {main = "Naegling", sub = {name = "Ternion Dagger +1", augments = {'Path: A'}}}
     sets.weapons.Greatsword = {main = "Mes'Yohi Sword", sub = "Utu Grip"}
-    sets.weapons.ProcDagger = {main = "Chicken Knife II", sub = ""}
-    sets.weapons.ProcSword = {main = "Ark Sword", sub = ""}
-    sets.weapons.ProcGreatSword = {main = "Ark Scythe", sub = ""}
-    sets.weapons.ProcScythe = {main = "Ark Scythe", sub = ""}
-    sets.weapons.ProcPolearm = {main = "Venabulum", sub = ""}
-    sets.weapons.ProcGreatKatana = {main = "Hachimonji", sub = ""}
-    sets.weapons.ProcClub = {main = "Poison Axe", sub = ""}
     sets.weapons.ProcStaff = {main = "Chatoyant Staff", sub = ""}
 
     -- Special buff sets
@@ -581,8 +578,11 @@ local two_handed_weapons = S{
     "Shining One",
 }
 
+-- LINKTRI: only overlay the Great Axe TP set in Normal hybrid + Normal/Fodder offense. Previously it
+-- was layered over EVERY mode, wiping PDT/MDT defensive gear and the Acc pieces whenever Chango was out.
 function user_job_customize_melee_set(meleeSet)
-    if two_handed_weapons[player.equipment.main] then
+    if two_handed_weapons[player.equipment.main] and state.HybridMode.value == 'Normal'
+            and (state.OffenseMode.value == 'Normal' or state.OffenseMode.value == 'Fodder') then
         meleeSet = set_combine(meleeSet, sets.engaged.TwoHanded)
     end
     return meleeSet
