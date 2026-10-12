@@ -143,7 +143,7 @@ function init_gear_sets()
         sub = "Clerisy Strap +1",
         ammo = "Impatiens", --+2 QM
         head= "Ebers Cap +3", --+13 FC
-        neck = "Baetyl Pendant", --+4 FC
+        neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- LINKTRI: Fast Cast +10% (augment, confirmed in game) vs Baetyl +4%; neither has DT
         ear1 = "Etiolation Earring", --+1 FC
         ear2 = "Malignance Earring", --+4 FC
         body = "Inyanga Jubbah +2", --+14 FC
