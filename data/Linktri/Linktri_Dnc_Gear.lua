@@ -1092,6 +1092,112 @@ function job_post_precast(spell, spellMap, eventArgs)
     end
 end
 
+-- ======================================================================
+-- LINKTRI MODIFICATION: DTFull weaponskill DT cap
+-- HybridMode (DTFull) only shapes engaged/TP gear; Sel only applies sets.precast.WS.DT in a full
+-- DefenseMode. So in DTFull a weaponskill dropped to whatever DT its WS set had (often ~24%, and
+-- physical-only on the Gleti's Evisceration set). This runs LAST in the precast chain (after
+-- Moonshade/Climactic/Saber Dance/Ephramad/Skillchain overlays), reads the pending WS gear, and
+-- swaps in DT pieces - cheapest damage loss first - until physical AND magical DT are both >= 50%.
+-- Values {DT, PDT, MDT} are from the game client item data; Gleti's armor is physical-only.
+-- REVERT: delete this block (extra_user_post_precast is otherwise unused).
+-- ======================================================================
+local WS_DT_SLOTS = {'ammo','head','neck','left_ear','right_ear','body','hands','left_ring','right_ring','back','waist','legs','feet'}
+local WS_DT_VALUES = {
+    ["Nyame Helm"]={7,0,0}, ["Nyame Mail"]={9,0,0}, ["Nyame Gauntlets"]={7,0,0},
+    ["Nyame Flanchard"]={8,0,0}, ["Nyame Sollerets"]={7,0,0},
+    ["Gleti's Mask"]={0,6,0}, ["Gleti's Cuirass"]={0,9,0}, ["Gleti's Gauntlets"]={0,7,0},
+    ["Gleti's Breeches"]={0,8,0}, ["Gleti's Boots"]={0,5,0}, ["Horos Casaque +4"]={0,6,0},
+    ["Macu. Casaque +3"]={14,0,0}, ["Macu. Bangles +3"]={11,0,0}, ["Maculele Bangles +3"]={11,0,0},
+    ["Macu. Toe Sh. +3"]={10,0,0},
+    ["Malignance Chapeau"]={6,0,0}, ["Malignance Tabard"]={9,0,0}, ["Malignance Gloves"]={5,0,0},
+    ["Malignance Tights"]={7,0,0}, ["Malignance Boots"]={4,0,0},
+    ["Null Masque"]={10,0,0}, ["Null Loop"]={5,0,0}, ["Loricate Torque +1"]={6,0,0},
+    ["Alabaster Earring"]={5,0,0}, ["Odnowa Earring +1"]={0,0,2}, ["Etiolation Earring"]={0,0,3},
+    ["Defending Ring"]={10,0,0}, ["Murky Ring"]={10,0,0},
+    ["Crepuscular Pebble"]={3,0,0}, ["Staunch Tathlum +1"]={3,0,0},
+}
+-- Fill order = least damage lost first. Rings go before armor; Nyame armor keeps WSD on the slots it
+-- takes over; head is last so Maculele Tiara +3 (Climactic Flourish / WSD) is the final thing traded.
+local WS_DT_FILL = {
+    {'right_ring', 'Defending Ring'},
+    {'left_ring',  { name="Murky Ring", augments={'Path: A',}}},
+    {'neck',       'Null Loop'},
+    {'ammo',       'Crepuscular Pebble'},
+    {'legs',       'Nyame Flanchard'},
+    {'feet',       'Nyame Sollerets'},
+    {'body',       'Nyame Mail'},
+    {'hands',      'Nyame Gauntlets'},
+    {'head',       'Nyame Helm'},
+}
+
+local function ws_dt_name(item)
+    if type(item) == 'table' then return item.name end
+    return item
+end
+
+local function ws_dt_of(item)
+    local name = ws_dt_name(item)
+    if not name or name == '' or name == 'empty' then return 0,0,0 end
+    if name == "Senuna's Mantle" then
+        -- Only the Store TP cape carries the "Damage taken-5%" augment.
+        if type(item) == 'table' and item.augments then
+            for _,a in ipairs(item.augments) do
+                if a == 'Damage taken-5%' then return 5,0,0 end
+            end
+        end
+        return 0,0,0
+    end
+    local v = WS_DT_VALUES[name]
+    if not v then return 0,0,0 end
+    return v[1], v[2], v[3]
+end
+
+function ws_dt_cap()
+    local pending = (gearswap and gearswap.equip_list) or {}
+    local eff = {}
+    for _,slot in ipairs(WS_DT_SLOTS) do
+        eff[slot] = pending[slot] or player.equipment[slot]
+    end
+
+    local function totals()
+        local phys, mag = 0, 0
+        for _,slot in ipairs(WS_DT_SLOTS) do
+            local d, pd, md = ws_dt_of(eff[slot])
+            phys = phys + d + pd
+            mag = mag + d + md
+        end
+        return phys, mag
+    end
+    local function score(p, m) return math.min(p, 50) + math.min(m, 50) end
+
+    local phys, mag = totals()
+    for _,f in ipairs(WS_DT_FILL) do
+        if phys >= 50 and mag >= 50 then break end
+        local slot, item = f[1], f[2]
+        local other = (slot == 'left_ring' and 'right_ring') or (slot == 'right_ring' and 'left_ring') or nil
+        -- Never ask for the same ring in both ring slots.
+        if not (other and ws_dt_name(eff[other]) == ws_dt_name(item)) then
+            local old = eff[slot]
+            eff[slot] = item
+            local np, nm = totals()
+            if score(np, nm) > score(phys, mag) then
+                equip({[slot] = item})
+                phys, mag = np, nm
+            else
+                eff[slot] = old
+            end
+        end
+    end
+    return phys, mag
+end
+
+function extra_user_post_precast(spell, spellMap, eventArgs)
+    if spell.type == 'WeaponSkill' and state.HybridMode.value == 'DTFull' then
+        ws_dt_cap()
+    end
+end
+
 -- Enhanced party buff checking
 function check_party_buffs()
     local has_geo = false
