@@ -224,6 +224,14 @@ function init_gear_sets()
 
 	sets.idle.Pet.Engaged.DW = set_combine(sets.idle.Pet.Engaged, {})
 
+	-- LINKTRI: PorterPacker packing-safe set (same approach as the WHM file). Equipped while a Porter Moogle
+	-- is close so none of your slip-storable gear (Nukumi/Totemic artifact pieces etc.) is being worn when
+	-- PorterPacker packs it. Only non-slip gear here; weapons are left as they are.
+	sets.packing = {ammo="Staunch Tathlum +1",
+		head="Null Masque",neck="Loricate Torque +1",ear1="Alabaster Earring",ear2="Odnowa Earring +1",
+		body="Nyame Mail",hands="Nyame Gauntlets",ring1="Defending Ring",ring2="Murky Ring",
+		back="Null Shawl",waist="Null Belt",legs="Nyame Flanchard",feet="Nyame Sollerets"}
+
 	-- DEFENSE SETS
 	sets.defense.PDT = {ammo="Staunch Tathlum +1",
 		head="Nuk. Cabasset +3",neck="Loricate Torque +1",ear1="Alabaster Earring",ear2="Odnowa Earring +1",
@@ -417,6 +425,35 @@ function init_gear_sets()
 	sets.precast.JA['Bestial Loyalty'].DaringRoland = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="Feculent Broth"})
 	sets.precast.JA['Bestial Loyalty'].SlimeFamiliar = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="Decaying Broth"})
 	sets.precast.JA['Bestial Loyalty'].SultryPatrice = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="Putrescent Broth"})
+end
+
+-- LINKTRI: PorterPacker support (ported from the WHM file). Uses user_job_customize_idle_set, which Sel runs
+-- AFTER BST.lua's own job_customize_idle_set, so BST's pet idle logic is left intact.
+near_porter = false
+
+function near_porter_moogle()
+	local mobs = windower.ffxi.get_mob_array()
+	for i, mob in pairs(mobs) do
+		-- mob.distance is squared yalms: < 36 means within 6 yalms
+		if mob.name == "Porter Moogle" and mob.distance and mob.distance < 36 then
+			return true
+		end
+	end
+	return false
+end
+
+function user_job_customize_idle_set(idleSet)
+	if near_porter_moogle() then
+		if not near_porter then
+			windower.add_to_chat(160, "Near Porter Moogle - Using packing gear")
+			near_porter = true
+		end
+		return sets.packing
+	elseif near_porter then
+		windower.add_to_chat(160, "Left Porter Moogle area - Returning to normal gear")
+		near_porter = false
+	end
+	return idleSet
 end
 
 -- Select default macro book on initial load or subjob change.
