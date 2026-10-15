@@ -2,6 +2,7 @@ sets.exported = {
     ammo="Vis. Broth",
     item="Silver Voucher",
     item="Codex of Etchings",
+    sub={ name="Agwu's Axe", augments={'Path: A',}},
     item="Pandemonium Key",
     item="Abdhaljs's Honor",
     item="Orvail Box Key",
