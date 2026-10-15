@@ -48,18 +48,26 @@ windower.register_event('outgoing text', function(original, modified)
             return ' ' .. str:gsub(' ', string.char(7)) .. ' '
         end):split(' '):filter(-'')
 
-    if splitline.n == 0 then
-        return
+    if not splitline[2] then
+        return modified
     end
 
     local command = splitline[1]
     local bstpet = (command == '/bstpet' and tonumber(splitline[2]))
     local unified_prefix = unify_prefix[command]
-    local abil, temp_mob_arr
+    if not unified_prefix then
+        return modified
+    end
 
-    if splitline[2] and not bstpet then
-        abil = splitline[2]:gsub(string.char(7), ' '):lower()
-    elseif splitline[2] and bstpet then
+    local abil, r_line
+    local r_name = res_prefix_map[unified_prefix]
+    local targ = splitline[3]
+    if unified_prefix == '/ra' then
+        storedcommand = command .. ' '
+        targ = splitline[2]
+        abil = res[r_name][0][language]:lower()
+    elseif bstpet then
+        storedcommand = command .. ' ' .. splitline[2]
         local pet_abilities = {}
         for _, v in ipairs(windower.ffxi.get_abilities().job_abilities) do
             if v >= bstpet_range.min and v <= bstpet_range.max then
@@ -67,17 +75,20 @@ windower.register_event('outgoing text', function(original, modified)
             end
         end
         if pet_abilities[tonumber(splitline[2])] then
-            abil = res.job_abilities[pet_abilities[tonumber(splitline[2])]].name:gsub(string.char(7), ' '):lower() -- .name, or .english?
+            abil = res[r_name][pet_abilities[tonumber(splitline[2])]].name:gsub(string.char(7), ' '):lower() -- .name, or .english?
         end
+    else
+        storedcommand = nil
+        abil = splitline[2]:gsub(string.char(7), ' '):lower()
     end
 
-    if validabils[language][unified_prefix] and validabils[language][unified_prefix][abil] then
-        temp_mob_arr = valid_target(splitline[3])
-    elseif validabils[language][unified_prefix] then
-        temp_mob_arr = valid_target(splitline[2])
+    local temp_mob_arr = valid_target(targ)
+    if not temp_mob_arr then
+        return modified
     end
 
-    if not (unified_prefix and temp_mob_arr and (validabils[language][unified_prefix][abil] or unified_prefix == '/ra')) then
+    local r_index = validabils[language][unified_prefix][abil]
+    if not r_index then
         return modified
     end
 
@@ -88,46 +99,18 @@ windower.register_event('outgoing text', function(original, modified)
 
     refresh_globals()
 
-    local r_line, find_monster_skill
-
-    function find_monster_skill(abil)
-        local line = false
-        if player.species and player.species.tp_moves then
-            -- Iterates over currently available monster TP moves instead of using validabils
-            for i, v in pairs(player.species.tp_moves) do
-                if res.monster_skills[i][language]:lower() == abil then
-                    line = copy_entry(res.monster_skills[i])
-                    break
-                end
-            end
-        end
-        return line
+    if unified_prefix == '/ms' then
+        r_line = find_monster_skill(abil)
+    else
+        r_line = copy_entry(res[r_name][r_index])
     end
 
-    if unified_prefix == '/ma' then
-        r_line = copy_entry(res.spells[validabils[language][unified_prefix][abil]])
-        storedcommand = command .. ' "' .. windower.to_shift_jis(r_line[language]) .. '" '
-    elseif unified_prefix == '/ms' and find_monster_skill(abil) then
-        r_line = find_monster_skill(abil)
-        storedcommand = command .. ' "' .. windower.to_shift_jis(r_line[language]) .. '" '
-    elseif unified_prefix == '/ws' then
-        r_line = copy_entry(res.weapon_skills[validabils[language][unified_prefix][abil]])
-        storedcommand = command .. ' "' .. windower.to_shift_jis(r_line[language]) .. '" '
-    elseif unified_prefix == '/ja' then
-        r_line = copy_entry(res.job_abilities[validabils[language][unified_prefix][abil]])
-        if bstpet then
-            storedcommand = command .. ' ' .. splitline[2]
-        else
-            storedcommand = command .. ' "' .. windower.to_shift_jis(r_line[language]) .. '" '
-        end
-    elseif unified_prefix == '/item' then
-        r_line = copy_entry(res.items[validabils[language][unified_prefix][abil]])
-        r_line.prefix = '/item'
+    if unified_prefix == '/item' then
         r_line.type = 'Item'
+    end
+
+    if not storedcommand then
         storedcommand = command .. ' "' .. windower.to_shift_jis(r_line[language]) .. '" '
-    elseif unified_prefix == '/ra' then
-        r_line = copy_entry(resources_ranged_attack)
-        storedcommand = command .. ' '
     end
 
     r_line.name = r_line[language]
@@ -218,7 +201,7 @@ parse.i[0x028] = function (data)
     local spell = get_spell(act)
 --    if not spell_res or (spell.english ~= spell_res.english) then print('Did not match.',spell.english,spell_res) end
 
-    if spell then logit('\n\n'..tostring(os.clock)..'(178) Event Action: '..tostring(spell[language])..' '..tostring(act.category))
+    if spell then logit('\n\n'..tostring(os.clock())..'(178) Event Action: '..tostring(spell[language])..' '..tostring(act.category))
     else logit('\n\nNil spell detected') end
 
     if spell and spell[language] then
@@ -341,7 +324,7 @@ parse.i[0x029] = function (data)
     end
 
     if unable_to_use:contains(arr.message_id) then
-        logit('\n\n'..tostring(os.clock)..'(195) Event Action Message: '..tostring(message_id)..' Interrupt')
+        logit('\n\n'..tostring(os.clock())..'(195) Event Action Message: '..tostring(arr.message_id)..' Interrupt')
         local ts,tab = command_registry:find_by_time()
 
         if tab and tab.spell then
