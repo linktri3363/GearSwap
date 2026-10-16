@@ -119,3 +119,87 @@ function check_lockstyle()
 		style_delay = os.clock() + 15
 	end
 end
+
+-------------------------------------------------------------------------------------------------------------------
+-- LINKTRI MODIFICATION: GearSwap inventory self-heal (all jobs)
+-- GearSwap reads your bags once at load, then keeps its own copy updated from item packets. In very crowded
+-- zones (e.g. Domain Invasion) packets can be dropped, its copy goes stale, and whole sets fail as "not found"
+-- even though the gear is in your bags. Every 5s this compares GearSwap's copy of inventory + wardrobes with the
+-- game client's memory (item ID per bag slot only) and, if the SAME difference is seen on two checks in a row,
+-- copies the client's entry into just those slots, then re-equips.
+-- Safeguards: read-only towards the server (never moves items); skips while an action is in progress; never
+-- touches equipment slots or the equipped flag of matching slots; ignores a bag the client reports as fully
+-- empty (client still loading after a zone); any error is caught so it can never break GearSwap.
+-- Toggle: //gs c toggle InventoryResync   |   REVERT: delete this block.
+-------------------------------------------------------------------------------------------------------------------
+state.InventoryResync = M(true, 'Inventory Resync')
+
+local INV_RESYNC_BAGS = {'inventory','wardrobe','wardrobe2','wardrobe3','wardrobe4','wardrobe5','wardrobe6','wardrobe7','wardrobe8'}
+local INV_RESYNC_INTERVAL = 5
+local inv_resync_next = 0
+local inv_resync_pending = {}   -- "bag:slot:clientId" -> true, seen on the previous check
+local inv_resync_last_msg = -60
+
+local function inv_slot_id(entry)
+	if type(entry) == 'table' and entry.id then return entry.id end
+	return 0
+end
+
+local function inv_resync_check()
+	if not (state.InventoryResync and state.InventoryResync.value) then return end
+	if midaction() then return end
+	local gs_items = gearswap and gearswap.items
+	if type(gs_items) ~= 'table' then return end
+	local client = windower.ffxi.get_items()
+	if type(client) ~= 'table' then return end
+
+	local seen, fixed = {}, 0
+	for _, bag in ipairs(INV_RESYNC_BAGS) do
+		local cb, gb = client[bag], gs_items[bag]
+		if type(cb) == 'table' and cb.enabled ~= false and type(gb) == 'table' then
+			local max = tonumber(cb.max) or 80
+			local client_count = 0
+			for slot = 1, max do
+				if inv_slot_id(cb[slot]) ~= 0 then client_count = client_count + 1 end
+			end
+			-- A bag the client reports as completely empty is most likely still loading: don't trust it.
+			if client_count > 0 then
+				for slot = 1, max do
+					local cid = inv_slot_id(cb[slot])
+					if cid ~= inv_slot_id(gb[slot]) then
+						local key = bag..':'..slot..':'..cid
+						if inv_resync_pending[key] then
+							gb[slot] = cb[slot]
+							fixed = fixed + 1
+						else
+							seen[key] = true
+						end
+					end
+				end
+			end
+		end
+	end
+	inv_resync_pending = seen
+
+	if fixed > 0 then
+		if os.clock() - inv_resync_last_msg >= 60 then
+			add_to_chat(122, '[GearSwap] Inventory resynced from the game client: '..fixed..' bag slot(s) corrected.')
+			inv_resync_last_msg = os.clock()
+		end
+		send_command('gs c update')
+	end
+end
+
+windower.register_event('prerender', function()
+	local now = os.clock()
+	if now < inv_resync_next then return end
+	inv_resync_next = now + INV_RESYNC_INTERVAL
+	local ok, err = pcall(inv_resync_check)
+	if not ok then
+		inv_resync_pending = {}
+		if os.clock() - inv_resync_last_msg >= 60 then
+			add_to_chat(123, '[GearSwap] Inventory resync check skipped: '..tostring(err))
+			inv_resync_last_msg = os.clock()
+		end
+	end
+end)
