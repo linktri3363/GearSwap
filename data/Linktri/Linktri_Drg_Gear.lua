@@ -114,12 +114,14 @@ function init_gear_sets()
 	
 	-- Specific weaponskill sets.  Uses the base set if an appropriate WSMod version isn't found.
 	-- Stardiver - Multi-hit WS, benefits from fTP bonus and DA
+	-- Gleti's R30: each piece Attack+70/Acc+55 and PDL; Cuirass DA+10%, Breeches TA+5%, Boots STR+5
 	sets.precast.WS['Stardiver'] = set_combine(sets.precast.WS, {
-		head={ name="Nyame Helm", augments={'Path: B',}},
+		head="Peltast's Mezail +3",
 		body={ name="Gleti's Cuirass", augments={'Path: A',}},
 		hands={ name="Gleti's Gauntlets", augments={'Path: A',}},
 		legs={ name="Gleti's Breeches", augments={'Path: A',}},
-		feet={ name="Nyame Sollerets", augments={'Path: B',}}})
+		feet={ name="Gleti's Boots", augments={'Path: A',}}})
+		-- original: head=Nyame Helm, feet=Nyame Sollerets (owned; Mezail +3 Atk+71/WSD+12, Gleti's Boots R30 Atk+70/PDL+5 for a 4-hit WS)
 	sets.precast.WS['Stardiver'].SomeAcc = set_combine(sets.precast.WS['Stardiver'], {})
 	sets.precast.WS['Stardiver'].Acc = set_combine(sets.precast.WS['Stardiver'], {neck="Shulmanu Collar"})
 	sets.precast.WS['Stardiver'].Fodder = set_combine(sets.precast.WS['Stardiver'], {})
@@ -129,8 +131,10 @@ function init_gear_sets()
 		head={ name="Gleti's Mask", augments={'Path: A',}},
 		body="Hjarrandi Breast.",
 		hands={ name="Gleti's Gauntlets", augments={'Path: A',}},
-		legs={ name="Gleti's Breeches", augments={'Path: A',}},
+		legs="Pelt. Cuissots +3",
 		feet={ name="Gleti's Boots", augments={'Path: A',}}})
+		-- original: legs=Gleti's Breeches (owned; Cuissots +3 trade crit rate 7% for crit damage +13% and DT-13%)
+		-- Hjarrandi kept over Gleti's Cuirass R30: crit +13% vs +8%, and crit rate is what Drakesbane scales on
 	sets.precast.WS['Drakesbane'].SomeAcc = set_combine(sets.precast.WS['Drakesbane'], {})
 	sets.precast.WS['Drakesbane'].Acc = set_combine(sets.precast.WS['Drakesbane'], {neck="Shulmanu Collar"})
 	sets.precast.WS['Drakesbane'].Fodder = set_combine(sets.precast.WS['Drakesbane'], {})
@@ -140,8 +144,12 @@ function init_gear_sets()
 		ear2="Ishvara Earring",back="Updraft Mantle"}) -- single hit: Attack+20 back over Null Shawl's DA
 	
 	-- Impulse Drive - 2-hit WS
-	sets.precast.WS['Impulse Drive'] = set_combine(sets.precast.WS, {})
-	-- Shining One: Impulse Drive damage +40% comes from the weapon (sets.weapons.ShiningOne)
+	-- Impulse Drive: Shining One adds crit rate based on TP spent (plus Impulse Drive damage +40%),
+	-- so it uses the Drakesbane crit set. original: set_combine(sets.precast.WS, {})
+	sets.precast.WS['Impulse Drive'] = set_combine(sets.precast.WS['Drakesbane'], {})
+	sets.precast.WS['Impulse Drive'].SomeAcc = set_combine(sets.precast.WS['Drakesbane'].SomeAcc, {})
+	sets.precast.WS['Impulse Drive'].Acc = set_combine(sets.precast.WS['Drakesbane'].Acc, {})
+	sets.precast.WS['Impulse Drive'].Fodder = set_combine(sets.precast.WS['Drakesbane'].Fodder, {})
 
 	-- Savage Blade for Naegling
 	sets.precast.WS['Savage Blade'] = set_combine(sets.precast.WS, {
@@ -270,12 +278,14 @@ function init_gear_sets()
     sets.engaged.AM.FullAcc = {}
     sets.engaged.AM.Fodder = {}
 	
-	-- PDT Hybrid sets - mixing offense with defense (DT-59%: Nyame 38, Loricate 6, Alabaster 5, Defending 10)
-	-- original: ring2="Niqmaddu Ring", back="Moonlight Cape" (not owned)
+	-- PDT Hybrid sets - capped DT on five armor pieces + Defending Ring, everything else offense
+	-- PDT-63% / MDT-57%: Gleti's Mask PDT6 (physical only), Hjarrandi 12, Vambraces +3 11, Cuissots +3 13, Schyn. +3 11, Defending 10
+	-- original (all Nyame, DT-59%): head/body/hands/legs/feet=Nyame Path B, neck=Loricate Torque +1, ear1=Alabaster Earring,
+	--   ring2="Niqmaddu Ring", back="Moonlight Cape" (not owned)
     sets.engaged.PDT = {ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head={ name="Nyame Helm", augments={'Path: B',}},neck={ name="Loricate Torque +1", augments={'Path: A',}},ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2="Sherida Earring",
-		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Defending Ring",ring2="Chirich Ring +1",
-		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		head={ name="Gleti's Mask", augments={'Path: A',}},neck="Anu Torque",ear1="Sherida Earring",ear2="Telos Earring",
+		body="Hjarrandi Breast.",hands="Pel. Vambraces +3",ring1="Defending Ring",ring2="Chirich Ring +1",
+		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs="Pelt. Cuissots +3",feet="Pelt. Schyn. +3"}
     sets.engaged.SomeAcc.PDT = set_combine(sets.engaged.PDT, {})
 	sets.engaged.Acc.PDT = set_combine(sets.engaged.PDT, {neck="Shulmanu Collar"})
     sets.engaged.FullAcc.PDT = set_combine(sets.engaged.PDT, {neck="Shulmanu Collar"})
