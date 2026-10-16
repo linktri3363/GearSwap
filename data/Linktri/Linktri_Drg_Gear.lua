@@ -157,15 +157,19 @@ function init_gear_sets()
 	-- Idle sets - Updated with Nyame, Murky Ring, Alabaster Earring
 	sets.idle = {ammo="Staunch Tathlum +1",
 		head="Null Masque",neck={ name="Loricate Torque +1", augments={'Path: A',}},ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2={ name="Odnowa Earring +1", augments={'Path: A',}},
-		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Defending Ring",ring2={ name="Murky Ring", augments={'Path: A',}},
-		back="Null Shawl",waist="Null Belt",legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
-		-- original: head=Nyame Helm (owned; Null Masque adds Regen/Refresh), ear2="Ethereal Earring", back="Moonlight Cape", waist="Flume Belt +1", legs="Carmine Cuisses +1" (not owned)
+		body={ name="Nyame Mail", augments={'Path: B',}},hands="Pel. Vambraces +3",ring1="Defending Ring",ring2="Shneddick Ring +1",
+		back="Null Shawl",waist="Null Belt",legs="Pelt. Cuissots +3",feet="Pelt. Schyn. +3"}
+		-- DT-75% (cap is 50%): Null Masque 10, Loricate 6, Alabaster 5, Nyame Mail 9, Vambraces 11, Defending 10, Cuissots 13, Schyn. 11
+		-- Peltast's +3 hands/legs/feet are DT11/13/11 vs Nyame 7/8/7; the extra DT frees ring2 for Shneddick (movement speed, replaces Carmine Cuisses' role)
+		-- original: head=Nyame Helm, hands/legs/feet=Nyame (owned), ring2=Murky Ring (owned), ear2="Ethereal Earring", back="Moonlight Cape", waist="Flume Belt +1", legs="Carmine Cuisses +1" (not owned)
 		
 	sets.idle.Refresh = {ammo="Staunch Tathlum +1",
 		head="Null Masque",neck={ name="Loricate Torque +1", augments={'Path: A',}},ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2={ name="Odnowa Earring +1", augments={'Path: A',}},
-		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Defending Ring",ring2={ name="Murky Ring", augments={'Path: A',}},
-		back="Null Shawl",waist="Null Belt",legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
-		-- original: head=Nyame Helm (owned; Null Masque adds Regen/Refresh), ear2="Ethereal Earring", back="Moonlight Cape", waist="Flume Belt +1", legs="Carmine Cuisses +1" (not owned)
+		body={ name="Nyame Mail", augments={'Path: B',}},hands="Pel. Vambraces +3",ring1="Defending Ring",ring2="Shneddick Ring +1",
+		back="Null Shawl",waist="Null Belt",legs="Pelt. Cuissots +3",feet="Pelt. Schyn. +3"}
+		-- DT-75% (cap is 50%): Null Masque 10, Loricate 6, Alabaster 5, Nyame Mail 9, Vambraces 11, Defending 10, Cuissots 13, Schyn. 11
+		-- Peltast's +3 hands/legs/feet are DT11/13/11 vs Nyame 7/8/7; the extra DT frees ring2 for Shneddick (movement speed, replaces Carmine Cuisses' role)
+		-- original: head=Nyame Helm, hands/legs/feet=Nyame (owned), ring2=Murky Ring (owned), ear2="Ethereal Earring", back="Moonlight Cape", waist="Flume Belt +1", legs="Carmine Cuisses +1" (not owned)
 
 	-- Twilight Helm/Mail are not owned; these sets fall back to the idle/defense gear until you get them
 	sets.idle.Weak = set_combine(sets.idle, {head="Twilight Helm",body="Twilight Mail"})
