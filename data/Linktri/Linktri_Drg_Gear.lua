@@ -3,13 +3,13 @@ function user_job_setup()
 	-- Options: Override default values
     state.OffenseMode:options('Normal','SomeAcc','Acc','FullAcc','Fodder')
     state.WeaponskillMode:options('Match','Normal','SomeAcc','Acc','FullAcc','Fodder')
-    state.HybridMode:options('Normal')
+    state.HybridMode:options('Normal','PDT') -- original: 'Normal' only (PDT hybrid sets were unreachable)
     state.PhysicalDefenseMode:options('PDT', 'PDTReraise')
     state.MagicalDefenseMode:options('MDT', 'MDTReraise')
 	state.ResistDefenseMode:options('MEVA')
 	state.IdleMode:options('Normal', 'PDT','Refresh','Reraise')
     state.ExtraMeleeMode = M{['description']='Extra Melee Mode','None'}
-	state.Weapons:options('Geirrothr','Areadbhar','Trishula','Naegling')
+	state.Weapons:options('Geirrothr','Areadbhar','ShiningOne','Naegling') -- original: 'Geirrothr','Areadbhar','Trishula','Naegling' (Trishula not owned)
 	state.Passive = M{['description'] = 'Passive Mode','None','MP','Twilight'}
 
     select_default_macro_book()
@@ -30,42 +30,48 @@ function init_gear_sets()
 	
 	-- Precast Sets
 	-- Precast sets to enhance JAs
-	sets.precast.JA.Angon = {ammo="Angon",hands="Ptero. Fin. G. +1"}
+	sets.precast.JA.Angon = {ammo="Angon"} -- original: hands="Ptero. Fin. G. +1" (not owned); Angon ammo is the consumable, equips if carried
 	sets.precast.JA.Jump = {ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head="Peltast's Mezail +2",neck="Anu Torque",ear1="Sherida Earring",ear2={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','Crit.hit rate+5',}},
-		body={ name="Gleti's Cuirass", augments={'Path: A',}},hands={ name="Gleti's Gauntlets", augments={'Path: A',}},ring1="Chirich Ring +1",ring2="Niqmaddu Ring",
-		back="Brigantia's Mantle",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs="Pelt. Cuissots +2",feet={ name="Gleti's Boots", augments={'Path: A',}}}
-	sets.precast.JA['Ancient Circle'] = {legs="Pelt. Cuissots +2"}
+		head="Peltast's Mezail +3",neck="Anu Torque",ear1="Sherida Earring",ear2={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','Crit.hit rate+5',}},
+		body="Vishap Mail +1",hands="Vishap F. G. +1",ring1="Chirich Ring +1",ring2="Hetairoi Ring",
+		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs="Pelt. Cuissots +3",feet="Vishap Greaves +1"}
+		-- original: head="Peltast's Mezail +2", body/hands/feet=Gleti's (owned, swapped for Jump TP+35/TP+30/Attack+22%), ring2="Niqmaddu Ring" (not owned), back="Brigantia's Mantle" (not owned), legs="Pelt. Cuissots +2"
+	sets.precast.JA['Ancient Circle'] = {legs="Vishap Brais +1"} -- original: legs="Pelt. Cuissots +2" (Vishap Brais +1 is the Ancient Circle+1 piece)
 	sets.precast.JA['High Jump'] = {ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head="Peltast's Mezail +2",neck="Anu Torque",ear1="Sherida Earring",ear2={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','Crit.hit rate+5',}},
-		body={ name="Gleti's Cuirass", augments={'Path: A',}},hands={ name="Gleti's Gauntlets", augments={'Path: A',}},ring1="Chirich Ring +1",ring2="Niqmaddu Ring",
-		back="Brigantia's Mantle",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs="Pelt. Cuissots +2",feet={ name="Gleti's Boots", augments={'Path: A',}}}
+		head="Peltast's Mezail +3",neck="Anu Torque",ear1="Sherida Earring",ear2={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','Crit.hit rate+5',}},
+		body="Vishap Mail +1",hands="Vishap F. G. +1",ring1="Chirich Ring +1",ring2="Hetairoi Ring",
+		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs="Pelt. Cuissots +3",feet="Vishap Greaves +1"}
+		-- original: head="Peltast's Mezail +2", body/hands/feet=Gleti's (owned, swapped for Jump TP+35/TP+30/Attack+22%), ring2="Niqmaddu Ring" (not owned), back="Brigantia's Mantle" (not owned), legs="Pelt. Cuissots +2"
 	sets.precast.JA['Soul Jump'] = {ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head="Peltast's Mezail +2",neck="Anu Torque",ear1="Sherida Earring",ear2={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','Crit.hit rate+5',}},
-		body="Pelt. Plackart +2",hands="Pel. Vambraces +2",ring1="Chirich Ring +1",ring2="Niqmaddu Ring",
-		back="Brigantia's Mantle",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs="Pelt. Cuissots +2",feet="Pelt. Schyn. +2"}
+		head="Peltast's Mezail +3",neck="Anu Torque",ear1="Sherida Earring",ear2={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','Crit.hit rate+5',}},
+		body="Vishap Mail +1",hands="Pel. Vambraces +3",ring1="Chirich Ring +1",ring2="Hetairoi Ring",
+		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs="Pelt. Cuissots +3",feet="Vishap Greaves +1"}
+		-- original: head="Peltast's Mezail +2", body="Pelt. Plackart +2", hands="Pel. Vambraces +2", ring2="Niqmaddu Ring" (not owned), back="Brigantia's Mantle" (not owned), legs="Pelt. Cuissots +2", feet="Pelt. Schyn. +2"
 	sets.precast.JA['Spirit Jump'] = {ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head="Peltast's Mezail +2",neck="Anu Torque",ear1="Sherida Earring",ear2={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','Crit.hit rate+5',}},
-		body={ name="Gleti's Cuirass", augments={'Path: A',}},hands={ name="Gleti's Gauntlets", augments={'Path: A',}},ring1="Chirich Ring +1",ring2="Niqmaddu Ring",
-		back="Brigantia's Mantle",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs="Pelt. Cuissots +2",feet="Pelt. Schyn. +2"}
+		head="Peltast's Mezail +3",neck="Anu Torque",ear1="Sherida Earring",ear2={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','Crit.hit rate+5',}},
+		body="Vishap Mail +1",hands="Vishap F. G. +1",ring1="Chirich Ring +1",ring2="Hetairoi Ring",
+		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs="Pelt. Cuissots +3",feet="Pelt. Schyn. +3"}
+		-- original: head="Peltast's Mezail +2", body/hands=Gleti's (owned, swapped for Jump TP+35/TP+30), ring2="Niqmaddu Ring" (not owned), back="Brigantia's Mantle" (not owned), legs="Pelt. Cuissots +2", feet="Pelt. Schyn. +2"
 	sets.precast.JA['Super Jump'] = {}
-	sets.precast.JA['Spirit Link'] = {head="Peltast's Mezail +2"}
-	sets.precast.JA['Call Wyvern'] = {body="Pelt. Plackart +2"}
-	sets.precast.JA['Deep Breathing'] = {head="Peltast's Mezail +2"}
-	sets.precast.JA['Spirit Surge'] = {body="Pelt. Plackart +2"}
+	sets.precast.JA['Spirit Link'] = {head="Vishap Armet +1",hands="Pel. Vambraces +3"} -- original: head="Peltast's Mezail +2" (Armet +1 Spirit Link+12, Vambraces +3 Spirit Link+16%)
+	sets.precast.JA['Call Wyvern'] = {body="Pelt. Plackart +3"} -- original: body="Pelt. Plackart +2"
+	sets.precast.JA['Deep Breathing'] = {head="Peltast's Mezail +3"} -- original: head="Peltast's Mezail +2"
+	sets.precast.JA['Spirit Surge'] = {body="Pelt. Plackart +3"} -- original: body="Pelt. Plackart +2"
 	sets.precast.JA['Steady Wing'] = {}
 	
 	-- Breath sets
-	sets.precast.JA['Restoring Breath'] = {back="Brigantia's Mantle",head="Peltast's Mezail +2"}
-	sets.precast.JA['Smiting Breath'] = {back="Brigantia's Mantle",head="Peltast's Mezail +2"}
-	sets.HealingBreath = {back="Brigantia's Mantle",head="Peltast's Mezail +2"}
+	sets.precast.JA['Restoring Breath'] = {back="Updraft Mantle",head="Peltast's Mezail +3"} -- original: back="Brigantia's Mantle" (not owned), head="Peltast's Mezail +2"
+	sets.precast.JA['Smiting Breath'] = {back="Updraft Mantle",head="Peltast's Mezail +3"} -- original: back="Brigantia's Mantle" (not owned), head="Peltast's Mezail +2"
+	sets.HealingBreath = {back="Updraft Mantle",head="Peltast's Mezail +3"} -- original: back="Brigantia's Mantle" (not owned), head="Peltast's Mezail +2"
 
 	-- Fast cast sets for spells
 	
 	sets.precast.FC = {ammo="Impatiens",
-		head="Carmine Mask +1",neck="Voltsurge Torque",ear1="Enchntr. Earring +1",ear2="Loquac. Earring",
-		body=gear.taeon_pet_body,hands="Leyline Gloves",ring1="Lebeche Ring",ring2="Prolix Ring",
-		back="Moonlight Cape",waist="Flume Belt +1",legs="Founder's Hose",feet="Carmine Greaves +1"}
+		head="Null Masque",neck="Voltsurge Torque",ear1="Etiolation Earring",ear2={ name="Alabaster Earring", augments={'Path: A',}},
+		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Lebeche Ring",ring2="Defending Ring",
+		back="Null Shawl",waist="Null Belt",legs="Limbo Trousers",feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		-- original (not owned): head="Carmine Mask +1", ear1="Enchntr. Earring +1", ear2="Loquac. Earring" (stored), body=gear.taeon_pet_body (undefined), hands="Leyline Gloves",
+		--   ring2="Prolix Ring", back="Moonlight Cape", waist="Flume Belt +1", legs="Founder's Hose", feet="Carmine Greaves +1"
 	
 	-- Waltz set (chr and vit)
 	sets.precast.Waltz = {}
@@ -75,27 +81,31 @@ function init_gear_sets()
 
 	sets.midcast.Cure = {}
 	
-	sets.Self_Healing = {neck="Phalaina Locket",hands="Buremte Gloves",ring2="Kunaji Ring",waist="Gishdubar Sash"}
-	sets.Cure_Received = {neck="Phalaina Locket",hands="Buremte Gloves",ring2="Kunaji Ring",waist="Gishdubar Sash"}
-	sets.Self_Refresh = {waist="Gishdubar Sash"}
+	-- original (none owned): {neck="Phalaina Locket",hands="Buremte Gloves",ring2="Kunaji Ring",waist="Gishdubar Sash"}; Self_Refresh {waist="Gishdubar Sash"}
+	sets.Self_Healing = {}
+	sets.Cure_Received = {}
+	sets.Self_Refresh = {}
 	
 	-- Midcast Sets
 	sets.midcast.FastRecast = {ammo="Staunch Tathlum +1",
-		head="Carmine Mask +1",neck="Voltsurge Torque",ear1="Enchntr. Earring +1",ear2="Loquac. Earring",
-		body=gear.taeon_pet_body,hands="Leyline Gloves",ring1="Lebeche Ring",ring2="Prolix Ring",
-		back="Moonlight Cape",waist="Tempus Fugit",legs="Founder's Hose",feet="Carmine Greaves +1"}
+		head="Null Masque",neck="Voltsurge Torque",ear1="Etiolation Earring",ear2={ name="Alabaster Earring", augments={'Path: A',}},
+		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Lebeche Ring",ring2="Defending Ring",
+		back="Null Shawl",waist="Null Belt",legs="Limbo Trousers",feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		-- original (not owned): head="Carmine Mask +1", ear1="Enchntr. Earring +1", ear2="Loquac. Earring" (stored), body=gear.taeon_pet_body (undefined), hands="Leyline Gloves",
+		--   ring2="Prolix Ring", back="Moonlight Cape", waist="Tempus Fugit", legs="Founder's Hose", feet="Carmine Greaves +1"
 		
 	-- Put HP+ gear and the AF head to make healing breath trigger more easily with this set.
-	sets.midcast.HB_Trigger = set_combine(sets.midcast.FastRecast, {head="Peltast's Mezail +2"})
+	sets.midcast.HB_Trigger = set_combine(sets.midcast.FastRecast, {head="Peltast's Mezail +3"}) -- original: head="Peltast's Mezail +2"
 	
 	-- Weaponskill sets
 
 	-- Default set for any weaponskill that isn't any more specifically defined
 	-- Using Nyame for WSD bonus (Path B augments)
 	sets.precast.WS = {ammo="Knobkierrie",
-		head={ name="Nyame Helm", augments={'Path: B',}},neck="Fotia Gorget",ear1={ name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},ear2={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','Crit.hit rate+5',}},
-		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Ephramad's Ring",ring2="Niqmaddu Ring",
-		back="Brigantia's Mantle",waist="Fotia Belt",legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		head="Peltast's Mezail +3",neck="Shulmanu Collar",ear1={ name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},ear2={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','Crit.hit rate+5',}},
+		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Ephramad's Ring",ring2={ name="Beithir Ring", augments={'Path: A',}},
+		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		-- original: head=Nyame Helm (owned; Mezail +3 is WSD+12/Atk+71), neck="Fotia Gorget", ring2="Niqmaddu Ring", back="Brigantia's Mantle", waist="Fotia Belt" (all not owned)
 		
 	sets.precast.WS.SomeAcc = set_combine(sets.precast.WS, {})
 	sets.precast.WS.Acc = set_combine(sets.precast.WS, {neck="Shulmanu Collar"})
@@ -127,14 +137,15 @@ function init_gear_sets()
 
 	-- Camlann's Torment - Single hit WS, pure WSD
 	sets.precast.WS["Camlann's Torment"] = set_combine(sets.precast.WS, {
-		ear2="Ishvara Earring"})
+		ear2="Ishvara Earring",back="Updraft Mantle"}) -- single hit: Attack+20 back over Null Shawl's DA
 	
 	-- Impulse Drive - 2-hit WS
 	sets.precast.WS['Impulse Drive'] = set_combine(sets.precast.WS, {})
+	-- Shining One: Impulse Drive damage +40% comes from the weapon (sets.weapons.ShiningOne)
 
 	-- Savage Blade for Naegling
 	sets.precast.WS['Savage Blade'] = set_combine(sets.precast.WS, {
-		neck="Rep. Plat. Medal",
+		neck="Shulmanu Collar", -- original: neck="Rep. Plat. Medal" (not owned)
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}}})
 
 	
@@ -145,60 +156,76 @@ function init_gear_sets()
 
 	-- Idle sets - Updated with Nyame, Murky Ring, Alabaster Earring
 	sets.idle = {ammo="Staunch Tathlum +1",
-		head={ name="Nyame Helm", augments={'Path: B',}},neck={ name="Loricate Torque +1", augments={'Path: A',}},ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2="Ethereal Earring",
+		head="Null Masque",neck={ name="Loricate Torque +1", augments={'Path: A',}},ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2={ name="Odnowa Earring +1", augments={'Path: A',}},
 		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Defending Ring",ring2={ name="Murky Ring", augments={'Path: A',}},
-		back="Moonlight Cape",waist="Flume Belt +1",legs="Carmine Cuisses +1",feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		back="Null Shawl",waist="Null Belt",legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		-- original: head=Nyame Helm (owned; Null Masque adds Regen/Refresh), ear2="Ethereal Earring", back="Moonlight Cape", waist="Flume Belt +1", legs="Carmine Cuisses +1" (not owned)
 		
 	sets.idle.Refresh = {ammo="Staunch Tathlum +1",
-		head={ name="Nyame Helm", augments={'Path: B',}},neck={ name="Loricate Torque +1", augments={'Path: A',}},ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2="Ethereal Earring",
+		head="Null Masque",neck={ name="Loricate Torque +1", augments={'Path: A',}},ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2={ name="Odnowa Earring +1", augments={'Path: A',}},
 		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Defending Ring",ring2={ name="Murky Ring", augments={'Path: A',}},
-		back="Moonlight Cape",waist="Flume Belt +1",legs="Carmine Cuisses +1",feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		back="Null Shawl",waist="Null Belt",legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		-- original: head=Nyame Helm (owned; Null Masque adds Regen/Refresh), ear2="Ethereal Earring", back="Moonlight Cape", waist="Flume Belt +1", legs="Carmine Cuisses +1" (not owned)
 
+	-- Twilight Helm/Mail are not owned; these sets fall back to the idle/defense gear until you get them
 	sets.idle.Weak = set_combine(sets.idle, {head="Twilight Helm",body="Twilight Mail"})
 		
 	sets.idle.Reraise = set_combine(sets.idle, {head="Twilight Helm",body="Twilight Mail"})
 	
 	-- Defense sets - Updated with better DT gear
 	sets.defense.PDT = {ammo="Staunch Tathlum +1",
-		head={ name="Nyame Helm", augments={'Path: B',}},neck={ name="Loricate Torque +1", augments={'Path: A',}},ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2={ name="Chev. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+13','Mag. Acc.+13','Damage taken-4%',}},
+		head={ name="Nyame Helm", augments={'Path: B',}},neck={ name="Loricate Torque +1", augments={'Path: A',}},ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2={ name="Odnowa Earring +1", augments={'Path: A',}},
 		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Defending Ring",ring2={ name="Murky Ring", augments={'Path: A',}},
-		back="Moonlight Cape",waist="Flume Belt +1",legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		back="Null Shawl",waist="Null Belt",legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		-- original: ear2="Chev. Earring +1" (not DRG-equippable), back="Moonlight Cape", waist="Flume Belt +1" (not owned)
 		
 	sets.defense.PDTReraise = set_combine(sets.defense.PDT, {head="Twilight Helm",body="Twilight Mail"})
 
+	-- MDT/MEVA original: neck="Warder's Charm +1" (not owned)
 	sets.defense.MDT = {ammo="Staunch Tathlum +1",
-		head={ name="Nyame Helm", augments={'Path: B',}},neck="Warder's Charm +1",ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2={ name="Chev. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+13','Mag. Acc.+13','Damage taken-4%',}},
+		head={ name="Nyame Helm", augments={'Path: B',}},neck="Null Loop",ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2={ name="Odnowa Earring +1", augments={'Path: A',}},
 		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Defending Ring",ring2={ name="Murky Ring", augments={'Path: A',}},
-		back="Moonlight Cape",waist="Flume Belt +1",legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		back="Null Shawl",waist="Null Belt",legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		-- original: ear2="Chev. Earring +1" (not DRG-equippable), back="Moonlight Cape", waist="Flume Belt +1" (not owned)
 		
 	sets.defense.MDTReraise = set_combine(sets.defense.MDT, {head="Twilight Helm",body="Twilight Mail"})
 		
 	sets.defense.MEVA = {ammo="Staunch Tathlum +1",
-		head={ name="Nyame Helm", augments={'Path: B',}},neck="Warder's Charm +1",ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2={ name="Chev. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+13','Mag. Acc.+13','Damage taken-4%',}},
+		head={ name="Nyame Helm", augments={'Path: B',}},neck="Null Loop",ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2={ name="Odnowa Earring +1", augments={'Path: A',}},
 		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Defending Ring",ring2={ name="Murky Ring", augments={'Path: A',}},
-		back="Moonlight Cape",waist="Flume Belt +1",legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		back="Null Shawl",waist="Null Belt",legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		-- original: ear2="Chev. Earring +1" (not DRG-equippable), back="Moonlight Cape", waist="Flume Belt +1" (not owned)
 
 	sets.Kiting = {ring2="Shneddick Ring +1"}
 	sets.Reraise = {head="Twilight Helm",body="Twilight Mail"}
 	sets.buff.Doom = set_combine(sets.buff.Doom, {})
-	sets.buff.Sleep = {head="Frenzy Sallet"}
+	sets.buff.Sleep = {} -- original: head="Frenzy Sallet" (not owned)
 	
     -- Extra defense sets.  Apply these on top of melee or defense sets.
-    sets.passive.MP = {ear2="Ethereal Earring",waist="Flume Belt +1"}
+    sets.passive.MP = {} -- original: {ear2="Ethereal Earring",waist="Flume Belt +1"} (not owned)
     sets.passive.Twilight = {head="Twilight Helm", body="Twilight Mail"}
 	sets.TreasureHunter = set_combine(sets.TreasureHunter, {})
+
+	-- Equipped automatically when someone starts casting Phalanx II on you (Valorous Phalanx +21 total)
+	sets.Phalanx_Received = {
+		head={name="Valorous Mask", augments={'INT+12','Magic burst dmg.+7%','Phalanx +4','Accuracy+1 Attack+1',}},
+		body={name="Valorous Mail", augments={'STR+5','Rng.Atk.+26','Phalanx +4',}},
+		hands={name="Valorous Mitts", augments={'Enmity-4','Mag. Acc.+14 "Mag.Atk.Bns."+14','Phalanx +4','Accuracy+10 Attack+10',}},
+		legs={name="Valorous Hose", augments={'Pet: Attack+11 Pet: Rng.Atk.+11','Magic burst dmg.+7%','Phalanx +4',}},
+		feet={name="Valorous Greaves", augments={'Mag. Acc.+1','"Cure" spellcasting time -9%','Phalanx +5','Mag. Acc.+14 "Mag.Atk.Bns."+14',}}}
 	
 	-- Weapons sets - Geirrothr is highest DMG with Haste/Crit, Areadbhar for STP/skill
 	sets.weapons.Geirrothr = {main="Geirrothr",sub="Utu Grip"}
 	sets.weapons.Areadbhar = {main="Areadbhar",sub="Utu Grip"}
-	sets.weapons.Trishula = {main="Trishula",sub="Utu Grip"}
+	sets.weapons.ShiningOne = {main="Shining One",sub="Utu Grip"}
+	sets.weapons.Trishula = {main="Trishula",sub="Utu Grip"} -- not owned; removed from the Weapons cycle, kept for when you get it
 	sets.weapons.Naegling = {main="Naegling",sub=""}
 
 	-- Swap to these on Moonshade using WS if at 3000 TP
-	sets.MaxTP = {ear1="Brutal Earring",ear2="Sherida Earring"}
+	sets.MaxTP = {ear1="Ishvara Earring",ear2="Sherida Earring"} -- original: ear1="Brutal Earring" (not owned)
 	sets.AccMaxTP = {ear1="Mache Earring +1",ear2="Telos Earring"}
 	sets.AccDayMaxTPWSEars = {ear1="Mache Earring +1",ear2="Telos Earring"}
-	sets.DayMaxTPWSEars = {ear1="Brutal Earring",ear2="Sherida Earring"}
+	sets.DayMaxTPWSEars = {ear1="Ishvara Earring",ear2="Sherida Earring"} -- original: ear1="Brutal Earring" (not owned)
 	sets.AccDayWSEars = {ear1="Mache Earring +1",ear2="Telos Earring"}
 	sets.DayWSEars = {ear1={ name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},ear2="Sherida Earring"}
 	
@@ -210,27 +237,28 @@ function init_gear_sets()
 	-- EG: sets.engaged.Dagger.Accuracy.Evasion
 	
 	-- Normal melee group - Updated with Coiste Bodhar, Gleti gear, Sailfi Belt
+	-- original (all engaged sets): ear2="Brutal Earring" (Normal/Fodder), ring2="Niqmaddu Ring", back="Brigantia's Mantle" (not owned)
 
 	sets.engaged = {ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head={ name="Gleti's Mask", augments={'Path: A',}},neck="Anu Torque",ear1="Sherida Earring",ear2="Brutal Earring",
-		body={ name="Gleti's Cuirass", augments={'Path: A',}},hands={ name="Gleti's Gauntlets", augments={'Path: A',}},ring1="Chirich Ring +1",ring2="Niqmaddu Ring",
-		back="Brigantia's Mantle",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Gleti's Breeches", augments={'Path: A',}},feet={ name="Gleti's Boots", augments={'Path: A',}}}
+		head={ name="Gleti's Mask", augments={'Path: A',}},neck="Anu Torque",ear1="Sherida Earring",ear2="Telos Earring",
+		body={ name="Gleti's Cuirass", augments={'Path: A',}},hands={ name="Gleti's Gauntlets", augments={'Path: A',}},ring1="Chirich Ring +1",ring2="Chirich Ring +1",
+		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Gleti's Breeches", augments={'Path: A',}},feet={ name="Gleti's Boots", augments={'Path: A',}}}
     sets.engaged.SomeAcc = {ammo={ name="Coiste Bodhar", augments={'Path: A',}},
 		head={ name="Gleti's Mask", augments={'Path: A',}},neck="Shulmanu Collar",ear1="Sherida Earring",ear2="Telos Earring",
-		body={ name="Gleti's Cuirass", augments={'Path: A',}},hands={ name="Gleti's Gauntlets", augments={'Path: A',}},ring1="Chirich Ring +1",ring2="Niqmaddu Ring",
-		back="Brigantia's Mantle",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Gleti's Breeches", augments={'Path: A',}},feet={ name="Gleti's Boots", augments={'Path: A',}}}
+		body={ name="Gleti's Cuirass", augments={'Path: A',}},hands={ name="Gleti's Gauntlets", augments={'Path: A',}},ring1="Chirich Ring +1",ring2="Chirich Ring +1",
+		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Gleti's Breeches", augments={'Path: A',}},feet={ name="Gleti's Boots", augments={'Path: A',}}}
 	sets.engaged.Acc = {ammo={ name="Coiste Bodhar", augments={'Path: A',}},
 		head={ name="Gleti's Mask", augments={'Path: A',}},neck="Shulmanu Collar",ear1="Telos Earring",ear2="Mache Earring +1",
-		body={ name="Gleti's Cuirass", augments={'Path: A',}},hands={ name="Gleti's Gauntlets", augments={'Path: A',}},ring1="Chirich Ring +1",ring2="Niqmaddu Ring",
-		back="Brigantia's Mantle",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Gleti's Breeches", augments={'Path: A',}},feet={ name="Gleti's Boots", augments={'Path: A',}}}
+		body={ name="Gleti's Cuirass", augments={'Path: A',}},hands={ name="Gleti's Gauntlets", augments={'Path: A',}},ring1="Chirich Ring +1",ring2="Chirich Ring +1",
+		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Gleti's Breeches", augments={'Path: A',}},feet={ name="Gleti's Boots", augments={'Path: A',}}}
     sets.engaged.FullAcc = {ammo={ name="Coiste Bodhar", augments={'Path: A',}},
 		head={ name="Gleti's Mask", augments={'Path: A',}},neck="Shulmanu Collar",ear1="Mache Earring +1",ear2="Telos Earring",
 		body={ name="Gleti's Cuirass", augments={'Path: A',}},hands={ name="Gleti's Gauntlets", augments={'Path: A',}},ring1="Chirich Ring +1",ring2="Chirich Ring +1",
-		back="Brigantia's Mantle",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Gleti's Breeches", augments={'Path: A',}},feet={ name="Gleti's Boots", augments={'Path: A',}}}
+		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Gleti's Breeches", augments={'Path: A',}},feet={ name="Gleti's Boots", augments={'Path: A',}}}
     sets.engaged.Fodder = {ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head={ name="Gleti's Mask", augments={'Path: A',}},neck="Anu Torque",ear1="Sherida Earring",ear2="Brutal Earring",
-		body={ name="Gleti's Cuirass", augments={'Path: A',}},hands={ name="Gleti's Gauntlets", augments={'Path: A',}},ring1="Chirich Ring +1",ring2="Niqmaddu Ring",
-		back="Brigantia's Mantle",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Gleti's Breeches", augments={'Path: A',}},feet={ name="Gleti's Boots", augments={'Path: A',}}}
+		head={ name="Gleti's Mask", augments={'Path: A',}},neck="Anu Torque",ear1="Sherida Earring",ear2="Telos Earring",
+		body={ name="Gleti's Cuirass", augments={'Path: A',}},hands={ name="Gleti's Gauntlets", augments={'Path: A',}},ring1="Chirich Ring +1",ring2="Chirich Ring +1",
+		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Gleti's Breeches", augments={'Path: A',}},feet={ name="Gleti's Boots", augments={'Path: A',}}}
 
     sets.engaged.AM = {}
     sets.engaged.AM.SomeAcc = {}
@@ -238,11 +266,12 @@ function init_gear_sets()
     sets.engaged.AM.FullAcc = {}
     sets.engaged.AM.Fodder = {}
 	
-	-- PDT Hybrid sets - mixing offense with defense
+	-- PDT Hybrid sets - mixing offense with defense (DT-59%: Nyame 38, Loricate 6, Alabaster 5, Defending 10)
+	-- original: ring2="Niqmaddu Ring", back="Moonlight Cape" (not owned)
     sets.engaged.PDT = {ammo={ name="Coiste Bodhar", augments={'Path: A',}},
 		head={ name="Nyame Helm", augments={'Path: B',}},neck={ name="Loricate Torque +1", augments={'Path: A',}},ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2="Sherida Earring",
-		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Defending Ring",ring2="Niqmaddu Ring",
-		back="Moonlight Cape",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Defending Ring",ring2="Chirich Ring +1",
+		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
     sets.engaged.SomeAcc.PDT = set_combine(sets.engaged.PDT, {})
 	sets.engaged.Acc.PDT = set_combine(sets.engaged.PDT, {neck="Shulmanu Collar"})
     sets.engaged.FullAcc.PDT = set_combine(sets.engaged.PDT, {neck="Shulmanu Collar"})
