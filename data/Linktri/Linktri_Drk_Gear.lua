@@ -337,6 +337,14 @@ function init_gear_sets()
 		feet={ name="Nyame Sollerets", augments={'Path: B',}}
 	}
      
+	-- LINKTRI: PorterPacker packing-safe set (same approach as WHM/BST/DRG). Equipped while idle within 6 yalms of a
+	-- Porter Moogle so nothing on the PorterPacker DRK list (Heathen's +3, Ignominy +1, Fallen's +1, Sulevia's +2,
+	-- Flamma +2, ...) is being worn when it gets packed. Only non-slip gear here; weapons are left as they are.
+	sets.packing = {ammo="Staunch Tathlum +1",
+		head="Null Masque",neck={ name="Loricate Torque +1", augments={'Path: A',}},ear1={ name="Alabaster Earring", augments={'Path: A',}},ear2={ name="Odnowa Earring +1", augments={'Path: A',}},
+		body={ name="Nyame Mail", augments={'Path: B',}},hands={ name="Nyame Gauntlets", augments={'Path: B',}},ring1="Defending Ring",ring2={ name="Murky Ring", augments={'Path: A',}},
+		back="Null Shawl",waist="Null Belt",legs={ name="Nyame Flanchard", augments={'Path: B',}},feet={ name="Nyame Sollerets", augments={'Path: B',}}}
+
 	sets.Kiting = {ring1 = "Shneddick Ring +1"}
 	sets.passive.Reraise = {head="Twilight Helm",body="Twilight Mail"}
 	sets.buff.Doom = set_combine(sets.buff.Doom, {})
@@ -439,6 +447,35 @@ function init_gear_sets()
 	
 end
 	
+-- LINKTRI: PorterPacker support (ported from the WHM/BST/DRG files). Sel runs user_job_customize_idle_set after
+-- DRK.lua's own job_customize_idle_set, so nothing in the job file is overridden.
+near_porter = false
+
+function near_porter_moogle()
+	local mobs = windower.ffxi.get_mob_array()
+	for i, mob in pairs(mobs) do
+		-- mob.distance is squared yalms: < 36 means within 6 yalms
+		if mob.name == "Porter Moogle" and mob.distance and mob.distance < 36 then
+			return true
+		end
+	end
+	return false
+end
+
+function user_job_customize_idle_set(idleSet)
+	if near_porter_moogle() then
+		if not near_porter then
+			windower.add_to_chat(160, "Near Porter Moogle - Using packing gear")
+			near_porter = true
+		end
+		return sets.packing
+	elseif near_porter then
+		windower.add_to_chat(160, "Left Porter Moogle area - Returning to normal gear")
+		near_porter = false
+	end
+	return idleSet
+end
+
 -- Select default macro book on initial load or subjob change.
 function select_default_macro_book()
     -- Default macro set/book
