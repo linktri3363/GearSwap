@@ -310,7 +310,7 @@ function init_gear_sets()
         ear2  = "Ishvara Earring",
         body  = "Bihu Just. +4",
         hands = "Nyame Gauntlets",
-        ring1 = "Epona's Ring",
+        ring1 = "Ephramad's Ring",   -- was Epona's Ring, which BRD can't equip (so ring1 was never swapping)
         ring2 = "Ilabrat Ring",
         back  = gear.melee_back,
         waist = "Sailfi Belt +1",
@@ -324,11 +324,14 @@ function init_gear_sets()
     sets.precast.WS["Ruthless Stroke"] = sets.precast.WS
     sets.precast.WS["Evisceration"] = set_combine(sets.precast.WS, {ear2 = "Mache Earring +1"})
 
-    -- Mordant Rime: 70% CHR / 30% DEX, no TP scaling (no Moonshade)
+    -- Mordant Rime: 70% CHR / 30% DEX, no TP scaling (no Moonshade). Two hits, fTP 5.0 on the first.
+    -- Armor stays Nyame (Path B WSD on every piece) + Bihu Just. +4 (WSD+12): Bihu/Fili/Brioso +4 have more CHR
+    -- but no WSD, and with a 5.0 first hit the WSD is worth more than the extra CHR.
     sets.precast.WS["Mordant Rime"] = set_combine(sets.precast.WS, {
         ear1  = "Ishvara Earring",
         ear2  = "Mache Earring +1",
-        ring1 = "Metamor. Ring +1"
+        ring1 = "Metamor. Ring +1",
+        ring2 = "Ephramad's Ring"    -- was Ilabrat Ring (base set): same DEX+10, plus Acc+20 and Physical damage limit +10%
     })
 
     sets.precast.WS["Aeolian Edge"] = set_combine(sets.precast.WS, {
