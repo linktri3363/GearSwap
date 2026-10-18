@@ -363,7 +363,7 @@ function init_gear_sets()
         back  = gear.song_back,
         waist = "Null Belt",
         legs  = "Inyanga Shalwar +2",
-        feet  = "Brioso Slippers +3"  -- was +2: +3 song duration +15% (was 13%), MAcc+46 (was 36), wind skill +14
+        feet  = "Brioso Slippers +4"  -- was +2, then +3: +4 song duration +15%, MAcc+56, Acc+56, wind skill +15
     }
     -- Overlaid by BRD.lua when you can dual wield. Kali's +5% duration works off hand; Carnwenhan's only main.
     sets.midcast.SongEffect.DW = {main = "Carnwenhan", sub = "Kali"}
@@ -423,13 +423,13 @@ function init_gear_sets()
         back  = gear.song_back,
         waist = "Null Belt",
         legs  = "Inyanga Shalwar +2",
-        feet  = "Brioso Slippers +3"  -- was +2: +3 song duration +15% (was 13%), MAcc+46 (was 36), wind skill +14
+        feet  = "Brioso Slippers +4"  -- was +2, then +3: +4 song duration +15%, MAcc+56, Acc+56, wind skill +15
     }
     sets.midcast.SongDebuff.DW = {main = "Carnwenhan", sub = "Kali"}   -- Kali Path D: MAcc+15 +10 wind/string
 
     -- Resistant: five Brioso pieces for the full set bonus.
     sets.midcast.SongDebuff.Resistant = set_combine(sets.midcast.SongDebuff, {
-        body  = "Brioso Justau. +2",
+        body  = "Brioso Just. +4",  -- was Brioso Justau. +2: +4 MAcc+74 (was 54), singing +18 (was 15)
         legs  = "Brios. Cann. +4"
     })
 
@@ -443,7 +443,7 @@ function init_gear_sets()
     sets.midcast["Horde Lullaby"].AoE = {
         range = "Daurdabla",
         head  = "Brioso Roundlet +4",
-        body  = "Brioso Justau. +2",
+        body  = "Brioso Just. +4",  -- was Brioso Justau. +2: +4 MAcc+74 (was 54), singing +18 (was 15)
         hands = "Brioso Cuffs +4",
         ring1 = "Stikini Ring",
         ring2 = "Stikini Ring",
