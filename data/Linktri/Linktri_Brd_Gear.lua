@@ -269,7 +269,10 @@ function init_gear_sets()
     sets.precast.FC.Dispelga = set_combine(sets.precast.FC, {main = "Daybreak", sub = "Ammurapi Shield"})
 
     -- Songs
-    sets.precast.FC.BardSong = set_combine(sets.precast.FC, {range = "Gjallarhorn"})
+    -- Song Spellcasting Time shares Fast Cast's 80% cap (they add together), so for songs Brioso Just. +4
+    -- (song casting time -15%) beats Inyanga Jubbah +2 (FC 14%): 58% total vs 57% (65% vs 64% with Kali off hand).
+    -- Non-song spells still use Inyanga from sets.precast.FC.
+    sets.precast.FC.BardSong = set_combine(sets.precast.FC, {range = "Gjallarhorn", body = "Brioso Just. +4"})
     sets.precast.FC.BardSong.DW = {sub = "Kali"}
 
     sets.precast.FC.SongDebuff = sets.precast.FC.BardSong
