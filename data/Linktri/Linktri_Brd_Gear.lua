@@ -292,9 +292,9 @@ function init_gear_sets()
     sets.precast.DaurdablaDummy = sets.precast.FC.Daurdabla
 
     -- Precast sets to enhance JAs
-    sets.precast.JA.Nightingale  = {feet = "Bihu Slippers +3"}
+    sets.precast.JA.Nightingale  = {feet = "Bihu Slippers +4"}  -- was +3
     sets.precast.JA.Troubadour   = {body = "Bihu Just. +4"}
-    sets.precast.JA["Soul Voice"] = {legs = "Bihu Cannions +3"}
+    sets.precast.JA["Soul Voice"] = {legs = "Bihu Cann. +4"}  -- was Bihu Cannions +3 (in-game +4 name is "Bihu Cann. +4")
 
     -- Waltz set (chr and vit)
     sets.precast.Waltz = {legs = "Dashing Subligar"}
@@ -450,7 +450,7 @@ function init_gear_sets()
         hands = "Brioso Cuffs +4",
         ring1 = "Stikini Ring",
         ring2 = "Stikini Ring",
-        feet  = "Bihu Slippers +3"
+        feet  = "Bihu Slippers +4"  -- was +3: string skill +16 (was 15)
     }
     sets.midcast["Horde Lullaby II"] = sets.midcast["Horde Lullaby"]
     sets.midcast["Horde Lullaby II"].Resistant = sets.midcast["Horde Lullaby"].Resistant
