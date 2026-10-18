@@ -363,7 +363,7 @@ function init_gear_sets()
         back  = gear.song_back,
         waist = "Null Belt",
         legs  = "Inyanga Shalwar +2",
-        feet  = "Brioso Slippers +2"
+        feet  = "Brioso Slippers +3"  -- was +2: +3 song duration +15% (was 13%), MAcc+46 (was 36), wind skill +14
     }
     -- Overlaid by BRD.lua when you can dual wield. Kali's +5% duration works off hand; Carnwenhan's only main.
     sets.midcast.SongEffect.DW = {main = "Carnwenhan", sub = "Kali"}
@@ -423,7 +423,7 @@ function init_gear_sets()
         back  = gear.song_back,
         waist = "Null Belt",
         legs  = "Inyanga Shalwar +2",
-        feet  = "Brioso Slippers +2"
+        feet  = "Brioso Slippers +3"  -- was +2: +3 song duration +15% (was 13%), MAcc+46 (was 36), wind skill +14
     }
     sets.midcast.SongDebuff.DW = {main = "Carnwenhan", sub = "Kali"}   -- Kali Path D: MAcc+15 +10 wind/string
 
