@@ -46,18 +46,12 @@ function user_job_setup()
         "EnspellDW"
     )
 
-    gear.stp_jse_back = {
-        name = "Sucellos's Cape",
-        augments = {"DEX+20", "Accuracy+20 Attack+20", "Accuracy+10", '"Store TP"+10'}
-    }
-    gear.nuke_jse_back = {
-        name = "Sucellos's Cape",
-        augments = {"INT+20", "Mag. Acc+20 /Mag. Dmg.+20", "INT+10", '"Mag.Atk.Bns."+10', "Phys. dmg. taken-10%"}
-    }
-    gear.wsd_jse_back = {
-        name = "Sucellos's Cape",
-        augments = {"STR+20", "Accuracy+20 Attack+20", "STR+10", "Weapon skill damage +10%"}
-    }
+    -- original (TP Sucellos's Cape, not owned): gear.stp_jse_back = { name = "Sucellos's Cape", augments = {"DEX+20", "Accuracy+20 Attack+20", "Accuracy+10", '"Store TP"+10'} }
+    gear.stp_jse_back = "Null Shawl"
+    -- original (nuke/enfeeble Sucellos's Cape, not owned): gear.nuke_jse_back = { name = "Sucellos's Cape", augments = {"INT+20", "Mag. Acc+20 /Mag. Dmg.+20", "INT+10", '"Mag.Atk.Bns."+10', "Phys. dmg. taken-10%"} }
+    gear.nuke_jse_back = "Aurist's Cape +1"
+    -- original (WS Sucellos's Cape, not owned): gear.wsd_jse_back = { name = "Sucellos's Cape", augments = {"STR+20", "Accuracy+20 Attack+20", "STR+10", "Weapon skill damage +10%"} }
+    gear.wsd_jse_back = "Null Shawl"
 
     -- Additional local binds
     send_command("bind ^` gs c cycle ElementalMode")
@@ -113,15 +107,15 @@ function init_gear_sets()
         ammo = "Impatiens",
         head = "Atrophy Chapeau +3",
         neck = "Voltsurge Torque",
-        ear1 = "Loquac. Earring",
+        ear1 = "Leth. Earring +1",  -- original: "Loquac. Earring" (stored; Leth. Earring +1 is FC+8)
         ear2 = "Malignance Earring",
         body = "Viti. Tabard +1",
-        hands = "Gende. Gages +1",
+        hands = "Bunzi's Gloves",  -- original: "Gende. Gages +1" (not owned) -- no FC hands owned; Bunzi DT-8
         ring1 = "Kishar Ring",
         ring2 = "Lebeche Ring",
         back = "Perimede Cape",
         waist = "Witful Belt",
-        legs = "Psycloth Lappas",
+        legs = { name="Kaykaus Tights +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},  -- original: "Psycloth Lappas" (not owned) -- Kaykaus FC+7
         feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}
     }
 
@@ -135,31 +129,31 @@ function init_gear_sets()
         ammo = "Voluspa Tathlum",
         head = "Viti. Chapeau +1",
         neck = "Asperity Necklace",
-        ear1 = "Cessance Earring",
+        ear1 = "Telos Earring",  -- original: "Cessance Earring" (not owned)
         ear2 = "Sherida Earring",
         body = "Ayanmo Corazza +2",
         hands = "Aya. Manopolas +2",
         ring1 = "Petrov Ring",
         ring2 = "Ilabrat Ring",
         back = gear.wsd_jse_back,
-        waist = "Windbuffet Belt +1",
-        legs = "Carmine Cuisses +1",
-        feet = "Carmine Greaves +1"
+        waist = "Sailfi Belt +1",  -- original: "Windbuffet Belt +1" (not owned)
+        legs = { name="Nyame Flanchard", augments={'Path: B',}},  -- original: "Carmine Cuisses +1" (not owned)
+        feet = { name="Nyame Sollerets", augments={'Path: B',}}  -- original: "Carmine Greaves +1" (not owned)
     }
 
     sets.precast.WS.Proc = {
         range = empty,
-        ammo = "Hasty Pinion +1",
+        ammo = "Amar Cluster",  -- original: "Hasty Pinion +1" (not owned)
         head = "Malignance Chapeau",
         neck = "Combatant's Torque",
         ear1 = "Mache Earring +1",
         ear2 = "Telos Earring",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
-        ring1 = "Ramuh Ring +1",
-        ring2 = "Ramuh Ring +1",
+        ring1 = "Cacoethic Ring +1",  -- original: "Ramuh Ring +1" (not owned)
+        ring2 = "Chirich Ring +1",  -- original: "Ramuh Ring +1" (not owned)
         back = gear.wsd_jse_back,
-        waist = "Olseni Belt",
+        waist = "Eschan Stone",  -- original: "Olseni Belt" (not owned)
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
@@ -169,15 +163,15 @@ function init_gear_sets()
         range = empty,
         ammo = "Regal Gem",
         head = "Jhakri Coronal +2",
-        neck = "Fotia Gorget",
+        neck = "Null Loop",  -- original: "Fotia Gorget" (not owned)
         ear1 = "Moonshade Earring",
         ear2 = "Sherida Earring",
         body = "Jhakri Robe +2",
         hands = "Atrophy Gloves +3",
-        ring1 = "Ifrit Ring +1",
-        ring2 = "Rufescent Ring",
+        ring1 = "Ephramad's Ring",  -- original: "Ifrit Ring +1" (not owned)
+        ring2 = "Metamor. Ring +1",  -- original: "Rufescent Ring" (not owned)
         back = gear.wsd_jse_back,
-        waist = "Fotia Belt",
+        waist = "Sailfi Belt +1",  -- original: "Fotia Belt" (not owned)
         legs = "Jhakri Slops +2",
         feet = "Jhakri Pigaches +2"
     }
@@ -186,17 +180,17 @@ function init_gear_sets()
         range = empty,
         ammo = "Voluspa Tathlum",
         head = "Malignance Chapeau",
-        neck = "Fotia Gorget",
+        neck = "Anu Torque",  -- original: "Fotia Gorget" (not owned)
         ear1 = "Moonshade Earring",
         ear2 = "Sherida Earring",
         body = "Ayanmo Corazza +2",
         hands = "Atrophy Gloves +3",
-        ring1 = "Begrudging Ring",
+        ring1 = "Ephramad's Ring",  -- original: "Begrudging Ring" (not owned)
         ring2 = "Ilabrat Ring",
         back = gear.wsd_jse_back,
-        waist = "Fotia Belt",
-        legs = "Carmine Cuisses +1",
-        feet = "Thereoid Greaves"
+        waist = "Sailfi Belt +1",  -- original: "Fotia Belt" (not owned)
+        legs = { name="Nyame Flanchard", augments={'Path: B',}},  -- original: "Carmine Cuisses +1" (not owned)
+        feet = { name="Nyame Sollerets", augments={'Path: B',}}  -- original: "Thereoid Greaves" (not owned)
     }
 
     sets.precast.WS["Evisceration"] = sets.precast.WS["Chant Du Cygne"]
@@ -205,7 +199,7 @@ function init_gear_sets()
         range = empty,
         ammo = "Sroda Tathlum",
         head = { name="Nyame Helm", augments={'Path: B',}},
-        neck = "Caro Necklace",
+        neck = "Anu Torque",  -- original: "Caro Necklace" (not owned)
         ear1 = "Moonshade Earring",
         ear2 = "Ishvara Earring",
         body = { name="Nyame Mail", augments={'Path: B',}},
@@ -215,7 +209,7 @@ function init_gear_sets()
         back = gear.wsd_jse_back,
         waist = "Sailfi Belt +1",
         legs = { name="Nyame Flanchard", augments={'Path: B',}},
-        feet = { name="Nyame Sollerets", augments={'Path: B',}}
+        feet = "Leth. Houseaux +3"  -- original: { name="Nyame Sollerets", augments={'Path: B',}} (owned, swapped: Houseaux +3 has WSD+12%)
     }
 
     sets.precast.WS["Sanguine Blade"] = {
@@ -228,7 +222,7 @@ function init_gear_sets()
         body = { name="Nyame Mail", augments={'Path: B',}},
         hands = { name="Nyame Gauntlets", augments={'Path: B',}},
         ring1 = "Metamor. Ring +1",
-        ring2 = "Archon Ring",
+        ring2 = "Persis Ring",  -- original: "Archon Ring" (not owned)
         back = gear.nuke_jse_back,
         waist = "Orpheus's Sash",
         legs = { name="Nyame Flanchard", augments={'Path: B',}},
@@ -245,7 +239,7 @@ function init_gear_sets()
         body = { name="Nyame Mail", augments={'Path: B',}},
         hands = { name="Nyame Gauntlets", augments={'Path: B',}},
         ring1 = "Metamor. Ring +1",
-        ring2 = "Freke Ring",
+        ring2 = "Persis Ring",  -- original: "Freke Ring" (not owned)
         back = gear.nuke_jse_back,
         waist = "Orpheus's Sash",
         legs = { name="Nyame Flanchard", augments={'Path: B',}},
@@ -262,7 +256,7 @@ function init_gear_sets()
         body = { name="Nyame Mail", augments={'Path: B',}},
         hands = { name="Nyame Gauntlets", augments={'Path: B',}},
         ring1 = "Metamor. Ring +1",
-        ring2 = "Freke Ring",
+        ring2 = "Persis Ring",  -- original: "Freke Ring" (not owned)
         back = gear.nuke_jse_back,
         waist = "Orpheus's Sash",
         legs = { name="Nyame Flanchard", augments={'Path: B',}},
@@ -271,10 +265,10 @@ function init_gear_sets()
 
     -- Midcast Sets
 
-    sets.TreasureHunter = set_combine(sets.TreasureHunter, {feet = gear.chironic_treasure_feet})
+    sets.TreasureHunter = set_combine(sets.TreasureHunter, {waist = "Chaac Belt"})  -- original: {feet = gear.chironic_treasure_feet} (TH Chironic Slippers not owned; Chaac Belt is TH+1)
 
     -- Gear that converts elemental damage done to recover MP.
-    sets.RecoverMP = {body = "Seidr Cotehardie"}
+    sets.RecoverMP = {}  -- original: {body = "Seidr Cotehardie"} (not owned)
 
     -- Gear for Magic Burst mode.
     sets.MagicBurst = {
@@ -284,7 +278,7 @@ function init_gear_sets()
         neck = "Mizu. Kubikazari",
         body = { name="Bunzi's Robe", augments={'Path: A',}},
         hands = { name="Bunzi's Gloves", augments={'Path: A',}},
-        ring1 = "Mujin Band",
+        ring1 = "Persis Ring",  -- original: "Mujin Band" (not owned) -- no MB ring owned
         ring2 = "Metamor. Ring +1",
         legs = { name="Bunzi's Pants", augments={'Path: A',}},
         feet = { name="Bunzi's Sabots", augments={'Path: A',}}
@@ -294,18 +288,18 @@ function init_gear_sets()
         main = gear.grioavolr_fc_staff,
         sub = "Clerisy Strap +1",
         range = empty,
-        ammo = "Hasty Pinion +1",
+        ammo = "Impatiens",  -- original: "Hasty Pinion +1" (not owned)
         head = "Atrophy Chapeau +3",
         neck = "Voltsurge Torque",
-        ear1 = "Enchntr. Earring +1",
+        ear1 = "Leth. Earring +1",  -- original: "Enchntr. Earring +1" (not owned)
         ear2 = "Malignance Earring",
-        body = "Zendik Robe",
-        hands = "Gende. Gages +1",
+        body = "Viti. Tabard +1",  -- original: "Zendik Robe" (not owned)
+        hands = "Bunzi's Gloves",  -- original: "Gende. Gages +1" (not owned)
         ring1 = "Kishar Ring",
-        ring2 = "Prolix Ring",
-        back = "Swith Cape +1",
+        ring2 = "Lebeche Ring",  -- original: "Prolix Ring" (not owned)
+        back = "Null Shawl",  -- original: "Swith Cape +1" (not owned)
         waist = "Witful Belt",
-        legs = "Psycloth Lappas",
+        legs = { name="Kaykaus Tights +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},  -- original: "Psycloth Lappas" (not owned)
         feet = "Medium's Sabots"
     }
 
@@ -315,14 +309,14 @@ function init_gear_sets()
         range = empty,
         ammo = "Staunch Tathlum +1",
         head = { name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},
-        neck = "Incanter's Torque",
+        neck = "Nodens Gorget",  -- original: "Incanter's Torque" (not owned) -- Nodens Cure potency +5%
         ear1 = "Meili Earring",
-        ear2 = "Mendi. Earring",
+        ear2 = { name="Alabaster Earring", augments={'Path: A',}},  -- original: "Mendi. Earring" (not owned)
         body = { name="Kaykaus Bliaut +1", augments={'MP+80','"Cure" potency +6%','"Conserve MP"+7',}},
         hands = { name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
         ring1 = "Stikini Ring",
         ring2 = "Menelaus's Ring",
-        back = "Tempered Cape +1",
+        back = { name="Ghostfyre Cape", augments={'Enfb.mag. skill +3','Enha.mag. skill +2','Enh. Mag. eff. dur. +17',}},  -- original: "Tempered Cape +1" (not owned)
         waist = "Luminary Sash",
         legs = { name="Kaykaus Tights +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},
         feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}
@@ -330,13 +324,13 @@ function init_gear_sets()
 
     sets.midcast.LightWeatherCure = {
         main = "Chatoyant Staff",
-        sub = "Curatio Grip",
+        sub = "Enki Strap",  -- original: "Curatio Grip" (not owned)
         range = empty,
         ammo = "Staunch Tathlum +1",
         head = { name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},
-        neck = "Incanter's Torque",
+        neck = "Nodens Gorget",  -- original: "Incanter's Torque" (not owned) -- Nodens Cure potency +5%
         ear1 = "Meili Earring",
-        ear2 = "Mendi. Earring",
+        ear2 = { name="Alabaster Earring", augments={'Path: A',}},  -- original: "Mendi. Earring" (not owned)
         body = { name="Kaykaus Bliaut +1", augments={'MP+80','"Cure" potency +6%','"Conserve MP"+7',}},
         hands = { name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
         ring1 = "Stikini Ring",
@@ -354,9 +348,9 @@ function init_gear_sets()
         range = empty,
         ammo = "Staunch Tathlum +1",
         head = { name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},
-        neck = "Incanter's Torque",
+        neck = "Nodens Gorget",  -- original: "Incanter's Torque" (not owned) -- Nodens Cure potency +5%
         ear1 = "Meili Earring",
-        ear2 = "Mendi. Earring",
+        ear2 = { name="Alabaster Earring", augments={'Path: A',}},  -- original: "Mendi. Earring" (not owned)
         body = { name="Kaykaus Bliaut +1", augments={'MP+80','"Cure" potency +6%','"Conserve MP"+7',}},
         hands = { name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
         ring1 = "Stikini Ring",
@@ -369,51 +363,40 @@ function init_gear_sets()
 
     sets.midcast.Cursna = {
         main = gear.grioavolr_fc_staff,
-        sub = "Curatio Grip",
+        sub = "Clerisy Strap +1",  -- original: "Curatio Grip" (not owned)
         range = empty,
         ammo = "Staunch Tathlum +1",
         head = { name="Bunzi's Hat", augments={'Path: A',}},
-        neck = "Debilis Medallion",
+        neck = "Voltsurge Torque",  -- original: "Debilis Medallion" (not owned)
         ear1 = "Meili Earring",
-        ear2 = "Mendi. Earring",
+        ear2 = { name="Alabaster Earring", augments={'Path: A',}},  -- original: "Mendi. Earring" (not owned)
         body = "Viti. Tabard +1",
-        hands = "Hieros Mittens",
-        ring1 = "Haoma's Ring",
+        hands = { name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},  -- original: "Hieros Mittens" (not owned)
+        ring1 = "Stikini Ring",  -- original: "Haoma's Ring" (not owned)
         ring2 = "Menelaus's Ring",
-        back = "Oretan. Cape +1",
+        back = "Vates Cape +1",  -- original: "Oretan. Cape +1" (not owned) -- Vates Healing skill +6
         waist = "Witful Belt",
-        legs = "Carmine Cuisses +1",
-        feet = "Vanya Clogs"
+        legs = "Atrophy Tights +3",  -- original: "Carmine Cuisses +1" (not owned) -- Atrophy Healing skill +17
+        feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}  -- original: "Vanya Clogs" (not owned)
     }
 
     sets.midcast.StatusRemoval =
         set_combine(sets.midcast.FastRecast, {main = gear.grioavolr_fc_staff, sub = "Clemency Grip"})
 
     sets.midcast.Curaga = sets.midcast.Cure
-    sets.Self_Healing = {
-        neck = "Phalaina Locket",
-        ear1 = "Etiolation Earring",
-        hands = "Buremte Gloves",
-        ring2 = "Kunaji Ring",
-        waist = "Gishdubar Sash"
-    }
-    sets.Cure_Received = {
-        neck = "Phalaina Locket",
-        hands = "Buremte Gloves",
-        ring2 = "Kunaji Ring",
-        waist = "Gishdubar Sash"
-    }
-    sets.Self_Refresh = {back = "Grapevine Cape", waist = "Gishdubar Sash"}
+    sets.Self_Healing = {}  -- original: {neck="Phalaina Locket", ear1="Etiolation Earring", hands="Buremte Gloves", ring2="Kunaji Ring", waist="Gishdubar Sash"} (none owned)
+    sets.Cure_Received = {}  -- original: {neck="Phalaina Locket", hands="Buremte Gloves", ring2="Kunaji Ring", waist="Gishdubar Sash"} (none owned)
+    sets.Self_Refresh = {}  -- original: {back = "Grapevine Cape", waist = "Gishdubar Sash"} (not owned)
 
     sets.midcast["Enhancing Magic"] = {
-        main = "Colada",
+        main = "Daybreak",  -- original: "Colada" (not owned)
         sub = "Ammurapi Shield",
         range = empty,
         ammo = "Staunch Tathlum +1",
         head = { name="Telchine Cap", augments={'Mag. Acc.+20','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
-        neck = "Dls. Torque +2",
+        neck = "Null Loop",  -- original: "Dls. Torque +2" (not owned) -- no enhancing neck owned
         ear1 = "Andoaa Earring",
-        ear2 = "Gifted Earring",
+        ear2 = "Leth. Earring +1",  -- original: "Gifted Earring" (not owned) -- Leth. Earring +1 Enh. duration +8%
         body = { name="Telchine Chas.", augments={'Mag. Acc.+24','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
         hands = "Atrophy Gloves +3",
         ring1 = "Stikini Ring",
@@ -436,36 +419,31 @@ function init_gear_sets()
     --Red Mage enhancing sets are handled in a different way from most, layered on due to the way Composure works
     --Don't set combine a full set with these spells, they should layer on Enhancing Set > Composure (If Applicable) > Spell
     sets.EnhancingSkill = {
-        main = "Pukulatmuj +1",
+        -- main = "Pukulatmuj +1"  -- removed: (not owned)
         head = "Befouled Crown",
-        neck = "Incanter's Torque",
-        ear2 = "Mimir Earring",
+        -- neck = "Incanter's Torque"  -- removed: (not owned)
+        -- ear2 = "Mimir Earring"  -- removed: (not owned)
         hands = "Viti. Gloves +1",
         back = { name="Ghostfyre Cape", augments={'Enfb.mag. skill +3','Enha.mag. skill +2','Enh. Mag. eff. dur. +17',}},
-        waist = "Olympus Sash",
+        -- waist = "Olympus Sash"  -- removed: (not owned)
         legs = "Atrophy Tights +3"
     }
-    sets.midcast.Refresh = {head = "Amalric Coif +1", body = "Atrophy Tabard +3", legs = "Leth. Fuseau +3"}
-    sets.midcast.Aquaveil = {
-        head = "Amalric Coif +1",
-        hands = "Regal Cuffs",
-        waist = "Emphatikos Rope",
-        legs = "Shedir Seraweels"
-    }
-    sets.midcast.BarElement = {legs = "Shedir Seraweels"}
+    sets.midcast.Refresh = {body = "Atrophy Tabard +3", legs = "Leth. Fuseau +3"}  -- original: head = "Amalric Coif +1" (not owned)
+    sets.midcast.Aquaveil = {}  -- original: {head="Amalric Coif +1", hands="Regal Cuffs", waist="Emphatikos Rope", legs="Shedir Seraweels"} (none owned)
+    sets.midcast.BarElement = {}  -- original: {legs = "Shedir Seraweels"} (not owned)
     sets.midcast.Temper = sets.EnhancingSkill
-    sets.midcast.Temper.DW = set_combine(sets.midcast.Temper, {sub = "Pukulatmuj"})
+    sets.midcast.Temper.DW = set_combine(sets.midcast.Temper, {})  -- original: {sub = "Pukulatmuj"} (not owned)
     sets.midcast.Enspell = sets.midcast.Temper
-    sets.midcast.Enspell.DW = set_combine(sets.midcast.Enspell, {sub = "Pukulatmuj"})
+    sets.midcast.Enspell.DW = set_combine(sets.midcast.Enspell, {})  -- original: {sub = "Pukulatmuj"} (not owned)
     sets.midcast.BoostStat = {hands = "Viti. Gloves +1"}
     sets.midcast.Stoneskin = {
         neck = "Nodens Gorget",
-        ear2 = "Earthcry Earring",
+        -- ear2 = "Earthcry Earring"  -- removed: (not owned)
         waist = "Siegel Sash",
-        legs = "Shedir Seraweels"
+        -- legs = "Shedir Seraweels"  -- removed: (not owned)
     }
-    sets.midcast.Protect = {ring2 = "Sheltered Ring"}
-    sets.midcast.Shell = {ring2 = "Sheltered Ring"}
+    sets.midcast.Protect = {}  -- original: {ring2 = "Sheltered Ring"} (not owned)
+    sets.midcast.Shell = {}  -- original: {ring2 = "Sheltered Ring"} (not owned)
 
     sets.midcast["Enfeebling Magic"] = {
         main = { name="Contemplator +1", augments={'Path: A',}},
@@ -473,16 +451,16 @@ function init_gear_sets()
         range = empty,
         ammo = "Regal Gem",
         head = "Viti. Chapeau +1",
-        neck = "Dls. Torque +2",
+        neck = "Null Loop",  -- original: "Dls. Torque +2" (not owned)
         ear1 = "Malignance Earring",
-        ear2 = "Snotra Earring",
+        ear2 = "Psystorm Earring",  -- original: "Snotra Earring" (not owned)
         body = "Lethargy Sayon +3",
-        hands = "Regal Gloves",
+        hands = "Leth. Ganth. +3",  -- original: "Regal Gloves" (Regal Gloves are not RDM-equippable)
         ring1 = "Kishar Ring",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
         waist = "Obstin. Sash",
-        legs = "Chironic Hose",
+        legs = "Leth. Fuseau +3",  -- original: "Chironic Hose" (not owned)
         feet = "Vitiation Boots +1"
     }
 
@@ -492,40 +470,40 @@ function init_gear_sets()
         range = empty,
         ammo = "Regal Gem",
         head = "Viti. Chapeau +1",
-        neck = "Dls. Torque +2",
+        neck = "Null Loop",  -- original: "Dls. Torque +2" (not owned)
         ear1 = "Malignance Earring",
-        ear2 = "Snotra Earring",
+        ear2 = "Psystorm Earring",  -- original: "Snotra Earring" (not owned)
         body = "Atrophy Tabard +3",
         hands = gear.chironic_enfeeble_hands,
         ring1 = "Metamor. Ring +1",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
-        waist = "Luminary Sash",
-        legs = "Chironic Hose",
+        waist = "Null Belt",  -- original: "Luminary Sash" (owned, swapped: Luminary Sash MAcc+10 -> Null Belt MAcc+30)
+        legs = "Leth. Fuseau +3",  -- original: "Chironic Hose" (not owned)
         feet = "Vitiation Boots +1"
     }
 
     sets.midcast.DurationOnlyEnfeebling =
         set_combine(
         sets.midcast["Enfeebling Magic"],
-        {main = { name="Bunzi's Rod", augments={'Path: A',}}, sub = "Ammurapi Shield", body = "Atrophy Tabard +3", range = "Kaja Bow"}
+        {main = { name="Bunzi's Rod", augments={'Path: A',}}, sub = "Ammurapi Shield", body = "Atrophy Tabard +3"}  -- original also had range = "Kaja Bow" (not owned)
     )
 
     sets.midcast.Silence = sets.midcast.DurationOnlyEnfeebling
     sets.midcast.Silence.Resistant = sets.midcast["Enfeebling Magic"].Resistant
-    sets.midcast.Sleep = set_combine(sets.midcast.DurationOnlyEnfeebling, {waist = "Acuity Belt +1"})
-    sets.midcast.Sleep.Resistant = set_combine(sets.midcast["Enfeebling Magic"].Resistant, {waist = "Acuity Belt +1"})
-    sets.midcast.Bind = set_combine(sets.midcast.DurationOnlyEnfeebling, {waist = "Acuity Belt +1"})
-    sets.midcast.Bind.Resistant = set_combine(sets.midcast["Enfeebling Magic"].Resistant, {waist = "Acuity Belt +1"})
-    sets.midcast.Break = set_combine(sets.midcast.DurationOnlyEnfeebling, {waist = "Acuity Belt +1"})
-    sets.midcast.Break.Resistant = set_combine(sets.midcast["Enfeebling Magic"].Resistant, {waist = "Acuity Belt +1"})
+    sets.midcast.Sleep = set_combine(sets.midcast.DurationOnlyEnfeebling, {waist = "Null Belt"})  -- original: waist = "Acuity Belt +1" (not owned)
+    sets.midcast.Sleep.Resistant = set_combine(sets.midcast["Enfeebling Magic"].Resistant, {waist = "Null Belt"})  -- original: waist = "Acuity Belt +1" (not owned)
+    sets.midcast.Bind = set_combine(sets.midcast.DurationOnlyEnfeebling, {waist = "Null Belt"})  -- original: waist = "Acuity Belt +1" (not owned)
+    sets.midcast.Bind.Resistant = set_combine(sets.midcast["Enfeebling Magic"].Resistant, {waist = "Null Belt"})  -- original: waist = "Acuity Belt +1" (not owned)
+    sets.midcast.Break = set_combine(sets.midcast.DurationOnlyEnfeebling, {waist = "Null Belt"})  -- original: waist = "Acuity Belt +1" (not owned)
+    sets.midcast.Break.Resistant = set_combine(sets.midcast["Enfeebling Magic"].Resistant, {waist = "Null Belt"})  -- original: waist = "Acuity Belt +1" (not owned)
 
     sets.midcast.Dispel = sets.midcast["Enfeebling Magic"].Resistant
 
     sets.midcast.SkillBasedEnfeebling =
         set_combine(
         sets.midcast["Enfeebling Magic"],
-        {ear1 = "Vor Earring", hands = "Leth. Ganth. +3", ring1 = "Stikini Ring", legs = "Psycloth Lappas"}
+        {hands = "Leth. Ganth. +3", ring1 = "Stikini Ring"}  -- original also had ear1 = "Vor Earring", legs = "Psycloth Lappas" (not owned)
     )
 
     sets.midcast["Frazzle II"] = sets.midcast["Enfeebling Magic"].Resistant
@@ -546,7 +524,7 @@ function init_gear_sets()
         main = { name="Bunzi's Rod", augments={'Path: A',}},
         sub = "Ammurapi Shield",
         range = empty,
-        ammo = "Ghastly Tathlum +1",
+        ammo = "Pemphredo Tathlum",  -- original: "Ghastly Tathlum +1" (not owned)
         head = { name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Baetyl Pendant",
         ear1 = "Crematio Earring",
@@ -554,7 +532,7 @@ function init_gear_sets()
         body = { name="Bunzi's Robe", augments={'Path: A',}},
         hands = { name="Bunzi's Gloves", augments={'Path: A',}},
         ring1 = "Metamor. Ring +1",
-        ring2 = "Freke Ring",
+        ring2 = "Persis Ring",  -- original: "Freke Ring" (not owned) -- no Freke-tier nuke ring owned
         back = gear.nuke_jse_back,
         waist = gear.ElementalObi,
         legs = { name="Bunzi's Pants", augments={'Path: A',}},
@@ -566,15 +544,15 @@ function init_gear_sets()
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
         head = { name="Bunzi's Hat", augments={'Path: A',}},
-        neck = "Dls. Torque +2",
+        neck = "Null Loop",  -- original: "Dls. Torque +2" (not owned)
         ear1 = "Malignance Earring",
         ear2 = "Crematio Earring",
         body = { name="Bunzi's Robe", augments={'Path: A',}},
         hands = { name="Bunzi's Gloves", augments={'Path: A',}},
         ring1 = "Metamor. Ring +1",
-        ring2 = "Freke Ring",
+        ring2 = "Persis Ring",  -- original: "Freke Ring" (not owned)
         back = gear.nuke_jse_back,
-        waist = "Yamabuki-no-Obi",
+        waist = "Null Belt",  -- original: "Yamabuki-no-Obi" (not owned)
         legs = { name="Bunzi's Pants", augments={'Path: A',}},
         feet = { name="Bunzi's Sabots", augments={'Path: A',}}
     }
@@ -583,7 +561,7 @@ function init_gear_sets()
         main = { name="Bunzi's Rod", augments={'Path: A',}},
         sub = "Ammurapi Shield",
         range = empty,
-        ammo = "Ghastly Tathlum +1",
+        ammo = "Pemphredo Tathlum",  -- original: "Ghastly Tathlum +1" (not owned)
         head = { name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Baetyl Pendant",
         ear1 = "Crematio Earring",
@@ -591,7 +569,7 @@ function init_gear_sets()
         body = { name="Bunzi's Robe", augments={'Path: A',}},
         hands = { name="Bunzi's Gloves", augments={'Path: A',}},
         ring1 = "Metamor. Ring +1",
-        ring2 = "Freke Ring",
+        ring2 = "Persis Ring",  -- original: "Freke Ring" (not owned) -- no Freke-tier nuke ring owned
         back = gear.nuke_jse_back,
         waist = gear.ElementalObi,
         legs = { name="Bunzi's Pants", augments={'Path: A',}},
@@ -603,45 +581,45 @@ function init_gear_sets()
         sub = empty,
         range = empty,
         ammo = "Impatiens",
-        head = "Vanya Hood",
+        head = "Atrophy Chapeau +3",  -- original: "Vanya Hood" (not owned) -- Proc set is fast cast/recast
         neck = "Voltsurge Torque",
-        ear1 = "Enchntr. Earring +1",
-        ear2 = "Loquac. Earring",
-        body = "Zendik Robe",
-        hands = "Gende. Gages +1",
+        ear1 = "Leth. Earring +1",  -- original: "Enchntr. Earring +1" (not owned)
+        ear2 = "Malignance Earring",  -- original: "Loquac. Earring" (stored)
+        body = "Viti. Tabard +1",  -- original: "Zendik Robe" (not owned)
+        hands = "Bunzi's Gloves",  -- original: "Gende. Gages +1" (not owned)
         ring1 = "Kishar Ring",
-        ring2 = "Prolix Ring",
-        back = "Swith Cape +1",
+        ring2 = "Lebeche Ring",  -- original: "Prolix Ring" (not owned)
+        back = "Null Shawl",  -- original: "Swith Cape +1" (not owned)
         waist = "Witful Belt",
-        legs = "Psycloth Lappas",
-        feet = "Regal Pumps +1"
+        legs = { name="Kaykaus Tights +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},  -- original: "Psycloth Lappas" (not owned)
+        feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}  -- original: "Regal Pumps +1" (Regal Pumps +1 are not RDM-equippable)
     }
 
     sets.midcast["Elemental Magic"].HighTierNuke =
         set_combine(
         sets.midcast["Elemental Magic"],
-        {head = gear.merlinic_nuke_head, ammo = "Pemphredo Tathlum", ear1 = "Regal Earring", ring1 = "Metamor. Ring +1"}
+        {head = gear.merlinic_nuke_head, ammo = "Pemphredo Tathlum", ring1 = "Metamor. Ring +1"}  -- original also had ear1 = "Regal Earring" (not owned)
     )
     sets.midcast["Elemental Magic"].HighTierNuke.Resistant =
         set_combine(
         sets.midcast["Elemental Magic"].Resistant,
-        {head = gear.merlinic_nuke_head, ear1 = "Regal Earring", ring1 = "Metamor. Ring +1"}
+        {head = gear.merlinic_nuke_head, ring1 = "Metamor. Ring +1"}  -- original also had ear1 = "Regal Earring" (not owned)
     )
     sets.midcast["Elemental Magic"].HighTierNuke.Fodder =
         set_combine(
         sets.midcast["Elemental Magic"].Fodder,
-        {head = gear.merlinic_nuke_head, ammo = "Pemphredo Tathlum", ear1 = "Regal Earring", ring1 = "Metamor. Ring +1"}
+        {head = gear.merlinic_nuke_head, ammo = "Pemphredo Tathlum", ring1 = "Metamor. Ring +1"}  -- original also had ear1 = "Regal Earring" (not owned)
     )
 
     sets.midcast.Impact = {
         main = { name="Bunzi's Rod", augments={'Path: A',}},
         sub = "Ammurapi Shield",
-        range = "Kaja Bow",
-        ammo = empty,
+        range = empty,  -- original: "Kaja Bow" (not owned)
+        ammo = "Pemphredo Tathlum",  -- original: empty (was empty because of Kaja Bow)
         head = empty,
         neck = "Erra Pendant",
         ear1 = "Malignance Earring",
-        ear2 = "Snotra Earring",
+        ear2 = "Psystorm Earring",  -- original: "Snotra Earring" (not owned)
         body = "Twilight Cloak",
         hands = "Leth. Ganth. +3",
         ring1 = "Metamor. Ring +1",
@@ -655,39 +633,39 @@ function init_gear_sets()
     sets.midcast["Dark Magic"] = {
         main = "Rubicundity",
         sub = "Ammurapi Shield",
-        range = "Kaja Bow",
-        ammo = empty,
-        head = "Amalric Coif +1",
+        range = empty,  -- original: "Kaja Bow" (not owned)
+        ammo = "Pemphredo Tathlum",  -- original: empty (was empty because of Kaja Bow)
+        head = "Leth. Chappel +3",  -- original: "Amalric Coif +1" (not owned)
         neck = "Erra Pendant",
         ear1 = "Malignance Earring",
-        ear2 = "Snotra Earring",
+        ear2 = "Psystorm Earring",  -- original: "Snotra Earring" (not owned)
         body = "Atrophy Tabard +3",
         hands = "Leth. Ganth. +3",
         ring1 = "Metamor. Ring +1",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
         waist = "Luminary Sash",
-        legs = "Psycloth Lappas",
+        legs = "Leth. Fuseau +3",  -- original: "Psycloth Lappas" (not owned)
         feet = { name="Bunzi's Sabots", augments={'Path: A',}}
     }
 
     sets.midcast.Drain = {
         main = "Rubicundity",
         sub = "Ammurapi Shield",
-        range = "Kaja Bow",
-        ammo = empty,
+        range = empty,  -- original: "Kaja Bow" (not owned)
+        ammo = "Pemphredo Tathlum",  -- original: empty (was empty because of Kaja Bow)
         head = "Pixie Hairpin +1",
         neck = "Erra Pendant",
         ear1 = "Malignance Earring",
-        ear2 = "Snotra Earring",
+        ear2 = "Psystorm Earring",  -- original: "Snotra Earring" (not owned)
         body = { name="Merlinic Jubbah", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25','CHR+2','Mag. Acc.+11','"Mag.Atk.Bns."+9',}},
-        hands = gear.chironic_enfeeble_hands,
-        ring1 = "Evanescence Ring",
-        ring2 = "Archon Ring",
+        hands = "Leth. Ganth. +3",  -- original: gear.chironic_enfeeble_hands (owned Chironic Gloves kept for Enfeebling Resistant; Leth. +3 MAcc+62)
+        ring1 = "Stikini Ring",  -- original: "Evanescence Ring" (not owned)
+        ring2 = "Stikini Ring",  -- original: "Archon Ring" (not owned)
         back = gear.nuke_jse_back,
         waist = "Fucho-no-obi",
-        legs = "Chironic Hose",
-        feet = gear.merlinic_aspir_feet
+        legs = "Leth. Fuseau +3",  -- original: "Chironic Hose" (not owned)
+        feet = { name="Bunzi's Sabots", augments={'Path: A',}}  -- original: gear.merlinic_aspir_feet (not owned)
     }
 
     sets.midcast.Aspir = sets.midcast.Drain
@@ -695,39 +673,39 @@ function init_gear_sets()
     sets.midcast.Stun = {
         main = { name="Bunzi's Rod", augments={'Path: A',}},
         sub = "Ammurapi Shield",
-        range = "Kaja Bow",
-        ammo = empty,
+        range = empty,  -- original: "Kaja Bow" (not owned)
+        ammo = "Pemphredo Tathlum",  -- original: empty (was empty because of Kaja Bow)
         head = "Atrophy Chapeau +3",
-        neck = "Dls. Torque +2",
+        neck = "Null Loop",  -- original: "Dls. Torque +2" (not owned)
         ear1 = "Malignance Earring",
-        ear2 = "Snotra Earring",
-        body = "Zendik Robe",
-        hands = "Volte Gloves",
+        ear2 = "Psystorm Earring",  -- original: "Snotra Earring" (not owned)
+        body = "Viti. Tabard +1",  -- original: "Zendik Robe" (not owned)
+        hands = "Leth. Ganth. +3",  -- original: "Volte Gloves" (not owned)
         ring1 = "Metamor. Ring +1",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
         waist = "Sailfi Belt +1",
-        legs = "Chironic Hose",
-        feet = gear.merlinic_aspir_feet
+        legs = "Leth. Fuseau +3",  -- original: "Chironic Hose" (not owned)
+        feet = { name="Bunzi's Sabots", augments={'Path: A',}}  -- original: gear.merlinic_aspir_feet (not owned)
     }
 
     sets.midcast.Stun.Resistant = {
         main = { name="Bunzi's Rod", augments={'Path: A',}},
         sub = "Ammurapi Shield",
-        range = "Kaja Bow",
-        ammo = empty,
+        range = empty,  -- original: "Kaja Bow" (not owned)
+        ammo = "Pemphredo Tathlum",  -- original: empty (was empty because of Kaja Bow)
         head = "Atrophy Chapeau +3",
-        neck = "Dls. Torque +2",
+        neck = "Null Loop",  -- original: "Dls. Torque +2" (not owned)
         ear1 = "Malignance Earring",
-        ear2 = "Snotra Earring",
+        ear2 = "Psystorm Earring",  -- original: "Snotra Earring" (not owned)
         body = "Atrophy Tabard +3",
-        hands = "Volte Gloves",
+        hands = "Leth. Ganth. +3",  -- original: "Volte Gloves" (not owned)
         ring1 = "Metamor. Ring +1",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
-        waist = "Acuity Belt +1",
-        legs = "Chironic Hose",
-        feet = gear.merlinic_aspir_feet
+        waist = "Null Belt",  -- original: waist = "Acuity Belt +1" (not owned)
+        legs = "Leth. Fuseau +3",  -- original: "Chironic Hose" (not owned)
+        feet = { name="Bunzi's Sabots", augments={'Path: A',}}  -- original: gear.merlinic_aspir_feet (not owned)
     }
 
     -- Sets for special buff conditions on spells.
@@ -736,14 +714,14 @@ function init_gear_sets()
 
     sets.HPDown = {
         head = "Pixie Hairpin +1",
-        ear1 = "Mendicant's Earring",
+        -- ear1 = "Mendicant's Earring"  -- removed: (not owned)
         ear2 = "Evans Earring",
         body = "Jhakri Robe +2",
         hands = "Jhakri Cuffs +2",
-        ring1 = "Mephitas's Ring +1",
+        -- ring1 = "Mephitas's Ring +1"  -- removed: (not owned)
         ring2 = "Mephitas's Ring",
-        back = "Swith Cape +1",
-        legs = "Shedir Seraweels",
+        -- back = "Swith Cape +1"  -- removed: (not owned)
+        -- legs = "Shedir Seraweels"  -- removed: (not owned)
         feet = "Jhakri Pigaches +2"
     }
 
@@ -751,19 +729,19 @@ function init_gear_sets()
         main = "Daybreak",
         sub = "Sors Shield",
         range = empty,
-        ammo = "Hasty Pinion +1",
-        head = "Gende. Caubeen +1",
-        neck = "Unmoving Collar +1",
-        ear1 = "Gifted Earring",
-        ear2 = "Mendi. Earring",
+        ammo = "Staunch Tathlum +1",  -- original: "Hasty Pinion +1" (not owned)
+        head = { name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},  -- original: "Gende. Caubeen +1" (not owned)
+        neck = "Unmoving Collar",  -- original: "Unmoving Collar +1" (owned Unmoving Collar non-+1)
+        ear1 = { name="Odnowa Earring +1", augments={'Path: A',}},  -- original: "Gifted Earring" (not owned)
+        ear2 = "Meili Earring",  -- original: "Mendi. Earring" (not owned)
         body = "Viti. Tabard +1",
-        hands = "Kaykaus Cuffs",
-        ring1 = "Gelatinous Ring +1",
-        ring2 = "Meridian Ring",
-        back = "Moonlight Cape",
+        hands = { name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},  -- original: "Kaykaus Cuffs" (unaugmented name; you own the +1)
+        ring1 = "Menelaus's Ring",  -- original: "Gelatinous Ring +1" (not owned)
+        ring2 = "Lebeche Ring",  -- original: "Meridian Ring" (not owned)
+        back = { name="Ghostfyre Cape", augments={'Enfb.mag. skill +3','Enha.mag. skill +2','Enh. Mag. eff. dur. +17',}},  -- original: "Moonlight Cape" (not owned)
         waist = "Luminary Sash",
-        legs = "Carmine Cuisses +1",
-        feet = "Kaykaus Boots"
+        legs = { name="Kaykaus Tights +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},  -- original: "Carmine Cuisses +1" (not owned)
+        feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}  -- original: "Kaykaus Boots" (unaugmented name; you own the +1)
     }
 
     sets.buff.Doom = set_combine(sets.buff.Doom, {})
@@ -773,21 +751,21 @@ function init_gear_sets()
     -- Resting sets
     sets.resting = {
         main = "Chatoyant Staff",
-        sub = "Oneiros Grip",
+        sub = "Umbra Strap",  -- original: "Oneiros Grip" (not owned)
         range = empty,
         ammo = "Impatiens",
         head = "Viti. Chapeau +1",
         neck = "Loricate Torque +1",
         ear1 = "Etiolation Earring",
-        ear2 = "Ethereal Earring",
-        body = "Jhakri Robe +2",
-        hands = gear.merlinic_refresh_hands,
+        ear2 = { name="Alabaster Earring", augments={'Path: A',}},  -- original: "Ethereal Earring" (not owned)
+        body = "Lethargy Sayon +3",  -- original: "Jhakri Robe +2" (owned, swapped: Refresh+4 same as Jhakri, plus DT-14%)
+        hands = "Leth. Ganth. +3",  -- original: gear.merlinic_refresh_hands (not owned)
         ring1 = "Defending Ring",
-        ring2 = "Sheltered Ring",
-        back = "Umbra Cape",
-        waist = "Flume Belt +1",
+        ring2 = "Stikini Ring",  -- original: "Sheltered Ring" (not owned)
+        back = "Null Shawl",  -- original: "Umbra Cape" (not owned)
+        waist = "Null Belt",  -- original: "Flume Belt +1" (not owned)
         legs = "Lengo Pants",
-        feet = gear.chironic_refresh_feet
+        feet = { name="Nyame Sollerets", augments={'Path: B',}}  -- original: gear.chironic_refresh_feet (not owned)
     }
 
     -- Idle sets
@@ -800,19 +778,19 @@ function init_gear_sets()
         neck = "Loricate Torque +1",
         ear1 = "Etiolation Earring",
         ear2 = { name="Alabaster Earring", augments={'Path: A',}},
-        body = "Jhakri Robe +2",
-        hands = gear.merlinic_refresh_hands,
+        body = "Lethargy Sayon +3",  -- original: "Jhakri Robe +2" (owned, swapped: Refresh+4 same as Jhakri, plus DT-14%)
+        hands = "Leth. Ganth. +3",  -- original: gear.merlinic_refresh_hands (not owned) -- Merlinic refresh hands; Leth. +3 DT-11%
         ring1 = "Stikini Ring",
         ring2 = "Stikini Ring",
-        back = "Umbra Cape",
-        waist = "Flume Belt +1",
+        back = "Null Shawl",  -- original: "Umbra Cape" (not owned)
+        waist = "Null Belt",  -- original: "Flume Belt +1" (not owned)
         legs = { name="Lengo Pants", augments={'INT+10','Mag. Acc.+15','"Mag.Atk.Bns."+15','"Refresh"+1',}},
-        feet = gear.merlinic_refresh_feet
+        feet = { name="Nyame Sollerets", augments={'Path: B',}}  -- original: gear.merlinic_refresh_feet (not owned) -- Merlinic refresh feet
     }
 
     sets.idle.PDT = {
-        main = "Terra's Staff",
-        sub = "Umbra Strap",
+        main = "Daybreak",  -- original: "Terra's Staff" (not owned)
+        sub = "Sacro Bulwark",  -- original: "Umbra Strap" (not owned)
         range = empty,
         ammo = "Staunch Tathlum +1",
         head = "Malignance Chapeau",
@@ -823,8 +801,8 @@ function init_gear_sets()
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back = "Moonlight Cape",
-        waist = "Flume Belt +1",
+        back = "Null Shawl",  -- original: "Moonlight Cape" (not owned)
+        waist = "Null Belt",  -- original: "Flume Belt +1" (not owned)
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
@@ -835,14 +813,14 @@ function init_gear_sets()
         range = empty,
         ammo = "Staunch Tathlum +1",
         head = "Malignance Chapeau",
-        neck = "Warder's Charm +1",
+        neck = { name="Loricate Torque +1", augments={'Path: A',}},  -- original: "Warder's Charm +1" (not owned)
         ear1 = "Etiolation Earring",
         ear2 = "Sanare Earring",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back = "Moonlight Cape",
+        back = "Null Shawl",  -- original: "Moonlight Cape" (not owned)
         waist = "Carrier's Sash",
         legs = "Malignance Tights",
         feet = "Malignance Boots"
@@ -871,7 +849,7 @@ function init_gear_sets()
     -- }
 
     sets.idle.DTHippo =
-        set_combine(sets.idle.PDT, {back = "Umbra Cape", legs = "Carmine Cuisses +1", feet = "Hippo. Socks +1"})
+        set_combine(sets.idle.PDT, {ring2 = "Shneddick Ring +1"})  -- original: {back = "Umbra Cape", legs = "Carmine Cuisses +1", feet = "Hippo. Socks +1"} (not owned); Shneddick for movement
 
     sets.packing = {
         main  = "Mpaca's Staff",
@@ -886,7 +864,7 @@ function init_gear_sets()
         hands = "Nyame Gauntlets",
         ring1 = "Defending Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back  = "Umbra Cape",
+        back  = "Null Shawl",  -- original: "Umbra Cape" (not owned)
         waist = "Fucho-no-obi",
         legs  = "Nyame Flanchard",
         feet  = "Nyame Sollerets"
@@ -894,8 +872,8 @@ function init_gear_sets()
 
     -- Defense sets
     sets.defense.PDT = {
-        main = "Terra's Staff",
-        sub = "Umbra Strap",
+        main = "Daybreak",  -- original: "Terra's Staff" (not owned)
+        sub = "Sacro Bulwark",  -- original: "Umbra Strap" (not owned)
         range = empty,
         ammo = "Staunch Tathlum +1",
         head = "Malignance Chapeau",
@@ -906,8 +884,8 @@ function init_gear_sets()
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back = "Moonlight Cape",
-        waist = "Flume Belt +1",
+        back = "Null Shawl",  -- original: "Moonlight Cape" (not owned)
+        waist = "Null Belt",  -- original: "Flume Belt +1" (not owned)
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
@@ -915,19 +893,19 @@ function init_gear_sets()
     sets.defense.NukeLock = sets.midcast["Elemental Magic"]
 
     sets.defense.MDT = {
-        main = "Bolelabunga",
+        main = "Daybreak",  -- original: "Bolelabunga" (not owned)
         sub = "Sacro Bulwark",
         range = empty,
         ammo = "Staunch Tathlum +1",
         head = "Malignance Chapeau",
-        neck = "Warder's Charm +1",
+        neck = { name="Loricate Torque +1", augments={'Path: A',}},  -- original: "Warder's Charm +1" (not owned)
         ear1 = "Etiolation Earring",
         ear2 = { name="Alabaster Earring", augments={'Path: A',}},
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back = "Moonlight Cape",
+        back = "Null Shawl",  -- original: "Moonlight Cape" (not owned)
         waist = "Carrier's Sash",
         legs = "Malignance Tights",
         feet = "Malignance Boots"
@@ -939,14 +917,14 @@ function init_gear_sets()
         range = empty,
         ammo = "Staunch Tathlum +1",
         head = "Malignance Chapeau",
-        neck = "Warder's Charm +1",
+        neck = { name="Loricate Torque +1", augments={'Path: A',}},  -- original: "Warder's Charm +1" (not owned)
         ear1 = "Etiolation Earring",
         ear2 = { name="Alabaster Earring", augments={'Path: A',}},
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back = "Moonlight Cape",
+        back = "Null Shawl",  -- original: "Moonlight Cape" (not owned)
         waist = "Carrier's Sash",
         legs = "Malignance Tights",
         feet = "Malignance Boots"
@@ -954,25 +932,25 @@ function init_gear_sets()
 
     sets.Kiting = {ring1 = "Shneddick Ring +1"}
     sets.latent_refresh = {waist = "Fucho-no-obi"}
-    sets.latent_refresh_grip = {sub = "Oneiros Grip"}
-    sets.TPEat = {neck = "Chrys. Torque"}
+    sets.latent_refresh_grip = {}  -- original: {sub = "Oneiros Grip"} (not owned)
+    sets.TPEat = {}  -- original: {neck = "Chrys. Torque"} (not RDM-equippable)
     sets.DayIdle = {}
     sets.NightIdle = {}
 
     -- Weapons sets
     sets.weapons.Naegling = {main = "Naegling", sub = "Thibron", range = empty}
 	sets.weapons.DualMpuGandring = {main = "Mpu Gandring", sub = "Thibron", range = empty}
-    sets.weapons.DualWeapons = {main = "Vorpal Sword", sub = "Qutrub Knife", range = empty}
-    sets.weapons.DualWeaponsAcc = {main = "Naegling", sub = "Almace", range = empty}
-    sets.weapons.DualEvisceration = {main = "Tauret", sub = "Almace", range = empty}
+    sets.weapons.DualWeapons = {main = "Naegling", sub = "Gleti's Knife", range = empty}  -- original: {main = "Vorpal Sword", sub = "Qutrub Knife"} (Vorpal Sword not owned)
+    sets.weapons.DualWeaponsAcc = {main = "Naegling", sub = "Sakpata's Sword", range = empty}  -- original: {main = "Naegling", sub = "Almace"} (Almace not owned)
+    sets.weapons.DualEvisceration = {main = "Tauret", sub = "Gleti's Knife", range = empty}  -- original: {main = "Tauret", sub = "Almace"} (Almace not owned)
     sets.weapons.DualAeolian = {main = "Tauret", sub = "Bunzi's Rod", range = empty}
-    sets.weapons.DualProcDaggers = {main = "Blurred Knife +1", sub = "Atoyac", range = empty}
-    sets.weapons.EnspellOnly = {main = "Norgish Dagger", sub = "Aern Dagger", range = "Kaja Bow", ammo = "Beetle Arrow"}
-    sets.weapons.EnspellDW = {main = "Blurred Knife +1", sub = "Atoyac", range = "Kaja Bow", ammo = "Beetle Arrow"}
+    sets.weapons.DualProcDaggers = {main = "Ternion Dagger +1", sub = "Ethereal Dagger", range = empty}  -- original: {main = "Blurred Knife +1", sub = "Atoyac"} (not owned)
+    sets.weapons.EnspellOnly = {main = "Ternion Dagger +1", sub = "Ethereal Dagger", range = empty}  -- original: {main = "Norgish Dagger", sub = "Aern Dagger", range = "Kaja Bow", ammo = "Beetle Arrow"} (not owned)
+    sets.weapons.EnspellDW = {main = "Ternion Dagger +1", sub = "Ethereal Dagger", range = empty}  -- original: {main = "Blurred Knife +1", sub = "Atoyac", range = "Kaja Bow", ammo = "Beetle Arrow"} (not owned)
     sets.weapons.DualClubs = {main = "Maxentius", sub = "Thibron", range = empty}
-    sets.weapons.DualAlmace = {main = "Almace", sub = "Sequence", range = empty}
-    sets.weapons.DualBow = {main = "Naegling", sub = "Tauret", range = "Kaja Bow"}
-    sets.weapons.BowMacc = {main = "Naegling", sub = "Tauret", range = "Kaja Bow", ammo = empty}
+    sets.weapons.DualAlmace = {main = "Almace", sub = "Sequence", range = empty}  -- not owned; not in the Weapons cycle, kept for later
+    sets.weapons.DualBow = {main = "Naegling", sub = "Tauret", range = "Kaja Bow"}  -- Kaja Bow not owned; not in the Weapons cycle, kept for later
+    sets.weapons.BowMacc = {main = "Naegling", sub = "Tauret", range = "Kaja Bow", ammo = empty}  -- Kaja Bow not owned; not in the Weapons cycle, kept for later
 
     sets.buff.Sublimation = {waist = "Embla Sash"}
     sets.buff.DTSublimation = {waist = "Embla Sash"}
@@ -991,33 +969,33 @@ function init_gear_sets()
     --		back=gear.stp_jse_back,waist="Windbuffet Belt +1",legs="Carmine Cuisses +1",feet="Carmine Greaves +1"}
 
     sets.engaged = {
-        ammo = "Aurgelmir Orb +1",
+        ammo = "Coiste Bodhar",  -- original: "Aurgelmir Orb +1" (not owned)
         head = "Malignance Chapeau",
         neck = "Anu Torque",
-        ear1 = "Brutal Earring",
+        ear1 = "Sherida Earring",  -- original: "Brutal Earring" (stored; Sherida DA+5 STP+5)
         ear2 = "Leth. Earring +1",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
         ring2 = "Ilabrat Ring",
         back = gear.stp_jse_back,
-        waist = "Windbuffet Belt +1",
+        waist = "Sailfi Belt +1",  -- original: "Windbuffet Belt +1" (not owned)
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
 
     sets.engaged.EnspellOnly = {
         head = "Malignance Chapeau",
-        neck = "Dls. Torque +2",
+        neck = "Null Loop",  -- original: "Dls. Torque +2" (not owned)
         ear1 = "Suppanomimi",
-        ear2 = "Digni. Earring",
+        ear2 = "Crep. Earring",  -- original: "Digni. Earring" (not owned)
         body = "Ayanmo Corazza +2",
         hands = "Aya. Manopolas +2",
         ring1 = "Metamor. Ring +1",
-        ring2 = "Ramuh Ring +1",
+        ring2 = "Chirich Ring +1",  -- original: "Ramuh Ring +1" (not owned)
         back = "Ghostfyre Cape",
-        waist = "Windbuffet Belt +1",
-        legs = "Carmine Cuisses +1",
+        waist = "Sailfi Belt +1",  -- original: "Windbuffet Belt +1" (not owned)
+        legs = "Malignance Tights",  -- original: "Carmine Cuisses +1" (not owned)
         feet = "Malignance Boots"
     }
 
@@ -1031,13 +1009,13 @@ function init_gear_sets()
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
         back = gear.stp_jse_back,
-        waist = "Windbuffet Belt +1",
+        waist = "Sailfi Belt +1",  -- original: "Windbuffet Belt +1" (not owned)
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
 
     sets.engaged.FullAcc = {
-        ammo = "Aurgelmir Orb +1",
+        ammo = "Coiste Bodhar",  -- original: "Aurgelmir Orb +1" (not owned)
         head = "Malignance Chapeau",
         neck = "Anu Torque",
         ear1 = "Telos Earring",
@@ -1047,13 +1025,13 @@ function init_gear_sets()
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
         back = gear.stp_jse_back,
-        waist = "Windbuffet Belt +1",
+        waist = "Sailfi Belt +1",  -- original: "Windbuffet Belt +1" (not owned)
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
 
     sets.engaged.DT = {
-        ammo = "Aurgelmir Orb +1",
+        ammo = "Coiste Bodhar",  -- original: "Aurgelmir Orb +1" (not owned)
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
         ear1 = "Telos Earring",
@@ -1062,14 +1040,14 @@ function init_gear_sets()
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back = "Moonlight Cape",
-        waist = "Windbuffet Belt +1",
+        back = "Null Shawl",  -- original: "Moonlight Cape" (not owned)
+        waist = "Sailfi Belt +1",  -- original: "Windbuffet Belt +1" (not owned)
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
 
     sets.engaged.Acc.DT = {
-        ammo = "Aurgelmir Orb +1",
+        ammo = "Coiste Bodhar",  -- original: "Aurgelmir Orb +1" (not owned)
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
         ear1 = "Telos Earring",
@@ -1078,14 +1056,14 @@ function init_gear_sets()
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back = "Moonlight Cape",
+        back = "Null Shawl",  -- original: "Moonlight Cape" (not owned)
         waist = "Reiki Yotai",
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
 
     sets.engaged.FullAcc.DT = {
-        ammo = "Aurgelmir Orb +1",
+        ammo = "Coiste Bodhar",  -- original: "Aurgelmir Orb +1" (not owned)
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
         ear1 = "Telos Earring",
@@ -1094,14 +1072,14 @@ function init_gear_sets()
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back = "Moonlight Cape",
+        back = "Null Shawl",  -- original: "Moonlight Cape" (not owned)
         waist = "Reiki Yotai",
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
 
     sets.engaged.DW = {
-        ammo = "Aurgelmir Orb +1",
+        ammo = "Coiste Bodhar",  -- original: "Aurgelmir Orb +1" (not owned)
         head = "Malignance Chapeau",
         neck = "Anu Torque",
         ear1 = "Suppanomimi",
@@ -1117,7 +1095,7 @@ function init_gear_sets()
     }
 
     sets.engaged.DW.Acc = {
-        ammo = "Aurgelmir Orb +1",
+        ammo = "Coiste Bodhar",  -- original: "Aurgelmir Orb +1" (not owned)
         head = "Malignance Chapeau",
         neck = "Anu Torque",
         ear1 = "Suppanomimi",
@@ -1133,7 +1111,7 @@ function init_gear_sets()
     }
 
     sets.engaged.DW.FullAcc = {
-        ammo = "Aurgelmir Orb +1",
+        ammo = "Coiste Bodhar",  -- original: "Aurgelmir Orb +1" (not owned)
         head = "Malignance Chapeau",
         neck = "Anu Torque",
         ear1 = "Suppanomimi",
@@ -1149,7 +1127,7 @@ function init_gear_sets()
     }
 
     sets.engaged.DW.DT = {
-        ammo = "Aurgelmir Orb +1",
+        ammo = "Coiste Bodhar",  -- original: "Aurgelmir Orb +1" (not owned)
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
         ear1 = "Suppanomimi",
@@ -1158,14 +1136,14 @@ function init_gear_sets()
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back = "Moonlight Cape",
+        back = "Null Shawl",  -- original: "Moonlight Cape" (not owned)
         waist = "Reiki Yotai",
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
 
     sets.engaged.DW.Acc.DT = {
-        ammo = "Aurgelmir Orb +1",
+        ammo = "Coiste Bodhar",  -- original: "Aurgelmir Orb +1" (not owned)
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
         ear1 = "Suppanomimi",
@@ -1174,14 +1152,14 @@ function init_gear_sets()
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back = "Moonlight Cape",
+        back = "Null Shawl",  -- original: "Moonlight Cape" (not owned)
         waist = "Reiki Yotai",
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
 
     sets.engaged.DW.FullAcc.DT = {
-        ammo = "Aurgelmir Orb +1",
+        ammo = "Coiste Bodhar",  -- original: "Aurgelmir Orb +1" (not owned)
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
         ear1 = "Suppanomimi",
@@ -1190,14 +1168,16 @@ function init_gear_sets()
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back = "Moonlight Cape",
+        back = "Null Shawl",  -- original: "Moonlight Cape" (not owned)
         waist = "Reiki Yotai",
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
 end
 
-function job_customize_idle_set(idleSet)
+-- LINKTRI: renamed from job_customize_idle_set, which replaced RDM.lua's own version (Sublimation, latent refresh,
+-- TP-eat logic). Sel runs user_job_customize_idle_set after RDM.lua's, so both now work.
+function user_job_customize_idle_set(idleSet)
     local currently_near_porter = near_porter_moogle()
 
     if currently_near_porter then
