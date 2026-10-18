@@ -1022,23 +1022,25 @@ function init_gear_sets()
         feet = "Wicce Sabots +3" -- LINKTRI FIX: merlinic_refresh_feet = Merlinic Crackows (not in bags)
     }
 
-    sets.idle.Weak = {
-        main = "Daybreak",
-        sub = "Genmei Shield",
-        ammo = "Staunch Tathlum +1",
-        head = "Befouled Crown",
-        neck = "Loricate Torque +1",
-        ear1 = "Alabaster Earring",
-        ear2 = "Etiolation Earring",
-        body = "Wicce Coat +3",
-        hands = "Wicce Gloves +3", -- LINKTRI FIX: merlinic_refresh_hands = Merlinic Dastanas (not in bags)
-        ring1 = "Defending Ring",
-        ring2 = "Murky Ring",
-        back = "Aurist's Cape +1",
-        waist = "Carrier's Sash",
-        legs = "Assid. Pants +1",
-        feet = "Wicce Sabots +3" -- LINKTRI FIX: merlinic_refresh_feet = Merlinic Crackows (not in bags)
-    }
+    -- LINKTRI: Weakness set commented out (2026-10-17). Without it, Sel uses your normal idle set while weakened.
+    -- To restore, uncomment the lines below; Sel-Include equips sets.idle.Weak automatically when it exists.
+    -- sets.idle.Weak = {
+        -- main = "Daybreak",
+        -- sub = "Genmei Shield",
+        -- ammo = "Staunch Tathlum +1",
+        -- head = "Befouled Crown",
+        -- neck = "Loricate Torque +1",
+        -- ear1 = "Alabaster Earring",
+        -- ear2 = "Etiolation Earring",
+        -- body = "Wicce Coat +3",
+        -- hands = "Wicce Gloves +3", -- LINKTRI FIX: merlinic_refresh_hands = Merlinic Dastanas (not in bags)
+        -- ring1 = "Defending Ring",
+        -- ring2 = "Murky Ring",
+        -- back = "Aurist's Cape +1",
+        -- waist = "Carrier's Sash",
+        -- legs = "Assid. Pants +1",
+        -- feet = "Wicce Sabots +3" -- LINKTRI FIX: merlinic_refresh_feet = Merlinic Crackows (not in bags)
+    -- }
 
     -- Packing gear for Porter Moogle
     sets.packing = {

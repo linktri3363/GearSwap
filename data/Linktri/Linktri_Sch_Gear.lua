@@ -927,23 +927,25 @@ function init_gear_sets()
 
     sets.idle.Hippo = set_combine(sets.idle.PDT, {feet = "Hippo. Socks +1"})
 
-    sets.idle.Weak = {
-        main = "Bolelabunga",
-        sub = "Genmei Shield",
-        ammo = "Homiliary",
-        head = "Befouled Crown",
-        neck = "Loricate Torque +1",
-        ear1 = "Etiolation Earring",
-        ear2 = "Ethereal Earring",
-        body = "Jhakri Robe +2",
-        hands = gear.merlinic_refresh_hands,
-        ring1 = "Defending Ring",
-        ring2 = "Dark Ring",
-        back = "Umbra Cape",
-        waist = "Carrier's Sash",
-        legs = "Assid. Pants +1",
-        feet = gear.chironic_refresh_feet
-    }
+    -- LINKTRI: Weakness set commented out (2026-10-17). Without it, Sel uses your normal idle set while weakened.
+    -- To restore, uncomment the lines below; Sel-Include equips sets.idle.Weak automatically when it exists.
+    -- sets.idle.Weak = {
+        -- main = "Bolelabunga",
+        -- sub = "Genmei Shield",
+        -- ammo = "Homiliary",
+        -- head = "Befouled Crown",
+        -- neck = "Loricate Torque +1",
+        -- ear1 = "Etiolation Earring",
+        -- ear2 = "Ethereal Earring",
+        -- body = "Jhakri Robe +2",
+        -- hands = gear.merlinic_refresh_hands,
+        -- ring1 = "Defending Ring",
+        -- ring2 = "Dark Ring",
+        -- back = "Umbra Cape",
+        -- waist = "Carrier's Sash",
+        -- legs = "Assid. Pants +1",
+        -- feet = gear.chironic_refresh_feet
+    -- }
 
     -- Porter Moogle packing set
     sets.packing = {

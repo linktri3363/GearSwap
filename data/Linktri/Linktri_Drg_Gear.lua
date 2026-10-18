@@ -180,7 +180,9 @@ function init_gear_sets()
 		-- original: head=Nyame Helm, hands/legs/feet=Nyame (owned), ring2=Murky Ring (owned), ear2="Ethereal Earring", back="Moonlight Cape", waist="Flume Belt +1", legs="Carmine Cuisses +1" (not owned)
 
 	-- Twilight Helm/Mail are not owned; these sets fall back to the idle/defense gear until you get them
-	sets.idle.Weak = set_combine(sets.idle, {head="Twilight Helm",body="Twilight Mail"})
+	-- LINKTRI: Weakness set commented out (2026-10-17). Without it, Sel uses your normal idle set while weakened.
+	-- To restore, uncomment the lines below; Sel-Include equips sets.idle.Weak automatically when it exists.
+	-- sets.idle.Weak = set_combine(sets.idle, {head="Twilight Helm",body="Twilight Mail"})
 		
 	sets.idle.Reraise = set_combine(sets.idle, {head="Twilight Helm",body="Twilight Mail"})
 	

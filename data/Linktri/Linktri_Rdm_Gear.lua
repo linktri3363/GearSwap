@@ -849,24 +849,26 @@ function init_gear_sets()
     }
 
 
-    sets.idle.Weak = {
-        main = "Bolelabunga",
-        sub = "Sacro Bulwark",
-        range = empty,
-        ammo = "Homiliary",
-        head = "Viti. Chapeau +1",
-        neck = "Loricate Torque +1",
-        ear1 = "Etiolation Earring",
-        ear2 = { name="Alabaster Earring", augments={'Path: A',}},
-        body = "Jhakri Robe +2",
-        hands = gear.merlinic_refresh_hands,
-        ring1 = "Defending Ring",
-        ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back = "Umbra Cape",
-        waist = "Flume Belt +1",
-        legs = { name="Lengo Pants", augments={'INT+10','Mag. Acc.+15','"Mag.Atk.Bns."+15','"Refresh"+1',}},
-        feet = gear.chironic_refresh_feet
-    }
+    -- LINKTRI: Weakness set commented out (2026-10-17). Without it, Sel uses your normal idle set while weakened.
+    -- To restore, uncomment the lines below; Sel-Include equips sets.idle.Weak automatically when it exists.
+    -- sets.idle.Weak = {
+        -- main = "Bolelabunga",
+        -- sub = "Sacro Bulwark",
+        -- range = empty,
+        -- ammo = "Homiliary",
+        -- head = "Viti. Chapeau +1",
+        -- neck = "Loricate Torque +1",
+        -- ear1 = "Etiolation Earring",
+        -- ear2 = { name="Alabaster Earring", augments={'Path: A',}},
+        -- body = "Jhakri Robe +2",
+        -- hands = gear.merlinic_refresh_hands,
+        -- ring1 = "Defending Ring",
+        -- ring2 = { name="Murky Ring", augments={'Path: A',}},
+        -- back = "Umbra Cape",
+        -- waist = "Flume Belt +1",
+        -- legs = { name="Lengo Pants", augments={'INT+10','Mag. Acc.+15','"Mag.Atk.Bns."+15','"Refresh"+1',}},
+        -- feet = gear.chironic_refresh_feet
+    -- }
 
     sets.idle.DTHippo =
         set_combine(sets.idle.PDT, {back = "Umbra Cape", legs = "Carmine Cuisses +1", feet = "Hippo. Socks +1"})

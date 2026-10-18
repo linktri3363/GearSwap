@@ -353,21 +353,23 @@ function init_gear_sets()
         feet = "Danzo Sune-ate"
     }
 
-    sets.idle.Weak = {
-        ammo = "Staunch Tathlum +1",
-        head = "Twilight Helm",
-        neck = {name = "Loricate Torque +1", augments = {"Path: A"}},
-        ear1 = "Etiolation Earring",
-        ear2 = "Sanare Earring",
-        body = "Twilight Mail",
-        hands = "Sakonji Kote +1",
-        ring1 = { name="Murky Ring", augments={'Path: A',}},
-        ring2 = "Dark Ring",
-        back = "Moonlight Cape",
-        waist = "Flume Belt +1",
-        legs = "Flamma Dirs +2",
-        feet = "Danzo Sune-ate"
-    }
+    -- LINKTRI: Weakness set commented out (2026-10-17). Without it, Sel uses your normal idle set while weakened.
+    -- To restore, uncomment the lines below; Sel-Include equips sets.idle.Weak automatically when it exists.
+    -- sets.idle.Weak = {
+        -- ammo = "Staunch Tathlum +1",
+        -- head = "Twilight Helm",
+        -- neck = {name = "Loricate Torque +1", augments = {"Path: A"}},
+        -- ear1 = "Etiolation Earring",
+        -- ear2 = "Sanare Earring",
+        -- body = "Twilight Mail",
+        -- hands = "Sakonji Kote +1",
+        -- ring1 = { name="Murky Ring", augments={'Path: A',}},
+        -- ring2 = "Dark Ring",
+        -- back = "Moonlight Cape",
+        -- waist = "Flume Belt +1",
+        -- legs = "Flamma Dirs +2",
+        -- feet = "Danzo Sune-ate"
+    -- }
 
     -- Porter Moogle packing set
     sets.packing = {

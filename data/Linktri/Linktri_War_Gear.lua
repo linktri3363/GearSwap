@@ -380,7 +380,9 @@ function init_gear_sets()
         ring2 = "Defending Ring"
     })
 
-    sets.idle.Weak = set_combine(sets.idle, {head = "Twilight Helm", body = "Twilight Mail"})
+    -- LINKTRI: Weakness set commented out (2026-10-17). Without it, Sel uses your normal idle set while weakened.
+    -- To restore, uncomment the lines below; Sel-Include equips sets.idle.Weak automatically when it exists.
+    -- sets.idle.Weak = set_combine(sets.idle, {head = "Twilight Helm", body = "Twilight Mail"})
     sets.idle.Reraise = set_combine(sets.idle, {head = "Twilight Helm", body = "Twilight Mail"})
 	
     -- Packing set for Porter Moogle

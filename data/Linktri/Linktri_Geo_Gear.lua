@@ -874,23 +874,25 @@ function init_gear_sets()
     sets.idle.PDT.Indi = set_combine(sets.idle.PDT, {legs="Bagua Pants +4"})
     sets.idle.PDT.Pet.Indi = set_combine(sets.idle.PDT.Pet, {legs="Bagua Pants +4"})
 
-    sets.idle.Weak = {
-        main="Chatoyant Staff",
-        sub="Clerisy Strap +1",
-        ammo="Homiliary",
-        head="Befouled Crown",
-        neck={ name="Loricate Torque +1", augments={'Path: A',}},
-        ear1="Alabaster Earring",
-        ear2="Relaxing Earring",
-        body="Mallquis Saio +2",
-        hands="Mallquis Cuffs +2",
-        ring1={ name="Murky Ring", augments={'Path: A',}},
-        ring2="Lebeche Ring",
-        back="Nantosuelta's Cape",
-        waist="Carrier's Sash",
-        legs="Assid. Pants +1",
-        feet="Mallquis Clogs +2"
-    }
+    -- LINKTRI: Weakness set commented out (2026-10-17). Without it, Sel uses your normal idle set while weakened.
+    -- To restore, uncomment the lines below; Sel-Include equips sets.idle.Weak automatically when it exists.
+    -- sets.idle.Weak = {
+        -- main="Chatoyant Staff",
+        -- sub="Clerisy Strap +1",
+        -- ammo="Homiliary",
+        -- head="Befouled Crown",
+        -- neck={ name="Loricate Torque +1", augments={'Path: A',}},
+        -- ear1="Alabaster Earring",
+        -- ear2="Relaxing Earring",
+        -- body="Mallquis Saio +2",
+        -- hands="Mallquis Cuffs +2",
+        -- ring1={ name="Murky Ring", augments={'Path: A',}},
+        -- ring2="Lebeche Ring",
+        -- back="Nantosuelta's Cape",
+        -- waist="Carrier's Sash",
+        -- legs="Assid. Pants +1",
+        -- feet="Mallquis Clogs +2"
+    -- }
 
     -- Porter Moogle packing set
     sets.packing = {

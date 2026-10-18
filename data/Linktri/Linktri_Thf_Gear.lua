@@ -564,7 +564,9 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
     } -- 74% PDT and 43% MDT total, excellent Regain/Regen focus
 
     sets.idle.Sphere = set_combine(sets.idle, {})
-    sets.idle.Weak = set_combine(sets.idle, {})
+    -- LINKTRI: Weakness set commented out (2026-10-17). Without it, Sel uses your normal idle set while weakened.
+    -- To restore, uncomment the lines below; Sel-Include equips sets.idle.Weak automatically when it exists.
+    -- sets.idle.Weak = set_combine(sets.idle, {})
 
     -- Porter Moogle packing set - equip when near Porter Moogle
     sets.packing = {
