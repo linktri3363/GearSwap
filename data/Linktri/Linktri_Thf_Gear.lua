@@ -285,14 +285,14 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
             head = "Pill. Bonnet +4", -- WSD+9%, Crit dmg+5%, DEX+42
             neck = "Asn. Gorget +2", -- DEX+25
             ear1 = "Moonshade Earring",
-            ear2 = "Sherida Earring", -- DEX+5
+            ear2 = "Odr Earring",  -- DEX+10 (single hit: DA does little); original: "Sherida Earring" (owned, swapped 2026-10-19)
             body = "Skulker's Vest +3", -- WSD+12%, Dagger skill+38
             hands = {name = "Nyame Gauntlets", augments = {"Path: B"}}, -- WSD+5%
             ring1 = "Ilabrat Ring", -- DEX+10
-            ring2 = "Gere Ring", -- Crit rate+5%
+            ring2 = "Ephramad's Ring",  -- DEX+10, Acc/Atk+20, PDL+10%; original: "Gere Ring" (owned, swapped 2026-10-19)
             back = gear.wsd_jse_back, -- DEX+20, WSD+10%
             waist = {name = "Sailfi Belt +1", augments = {"Path: A"}}, -- WSD+5%
-            legs = {name = "Nyame Flanchard", augments = {"Path: B"}}, -- WSD+6%
+            legs = "Plun. Culottes +4",  -- WSD+9%, STR+47, Atk+74; original: {name = "Nyame Flanchard", augments = {"Path: B"}} (owned, swapped 2026-10-19)
             feet = {name = "Nyame Sollerets", augments = {"Path: B"}} -- WSD+5%
         }
     ) -- Total WSD: 52% (9+12+5+10+5+6+5), excellent DEX stacking
@@ -322,7 +322,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
             body = "Skulker's Vest +3", -- WSD+12%, Dagger skill+38
             hands = {name = "Nyame Gauntlets", augments = {"Path: B"}}, -- WSD+5%
             ring1 = "Ilabrat Ring", -- DEX+10
-            ring2 = "Ephramad's Ring", -- Crit rate+5%
+            ring2 = "Ephramad's Ring", -- DEX+10, STR+10, Acc/Atk+20, PDL+10% (Rare)
             back = gear.wsd_jse_back, -- DEX+20, WSD+10%
             waist = {name = "Sailfi Belt +1", augments = {"Path: A"}}, -- WSD+5%
             legs = "Plun. Culottes +4", -- WSD+9%
@@ -347,17 +347,17 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         set_combine(
         sets.precast.WS,
         {
-            head = "Nyame Helm",
+            head = "Pill. Bonnet +4",  -- WSD+9%, DEX+42; original: "Nyame Helm" (owned, swapped 2026-10-19)
             neck = "Asn. Gorget +2",
             ear1 = "Moonshade Earring",
-            ear2 = "Sherida Earring",
-            body = "Nyame Mail",
+            ear2 = "Odr Earring",  -- DEX+10; original: "Sherida Earring" (owned, swapped 2026-10-19)
+            body = "Skulker's Vest +3",  -- WSD+12%, DEX+51; original: "Nyame Mail" (owned, swapped 2026-10-19)
             hands = "Nyame Gauntlets",
             ring1 = "Ilabrat Ring",
-            ring2 = "Gere Ring",
+            ring2 = "Ephramad's Ring",  -- DEX+10, PDL+10%; original: "Gere Ring" (owned, swapped 2026-10-19)
             back = gear.wsd_jse_back,
             waist = "Sailfi Belt +1",
-            legs = "Nyame Flanchard",
+            legs = "Plun. Culottes +4",  -- WSD+9%; original: "Nyame Flanchard" (owned, swapped 2026-10-19)
             feet = "Nyame Sollerets"
         }
     )
@@ -378,17 +378,17 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         set_combine(
         sets.precast.WS,
         {
-            head = "Plun. Bonnet +4", -- TA+4%, Crit rate+6% from Aura Steal augment
+            head = {name = "Gleti's Mask", augments = {"Path: A"}},  -- Gleti R30: Crit+5%, PDL+6%, Atk+70 (Plun. Bonnet +4 has no crit); original: "Plun. Bonnet +4" (owned, swapped 2026-10-19)
             neck = "Asn. Gorget +2", -- DEX+25
             ear1 = {name = "Moonshade Earring", augments = {"Accuracy+4", "TP Bonus +250"}},
-            ear2 = "Sherida Earring", -- DEX+5
+            ear2 = "Odr Earring",  -- Crit+5%, DEX+10; original: "Sherida Earring" (owned, swapped 2026-10-19)
             body = {name = "Gleti's Cuirass", augments = {"Path: A"}},  -- Gleti R30: Crit+8%, DA+10%, Atk+70, PDL+9%; Ambush mode still swaps in Plunderer's; original: {name = "Plunderer's Vest +4", augments = {"Enhances \"Ambush\" effect"}} (owned, swapped)
             hands = {name = "Gleti's Gauntlets", augments = {"Path: A"}}, -- Crit rate+6%, Phys dmg limit+7%
-            ring1 = "Gere Ring", -- Crit rate+5%
+            ring1 = "Ephramad's Ring",  -- DEX+10, Acc/Atk+20, PDL+10% (Rare: one per character); original: "Gere Ring" (owned, swapped 2026-10-19)
             ring2 = "Mummu Ring", -- Crit rate+3%
             back = gear.wsd_jse_back, -- DEX+20, WSD+10%
             waist = "Sailfi Belt +1", -- WSD+5%
-            legs = "Pill. Culottes +4", -- TA+5%, Crit dmg+5%
+            legs = {name = "Gleti's Breeches", augments = {"Path: A"}},  -- Gleti R30: Crit+7%, TA+5%, PDL+8%, Atk+70; original: "Pill. Culottes +4" (owned, swapped 2026-10-19)
             feet = {name = "Gleti's Boots", augments = {"Path: A"}} -- Crit rate+4%, Phys dmg limit+5%
         }
     ) -- Crit rate+30%, Crit dmg+10% - Optimized for multi-hit crits
@@ -402,17 +402,17 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         set_combine(
         sets.precast.WS,
         {
-            head = "Nyame Helm",
+            head = "Pill. Bonnet +4",  -- WSD+9%, STR+30; original: "Nyame Helm" (owned, swapped 2026-10-19)
             neck = "Asn. Gorget +2",
             ear1 = "Moonshade Earring",
             ear2 = "Sherida Earring",
-            body = "Nyame Mail",
+            body = "Skulker's Vest +3",  -- WSD+12%, STR+40; original: "Nyame Mail" (owned, swapped 2026-10-19)
             hands = "Nyame Gauntlets",
-            ring1 = "Ilabrat Ring",
+            ring1 = "Ephramad's Ring",  -- STR+10, PDL+10% (Ilabrat DEX does nothing for Savage); original: "Ilabrat Ring" (owned, swapped 2026-10-19)
             ring2 = "Gere Ring",
             back = gear.wsd_jse_back,
             waist = "Sailfi Belt +1",
-            legs = "Nyame Flanchard",
+            legs = "Plun. Culottes +4",  -- WSD+9%, STR+47; original: "Nyame Flanchard" (owned, swapped 2026-10-19)
             feet = "Nyame Sollerets"
         }
     )
@@ -451,7 +451,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         body = "Pill. Vest +4",
         hands = "Pill. Armlets +4",
         ring1 = "Ilabrat Ring",
-        ring2 = "Epona's Ring",
+        ring2 = "Ephramad's Ring",  -- Ranged Acc/Atk+20, AGI+10 (Epona's has no ranged stats); original: "Epona's Ring" (owned, swapped 2026-10-19)
         back = gear.wsd_jse_back,
         waist = "Sailfi Belt +1",
         legs = "Pill. Culottes +4",
@@ -651,13 +651,13 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         ear2 = "Skulk. Earring +2",
         body = "Pill. Vest +4", -- TA+7%, Crit dmg+6%, Hide+100
         hands = {name = "Adhemar Wrist. +1", augments = {"DEX+12", "AGI+12", "Accuracy+20"}}, -- TA+4% with Path A
-        ring1 = "Gere Ring", -- TA+5%, Crit rate+5%
+        ring1 = "Gere Ring", -- TA+5%, STR+10, Atk+16
         ring2 = "Epona's Ring", -- DA+5%, TA+3%
         back = gear.da_jse_back, -- DA+10, DT-10%
         waist = "Reiki Yotai", -- DW+7, Acc+10, Atk+10
         legs = {name = "Samnuha Tights", augments = {"STR+8", "DEX+9", '"Dbl.Atk."+3', '"Triple Atk."+2'}}, -- TA+2%, DA+3%
         feet = "Plun. Poulaines +4" -- TA+5%, TA dmg+11
-    } -- TA+36%, DA+14%, Crit rate+5%, Crit dmg+6% - Optimized for max multi-attack
+    } -- TA+36%, DA+14%, Crit dmg+6% - Optimized for max multi-attack
 
     -- Alternative TP set using double Chirich for STP focus
     sets.engaged.STP = {
@@ -733,7 +733,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         ear2 = "Brutal Earring",  -- LINKTRI 2026-10-19: restored (stored, not missing): DA+5% beats Telos/Dedition for damage
         body = "Pill. Vest +4", -- TA+7%, Crit dmg+6%
         hands = {name = "Adhemar Wrist. +1", augments = {"DEX+12", "AGI+12", "Accuracy+20"}}, -- TA+4%
-        ring1 = "Gere Ring", -- TA+5%, Crit rate+5%
+        ring1 = "Gere Ring", -- TA+5%, STR+10, Atk+16
         ring2 = "Epona's Ring", -- DA+5%, TA+3%
         back = gear.da_jse_back, -- DA+10%
         waist = {name = "Sailfi Belt +1", augments = {"Path: A"}}, -- Haste+10%
@@ -831,7 +831,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         body = {name = "Gleti's Cuirass", augments = {"Path: A"}},  -- Gleti R30: DA+10%, Crit+8%, PDL+9%, PDT-9% (set is already DT-capped without the body; Skulker's Vest +3 has no DT); original: "Skulker's Vest +3" (owned, swapped)
         hands = {name = "Floral Gauntlets", augments = {"Rng.Acc.+15", "Accuracy+15", '"Triple Atk."+3', "Magic dmg. taken -4%"}}, -- TA+3%, MDT-4%
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
-        ring2 = "Gere Ring", -- TA+5%, Crit rate+5%
+        ring2 = "Gere Ring", -- TA+5%, STR+10, Atk+16
         back = gear.da_jse_back, -- PDT-10%, DA+10%, STP+5
         waist = {name = "Sailfi Belt +1", augments = {"Path: A"}}, -- Haste+10%
         legs = "Skulk. Culottes +3", -- DT-13%
