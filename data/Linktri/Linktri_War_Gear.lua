@@ -413,8 +413,8 @@ function init_gear_sets()
         ear2 = "Odnowa Earring +1",
         body = {name = "Sakpata's Plate", augments = {"Path: A"}},
         hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
-        ring1 = "Defending Ring",
-        ring2 = {name = "Murky Ring", augments = {"Path: A"}},
+        ring1 = {name = "Murky Ring", augments = {"Path: A"}},
+        ring2 = "Defending Ring",
         back = gear.da_jse_back, -- Cichol's Mantle: Damage taken-5%
         waist = "Null Belt", -- LINKTRI: Flume Belt +1 not owned
         legs = {name = "Sakpata's Cuisses", augments = {"Path: A"}},
@@ -431,8 +431,8 @@ function init_gear_sets()
         ear2 = "Odnowa Earring +1",
         body = {name = "Sakpata's Plate", augments = {"Path: A"}},
         hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
-        ring1 = "Defending Ring",
-        ring2 = {name = "Murky Ring", augments = {"Path: A"}},
+        ring1 = {name = "Murky Ring", augments = {"Path: A"}},
+        ring2 = "Defending Ring",
         back = gear.da_jse_back, -- LINKTRI: Moonlight Cape not owned; Cichol's Mantle DT-5%
         waist = "Carrier's Sash",
         legs = {name = "Sakpata's Cuisses", augments = {"Path: A"}},
@@ -457,8 +457,8 @@ function init_gear_sets()
         ear2 = "Odnowa Earring +1",
         body = {name = "Sakpata's Plate", augments = {"Path: A"}},
         hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
-        ring1 = "Defending Ring",
-        ring2 = {name = "Murky Ring", augments = {"Path: A"}},
+        ring1 = {name = "Murky Ring", augments = {"Path: A"}},
+        ring2 = "Defending Ring",
         back = gear.da_jse_back,
         waist = {name = "Sailfi Belt +1", augments = {"Path: A"}},
         legs = {name = "Sakpata's Cuisses", augments = {"Path: A"}},

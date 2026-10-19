@@ -91,7 +91,7 @@ function init_gear_sets()
 
 	-- FAST CAST (owned FC: Voltsurge 4, Sombra Mittens 3, Limbo Trousers 3, Etiolation 1; DT elsewhere)
 	sets.precast.FC = {ammo="Impatiens",
-		head="Nyame Helm",neck="Voltsurge Torque",ear1="Etiolation Earring",ear2="Alabaster Earring",
+		head="Nyame Helm",neck="Voltsurge Torque",ear1="Alabaster Earring",ear2="Etiolation Earring",
 		body="Nyame Mail",hands="Sombra Mittens",ring1="Defending Ring",ring2="Murky Ring",
 		back="Null Shawl",waist="Null Belt",legs="Limbo Trousers",feet="Nyame Sollerets"}
 
@@ -177,7 +177,7 @@ function init_gear_sets()
 	-- add pet Double Attack. No weapons here: a main/sub swap would wipe your TP.
 	sets.midcast.Pet.WS = {ammo="Voluspa Tathlum",
 		head="Gleti's Mask",neck="Shulmanu Collar",ear1="Alabaster Earring",ear2="Nukumi Earring +1",
-		body="Nukumi Gausape +3",hands="Nukumi Manoplas +3",ring1="Murky Ring",ring2="Defending Ring",
+		body="Nukumi Gausape +3",hands="Nukumi Manoplas +3",ring1="Defending Ring",ring2="Murky Ring",
 		back="Pastoralist's Mantle",waist="Incarnation Sash",legs="Nukumi Quijotes +3",feet="Nukumi Ocreae +3"}
 
 	sets.midcast.Pet.SomeAcc = set_combine(sets.midcast.Pet.WS, {})

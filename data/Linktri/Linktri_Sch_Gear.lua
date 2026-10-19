@@ -487,8 +487,8 @@ function init_gear_sets()
 		ear2 = "Crematio Earring",
         body = gear.merlinic_nuke_body,
         hands = "Agwu's Gages",  -- CORRECTED: Was Amalric Gages +1
-        ring1 = "Stikini Ring",  -- CORRECTED: Was Shiva Ring +1
-        ring2 = "Metamor. Ring +1",  -- CORRECTED: Was Freke Ring
+        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Shiva Ring +1
+        ring2 = "Stikini Ring",  -- CORRECTED: Was Freke Ring
         back = gear.nuke_jse_back,
         waist = "Acuity Belt +1",
         legs = "Merlinic Shalwar",
@@ -625,8 +625,8 @@ function init_gear_sets()
 		ear2 = "Crematio Earring",
         body = gear.merlinic_nuke_body,
         hands = "Mallquis Cuffs +2",
-        ring1 = "Stikini Ring",  -- CORRECTED: Was Shiva Ring +1
-        ring2 = "Metamor. Ring +1",  -- CORRECTED: Was Freke Ring
+        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Shiva Ring +1
+        ring2 = "Stikini Ring",  -- CORRECTED: Was Freke Ring
         back = "Swith Cape +1",
         waist = "Witful Belt",
         legs = "Psycloth Lappas",
@@ -702,8 +702,8 @@ function init_gear_sets()
 		ear2 = "Arbatel Earring +1",  -- FIXED: Swapped to prevent ear slot conflict
         body = "Agwu's Robe",  -- CORRECTED: Was Amalric Doublet +1
         hands = "Agwu's Gages",  -- CORRECTED: Was Amalric Gages +1 - HAS MB DAMAGE II +6!
-        ring1 = "Stikini Ring",  -- CORRECTED: Was Mujin Band
-        ring2 = "Metamor. Ring +1",
+        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Mujin Band
+        ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
         waist = "Acuity Belt +1",
         legs = "Agwu's Slops",
@@ -740,8 +740,8 @@ function init_gear_sets()
 		ear2 = "Arbatel Earring +1",  -- FIXED: Swapped to prevent ear slot conflict
         body = "Agwu's Robe",  -- CORRECTED: Was Amalric Doublet +1
         hands = "Agwu's Gages",  -- CORRECTED: Was Amalric Gages +1 - HAS MB DAMAGE II +6!
-        ring1 = "Stikini Ring",  -- CORRECTED: Was Mujin Band
-        ring2 = "Metamor. Ring +1",
+        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Mujin Band
+        ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
         waist = "Acuity Belt +1",
         legs = "Agwu's Slops",

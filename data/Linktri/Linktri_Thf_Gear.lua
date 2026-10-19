@@ -164,8 +164,8 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         {
             head = "Pill. Bonnet +4",
             neck = "Asn. Gorget +2",
-            ear1 = "Telos Earring",  -- original: "Brutal Earring" (owned; Telos Acc+10 helps Step/Flourish land)
-            ear2 = "Odr Earring",
+            ear1 = "Odr Earring",
+            ear2 = "Telos Earring",  -- Telos replaced Brutal Earring here (owned; Acc+10 helps Step/Flourish land). Sides swapped 2026-10-19 so Odr stays left like the WS sets
             body = "Pill. Vest +4",
             ring1 = "Ilabrat Ring",
             ring2 = "Epona's Ring",
@@ -181,8 +181,8 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         {
             head = "Pill. Bonnet +4",
             neck = "Asn. Gorget +2",
-            ear1 = "Telos Earring",  -- original: "Brutal Earring" (owned; Telos Acc+10 helps Step/Flourish land)
-            ear2 = "Odr Earring",
+            ear1 = "Odr Earring",
+            ear2 = "Telos Earring",  -- Telos replaced Brutal Earring here (owned; Acc+10 helps Step/Flourish land). Sides swapped 2026-10-19 so Odr stays left like the WS sets
             body = "Pill. Vest +4",
             ring1 = "Ilabrat Ring",
             ring2 = "Epona's Ring",
@@ -574,8 +574,8 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         ammo = "Staunch Tathlum +1",
         head = "Null Masque",
         neck = "Sibyl Scarf",
-        ear1 = "Etiolation Earring",
-        ear2 = "Alabaster Earring",  -- original: "Ethereal Earring" (not owned; not in any export back to April)
+        ear1 = "Alabaster Earring",  -- sides swapped 2026-10-19 to match idle/defense; Alabaster replaced "Ethereal Earring" (not owned)
+        ear2 = "Etiolation Earring",
         body = { name="Nyame Mail", augments={'Path: B',}},
         hands = { name="Nyame Gauntlets", augments={'Path: B',}},
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
@@ -887,8 +887,8 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
     sets.engaged.AM.Acc = {
         head = "Pill. Bonnet +4",
         neck = "Asn. Gorget +2",
-        ear1 = "Sherida Earring", -- Keep one DA earring
-        ear2 = "Odr Earring", -- Accuracy
+        ear1 = "Odr Earring", -- Accuracy
+        ear2 = "Sherida Earring", -- Keep one DA earring
         body = "Pill. Vest +4",
         hands = "Floral Gauntlets",
         ring1 = "Ilabrat Ring",

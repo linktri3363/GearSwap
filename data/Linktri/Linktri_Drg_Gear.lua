@@ -270,7 +270,7 @@ function init_gear_sets()
 		body={ name="Gleti's Cuirass", augments={'Path: A',}},hands={ name="Gleti's Gauntlets", augments={'Path: A',}},ring1="Chirich Ring +1",ring2="Chirich Ring +1",
 		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Gleti's Breeches", augments={'Path: A',}},feet={ name="Gleti's Boots", augments={'Path: A',}}}
 	sets.engaged.Acc = {ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head={ name="Gleti's Mask", augments={'Path: A',}},neck="Shulmanu Collar",ear1="Telos Earring",ear2="Mache Earring +1",
+		head={ name="Gleti's Mask", augments={'Path: A',}},neck="Shulmanu Collar",ear1="Mache Earring +1",ear2="Telos Earring",
 		body={ name="Gleti's Cuirass", augments={'Path: A',}},hands={ name="Gleti's Gauntlets", augments={'Path: A',}},ring1="Chirich Ring +1",ring2="Chirich Ring +1",
 		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs={ name="Gleti's Breeches", augments={'Path: A',}},feet={ name="Gleti's Boots", augments={'Path: A',}}}
     sets.engaged.FullAcc = {ammo={ name="Coiste Bodhar", augments={'Path: A',}},

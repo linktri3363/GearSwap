@@ -697,8 +697,8 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Erra Pendant",
-        ear1 = "Crematio Earring",
-        ear2 = "Malignance Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
+        ear1 = "Malignance Earring",
+        ear2 = "Crematio Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
         body={ name="Bunzi's Robe", augments={'Path: A',}},
         hands={ name="Bunzi's Gloves", augments={'Path: A',}},
         ring1 = "Metamor. Ring +1",

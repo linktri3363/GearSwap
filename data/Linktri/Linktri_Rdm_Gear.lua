@@ -107,8 +107,8 @@ function init_gear_sets()
         ammo = "Impatiens",
         head = "Atrophy Chapeau +3",
         neck = "Voltsurge Torque",
-        ear1 = "Leth. Earring +1",  -- original: "Loquac. Earring" (stored; Leth. Earring +1 is FC+8)
-        ear2 = "Malignance Earring",
+        ear1 = "Malignance Earring",  -- original: "Loquac. Earring" (stored; Leth. Earring +1 is FC+8)
+        ear2 = "Leth. Earring +1",
         body = "Viti. Tabard +1",
         hands = "Bunzi's Gloves",  -- original: "Gende. Gages +1" (not owned) -- no FC hands owned; Bunzi DT-8
         ring1 = "Kishar Ring",
@@ -278,8 +278,8 @@ function init_gear_sets()
         neck = "Mizu. Kubikazari",
         body = { name="Bunzi's Robe", augments={'Path: A',}},
         hands = { name="Bunzi's Gloves", augments={'Path: A',}},
-        ring1 = "Persis Ring",  -- original: "Mujin Band" (not owned) -- no MB ring owned
-        ring2 = "Metamor. Ring +1",
+        ring1 = "Metamor. Ring +1",  -- original: "Mujin Band" (not owned) -- no MB ring owned
+        ring2 = "Persis Ring",
         legs = { name="Bunzi's Pants", augments={'Path: A',}},
         feet = { name="Bunzi's Sabots", augments={'Path: A',}}
     }
@@ -291,8 +291,8 @@ function init_gear_sets()
         ammo = "Impatiens",  -- original: "Hasty Pinion +1" (not owned)
         head = "Atrophy Chapeau +3",
         neck = "Voltsurge Torque",
-        ear1 = "Leth. Earring +1",  -- original: "Enchntr. Earring +1" (not owned)
-        ear2 = "Malignance Earring",
+        ear1 = "Malignance Earring",  -- original: "Enchntr. Earring +1" (not owned)
+        ear2 = "Leth. Earring +1",
         body = "Viti. Tabard +1",  -- original: "Zendik Robe" (not owned)
         hands = "Bunzi's Gloves",  -- original: "Gende. Gages +1" (not owned)
         ring1 = "Kishar Ring",
@@ -527,8 +527,8 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",  -- original: "Ghastly Tathlum +1" (not owned)
         head = { name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Baetyl Pendant",
-        ear1 = "Crematio Earring",
-        ear2 = "Malignance Earring",
+        ear1 = "Malignance Earring",
+        ear2 = "Crematio Earring",
         body = { name="Bunzi's Robe", augments={'Path: A',}},
         hands = { name="Bunzi's Gloves", augments={'Path: A',}},
         ring1 = "Metamor. Ring +1",
@@ -564,8 +564,8 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",  -- original: "Ghastly Tathlum +1" (not owned)
         head = { name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Baetyl Pendant",
-        ear1 = "Crematio Earring",
-        ear2 = "Malignance Earring",
+        ear1 = "Malignance Earring",
+        ear2 = "Crematio Earring",
         body = { name="Bunzi's Robe", augments={'Path: A',}},
         hands = { name="Bunzi's Gloves", augments={'Path: A',}},
         ring1 = "Metamor. Ring +1",
@@ -583,8 +583,8 @@ function init_gear_sets()
         ammo = "Impatiens",
         head = "Atrophy Chapeau +3",  -- original: "Vanya Hood" (not owned) -- Proc set is fast cast/recast
         neck = "Voltsurge Torque",
-        ear1 = "Leth. Earring +1",  -- original: "Enchntr. Earring +1" (not owned)
-        ear2 = "Malignance Earring",  -- original: "Loquac. Earring" (stored)
+        ear1 = "Malignance Earring",  -- original: "Enchntr. Earring +1" (not owned)
+        ear2 = "Leth. Earring +1",  -- original: "Loquac. Earring" (stored)
         body = "Viti. Tabard +1",  -- original: "Zendik Robe" (not owned)
         hands = "Bunzi's Gloves",  -- original: "Gende. Gages +1" (not owned)
         ring1 = "Kishar Ring",

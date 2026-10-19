@@ -65,8 +65,8 @@ function init_gear_sets()
 	feet  = "Chev. Sabatons +3",             -- Enmity+12, MEVA+40+
 	neck  = { name="Kgt. Beads +2", augments={'Path: A'}},            -- Enmity+10, MEVA+70, Status Resist+10
 	waist = "Plat. Mog. Belt",               
-	ear1  = "Cryptic Earring",               -- Enmity+4
-	ear2  = "Trux Earring",                  -- Enmity+5
+	ear1  = "Trux Earring",               -- Enmity+4
+	ear2  = "Cryptic Earring",                  -- Enmity+5
 	ring1 = "Supershear Ring",                   -- Enmity+5
 	ring2 = "Supershear Ring",               -- Enmity+5
 	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Eva.+20 /Mag. Eva.+20','Mag. Evasion+15',}},
@@ -289,8 +289,8 @@ function init_gear_sets()
     feet	= "Chev. Sabatons +3",
     neck	= { name="Kgt. Beads +2", augments={'Path: A',}},
     waist	= "Luminary Sash",
-    ear1	= "Ishvara Earring",
-    ear2	= "Nourish. Earring +1",
+    ear1	= "Nourish. Earring +1",
+    ear2	= "Ishvara Earring",
     ring1	= "Stikini Ring",
     ring2	= "Stikini Ring",
     back	= { name="Rudianos's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%','Damage taken-5%',}},
@@ -323,8 +323,8 @@ function init_gear_sets()
     waist	= "Null Belt",
     ear1	= "Ishvara Earring",
     ear2	= "Ishvara Earring",
-    ring1	= { name="Metamor. Ring +1", augments={'Path: A'}},
-    ring2	= "Ephramad's Ring",
+    ring1	= "Ephramad's Ring",
+    ring2	= { name="Metamor. Ring +1", augments={'Path: A'}},
     back	= { name="Rudianos's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%','Damage taken-5%',}},
 	}
 	
