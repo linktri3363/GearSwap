@@ -1,10 +1,11 @@
 near_porter = false  -- Track if we're near Porter Moogle
 -- Define gear variables at file scope (must be before init_gear_sets)
-gear.da_jse_back = {name = "Toutatis's Cape", augments = {"DEX+20", "Accuracy+20 Attack+20", '"Dbl.Atk."+10', "Phys. dmg. taken-10%"}}
-gear.wsd_jse_back = {
-    name = "Toutatis's Cape",
-    augments = {"DEX+20", "Accuracy+20 Attack+20", "Weapon skill damage +10%", "Phys. dmg. taken-10%"}
-}
+-- original (DA Toutatis's Cape, not owned): gear.da_jse_back = {name = "Toutatis's Cape", augments = {"DEX+20", "Accuracy+20 Attack+20", '"Dbl.Atk."+10', "Phys. dmg. taken-10%"}}
+-- LINKTRI 2026-10-19: the cape you own (STP/PDT). GearSwap matches augments exactly, so the DA version never equipped.
+gear.da_jse_back = {name = "Toutatis's Cape", augments = {"DEX+20", "Accuracy+20 Attack+20", "Accuracy+10", '"Store TP"+5', "Phys. dmg. taken-10%"}}
+-- original (WSD Toutatis's Cape, not owned): gear.wsd_jse_back = { name = "Toutatis's Cape", augments = {"DEX+20", "Accuracy+20 Attack+20", "Weapon skill damage +10%", "Phys. dmg. taken-10%"} }
+-- LINKTRI 2026-10-19: Sacro Mantle (owned): DEX+25, Acc/Atk+20, Weapon skill damage +6%
+gear.wsd_jse_back = "Sacro Mantle"
 
 -- Setup vars that are user-dependent.  Can override this function in a sidecar file.
 function user_job_setup()
@@ -28,7 +29,7 @@ function user_job_setup()
     "Evisceration",
     "Throwing",
     "SwordThrowing",
-    "Bow",
+    -- "Bow",  -- LINKTRI 2026-10-19: removed, Hangaku-no-Yumi is not THF-equippable
     "RedProcDagger",
     "RedProcSword", 
     "RedProcGrSwd",
@@ -132,7 +133,7 @@ function init_gear_sets()
     sets.weapons.Evisceration = {main = "Tauret", sub = "Gleti's Knife"}
     sets.weapons.Throwing = {main = "Qutrub Knife", sub = "Twinned Blade"}
     sets.weapons.SwordThrowing = {main = "Naegling", sub = "Gleti's Knife"}
-    sets.weapons.Bow = {main = "Mpu Gandring", sub = "Ternion Dagger +1", range = "Hangaku-no-Yumi", ammo = "Jukukik Feather"}
+    sets.weapons.Bow = {main = "Mpu Gandring", sub = "Ternion Dagger +1", range = "Hangaku-no-Yumi", ammo = "Jukukik Feather"}  -- Hangaku-no-Yumi is not THF-equippable; removed from the Weapons cycle, kept for later
     -- Red Proc Weaponsets for Abyssea
 
 -- Energy Drain & Cyclone (Dagger)
@@ -163,7 +164,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         {
             head = "Pill. Bonnet +4",
             neck = "Asn. Gorget +2",
-            ear1 = "Brutal Earring",
+            ear1 = "Telos Earring",  -- original: "Brutal Earring" (not owned)
             ear2 = "Odr Earring",
             body = "Pill. Vest +4",
             ring1 = "Ilabrat Ring",
@@ -180,7 +181,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         {
             head = "Pill. Bonnet +4",
             neck = "Asn. Gorget +2",
-            ear1 = "Brutal Earring",
+            ear1 = "Telos Earring",  -- original: "Brutal Earring" (not owned)
             ear2 = "Odr Earring",
             body = "Pill. Vest +4",
             ring1 = "Ilabrat Ring",
@@ -221,7 +222,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
     sets.precast.Waltz = {
         head = "Mummu Bonnet +2",
         neck = "Loricate Torque +1",
-        body = "Malignance Tabard",
+        body = {name = "Gleti's Cuirass", augments = {"Path: A"}},  -- Gleti's Cuirass Waltz potency +10%; original: "Malignance Tabard" (owned, swapped)
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
         ring2 = "Chirich Ring +1",
         back = "Toutatis's Cape",
@@ -229,7 +230,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         legs = "Malignance Tights"
     }
 
-    sets.Self_Waltz = {head = "Mummu Bonnet +2", body = "Malignance Tabard"}
+    sets.Self_Waltz = {head = "Mummu Bonnet +2", body = {name = "Gleti's Cuirass", augments = {"Path: A"}}}  -- original body: "Malignance Tabard" (owned, swapped: Gleti Waltz potency +10%)
 
     -- Don't need any special gear for Healing Waltz.
     sets.precast.Waltz["Healing Waltz"] = {}
@@ -239,12 +240,12 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         ammo = "Impatiens",
         head = "Malignance Chapeau", -- 13% FC
         neck = "Voltsurge Torque", -- 4% FC
-        ear1 = "Loquac. Earring", -- 2% FC
+        ear1 = "Etiolation Earring",  -- original: "Loquac. Earring" (not owned)
         ear2 = "Enervating Earring", -- 1% FC
         body = "Malignance Tabard", -- 8% FC
-        hands = "Fanatic Gloves", -- 5% FC
+        hands = "Malignance Gloves",  -- original: "Fanatic Gloves" (Fanatic Gloves are not THF-equippable)
         ring1 = "Lebeche Ring", -- 2% QM
-        ring2 = "Kishar Ring", -- 4% FC
+        ring2 = "Murky Ring",  -- original: "Kishar Ring" (Kishar Ring is not THF-equippable)
         legs = "Rawhide Trousers", -- 5% FC
         feet = "Malignance Boots" -- 6% FC
     }
@@ -272,8 +273,8 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         feet = "Nyame Sollerets"
     }
     sets.precast.WS.SomeAcc = set_combine(sets.precast.WS, {ear2 = "Odr Earring"})
-    sets.precast.WS.Acc = set_combine(sets.precast.WS, {ear1 = "Odr Earring", ear2 = "Odr Earring"})
-    sets.precast.WS.FullAcc = set_combine(sets.precast.WS, {ear1 = "Odr Earring", ear2 = "Odr Earring"})
+    sets.precast.WS.Acc = set_combine(sets.precast.WS, {ear1 = "Odr Earring", ear2 = "Telos Earring"})  -- original ear2: "Odr Earring" (only one owned)
+    sets.precast.WS.FullAcc = set_combine(sets.precast.WS, {ear1 = "Odr Earring", ear2 = "Telos Earring"})  -- original ear2: "Odr Earring" (only one owned)
 
     -- Specific weaponskill sets - optimized for current meta
     -- Rudra's Storm: 80% DEX mod, benefits from WSD and DEX
@@ -296,8 +297,8 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         }
     ) -- Total WSD: 52% (9+12+5+10+5+6+5), excellent DEX stacking
     sets.precast.WS["Rudra's Storm"].SomeAcc = set_combine(sets.precast.WS["Rudra's Storm"], {ear2 = "Odr Earring"})
-    sets.precast.WS["Rudra's Storm"].Acc = set_combine(sets.precast.WS["Rudra's Storm"], {ear1 = "Odr Earring", ear2 = "Odr Earring"})
-    sets.precast.WS["Rudra's Storm"].FullAcc = set_combine(sets.precast.WS["Rudra's Storm"], {ear1 = "Odr Earring", ear2 = "Odr Earring"})
+    sets.precast.WS["Rudra's Storm"].Acc = set_combine(sets.precast.WS["Rudra's Storm"], {ear1 = "Odr Earring", ear2 = "Telos Earring"})  -- original ear2: "Odr Earring" (only one owned)
+    sets.precast.WS["Rudra's Storm"].FullAcc = set_combine(sets.precast.WS["Rudra's Storm"], {ear1 = "Odr Earring", ear2 = "Telos Earring"})  -- original ear2: "Odr Earring" (only one owned)
     sets.precast.WS["Rudra's Storm"].Fodder = set_combine(sets.precast.WS["Rudra's Storm"], {})
     sets.precast.WS["Rudra's Storm"].DT =
         set_combine(sets.precast.WS["Rudra's Storm"], {neck = "Loricate Torque +1", ring1 = "Murky Ring", ring2 = "Defending Ring"})
@@ -329,8 +330,8 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         }
     ) -- Total WSD: 55% (9+12+5+10+5+9+5), excellent for Prime WS
     sets.precast.WS["Ruthless Stroke"].SomeAcc = set_combine(sets.precast.WS["Ruthless Stroke"], {ear2 = "Odr Earring"})
-    sets.precast.WS["Ruthless Stroke"].Acc = set_combine(sets.precast.WS["Ruthless Stroke"], {ear1 = "Odr Earring", ear2 = "Odr Earring"})
-    sets.precast.WS["Ruthless Stroke"].FullAcc = set_combine(sets.precast.WS["Ruthless Stroke"], {ear1 = "Odr Earring", ear2 = "Odr Earring"})
+    sets.precast.WS["Ruthless Stroke"].Acc = set_combine(sets.precast.WS["Ruthless Stroke"], {ear1 = "Odr Earring", ear2 = "Telos Earring"})  -- original ear2: "Odr Earring" (only one owned)
+    sets.precast.WS["Ruthless Stroke"].FullAcc = set_combine(sets.precast.WS["Ruthless Stroke"], {ear1 = "Odr Earring", ear2 = "Telos Earring"})  -- original ear2: "Odr Earring" (only one owned)
     sets.precast.WS["Ruthless Stroke"].Fodder = set_combine(sets.precast.WS["Ruthless Stroke"], {})
     sets.precast.WS["Ruthless Stroke"].DT =
         set_combine(sets.precast.WS["Ruthless Stroke"], {neck = "Loricate Torque +1", ring1 = "Murky Ring", ring2 = "Defending Ring"})
@@ -361,8 +362,8 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         }
     )
     sets.precast.WS["Mandalic Stab"].SomeAcc = set_combine(sets.precast.WS["Mandalic Stab"], {ear2 = "Odr Earring"})
-    sets.precast.WS["Mandalic Stab"].Acc = set_combine(sets.precast.WS["Mandalic Stab"], {ear1 = "Odr Earring", ear2 = "Odr Earring"})
-    sets.precast.WS["Mandalic Stab"].FullAcc = set_combine(sets.precast.WS["Mandalic Stab"], {ear1 = "Odr Earring", ear2 = "Odr Earring"})
+    sets.precast.WS["Mandalic Stab"].Acc = set_combine(sets.precast.WS["Mandalic Stab"], {ear1 = "Odr Earring", ear2 = "Telos Earring"})  -- original ear2: "Odr Earring" (only one owned)
+    sets.precast.WS["Mandalic Stab"].FullAcc = set_combine(sets.precast.WS["Mandalic Stab"], {ear1 = "Odr Earring", ear2 = "Telos Earring"})  -- original ear2: "Odr Earring" (only one owned)
     sets.precast.WS["Mandalic Stab"].Fodder = set_combine(sets.precast.WS["Mandalic Stab"], {})
     sets.precast.WS["Mandalic Stab"].SA =
         set_combine(sets.precast.WS["Mandalic Stab"].Fodder, {legs = "Pill. Culottes +4"})
@@ -381,7 +382,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
             neck = "Asn. Gorget +2", -- DEX+25
             ear1 = {name = "Moonshade Earring", augments = {"Accuracy+4", "TP Bonus +250"}},
             ear2 = "Sherida Earring", -- DEX+5
-            body = {name = "Plunderer's Vest +4", augments = {"Enhances \"Ambush\" effect"}}, -- Crit rate+6%, Crit dmg+5%
+            body = {name = "Gleti's Cuirass", augments = {"Path: A"}},  -- Gleti R30: Crit+8%, DA+10%, Atk+70, PDL+9%; Ambush mode still swaps in Plunderer's; original: {name = "Plunderer's Vest +4", augments = {"Enhances \"Ambush\" effect"}} (owned, swapped)
             hands = {name = "Gleti's Gauntlets", augments = {"Path: A"}}, -- Crit rate+6%, Phys dmg limit+7%
             ring1 = "Gere Ring", -- Crit rate+5%
             ring2 = "Mummu Ring", -- Crit rate+3%
@@ -416,8 +417,8 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         }
     )
     sets.precast.WS["Savage Blade"].SomeAcc = set_combine(sets.precast.WS["Savage Blade"], {ear2 = "Odr Earring"})
-    sets.precast.WS["Savage Blade"].Acc = set_combine(sets.precast.WS["Savage Blade"], {ear1 = "Odr Earring", ear2 = "Odr Earring"})
-    sets.precast.WS["Savage Blade"].FullAcc = set_combine(sets.precast.WS["Savage Blade"], {ear1 = "Odr Earring", ear2 = "Odr Earring"})
+    sets.precast.WS["Savage Blade"].Acc = set_combine(sets.precast.WS["Savage Blade"], {ear1 = "Odr Earring", ear2 = "Telos Earring"})  -- original ear2: "Odr Earring" (only one owned)
+    sets.precast.WS["Savage Blade"].FullAcc = set_combine(sets.precast.WS["Savage Blade"], {ear1 = "Odr Earring", ear2 = "Telos Earring"})  -- original ear2: "Odr Earring" (only one owned)
     sets.precast.WS["Savage Blade"].Fodder = set_combine(sets.precast.WS["Savage Blade"], {waist = "Sailfi Belt +1"})
     sets.precast.WS["Savage Blade"].DT =
         set_combine(sets.precast.WS["Savage Blade"], {neck = "Loricate Torque +1", ring1 = "Murky Ring", ring2 = "Defending Ring"})
@@ -486,12 +487,12 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
     sets.midcast.FastRecast = {
         head = "Malignance Chapeau",
         neck = "Voltsurge Torque",
-        ear1 = "Loquac. Earring",
+        ear1 = "Etiolation Earring",  -- original: "Loquac. Earring" (not owned)
         ear2 = "Enervating Earring",
         body = "Malignance Tabard",
-        hands = "Fanatic Gloves",
+        hands = "Malignance Gloves",  -- original: "Fanatic Gloves" (Fanatic Gloves are not THF-equippable)
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
-        ring2 = "Kishar Ring",
+        ring2 = "Defending Ring",  -- original: "Kishar Ring" (Kishar Ring is not THF-equippable)
         back = "Toutatis's Cape",
         legs = "Rawhide Trousers",
         feet = "Malignance Boots"
@@ -574,13 +575,13 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Null Masque",
         neck = "Sibyl Scarf",
         ear1 = "Etiolation Earring",
-        ear2 = "Ethereal Earring",
+        ear2 = "Alabaster Earring",  -- original: "Ethereal Earring" (not owned)
         body = { name="Nyame Mail", augments={'Path: B',}},
         hands = { name="Nyame Gauntlets", augments={'Path: B',}},
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
         ring2 = "Chirich Ring +1",
         back = gear.da_jse_back,
-        waist = "Fucho-no-Obi",
+        waist = "Null Belt",  -- original: "Fucho-no-Obi" (Fucho-no-Obi is not THF-equippable)
         legs = { name="Nyame Flanchard", augments={'Path: B',}},
         feet = { name="Nyame Sollerets", augments={'Path: B',}}
     }
@@ -595,9 +596,9 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = {name = "Nyame Helm", augments = {"Path: B"}}, -- DT-7%
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}}, -- DT-6%
         ear1 = "Alabaster Earring", -- DT-5%, Acc+11, HP+100, Haste+5%
-        ear2 = "Brutal Earring", -- DA+5%, Crit+5%
-        body = "Skulker's Vest +3", -- DT-6%, Dagger skill+38, Conspirator
-        hands = "Skulk. Armlets +3", -- DT-5%, SA+30
+        ear2 = "Etiolation Earring",  -- DT-3%; original: "Brutal Earring" (not owned)
+        body = "Malignance Tabard",  -- DT-9% incl. magic, STP+11; Skulker's Vest +3 has no DT; original: "Skulker's Vest +3" (owned, swapped)
+        hands = "Skulk. Armlets +3", -- DT-11%, SA+30
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
         ring2 = "Defending Ring", -- DT-10%
         back = gear.da_jse_back, -- PDT-10%, DA+10%
@@ -666,7 +667,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         ear1 = "Telos Earring", -- DA+1%, STP+5, Acc+10, Atk+10
         ear2 = "Skulk. Earring +2",
         body = "Pill. Vest +4", -- TA+7%, Crit dmg+6%
-        hands = {name = "Adhemar Wrist. +1", augments = {"DEX+12", "AGI+12", "Accuracy+20"}}, -- TA+4%
+        hands = {name = "Gleti's Gauntlets", augments = {"Path: A"}},  -- Gleti R30: Store TP+8, Crit+6%, PDL+7%, PDT-7%; original: {name = "Adhemar Wrist. +1", augments = {"DEX+12", "AGI+12", "Accuracy+20"}} (owned, swapped)
         ring1 = "Chirich Ring +1", -- STP+6, Acc+10, Subtle Blow+10
         ring2 = "Chirich Ring +1", -- STP+6, Acc+10, Subtle Blow+10
         back = gear.da_jse_back, -- DA+10, DT-10%
@@ -729,7 +730,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Skulker's Bonnet +3", -- TA+6%, Phys dmg limit+10%
         neck = "Asn. Gorget +2", -- TA+4%
         ear1 = "Sherida Earring", -- DA+5%
-        ear2 = "Brutal Earring", -- DA+5%
+        ear2 = "Dedition Earring",  -- Store TP+8; original: "Brutal Earring" (not owned)
         body = "Pill. Vest +4", -- TA+7%, Crit dmg+6%
         hands = {name = "Adhemar Wrist. +1", augments = {"DEX+12", "AGI+12", "Accuracy+20"}}, -- TA+4%
         ring1 = "Gere Ring", -- TA+5%, Crit rate+5%
@@ -746,15 +747,15 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Skulker's Bonnet +3", -- TA+6%, Physical Damage Limit+10%
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}}, -- DT-6%
         ear1 = "Alabaster Earring", -- DT-5%, Acc+11, HP+100, Haste+5%
-        ear2 = "Brutal Earring", -- DA+5%, Crit+5%
-        body = "Skulker's Vest +3", -- DT-6%, Dagger skill+38, Conspirator (WSD+12%)
-        hands = "Skulk. Armlets +3", -- DT-5%, SA+30, DEX+53
+        ear2 = "Telos Earring",  -- original: "Brutal Earring" (not owned)
+        body = {name = "Gleti's Cuirass", augments = {"Path: A"}},  -- Gleti R30: DA+10%, Crit+8%, PDL+9%, PDT-9% (set is already DT-capped without the body; Skulker's Vest +3 has no DT); original: "Skulker's Vest +3" (owned, swapped)
+        hands = "Skulk. Armlets +3", -- DT-11%, SA+30, DEX+53
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
         ring2 = "Chirich Ring +1", -- STP+6, Regen+2
         back = gear.da_jse_back, -- PDT-10%, DA+10%, STP+5
         waist = "Reiki Yotai", -- DW+7 (for haste capping)
-        legs = "Skulk. Culottes +3", -- DT-7%, Despoil enhancement
-        feet = "Skulk. Poulaines +3" -- DT-6%, TH+5
+        legs = "Skulk. Culottes +3", -- DT-13%, Despoil enhancement
+        feet = "Skulk. Poulaines +3" -- DT-11%, TH+5
     } -- 55% DT (capped at 50%) + TA+6%, DA+15%, Phys Dmg Limit+10%, STP+11, Acc+26, TH+5
 
     sets.engaged.STP.DT = {
@@ -763,14 +764,14 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}}, -- DT-6%
         ear1 = "Alabaster Earring", -- DT-5%, Acc+11, HP+100, Haste+5%
         ear2 = "Skulk. Earring +2",
-        body = "Skulker's Vest +3", -- DT-6%, Dagger skill+38, Conspirator
-        hands = "Skulk. Armlets +3", -- DT-5%, SA+30
+        body = {name = "Gleti's Cuirass", augments = {"Path: A"}},  -- Gleti R30: DA+10%, Crit+8%, PDL+9%, PDT-9% (set is already DT-capped without the body; Skulker's Vest +3 has no DT); original: "Skulker's Vest +3" (owned, swapped)
+        hands = "Skulk. Armlets +3", -- DT-11%, SA+30
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
         ring2 = "Chirich Ring +1", -- STP+6
         back = gear.da_jse_back, -- PDT-10%, DA+10%, STP+5
         waist = "Reiki Yotai", -- DW+7
-        legs = "Skulk. Culottes +3", -- DT-7%
-        feet = "Skulk. Poulaines +3" -- DT-6%, TH+5
+        legs = "Skulk. Culottes +3", -- DT-13%
+        feet = "Skulk. Poulaines +3" -- DT-11%, TH+5
     } -- 55% DT (capped) + STP+19, TA+6%, DA+10%, Phys Dmg Limit+10%, Acc+26
 
     sets.engaged.SomeAcc.DT = {
@@ -779,13 +780,13 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}}, -- DT-6%
         ear1 = "Alabaster Earring", -- DT-5%, Acc+11, HP+100, Haste+5%
         ear2 = "Skulk. Earring +2",
-        body = "Skulker's Vest +3", -- DT-6%, Dagger skill+38
-        hands = "Skulk. Armlets +3", -- DT-5%, SA+30
+        body = {name = "Gleti's Cuirass", augments = {"Path: A"}},  -- Gleti R30: DA+10%, Crit+8%, PDL+9%, PDT-9% (set is already DT-capped without the body; Skulker's Vest +3 has no DT); original: "Skulker's Vest +3" (owned, swapped)
+        hands = "Skulk. Armlets +3", -- DT-11%, SA+30
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
         ring2 = "Chirich Ring +1", -- STP+6, Acc+10
         back = gear.da_jse_back, -- PDT-10%, DA+10%, STP+5
         waist = "Reiki Yotai", -- DW+7, Acc+10
-        legs = "Skulk. Culottes +3", -- DT-7%
+        legs = "Skulk. Culottes +3", -- DT-13%
         feet = "Malignance Boots" -- Accuracy focus, some DT
     }
 
@@ -795,13 +796,13 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}}, -- DT-6%
         ear1 = "Alabaster Earring", -- DT-5%, Acc+11, HP+100, Haste+5%
         ear2 = "Skulk. Earring +2",
-        body = "Skulker's Vest +3", -- DT-6%, Dagger skill+38
-        hands = "Skulk. Armlets +3", -- DT-5%, SA+30
+        body = {name = "Gleti's Cuirass", augments = {"Path: A"}},  -- Gleti R30: DA+10%, Crit+8%, PDL+9%, PDT-9% (set is already DT-capped without the body; Skulker's Vest +3 has no DT); original: "Skulker's Vest +3" (owned, swapped)
+        hands = "Skulk. Armlets +3", -- DT-11%, SA+30
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
         ring2 = "Chirich Ring +1", -- STP+6, Acc+10
         back = gear.da_jse_back, -- PDT-10%, DA+10%, STP+5
         waist = "Reiki Yotai", -- DW+7, Acc+10
-        legs = "Skulk. Culottes +3", -- DT-7%
+        legs = "Skulk. Culottes +3", -- DT-13%
         feet = "Malignance Boots" -- Accuracy focus, some DT
     }
 
@@ -811,13 +812,13 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}}, -- DT-6%
         ear1 = "Alabaster Earring", -- DT-5%, Acc+11, HP+100, Haste+5%
         ear2 = "Skulk. Earring +2", -- Acc+16, STP+6, DEX+7 AGI+7 (right ear only, THF only)
-        body = "Skulker's Vest +3", -- DT-6%, Dagger skill+38
-        hands = "Skulk. Armlets +3", -- DT-5%, SA+30
+        body = {name = "Gleti's Cuirass", augments = {"Path: A"}},  -- Gleti R30: DA+10%, Crit+8%, PDL+9%, PDT-9% (set is already DT-capped without the body; Skulker's Vest +3 has no DT); original: "Skulker's Vest +3" (owned, swapped)
+        hands = "Skulk. Armlets +3", -- DT-11%, SA+30
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
         ring2 = "Chirich Ring +1", -- STP+6, Acc+10
         back = gear.da_jse_back, -- PDT-10%, STP+5
         waist = "Reiki Yotai", -- DW+7, Acc+10
-        legs = "Skulk. Culottes +3", -- DT-7%
+        legs = "Skulk. Culottes +3", -- DT-13%
         feet = "Malignance Boots" -- Maximum accuracy, some DT
     }
 
@@ -826,15 +827,15 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Skulker's Bonnet +3", -- TA+6%, Physical Damage Limit+10%
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}}, -- DT-6%
         ear1 = "Alabaster Earring", -- DT-5%, Acc+11, HP+100, Haste+5%
-        ear2 = "Brutal Earring", -- DA+5%, Crit+5%
-        body = "Skulker's Vest +3", -- DT-6%, Dagger skill+38
+        ear2 = "Telos Earring",  -- original: "Brutal Earring" (not owned)
+        body = {name = "Gleti's Cuirass", augments = {"Path: A"}},  -- Gleti R30: DA+10%, Crit+8%, PDL+9%, PDT-9% (set is already DT-capped without the body; Skulker's Vest +3 has no DT); original: "Skulker's Vest +3" (owned, swapped)
         hands = {name = "Floral Gauntlets", augments = {"Rng.Acc.+15", "Accuracy+15", '"Triple Atk."+3', "Magic dmg. taken -4%"}}, -- TA+3%, MDT-4%
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
         ring2 = "Gere Ring", -- TA+5%, Crit rate+5%
         back = gear.da_jse_back, -- PDT-10%, DA+10%, STP+5
         waist = {name = "Sailfi Belt +1", augments = {"Path: A"}}, -- Haste+10%
-        legs = "Skulk. Culottes +3", -- DT-7%
-        feet = "Skulk. Poulaines +3" -- DT-6%, TH+5
+        legs = "Skulk. Culottes +3", -- DT-13%
+        feet = "Skulk. Poulaines +3" -- DT-11%, TH+5
     } -- 57% DT (capped) + TA+14%, DA+15%, Acc+26, maximum offense with DT
 
     -- Aftermath sets for Vajra - Mythic AM3 further reduces DW needs
@@ -842,7 +843,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Skulker's Bonnet +3",
         neck = "Asn. Gorget +2",
         ear1 = "Sherida Earring", -- No DW needed
-        ear2 = "Brutal Earring", -- More damage
+        ear2 = "Telos Earring",  -- original: "Brutal Earring" (not owned)
         body = "Skulker's Vest +3",
         hands = "Floral Gauntlets", -- TA+3, can use since DW needs are lower
         ring1 = "Gere Ring",
@@ -857,7 +858,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Skulker's Bonnet +3",
         neck = "Asn. Gorget +2",
         ear1 = "Sherida Earring",
-        ear2 = "Brutal Earring",
+        ear2 = "Dedition Earring",  -- original: "Brutal Earring" (not owned)
         body = "Skulker's Vest +3",
         hands = "Floral Gauntlets", -- TA+3
         ring1 = "Chirich Ring +1", -- STP+6
@@ -872,7 +873,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Pill. Bonnet +4",
         neck = "Asn. Gorget +2",
         ear1 = "Sherida Earring",
-        ear2 = "Brutal Earring",
+        ear2 = "Telos Earring",  -- original: "Brutal Earring" (not owned)
         body = "Malignance Tabard", -- More accuracy
         hands = "Floral Gauntlets",
         ring1 = "Gere Ring",
@@ -902,7 +903,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Pill. Bonnet +4",
         neck = "Asn. Gorget +2",
         ear1 = "Odr Earring",
-        ear2 = "Odr Earring",
+        ear2 = "Telos Earring",  -- original: "Odr Earring" (only one owned)
         body = "Pill. Vest +4",
         hands = "Pill. Armlets +4",
         ring1 = "Ilabrat Ring",
