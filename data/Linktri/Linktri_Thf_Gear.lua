@@ -29,7 +29,7 @@ function user_job_setup()
     "Evisceration",
     "Throwing",
     "SwordThrowing",
-    -- "Bow",  -- LINKTRI 2026-10-19: removed, Hangaku-no-Yumi is not THF-equippable
+    "Bow",  -- LINKTRI 2026-10-19: Ullr (Hangaku-no-Yumi is not THF-equippable)
     "RedProcDagger",
     "RedProcSword", 
     "RedProcGrSwd",
@@ -133,7 +133,7 @@ function init_gear_sets()
     sets.weapons.Evisceration = {main = "Tauret", sub = "Gleti's Knife"}
     sets.weapons.Throwing = {main = "Qutrub Knife", sub = "Twinned Blade"}
     sets.weapons.SwordThrowing = {main = "Naegling", sub = "Gleti's Knife"}
-    sets.weapons.Bow = {main = "Mpu Gandring", sub = "Ternion Dagger +1", range = "Hangaku-no-Yumi", ammo = "Jukukik Feather"}  -- Hangaku-no-Yumi is not THF-equippable; removed from the Weapons cycle, kept for later
+    sets.weapons.Bow = {main = "Mpu Gandring", sub = "Ternion Dagger +1", range = "Ullr", ammo = "Kabura Arrow"}  -- original: range = "Hangaku-no-Yumi", ammo = "Jukukik Feather" (Hangaku not THF-equippable; a bow needs arrows). Ullr: Empyreal Arrow damage +50%
     -- Red Proc Weaponsets for Abyssea
 
 -- Energy Drain & Cyclone (Dagger)
@@ -164,7 +164,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         {
             head = "Pill. Bonnet +4",
             neck = "Asn. Gorget +2",
-            ear1 = "Telos Earring",  -- original: "Brutal Earring" (not owned)
+            ear1 = "Telos Earring",  -- original: "Brutal Earring" (owned; Telos Acc+10 helps Step/Flourish land)
             ear2 = "Odr Earring",
             body = "Pill. Vest +4",
             ring1 = "Ilabrat Ring",
@@ -181,7 +181,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         {
             head = "Pill. Bonnet +4",
             neck = "Asn. Gorget +2",
-            ear1 = "Telos Earring",  -- original: "Brutal Earring" (not owned)
+            ear1 = "Telos Earring",  -- original: "Brutal Earring" (owned; Telos Acc+10 helps Step/Flourish land)
             ear2 = "Odr Earring",
             body = "Pill. Vest +4",
             ring1 = "Ilabrat Ring",
@@ -240,7 +240,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         ammo = "Impatiens",
         head = "Malignance Chapeau", -- 13% FC
         neck = "Voltsurge Torque", -- 4% FC
-        ear1 = "Etiolation Earring",  -- original: "Loquac. Earring" (not owned)
+        ear1 = "Loquac. Earring",  -- LINKTRI 2026-10-19: restored (stored, not missing): Fast Cast +2 vs Etiolation +1
         ear2 = "Enervating Earring", -- 1% FC
         body = "Malignance Tabard", -- 8% FC
         hands = "Malignance Gloves",  -- original: "Fanatic Gloves" (Fanatic Gloves are not THF-equippable)
@@ -487,7 +487,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
     sets.midcast.FastRecast = {
         head = "Malignance Chapeau",
         neck = "Voltsurge Torque",
-        ear1 = "Etiolation Earring",  -- original: "Loquac. Earring" (not owned)
+        ear1 = "Loquac. Earring",  -- LINKTRI 2026-10-19: restored (stored, not missing): Fast Cast +2 vs Etiolation +1
         ear2 = "Enervating Earring",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",  -- original: "Fanatic Gloves" (Fanatic Gloves are not THF-equippable)
@@ -575,7 +575,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Null Masque",
         neck = "Sibyl Scarf",
         ear1 = "Etiolation Earring",
-        ear2 = "Alabaster Earring",  -- original: "Ethereal Earring" (not owned)
+        ear2 = "Alabaster Earring",  -- original: "Ethereal Earring" (not owned; not in any export back to April)
         body = { name="Nyame Mail", augments={'Path: B',}},
         hands = { name="Nyame Gauntlets", augments={'Path: B',}},
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
@@ -596,7 +596,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = {name = "Nyame Helm", augments = {"Path: B"}}, -- DT-7%
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}}, -- DT-6%
         ear1 = "Alabaster Earring", -- DT-5%, Acc+11, HP+100, Haste+5%
-        ear2 = "Etiolation Earring",  -- DT-3%; original: "Brutal Earring" (not owned)
+        ear2 = "Etiolation Earring",  -- DT-3%; original: "Brutal Earring" (owned; defense set wants DT)
         body = "Malignance Tabard",  -- DT-9% incl. magic, STP+11; Skulker's Vest +3 has no DT; original: "Skulker's Vest +3" (owned, swapped)
         hands = "Skulk. Armlets +3", -- DT-11%, SA+30
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
@@ -730,7 +730,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Skulker's Bonnet +3", -- TA+6%, Phys dmg limit+10%
         neck = "Asn. Gorget +2", -- TA+4%
         ear1 = "Sherida Earring", -- DA+5%
-        ear2 = "Dedition Earring",  -- Store TP+8; original: "Brutal Earring" (not owned)
+        ear2 = "Brutal Earring",  -- LINKTRI 2026-10-19: restored (stored, not missing): DA+5% beats Telos/Dedition for damage
         body = "Pill. Vest +4", -- TA+7%, Crit dmg+6%
         hands = {name = "Adhemar Wrist. +1", augments = {"DEX+12", "AGI+12", "Accuracy+20"}}, -- TA+4%
         ring1 = "Gere Ring", -- TA+5%, Crit rate+5%
@@ -747,7 +747,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Skulker's Bonnet +3", -- TA+6%, Physical Damage Limit+10%
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}}, -- DT-6%
         ear1 = "Alabaster Earring", -- DT-5%, Acc+11, HP+100, Haste+5%
-        ear2 = "Telos Earring",  -- original: "Brutal Earring" (not owned)
+        ear2 = "Brutal Earring",  -- LINKTRI 2026-10-19: restored (stored, not missing): DA+5% beats Telos/Dedition for damage
         body = {name = "Gleti's Cuirass", augments = {"Path: A"}},  -- Gleti R30: DA+10%, Crit+8%, PDL+9%, PDT-9% (set is already DT-capped without the body; Skulker's Vest +3 has no DT); original: "Skulker's Vest +3" (owned, swapped)
         hands = "Skulk. Armlets +3", -- DT-11%, SA+30, DEX+53
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
@@ -827,7 +827,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Skulker's Bonnet +3", -- TA+6%, Physical Damage Limit+10%
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}}, -- DT-6%
         ear1 = "Alabaster Earring", -- DT-5%, Acc+11, HP+100, Haste+5%
-        ear2 = "Telos Earring",  -- original: "Brutal Earring" (not owned)
+        ear2 = "Brutal Earring",  -- LINKTRI 2026-10-19: restored (stored, not missing): DA+5% beats Telos/Dedition for damage
         body = {name = "Gleti's Cuirass", augments = {"Path: A"}},  -- Gleti R30: DA+10%, Crit+8%, PDL+9%, PDT-9% (set is already DT-capped without the body; Skulker's Vest +3 has no DT); original: "Skulker's Vest +3" (owned, swapped)
         hands = {name = "Floral Gauntlets", augments = {"Rng.Acc.+15", "Accuracy+15", '"Triple Atk."+3', "Magic dmg. taken -4%"}}, -- TA+3%, MDT-4%
         ring1 = "Murky Ring", -- DT-10%, Acc+15, Eva+7 (rank 22)
@@ -843,7 +843,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Skulker's Bonnet +3",
         neck = "Asn. Gorget +2",
         ear1 = "Sherida Earring", -- No DW needed
-        ear2 = "Telos Earring",  -- original: "Brutal Earring" (not owned)
+        ear2 = "Brutal Earring",  -- LINKTRI 2026-10-19: restored (stored, not missing): DA+5% beats Telos/Dedition for damage
         body = "Skulker's Vest +3",
         hands = "Floral Gauntlets", -- TA+3, can use since DW needs are lower
         ring1 = "Gere Ring",
@@ -858,7 +858,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Skulker's Bonnet +3",
         neck = "Asn. Gorget +2",
         ear1 = "Sherida Earring",
-        ear2 = "Dedition Earring",  -- original: "Brutal Earring" (not owned)
+        ear2 = "Dedition Earring",  -- original: "Brutal Earring" (owned; STP set, Dedition Store TP+8)
         body = "Skulker's Vest +3",
         hands = "Floral Gauntlets", -- TA+3
         ring1 = "Chirich Ring +1", -- STP+6
@@ -873,7 +873,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
         head = "Pill. Bonnet +4",
         neck = "Asn. Gorget +2",
         ear1 = "Sherida Earring",
-        ear2 = "Telos Earring",  -- original: "Brutal Earring" (not owned)
+        ear2 = "Brutal Earring",  -- LINKTRI 2026-10-19: restored (stored, not missing): DA+5% beats Telos/Dedition for damage
         body = "Malignance Tabard", -- More accuracy
         hands = "Floral Gauntlets",
         ring1 = "Gere Ring",
