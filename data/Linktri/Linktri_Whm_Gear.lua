@@ -96,12 +96,12 @@ function init_gear_sets()
 	    -- ADD THE PACKING SET HERE:
     sets.packing = {
         main = "Mpaca's Staff",
-        sub = "Oneiros Grip", 
+        sub = "Clerisy Strap +1",  -- original: "Oneiros Grip" (not owned)
         ammo = "Homiliary",
         head = "Null Masque",
         neck = "Sibyl Scarf",
         ear1 = "Etiolation Earring",
-        ear2 = "Ethereal Earring",
+        ear2 = "Alabaster Earring",  -- original: "Ethereal Earring" (not owned)
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
@@ -164,7 +164,7 @@ function init_gear_sets()
 
     sets.precast.FC.StatusRemoval = sets.precast.FC["Healing Magic"]
 
-    sets.precast.FC.Cure = set_combine(sets.precast.FC["Healing Magic"], {feet = "Hygieia Clogs +1"}) -- Hygieia Clogs +1 needed
+    sets.precast.FC.Cure = set_combine(sets.precast.FC["Healing Magic"], {})  -- original: {feet = "Hygieia Clogs +1"} (not owned; Regal Pumps +1 stays)
 
     sets.precast.FC.Curaga = sets.precast.FC.Cure
 
@@ -192,53 +192,53 @@ function init_gear_sets()
     -- Default set for any weaponskill that isn't any more specifically defined
     sets.precast.WS = {
         ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
-        head = "Aya. Zucchetto +2",
+        head = { name="Bunzi's Hat", augments={'Path: A',}},  -- original: "Aya. Zucchetto +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
         neck = "Combatant's Torque",
         ear1 = "Mache Earring +1",
         ear2 = "Telos Earring",
-        body = "Ayanmo Corazza +2",
-        hands = "Aya. Manopolas +2",
+        body = { name="Bunzi's Robe", augments={'Path: A',}},  -- original: "Ayanmo Corazza +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
+        hands = { name="Bunzi's Gloves", augments={'Path: A',}},  -- original: "Aya. Manopolas +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
         ring1 = "Petrov Ring",
         ring2 = "Ilabrat Ring",
         back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- LINKTRI MOD 2026-07-02: Moonlight Cape not in inventory; proper fix = 2nd Alaunus's w/ STR+WSD augments
-        waist = { name="Sailfi Belt +1", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: Olseni Belt not in inventory
-        legs = "Aya. Cosciales +2",
-        feet = "Aya. Gambieras +2"
+        waist = "Luminary Sash", -- LINKTRI MOD 2026-07-02: Olseni Belt not in inventory  -- original: { name="Sailfi Belt +1", augments={'Path: A',}} (Sailfi Belt +1 is not WHM-equippable; Luminary MND+10 Acc+10 for Realmrazer)
+        legs = { name="Bunzi's Pants", augments={'Path: A',}},  -- original: "Aya. Cosciales +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
+        feet = { name="Bunzi's Sabots", augments={'Path: A',}}  -- original: "Aya. Gambieras +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
     }
 
     sets.precast.WS.Fodder = {
         ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
-        head = "Aya. Zucchetto +2",
+        head = { name="Bunzi's Hat", augments={'Path: A',}},  -- original: "Aya. Zucchetto +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
         neck = "Asperity Necklace",
-        ear1 = "Cessance Earring",
-        ear2 = "Brutal Earring",
-        body = "Ayanmo Corazza +2",
-        hands = "Aya. Manopolas +2",
+        ear1 = "Mache Earring +1",  -- original: "Cessance Earring" (not owned)
+        ear2 = "Telos Earring",  -- original: "Brutal Earring" (not owned)
+        body = { name="Bunzi's Robe", augments={'Path: A',}},  -- original: "Ayanmo Corazza +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
+        hands = { name="Bunzi's Gloves", augments={'Path: A',}},  -- original: "Aya. Manopolas +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
         ring1 = "Petrov Ring",
         ring2 = "Ilabrat Ring",
         back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- LINKTRI MOD 2026-07-02: Moonlight Cape not in inventory; proper fix = 2nd Alaunus's w/ STR+WSD augments
-        waist = { name="Sailfi Belt +1", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: Windbuffet Belt +1 not in inventory
-        legs = "Aya. Cosciales +2",
-        feet = "Aya. Gambieras +2"
+        waist = "Luminary Sash", -- LINKTRI MOD 2026-07-02: Windbuffet Belt +1 not in inventory  -- original: { name="Sailfi Belt +1", augments={'Path: A',}} (Sailfi Belt +1 is not WHM-equippable)
+        legs = { name="Bunzi's Pants", augments={'Path: A',}},  -- original: "Aya. Cosciales +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
+        feet = { name="Bunzi's Sabots", augments={'Path: A',}}  -- original: "Aya. Gambieras +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
     }
 
     sets.precast.WS.Dagan = {
         ammo = "", -- Ghastly Tathlum +1 Specter Worm Unity Wanted
         head = "Pixie Hairpin +1", -- not in inventory export
-        neck = "Sanctity Necklace", -- not in inventory export
+        neck = "Sibyl Scarf", -- not in inventory export  -- original: "Sanctity Necklace" (not owned)
         ear1 = "Hoxne Earring", -- LINKTRI MOD 2026-07-02: MR7 all stats +15 (Dagan is MND-modded); was Etiolation Earring
         ear2 = "Moonshade Earring",
         body = { name="Kaykaus Bliaut +1", augments={'MP+80','"Cure" potency +6%','"Conserve MP"+7',}},
-        hands = "Regal Cuffs",
-        ring1 = "Mephitas's Ring +1",
+        hands = "Shrieker's Cuffs",  -- original: "Regal Cuffs" (not owned)
+        ring1 = "Persis Ring",  -- original: "Mephitas's Ring +1" (not owned)
         ring2 = "Mephitas's Ring",
         back = "Aurist's Cape +1",
-        waist = "Fotia Belt",
+        waist = "Luminary Sash",  -- original: "Fotia Belt" (not owned)
         legs = "Nyame Flanchard",
         feet = "Theo. Duckbills +4"
     }
 
-    sets.MaxTP = {ear1 = "Cessance Earring", ear2 = "Brutal Earring"}
+    sets.MaxTP = {ear1 = "Mache Earring +1", ear2 = "Telos Earring"}  -- original: {ear1 = "Cessance Earring", ear2 = "Brutal Earring"} (not owned)
     sets.MaxTP.Dagan = {ear1 = "Etiolation Earring", ear2 = "Evans Earring"}
 
     --sets.precast.WS['Flash Nova'] = {}
@@ -268,26 +268,26 @@ function init_gear_sets()
     sets.Self_Healing = {}
     sets.Cure_Received = {}
     -- LINKTRI MODIFICATION END
-    sets.Self_Refresh = {back = "Grapevine Cape", waist = "Gishdubar Sash", feet = "Inspirited Boots"}
+    sets.Self_Refresh = {feet = "Inspirited Boots"}  -- original: {back = "Grapevine Cape", waist = "Gishdubar Sash", feet = "Inspirited Boots"} (cape/sash not owned)
 
     -- Conserve Mp set for spells that don't need anything else, for set_combine.
 
     sets.ConserveMP = {
         main = gear.grioavolr_fc_staff,
-        sub = "Umbra Strap",
+        sub = "Thrace Strap",  -- original: "Umbra Strap" (owned, swapped) Conserve MP+3
         ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
         head = "Vanya Hood",
-        neck = "", -- Incanter's Torque Synergy from Melic, Henic, and Deceivers Torques obtained in Escha Ru'Aun
-        ear1 = "Gifted Earring",
-        ear2 = "Gwati Earring",
-        body = "Vedic Coat",
+        neck = "Deviant Necklace", -- Incanter's Torque Synergy from Melic, Henic, and Deceivers Torques obtained in Escha Ru'Aun  -- original: "" (blank: Incanter's Torque not owned) Conserve MP+2
+        ear1 = "Calamitous Earring",  -- original: "Gifted Earring" (not owned) Conserve MP+4
+        ear2 = "Magnetic Earring",  -- original: "Gwati Earring" (owned, swapped) Conserve MP+5 vs +1
+        body = "Witching Robe",  -- original: "Vedic Coat" (not owned) Conserve MP+5
         hands={ name="Fanatic Gloves", augments={'MP+45','Healing magic skill +9','"Conserve MP"+6','"Fast Cast"+5',}},
         ring1 = "Kishar Ring",
-        ring2 = "", --Prolix Ring FC+2 enmity-3 Neith Temple of Uggalepih VW Ops
-        back = "Solemnity Cape",
-        waist = "Austerity Belt +1",
-        legs = "Vanya Slops",
-        feet = "Medium's Sabots"
+        ring2 = "Water Ring", --Prolix Ring FC+2 enmity-3 Neith Temple of Uggalepih VW Ops  -- original: "" (blank: Prolix Ring not owned) Conserve MP+15
+        back = "Thauma. Cape",  -- original: "Solemnity Cape" (not owned) Conserve MP+4
+        waist = "Luminary Sash",  -- original: "Austerity Belt +1" (not owned) Conserve MP+4
+        legs = "Lengo Pants",  -- original: "Vanya Slops" (not owned) Conserve MP+5
+        feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}  -- original: "Medium's Sabots" (owned, swapped) Conserve MP+7 vs Medium's
     }
 
     sets.midcast.Teleport = sets.ConserveMP
@@ -299,7 +299,7 @@ function init_gear_sets()
     -- pickup). MB dmg I gear cap (+40) already reached: Bunzi 4pc (+33) + Mizuchi (+10).
     -- REVERT: main=gear.grioavolr_nuke_staff, sub="Enki Strap", ring1="Mujin Band", ring2="Locus Ring"
     sets.MagicBurst = {
-        neck = "Mizu. Kubikazari" -- MB dmg +10
+        neck = "Sibyl Scarf" -- MB dmg +10  -- original: "Mizu. Kubikazari" (owned, swapped: 5 Bunzi pieces = MB dmg +40 cap already; Sibyl INT+10 MAB+10 counts, Mizuchi's MB+10 did not)
     }
     -- LINKTRI MODIFICATION END
 
@@ -309,13 +309,13 @@ function init_gear_sets()
         ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Voltsurge Torque",
-        ear1 = "", -- Enchntr. Earring +1 needed - Surged  10th walk, AH 15m gil +2 FC
+        ear1 = "Etiolation Earring", -- Enchntr. Earring +1 needed - Surged  10th walk, AH 15m gil +2 FC  -- original: "" (blank)
         ear2 = "Malignance Earring",
         body = "Inyanga Jubbah +2",
-        hands = "Gende. Gages +1",
+        hands = { name="Fanatic Gloves", augments={'MP+45','Healing magic skill +9','"Conserve MP"+6','"Fast Cast"+5',}},  -- original: "Gende. Gages +1" (not owned) -- Fanatic Gloves FC+5
         ring1 = "Kishar Ring",
-        ring2 = "", --Prolix Ring FC+2 enmity-3 Neith Temple of Uggalepih VW Ops
-        back = "Swith Cape +1",
+        ring2 = "Lebeche Ring", --Prolix Ring FC+2 enmity-3 Neith Temple of Uggalepih VW Ops  -- original: "" (blank)
+        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}},  -- original: "Swith Cape +1" (not owned) -- Alaunus's FC+10
         waist = "Witful Belt",
         legs = "Lengo Pants",
         feet={ name="Regal Pumps +1", augments={'Path: A',}},
@@ -327,16 +327,16 @@ function init_gear_sets()
 
     sets.midcast.Cure = {
         main = "Raetic Rod +1",
-        sub = "Sors Shield",
+        sub = "Genmei Shield",  -- original: "Sors Shield" (owned, swapped: Cure potency I was ~64% vs the 50% cap; still ~51% without it) -- Genmei DT-10%
         ammo = "Pemphredo Tathlum",
         head={ name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},
-        neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")
+        neck = { name="Loricate Torque +1", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")  -- original: { name="Clr. Torque +2", augments={'Path: A',}} (owned, swapped: Cure potency I was ~64% vs the 50% cap; still ~51% without it) -- Loricate DT-6%
         ear1 = "Glorious Earring", -- LINKTRI MOD 2026-07-02: Cure pot. II +2%, MP+30, Enmity-5 (now owned; revert: ear1 = "")
         ear2 = "Ebers Earring +1",
         body = "Theo. Bliaut +4",
         hands = "Theo. Mitts +4",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
-        ring2 = "", --Janniston Ring/sea not owned
+        ring2 = "Defending Ring", --Janniston Ring/sea not owned  -- original: "" (blank: Janniston Ring not owned)
         back={ name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, --needs ambu curing back
         waist = "Luminary Sash",
         legs = "Ebers Pant. +3",
@@ -345,10 +345,10 @@ function init_gear_sets()
 
     sets.midcast.CureSolace = {
         main = "Raetic Rod +1",
-        sub = "Sors Shield",
+        sub = "Genmei Shield",  -- original: "Sors Shield" (owned, swapped: Cure potency I was ~64% vs the 50% cap; still ~51% without it) -- Genmei DT-10%
         ammo = "Pemphredo Tathlum",
         head={ name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},
-        neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")
+        neck = { name="Loricate Torque +1", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")  -- original: { name="Clr. Torque +2", augments={'Path: A',}} (owned, swapped: Cure potency I was ~64% vs the 50% cap; still ~51% without it) -- Loricate DT-6%
         ear1 = "Glorious Earring", -- LINKTRI MOD 2026-07-02: Cure pot. II +2%, MP+30, Enmity-5 (now owned; revert: ear1 = "")
         ear2 = "Ebers Earring +1",
         body = "Ebers Bliaut +3",
@@ -363,8 +363,8 @@ function init_gear_sets()
 
     sets.midcast.LightWeatherCure = {
         main = "Chatoyant Staff",
-        sub = "", -- Curatio Grip Nehebkau Abyssea - Misareaux
-        ammo = "", --Esper Stone +1 Surged eighth walk
+        sub = "Enki Strap", -- Curatio Grip Nehebkau Abyssea - Misareaux  -- original: "" (blank: Curatio Grip not owned)
+        ammo = "Pemphredo Tathlum", --Esper Stone +1 Surged eighth walk  -- original: "" (blank: Esper Stone +1 not owned)
         head={ name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},
         neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")
         ear1 = "Glorious Earring", -- LINKTRI MOD 2026-07-02: Cure pot. II +2%, MP+30, Enmity-5 (now owned; revert: ear1 = "")
@@ -373,7 +373,7 @@ function init_gear_sets()
         hands = "Theo. Mitts +4",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Lebeche Ring",
-        back = "Twilight Cape",
+        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}},  -- original: "Twilight Cape" (not owned)
         waist = "Hachirin-no-Obi",
         legs = "Ebers Pant. +3",
         feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}
@@ -381,8 +381,8 @@ function init_gear_sets()
 
     sets.midcast.LightWeatherCureSolace = {
         main = "Chatoyant Staff",
-        sub = "", -- Curatio Grip Nehebkau Abyssea - Misareaux
-        ammo = "", --Esper Stone +1 Surged eighth walk
+        sub = "Enki Strap", -- Curatio Grip Nehebkau Abyssea - Misareaux  -- original: "" (blank: Curatio Grip not owned)
+        ammo = "Pemphredo Tathlum", --Esper Stone +1 Surged eighth walk  -- original: "" (blank: Esper Stone +1 not owned)
         head={ name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},
         neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")
         ear1 = "Glorious Earring", -- LINKTRI MOD 2026-07-02: Cure pot. II +2%, MP+30, Enmity-5 (now owned; revert: ear1 = "")
@@ -399,10 +399,10 @@ function init_gear_sets()
 
     sets.midcast.LightDayCureSolace = {
         main = "Raetic Rod +1",
-        sub = "Sors Shield",
+        sub = "Genmei Shield",  -- original: "Sors Shield" (owned, swapped: Cure potency I was ~64% vs the 50% cap; still ~51% without it) -- Genmei DT-10%
         ammo = "Pemphredo Tathlum",
         head={ name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},
-        neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")
+        neck = { name="Loricate Torque +1", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")  -- original: { name="Clr. Torque +2", augments={'Path: A',}} (owned, swapped: Cure potency I was ~64% vs the 50% cap; still ~51% without it) -- Loricate DT-6%
         ear1 = "Glorious Earring", -- LINKTRI MOD 2026-07-02: Cure pot. II +2%, MP+30, Enmity-5 (now owned; revert: ear1 = "")
         ear2 = { name="Nourish. Earring +1", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: was empty (Regal Earring Ou Omen Boss still wanted)
         body = "Ebers Bliaut +3",
@@ -417,17 +417,17 @@ function init_gear_sets()
 
     sets.midcast.LightDayCure = {
         main = "Raetic Rod +1",
-        sub = "Sors Shield",
+        sub = "Genmei Shield",  -- original: "Sors Shield" (owned, swapped: Cure potency I was ~64% vs the 50% cap; still ~51% without it) -- Genmei DT-10%
         ammo = "Pemphredo Tathlum",
         head={ name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},
-        neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")
+        neck = { name="Loricate Torque +1", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")  -- original: { name="Clr. Torque +2", augments={'Path: A',}} (owned, swapped: Cure potency I was ~64% vs the 50% cap; still ~51% without it) -- Loricate DT-6%
         ear1 = "Glorious Earring", -- LINKTRI MOD 2026-07-02: Cure pot. II +2%, MP+30, Enmity-5 (now owned; revert: ear1 = "")
         ear2 ={ name="Nourish. Earring +1", augments={'Path: A',}},
         body = "Theo. Bliaut +4",
         hands = "Theo. Mitts +4",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Menelaus's Ring",
-        back = "Twilight Cape",
+        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}},  -- original: "Twilight Cape" (not owned)
         waist = "Hachirin-no-Obi",
         legs = "Ebers Pant. +3",
         feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}
@@ -435,10 +435,10 @@ function init_gear_sets()
 
     sets.midcast.Curaga = {
         main = "Raetic Rod +1",
-        sub = "Sors Shield",
+        sub = "Genmei Shield",  -- original: "Sors Shield" (owned, swapped: Cure potency I was ~64% vs the 50% cap; still ~51% without it) -- Genmei DT-10%
         ammo = "Pemphredo Tathlum",
         head={ name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},
-        neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")
+        neck = { name="Loricate Torque +1", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")  -- original: { name="Clr. Torque +2", augments={'Path: A',}} (owned, swapped: Cure potency I was ~64% vs the 50% cap; still ~51% without it) -- Loricate DT-6%
         ear1 = "Glorious Earring", -- LINKTRI MOD 2026-07-02: Cure pot. II +2%, MP+30, Enmity-5 (now owned; revert: ear1 = "")
         ear2 = "Ebers Earring +1",
         body = "Theo. Bliaut +4",
@@ -453,8 +453,8 @@ function init_gear_sets()
 
     sets.midcast.LightWeatherCuraga = {
         main = "Chatoyant Staff",
-        sub = "", -- Curatio Grip Nehebkau Abyssea - Misareaux
-        ammo = "", --Esper Stone +1 Surged eighth walk
+        sub = "Enki Strap", -- Curatio Grip Nehebkau Abyssea - Misareaux  -- original: "" (blank: Curatio Grip not owned)
+        ammo = "Pemphredo Tathlum", --Esper Stone +1 Surged eighth walk  -- original: "" (blank: Esper Stone +1 not owned)
         head={ name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},
         neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")
         ear1 = "Glorious Earring", -- LINKTRI MOD 2026-07-02: Cure pot. II +2%, MP+30, Enmity-5 (now owned; revert: ear1 = "")
@@ -463,7 +463,7 @@ function init_gear_sets()
         hands = "Theo. Mitts +4",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Lebeche Ring",
-        back = "Twilight Cape",
+        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}},  -- original: "Twilight Cape" (not owned)
         waist = "Hachirin-no-Obi",
         legs = "Ebers Pant. +3",
         feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}
@@ -471,17 +471,17 @@ function init_gear_sets()
 
     sets.midcast.LightDayCuraga = {
         main = "Raetic Rod +1",
-        sub = "Sors Shield",
+        sub = "Genmei Shield",  -- original: "Sors Shield" (owned, swapped: Cure potency I was ~64% vs the 50% cap; still ~51% without it) -- Genmei DT-10%
         ammo = "Pemphredo Tathlum",
         head={ name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},
-        neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")
+        neck = { name="Loricate Torque +1", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: "Cure" potency +10% (was empty awaiting Incanter's Torque; revert: neck = "")  -- original: { name="Clr. Torque +2", augments={'Path: A',}} (owned, swapped: Cure potency I was ~64% vs the 50% cap; still ~51% without it) -- Loricate DT-6%
         ear1 = "Glorious Earring", -- LINKTRI MOD 2026-07-02: Cure pot. II +2%, MP+30, Enmity-5 (now owned; revert: ear1 = "")
         ear2 ={ name="Nourish. Earring +1", augments={'Path: A',}},
         body = "Theo. Bliaut +4",
         hands = "Theo. Mitts +4",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Menelaus's Ring",
-        back = "Twilight Cape",
+        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}},  -- original: "Twilight Cape" (not owned)
         waist = "Hachirin-no-Obi",
         legs = "Ebers Pant. +3",
         feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}
@@ -525,7 +525,7 @@ function init_gear_sets()
         ear2 = "Malignance Earring",
         body = "Ebers Bliaut +3",
         hands={ name="Fanatic Gloves", augments={'MP+45','Healing magic skill +9','"Conserve MP"+6','"Fast Cast"+5',}},
-        ring1 = "", -- Haoma's Ring 2m on AH
+        ring1 = "Stikini Ring", -- Haoma's Ring 2m on AH  -- original: "" (blank: Haoma's Ring not owned)
         ring2 = "Menelaus's Ring",
         back={ name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, --needs ambu curing back
         waist = "Witful Belt",
@@ -539,12 +539,12 @@ function init_gear_sets()
         ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
         head = "Ebers Cap +3",
         neck = "Voltsurge Torque", -- LINKTRI MOD 2026-07-02: owned (was empty; revert: neck = "")
-        ear1 = "", -- Enchntr. Earring +1 needed - Surged  10th walk, AH 15m gil +2 FC
+        ear1 = "Etiolation Earring", -- Enchntr. Earring +1 needed - Surged  10th walk, AH 15m gil +2 FC  -- original: "" (blank)
         ear2 = "Malignance Earring",
         body = "Inyanga Jubbah +2",
         hands={ name="Fanatic Gloves", augments={'MP+45','Healing magic skill +9','"Conserve MP"+6','"Fast Cast"+5',}},
         ring1 = "Kishar Ring",
-        ring2 = "", --Prolix Ring FC+2 enmity-3 Neith Temple of Uggalepih VW Ops
+        ring2 = "Lebeche Ring", --Prolix Ring FC+2 enmity-3 Neith Temple of Uggalepih VW Ops  -- original: "" (blank)
         back={ name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}},
         waist = "Witful Belt",
         legs = "Ebers Pant. +3",
@@ -577,7 +577,7 @@ function init_gear_sets()
     sets.midcast.Stoneskin =
         set_combine(
         sets.midcast["Enhancing Magic"],
-        {neck = "Nodens Gorget", ear2 = "Earthcry Earring", waist = "Siegel Sash", legs = "Shedir Seraweels"}
+        {neck = "Nodens Gorget", waist = "Siegel Sash"}  -- original also had ear2 = "Earthcry Earring", legs = "Shedir Seraweels" (not owned)
     )
 
     sets.midcast.Auspice = set_combine(sets.midcast["Enhancing Magic"], {feet = "Ebers Duckbills +3",})
@@ -594,28 +594,28 @@ function init_gear_sets()
         }
     )
 
-    sets.midcast.Regen = set_combine(sets.midcast["Enhancing Magic"], {hands = "Ebers Mitts +3", legs = "Theo. Pant. +4"})
+    sets.midcast.Regen = set_combine(sets.midcast["Enhancing Magic"], {hands = "Ebers Mitts +3", legs = "Theo. Pant. +4", feet = { name="Bunzi's Sabots", augments={'Path: A',}}})  -- LINKTRI 2026-10-18: Bunzi's Sabots R30 "Regen" potency +10 (was Theo. Duckbills +4 from the base set)
 -- Sekhmet Corset AA MR II or DM II 
 -- Sheltered Ring Bhishani South Gustaberg Voidwatch Op
     sets.midcast.Protect =
         set_combine(
         sets.midcast["Enhancing Magic"],
-        {ring2 = "Sheltered Ring", feet = "Theo. Duckbills +4", ear1 = "Gifted Earring", waist = "Sekhmet Corset"}
+        {feet = "Theo. Duckbills +4"}  -- original also had ring2 = "Sheltered Ring", ear1 = "Gifted Earring", waist = "Sekhmet Corset" (not owned)
     )
     sets.midcast.Protectra =
         set_combine(
         sets.midcast["Enhancing Magic"],
-        {ring2 = "Sheltered Ring", feet = "Theo. Duckbills +4", ear1 = "Gifted Earring", waist = "Sekhmet Corset"}
+        {feet = "Theo. Duckbills +4"}  -- original also had ring2 = "Sheltered Ring", ear1 = "Gifted Earring", waist = "Sekhmet Corset" (not owned)
     )
     sets.midcast.Shell =
         set_combine(
         sets.midcast["Enhancing Magic"],
-        {ring2 = "Sheltered Ring", feet = "Theo. Duckbills +4", ear1 = "Gifted Earring", waist = "Sekhmet Corset"}
+        {feet = "Theo. Duckbills +4"}  -- original also had ring2 = "Sheltered Ring", ear1 = "Gifted Earring", waist = "Sekhmet Corset" (not owned)
     )
     sets.midcast.Shellra =
         set_combine(
         sets.midcast["Enhancing Magic"],
-        {ring2 = "Sheltered Ring", feet = "Theo. Duckbills +4", ear1 = "Gifted Earring", waist = "Sekhmet Corset"}
+        {feet = "Theo. Duckbills +4"}  -- original also had ring2 = "Sheltered Ring", ear1 = "Gifted Earring", waist = "Sekhmet Corset" (not owned)
     )
 
     sets.midcast.BarElement = {
@@ -670,18 +670,18 @@ function init_gear_sets()
     -- Waist also handled dynamically (Orpheus/Hachirin) in job_post_midcast at end of file.
     -- REVERT: see git history / prior file version for the Witching/Chironic layout.
     sets.midcast["Elemental Magic"] = {
-        main = "Daybreak",
+        main = "Bunzi's Rod",  -- original: "Daybreak" (owned, swapped: Bunzi's Rod MAB+65 w/ augment vs Daybreak +40; Daybreak kept for Holy/Banish)
         sub = "Ammurapi Shield",
-        ammo = "", -- Ghastly Tathlum +1 Specter Worm Unity Wanted
+        ammo = "Pemphredo Tathlum", -- Ghastly Tathlum +1 Specter Worm Unity Wanted  -- original: "" (blank: Ghastly Tathlum +1 not owned)
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Baetyl Pendant",
-        ear1 = "", --Friomisi Earring Kumhau Wildskeeper Reive or 1m on AH
-        ear2 = "", --Regal Earring Ou Omen Boss
+        ear1 = "Malignance Earring", --Friomisi Earring Kumhau Wildskeeper Reive or 1m on AH  -- original: "" (blank: Friomisi Earring not owned)
+        ear2 = "Crematio Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
         body={ name="Bunzi's Robe", augments={'Path: A',}},
         hands={ name="Bunzi's Gloves", augments={'Path: A',}},
-        ring1 = "", --Shiva Ring +1 Synergy from Shivatear and Rhodium Ring or +1 variant
-        ring2 = "", --Freke Ring Odin HTMB
-        back = "",  -- Toro Cape +10 MAB +8 INT Kumhau Wildskeeper Reive
+        ring1 = "Metamor. Ring +1", --Shiva Ring +1 Synergy from Shivatear and Rhodium Ring or +1 variant  -- original: "" (blank: Shiva Ring +1 not owned)
+        ring2 = "Persis Ring", --Freke Ring Odin HTMB  -- original: "" (blank: Freke Ring not owned)
+        back = "Aurist's Cape +1",  -- Toro Cape +10 MAB +8 INT Kumhau Wildskeeper Reive  -- original: "" (blank: Toro Cape not owned)
         waist = gear.ElementalObi,
         legs={ name="Bunzi's Pants", augments={'Path: A',}},
         feet={ name="Bunzi's Sabots", augments={'Path: A',}}
@@ -692,18 +692,18 @@ function init_gear_sets()
     -- C. Palug Crown, Sanctity Necklace, Yamabuki-no-Obi, Chironic Hose NOT in inventory.
     -- REVERT: see git history / prior file version.
     sets.midcast["Elemental Magic"].Resistant = {
-        main = "Daybreak",
+        main = "Bunzi's Rod",  -- original: "Daybreak" (owned, swapped: Bunzi's Rod MAcc+55 w/ augment)
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Erra Pendant",
         ear1 = "Crematio Earring",
-        ear2 = "", --Regal Earring Ou Omen Boss
+        ear2 = "Malignance Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
         body={ name="Bunzi's Robe", augments={'Path: A',}},
         hands={ name="Bunzi's Gloves", augments={'Path: A',}},
         ring1 = "Metamor. Ring +1",
-        ring2 = "", --Freke Ring Odin HTMB
-        back = "",  -- Toro Cape +10 MAB +8 INT Kumhau Wildskeeper Reive
+        ring2 = "Stikini Ring", --Freke Ring Odin HTMB  -- original: "" (blank: Freke Ring not owned)
+        back = "Aurist's Cape +1",  -- Toro Cape +10 MAB +8 INT Kumhau Wildskeeper Reive  -- original: "" (blank: Toro Cape not owned)
         waist = "Luminary Sash", -- Acuity Belt +1 wanted: Joyous Green Unity
         legs={ name="Bunzi's Pants", augments={'Path: A',}},
         feet={ name="Bunzi's Sabots", augments={'Path: A',}}
@@ -716,10 +716,10 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: C. Palug Crown not in inventory; Bunzi M.Acc+40
         neck = "Null Loop", -- LINKTRI: blank neck was skipped by GearSwap; MAcc+50 for Repose/Flash/Banish landing (Holy keeps Baetyl Pendant)
-        ear1 = "", --Digni. Earring Strophadia Reisenjima
-        ear2 = "", --Regal Earring Ou Omen Boss
-        body = "Inyanga Jubbah +2",
-        hands={ name="Fanatic Gloves", augments={'MP+45','Healing magic skill +9','"Conserve MP"+6','"Fast Cast"+5',}},
+        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
+        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
+        body = "Theo. Bliaut +4",  -- original: "Inyanga Jubbah +2" (owned, swapped: MAcc+60 vs +46)
+        hands="Theo. Mitts +4",  -- original: { name="Fanatic Gloves", augments={'MP+45','Healing magic skill +9','"Conserve MP"+6','"Fast Cast"+5',}} (owned, swapped: MAcc+58)
         ring1 = "Stikini Ring", -- +1 variant 40m on AH
         ring2 = "Stikini Ring", -- +1 variant 40m on AH
         back = "Aurist's Cape +1",
@@ -738,13 +738,13 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Baetyl Pendant",
-        ear1 = "", --Friomisi Earring Kumhau Wildskeeper Reive or 1m on AH
-        ear2 = "", --Regal Earring Ou Omen Boss
+        ear1 = "Malignance Earring", --Friomisi Earring Kumhau Wildskeeper Reive or 1m on AH  -- original: "" (blank: Friomisi Earring not owned)
+        ear2 = "Crematio Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
         body={ name="Bunzi's Robe", augments={'Path: A',}},
         hands={ name="Bunzi's Gloves", augments={'Path: A',}},
         ring1 = "Metamor. Ring +1",
-        ring2 = "", --Freke Ring Odin HTMB
-        back = "",  -- Toro Cape +10 MAB +8 INT Kumhau Wildskeeper Reive
+        ring2 = "Persis Ring", --Freke Ring Odin HTMB  -- original: "" (blank: Freke Ring not owned)
+        back = "Aurist's Cape +1",  -- Toro Cape +10 MAB +8 INT Kumhau Wildskeeper Reive  -- original: "" (blank: Toro Cape not owned)
         waist = gear.ElementalObi,
         legs={ name="Bunzi's Pants", augments={'Path: A',}},
         feet={ name="Bunzi's Sabots", augments={'Path: A',}}
@@ -757,10 +757,10 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Erra Pendant",
-        ear1 = "", --Digni. Earring Strophadia Reisenjima
-        ear2 = "", --Regal Earring Ou Omen Boss
-        body = "Inyanga Jubbah +2",
-        hands = gear.chironic_enfeeble_hands,
+        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
+        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
+        body = "Theo. Bliaut +4",  -- original: "Inyanga Jubbah +2" (owned, swapped: MAcc+60 vs +46)
+        hands = "Theo. Mitts +4",  -- original: gear.chironic_enfeeble_hands (owned, swapped: MAcc+58)
         ring1 = "Stikini Ring", -- +1 variant 40m on AH
         ring2 = "Stikini Ring", -- +1 variant 40m on AH
         back = "Aurist's Cape +1",
@@ -775,12 +775,12 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head = "Pixie Hairpin +1",
         neck = "Erra Pendant",
-        ear1 = "", --Digni. Earring Strophadia Reisenjima
-        ear2 = "", --Regal Earring Ou Omen Boss
+        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
+        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank)
         body = "Inyanga Jubbah +2",
         hands = gear.chironic_enfeeble_hands,
-        ring1 = "Evanescence Ring",
-        ring2 = "Archon Ring",
+        ring1 = "Stikini Ring",  -- original: "Evanescence Ring" (not owned)
+        ring2 = "Stikini Ring",  -- original: "Archon Ring" (not owned)
         back = "Aurist's Cape +1",
         waist = "Fucho-no-Obi",
         legs={ name="Bunzi's Pants", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: Chironic Hose not in inventory
@@ -793,9 +793,9 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Erra Pendant",
-        ear1 = "", --Digni. Earring Strophadia Reisenjima
-        ear2 = "", --Regal Earring Ou Omen Boss
-        body = "Chironic Doublet",
+        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
+        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank)
+        body = { name="Bunzi's Robe", augments={'Path: A',}},  -- original: "Chironic Doublet" (not owned)
         hands = gear.chironic_enfeeble_hands,
         ring1 = "Stikini Ring", -- +1 variant 40m on AH
         ring2 = "Stikini Ring", -- +1 variant 40m on AH
@@ -814,7 +814,7 @@ function init_gear_sets()
         ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Voltsurge Torque",
-        ear1 = "", -- Enchntr. Earring +1 needed - Surged  10th walk, AH 15m gil +2 FC
+        ear1 = "Etiolation Earring", -- Enchntr. Earring +1 needed - Surged  10th walk, AH 15m gil +2 FC  -- original: "" (blank)
         ear2 = "Malignance Earring",
         body = "Inyanga Jubbah +2",
         hands={ name="Fanatic Gloves", augments={'MP+45','Healing magic skill +9','"Conserve MP"+6','"Fast Cast"+5',}},
@@ -832,10 +832,10 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Erra Pendant",
-        ear1 = "", --Digni. Earring Strophadia Reisenjima
-        ear2 = "", --Regal Earring Ou Omen Boss
-        body = "Inyanga Jubbah +2",
-        hands={ name="Fanatic Gloves", augments={'MP+45','Healing magic skill +9','"Conserve MP"+6','"Fast Cast"+5',}},
+        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
+        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
+        body = "Theo. Bliaut +4",  -- original: "Inyanga Jubbah +2" (owned, swapped: MAcc+60 vs +46)
+        hands="Theo. Mitts +4",  -- original: { name="Fanatic Gloves", augments={'MP+45','Healing magic skill +9','"Conserve MP"+6','"Fast Cast"+5',}} (owned, swapped: MAcc+58)
         ring1 = "Stikini Ring", -- +1 variant 40m on AH
         ring2 = "Stikini Ring", -- +1 variant 40m on AH
         back = "Aurist's Cape +1",
@@ -850,10 +850,10 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Erra Pendant",
-        ear1 = "", --Digni. Earring Strophadia Reisenjima
-        ear2 = "", --Regal Earring Ou Omen Boss
-        body = "Inyanga Jubbah +2",
-        hands={ name="Fanatic Gloves", augments={'MP+45','Healing magic skill +9','"Conserve MP"+6','"Fast Cast"+5',}},
+        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
+        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
+        body = "Theo. Bliaut +4",  -- original: "Inyanga Jubbah +2" (owned, swapped: MAcc+60 vs +46)
+        hands="Theo. Mitts +4",  -- original: { name="Fanatic Gloves", augments={'MP+45','Healing magic skill +9','"Conserve MP"+6','"Fast Cast"+5',}} (owned, swapped: MAcc+58)
         ring1 = "Stikini Ring", -- +1 variant 40m on AH
         ring2 = "Stikini Ring", -- +1 variant 40m on AH
         back = "Aurist's Cape +1",
@@ -870,15 +870,15 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head = "Befouled Crown",
         neck = "Erra Pendant",
-        ear1 = "", --Digni. Earring Strophadia Reisenjima
-        ear2 = "", --Regal Earring Ou Omen Boss
+        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
+        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank)
         body = "Theo. Bliaut +4",
-        hands = { name="Telchine Gloves", augments={'Mag. Acc.+23','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
+        hands = "Piety Mitts +4",  -- original: { name="Telchine Gloves", augments={'Mag. Acc.+23','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}} (owned, swapped: Enfeebling skill +27, MAcc+43; Telchine had none)
         ring1 = "Kishar Ring",
         ring2 = "Stikini Ring", -- +1 variant 40m on AH
         back = "Aurist's Cape +1",
         waist = "Obstin. Sash",
-        legs = { name="Telchine Braconi", augments={'Mag. Acc.+15','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
+        legs = "Theo. Pant. +4",  -- original: { name="Telchine Braconi", augments={'Mag. Acc.+15','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}} (owned, swapped: MAcc+59; Telchine had none)
         feet = "Theo. Duckbills +4"
     }
 
@@ -888,15 +888,15 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head = "Befouled Crown",
         neck = "Erra Pendant",
-        ear1 = "", --Digni. Earring Strophadia Reisenjima
-        ear2 = "", --Regal Earring Ou Omen Boss
+        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
+        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank)
         body = "Theo. Bliaut +4",
         hands = "Theo. Mitts +4",
         ring1 = "Metamor. Ring +1",
         ring2 = "Stikini Ring", -- +1 variant 40m on AH
         back = "Aurist's Cape +1",
         waist = "Luminary Sash",
-        legs = "Inyanga Shalwar +2", -- LINKTRI MOD 2026-07-02: Chironic Hose not in inventory; Inyanga M.Acc for enfeebles
+        legs = "Theo. Pant. +4", -- LINKTRI MOD 2026-07-02: Chironic Hose not in inventory; Inyanga M.Acc for enfeebles  -- original: "Inyanga Shalwar +2" (owned, swapped: MAcc+59 vs +45)
         feet = "Theo. Duckbills +4"
     }
 	-- LINKTRI MODIFICATION START 2026-07-02: Combined SIRD/DT cure system
@@ -1033,20 +1033,20 @@ sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"]
     -- Resting sets
     sets.resting = {
         main = "Chatoyant Staff",
-        sub = "Oneiros Grip",
+        sub = "Clerisy Strap +1",  -- original: "Oneiros Grip" (not owned)
         ammo = "Homiliary",
         head = "Null Masque",
-        neck = "Chrys. Torque",
+        neck = "Sibyl Scarf",  -- original: "Chrys. Torque" (not owned) Sibyl Refresh+1
         ear1 = "Etiolation Earring",
-        ear2 = "Ethereal Earring",
+        ear2 = "Alabaster Earring",  -- original: "Ethereal Earring" (not owned)
         body = "Ebers Bliaut +3",
-        hands = gear.chironic_refresh_hands,
+        hands = "Inyan. Dastanas +2",  -- original: gear.chironic_refresh_hands (not owned)
         ring1 = { name="Murky Ring", augments={'Path: A',}},
-        ring2 = "Dark Ring",
-        back = "Umbra Cape",
+        ring2 = "Inyanga Ring",  -- original: "Dark Ring" (not owned)
+        back = "Alaunus's Cape",  -- original: "Umbra Cape" (not owned)
         waist = "Fucho-no-Obi",
         legs = "Assid. Pants +1",
-        feet = gear.chironic_refresh_feet
+        feet = "Inyan. Crackows +2"  -- original: gear.chironic_refresh_feet (not owned)
     }
 
     -- Idle sets (default idle set not needed since the other three are defined, but leaving for testing purposes)
@@ -1170,66 +1170,66 @@ sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"]
     -- Basic set for if no TP weapon is defined.
     sets.engaged = {
         ammo = "Staunch Tathlum +1",
-        head = { name="Nyame Helm", augments={'Path: B',}},
+        head = { name="Bunzi's Hat", augments={'Path: A',}},  -- original: { name="Nyame Helm", augments={'Path: B',}} (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
         neck = "Asperity Necklace",
         ear1 = "Alabaster Earring", -- LINKTRI MOD 2026-07-02: Haste+5, DT-5 (Cessance Earring still wanted: Omega II)
-        ear2 = "Brutal Earring",
-        body = { name="Nyame Mail", augments={'Path: B',}},
-        hands = { name="Nyame Gauntlets", augments={'Path: B',}},
+        ear2 = "Telos Earring",  -- original: "Brutal Earring" (not owned)
+        body = { name="Bunzi's Robe", augments={'Path: A',}},  -- original: { name="Nyame Mail", augments={'Path: B',}} (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
+        hands = { name="Bunzi's Gloves", augments={'Path: A',}},  -- original: { name="Nyame Gauntlets", augments={'Path: B',}} (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
         ring1 = "Petrov Ring",
         ring2 = "Ilabrat Ring",
         back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- LINKTRI MOD 2026-07-02: was empty (Moonlight Cape wanted)
-        waist = { name="Sailfi Belt +1", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: was empty (Windbuffet Belt +1 wanted)
-        legs = { name="Nyame Flanchard", augments={'Path: B',}},
-        feet = { name="Nyame Sollerets", augments={'Path: B',}},
+        waist = "Null Belt", -- LINKTRI MOD 2026-07-02: was empty (Windbuffet Belt +1 wanted)  -- original: { name="Sailfi Belt +1", augments={'Path: A',}} (Sailfi Belt +1 is not WHM-equippable)
+        legs = { name="Bunzi's Pants", augments={'Path: A',}},  -- original: { name="Nyame Flanchard", augments={'Path: B',}} (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
+        feet = { name="Bunzi's Sabots", augments={'Path: A',}},  -- original: { name="Nyame Sollerets", augments={'Path: B',}} (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
     }
 
     sets.engaged.Acc = {
-        ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
-        head = "Aya. Zucchetto +2",
+        ammo = "Amar Cluster", --Hasty Pinion +1 needs to be evalated for appropriateness  -- original: "" (blank: slot was never swapped)
+        head = { name="Bunzi's Hat", augments={'Path: A',}},  -- original: "Aya. Zucchetto +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
         neck = "Combatant's Torque", -- LINKTRI: was blank (skipped by GearSwap); owned - combat skills +15, Store TP+4
         ear1 = "Telos Earring",
-        ear2 = "Brutal Earring",
-        body = "Ayanmo Corazza +2",
-        hands = "Aya. Manopolas +2",
+        ear2 = "Crep. Earring",  -- original: "Brutal Earring" (not owned)
+        body = { name="Bunzi's Robe", augments={'Path: A',}},  -- original: "Ayanmo Corazza +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
+        hands = { name="Bunzi's Gloves", augments={'Path: A',}},  -- original: "Aya. Manopolas +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
         ring1 = "Petrov Ring",
         ring2 = "Ilabrat Ring",
         back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- LINKTRI MOD 2026-07-02: was empty (Moonlight Cape wanted)
-        waist = "", --Olseni Belt
-        legs = "Aya. Cosciales +2",
-        feet = "Aya. Gambieras +2"
+        waist = "Null Belt", --Olseni Belt  -- original: "" (blank: Olseni Belt not owned)
+        legs = { name="Bunzi's Pants", augments={'Path: A',}},  -- original: "Aya. Cosciales +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
+        feet = { name="Bunzi's Sabots", augments={'Path: A',}}  -- original: "Aya. Gambieras +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
     }
 
     sets.engaged.DW = {
         ammo = "Crepuscular Pebble",
-        head = "Nyame Helm",
+        head = { name="Bunzi's Hat", augments={'Path: A',}},  -- original: "Nyame Helm" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
         neck = "Null Loop",
         ear1 = "Moonshade Earring",
         ear2 = "Suppanomimi",
-        body = "Nyame Mail",
-        hands = "Nyame Gauntlets",
+        body = { name="Bunzi's Robe", augments={'Path: A',}},  -- original: "Nyame Mail" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
+        hands = { name="Bunzi's Gloves", augments={'Path: A',}},  -- original: "Nyame Gauntlets" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
         ring1 = "Petrov Ring",
         ring2 = "Ilabrat Ring",
         back = "Penetrating Cape",
         waist = "Null Belt",
-        legs = "Nyame Flanchard",
-        feet = "Nyame Sollerets"
+        legs = { name="Bunzi's Pants", augments={'Path: A',}},  -- original: "Nyame Flanchard" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
+        feet = { name="Bunzi's Sabots", augments={'Path: A',}}  -- original: "Nyame Sollerets" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
     }
 
     sets.engaged.DW.Acc = {
-        ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
-        head = "Aya. Zucchetto +2",
+        ammo = "Amar Cluster", --Hasty Pinion +1 needs to be evalated for appropriateness  -- original: "" (blank: slot was never swapped)
+        head = { name="Bunzi's Hat", augments={'Path: A',}},  -- original: "Aya. Zucchetto +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
         neck = "Combatant's Torque", -- LINKTRI: was blank (skipped by GearSwap); owned - combat skills +15, Store TP+4
         ear1 = "Telos Earring",
         ear2 = "Suppanomimi",
-        body = "Ayanmo Corazza +2",
-        hands = "Aya. Manopolas +2",
+        body = { name="Bunzi's Robe", augments={'Path: A',}},  -- original: "Ayanmo Corazza +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
+        hands = { name="Bunzi's Gloves", augments={'Path: A',}},  -- original: "Aya. Manopolas +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
         ring1 = "Petrov Ring",
         ring2 = "Ilabrat Ring",
         back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- LINKTRI MOD 2026-07-02: was empty (Moonlight Cape wanted)
-        waist = "", --Shetal Stone
-        legs = "Aya. Cosciales +2",
-        feet = "Aya. Gambieras +2"
+        waist = "Null Belt", --Shetal Stone  -- original: "" (blank: Shetal Stone not owned)
+        legs = { name="Bunzi's Pants", augments={'Path: A',}},  -- original: "Aya. Cosciales +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
+        feet = { name="Bunzi's Sabots", augments={'Path: A',}}  -- original: "Aya. Gambieras +2" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
     }
 
     -- Buff sets: Gear that needs to be worn to actively enhance a current player buff.
