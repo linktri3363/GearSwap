@@ -1,3 +1,6 @@
+-- LINKTRI 2026-10-19: earrings/rings keep a fixed side across sets where possible (Malignance Earring = left ear).
+-- If one set has item A left / B right and the next wants B left / A right, the game rejects the mirror swap
+-- ("Failed to equip ..."), e.g. FC (Loquac./Malignance) -> Dia II (Malignance/Alabaster) while Loquac. is stored.
 near_porter = false  -- Track if we're near Porter Moogle
 
 -- Skillchain / Magic Burst window tracking
@@ -143,8 +146,8 @@ function init_gear_sets()
         ammo="Impatiens",
         head={ name="Merlinic Hood", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','"Occult Acumen"+5',"CHR+4","Mag. Acc.+14",'"Mag.Atk.Bns."+15',}},
         neck="Voltsurge Torque",
-        ear1="Loquac. Earring",
-        ear2="Malignance Earring",
+        ear1="Malignance Earring",  -- LINKTRI 2026-10-19: Malignance always left ear (see note at top)
+        ear2="Loquac. Earring",
         body={ name="Merlinic Jubbah", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25',"CHR+2","Mag. Acc.+11",'"Mag.Atk.Bns."+9',}},
         hands={ name="Agwu's Gages", augments={'Path: A',}},
         ring1="Kishar Ring",
@@ -162,7 +165,7 @@ function init_gear_sets()
     })
 
     sets.precast.FC['Elemental Magic'] = set_combine(sets.precast.FC, {
-        ear2="Malignance Earring",
+        ear1="Malignance Earring",
         hands="Bagua Mitaines +4"
     })
 
@@ -189,8 +192,8 @@ function init_gear_sets()
         ammo="Impatiens",
         head=empty,
         neck="Voltsurge Torque",
-        ear1="Loquac. Earring",
-        ear2="Malignance Earring",
+        ear1="Malignance Earring",  -- LINKTRI 2026-10-19: Malignance always left ear (see note at top)
+        ear2="Loquac. Earring",
         body = "Twilight Cloak",  -- original: "Twilight Cape" (a cape in the body slot; Impact needs Twilight Cloak)
         hands={ name="Agwu's Gages", augments={'Path: A',}},
         ring1="Kishar Ring",
@@ -251,8 +254,8 @@ function init_gear_sets()
         sub="Clerisy Strap +1",
         head={ name="Merlinic Hood", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','"Occult Acumen"+5',"CHR+4","Mag. Acc.+14",'"Mag.Atk.Bns."+15',}},
         neck="Voltsurge Torque",
-        ear1="Loquac. Earring",
-        ear2="Malignance Earring",
+        ear1="Malignance Earring",  -- LINKTRI 2026-10-19: Malignance always left ear (see note at top)
+        ear2="Loquac. Earring",
         body={ name="Merlinic Jubbah", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25',"CHR+2","Mag. Acc.+11",'"Mag.Atk.Bns."+9',}},
         hands={ name="Agwu's Gages", augments={'Path: A',}},
         ring1="Kishar Ring",
@@ -548,8 +551,8 @@ function init_gear_sets()
         ammo="Pemphredo Tathlum",
         head={ name="Merlinic Hood", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','"Occult Acumen"+5',"CHR+4","Mag. Acc.+14",'"Mag.Atk.Bns."+15',}},
         neck="Voltsurge Torque",
-        ear1="Loquac. Earring",
-        ear2="Malignance Earring",
+        ear1="Malignance Earring",  -- LINKTRI 2026-10-19: Malignance always left ear (see note at top)
+        ear2="Loquac. Earring",
         body={ name="Merlinic Jubbah", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25',"CHR+2","Mag. Acc.+11",'"Mag.Atk.Bns."+9',}},
         hands={ name="Agwu's Gages", augments={'Path: A',}},
         ring1="Stikini Ring",
@@ -693,8 +696,8 @@ function init_gear_sets()
         ammo="Hydrocera",
         head={ name="Telchine Cap", augments={'Mag. Acc.+20','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
         neck="Nodens Gorget",
-        ear1="Andoaa Earring",
-        ear2="Malignance Earring",
+        ear1="Malignance Earring",  -- LINKTRI 2026-10-19: Malignance always left ear (see note at top)
+        ear2="Andoaa Earring",
         body={ name="Telchine Chas.", augments={'Mag. Acc.+24','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
         hands={ name="Telchine Gloves", augments={'Mag. Acc.+23','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
         ring1="Stikini Ring",
@@ -983,8 +986,8 @@ function init_gear_sets()
     
     sets.HPDown = {
         head="Befouled Crown",
-        ear1="Relaxing Earring",
-        ear2="Alabaster Earring",
+        ear1="Alabaster Earring",
+        ear2="Relaxing Earring",
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
         ring1="Stikini Ring",
