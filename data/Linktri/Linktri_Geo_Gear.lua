@@ -167,7 +167,7 @@ function init_gear_sets()
     })
 
     sets.precast.FC.Cure = set_combine(sets.precast.FC, {
-        main=gear.gada_healing_club,
+        main = "Daybreak",  -- Cure potency +30%, MND+30; Raetic Rod +1 swaps in via user_job_post_midcast with Refresh/Ballad; original: gear.gada_healing_club (gear.gada_healing_club: Gada with Cure+9% augments not owned)
         sub="Sors Shield",
         body={ name="Vanya Robe", augments={'MP+50','"Cure" potency +7%','Enmity-6',}},
         hands={ name="Agwu's Gages", augments={'Path: A',}},
@@ -191,7 +191,7 @@ function init_gear_sets()
         neck="Voltsurge Torque",
         ear1="Loquac. Earring",
         ear2="Malignance Earring",
-        body="Twilight Cape",
+        body = "Twilight Cloak",  -- original: "Twilight Cape" (a cape in the body slot; Impact needs Twilight Cloak)
         hands={ name="Agwu's Gages", augments={'Path: A',}},
         ring1="Kishar Ring",
         ring2="Lebeche Ring",
@@ -205,11 +205,11 @@ function init_gear_sets()
     
     -- Weaponskill sets
     sets.precast.WS = {
-        ammo={ name="Coiste Bodhar", augments={'Path: A',}},
+        ammo = "Amar Cluster",  -- original: { name="Coiste Bodhar", augments={'Path: A',}} (Coiste Bodhar is not GEO-equippable)
         head={ name="Nyame Helm", augments={'Path: B',}},
         neck="Light Gorget",
         ear1="Ishvara Earring",
-        ear2={ name="Moonshade Earring", augments={'Accuracy+4','Latent effect: "Regain"+1',}},
+        ear2 = { name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},  -- original: { name="Moonshade Earring", augments={'Accuracy+4','Latent effect: "Regain"+1',}} (augments did not match your Moonshade, so it never equipped)
         body={ name="Nyame Mail", augments={'Path: B',}},
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         ring1="Hetairoi Ring",
@@ -221,11 +221,11 @@ function init_gear_sets()
     }
 
     sets.precast.WS.Physical = {
-        ammo={ name="Coiste Bodhar", augments={'Path: A',}},
+        ammo = "Amar Cluster",  -- original: { name="Coiste Bodhar", augments={'Path: A',}} (Coiste Bodhar is not GEO-equippable)
         head={ name="Nyame Helm", augments={'Path: B',}},
         neck="Light Gorget",
         ear1="Brutal Earring",
-        ear2={ name="Moonshade Earring", augments={'Accuracy+4','Latent effect: "Regain"+1',}},
+        ear2 = { name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},  -- original: { name="Moonshade Earring", augments={'Accuracy+4','Latent effect: "Regain"+1',}} (augments did not match your Moonshade, so it never equipped)
         body={ name="Nyame Mail", augments={'Path: B',}},
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         ring1="Hetairoi Ring",
@@ -299,8 +299,8 @@ function init_gear_sets()
         
     -- CURE SETS
     sets.midcast.Cure = {
-        main=gear.gada_healing_club,
-        sub="Sors Shield",
+        main = "Daybreak",  -- Cure potency +30%, MND+30; Raetic Rod +1 swaps in via user_job_post_midcast with Refresh/Ballad; original: gear.gada_healing_club (gear.gada_healing_club: Gada with Cure+9% augments not owned)
+        sub = "Genmei Shield",  -- DT-10%; Cure potency stays ~57% (cap 50) with Daybreak; original: "Sors Shield" (owned, swapped)
         ammo="Hydrocera",
         head="Azimuth Hood +3",
         neck="Nodens Gorget",
@@ -310,7 +310,7 @@ function init_gear_sets()
         hands={ name="Agwu's Gages", augments={'Path: A',}},
         ring1="Stikini Ring",
         ring2="Lebeche Ring",
-        back="Twilight Cape",
+        back = "Aurist's Cape +1",  -- MND+8; original: "Twilight Cape" (Twilight Cape only helps on matching day/weather)
         waist="Witful Belt",
         legs="Geomancy Pants +4",
         feet={ name="Medium's Sabots", augments={'MP+50','MND+10','"Conserve MP"+7','"Cure" potency +5%',}}
@@ -335,8 +335,8 @@ function init_gear_sets()
     }
         
     sets.midcast.LightDayCure = {
-        main=gear.gada_healing_club,
-        sub="Sors Shield",
+        main = "Daybreak",  -- Cure potency +30%, MND+30; Raetic Rod +1 swaps in via user_job_post_midcast with Refresh/Ballad; original: gear.gada_healing_club (gear.gada_healing_club: Gada with Cure+9% augments not owned)
+        sub = "Genmei Shield",  -- DT-10%; Cure potency stays ~57% (cap 50) with Daybreak; original: "Sors Shield" (owned, swapped)
         ammo="Hydrocera",
         head="Azimuth Hood +3",
         neck="Nodens Gorget",
@@ -352,12 +352,12 @@ function init_gear_sets()
         feet={ name="Medium's Sabots", augments={'MP+50','MND+10','"Conserve MP"+7','"Cure" potency +5%',}}
     }
 
-    sets.midcast.Curaga = set_combine(sets.midcast.Cure, {main="Daybreak",sub="Sors Shield"})
+    sets.midcast.Curaga = set_combine(sets.midcast.Cure, {})  -- original: {main="Daybreak",sub="Sors Shield"} (Cure now uses Daybreak + Genmei Shield)
 
     sets.midcast.Cursna = set_combine(sets.midcast.Cure, {
         neck="Unmoving Collar",
         hands={ name="Agwu's Gages", augments={'Path: A',}},
-        back="Twilight Cape",
+        back = "Aurist's Cape +1",  -- original: "Twilight Cape" (Twilight Cape only helps on matching day/weather)
         ring1="Stikini Ring",
         ring2="Lebeche Ring",
         waist="Witful Belt",
@@ -379,7 +379,7 @@ function init_gear_sets()
     sets.midcast['Elemental Magic'] = {
         main={ name="Bunzi's Rod", augments={'Path: A',}},  -- upgraded from Daybreak per BG-wiki BIS
         sub="Ammurapi Shield",
-        ammo={ name="Coiste Bodhar", augments={'Path: A',}},  -- upgrade to Ghastly Tathlum +1 when acquired
+        ammo = "Pemphredo Tathlum",  -- original: { name="Coiste Bodhar", augments={'Path: A',}} (Coiste Bodhar is not GEO-equippable)
         head={ name="Agwu's Cap", augments={'Path: A',}},
         neck="Baetyl Pendant",  -- MAB+13 beats Sibyl Scarf (INT+10/MAB+10)
         ear1="Malignance Earring",  -- INT+8/MAB+8/MagAcc+10/FC+4% beats Crematio
@@ -387,7 +387,7 @@ function init_gear_sets()
         body="Azimuth Coat +3",  -- upgraded from Agwu's Robe per BG-wiki BIS
         hands={ name="Agwu's Gages", augments={'Path: A',}},
         ring1={ name="Metamor. Ring +1", augments={'Path: A',}},  -- BIS ring1 per BG-wiki
-        ring2="Lebeche Ring",  -- upgrade to Freke Ring when acquired
+        ring2 = "Mallquis Ring",  -- Magic Damage +12, MAcc+6, elemental cast -3%; Lebeche has no nuke stats; original: "Lebeche Ring" (owned, swapped)
         back=gear.nuke_jse_back,
         waist="Eschan Stone",  -- upgrade to Acuity Belt +1 when acquired
         legs="Azimuth Tights +3",  -- upgraded from Agwu's Slops per BG-wiki BIS
@@ -420,7 +420,7 @@ function init_gear_sets()
         neck={ name="Loricate Torque +1", augments={'Path: A',}},
         ear1="Malignance Earring",
         ear2="Loquac. Earring",
-        body={ name="Samnuha Coat", augments={'Mag. Acc.+8','"Mag.Atk.Bns."+11','"Dual Wield"+2',}},
+        body = { name="Merlinic Jubbah", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25',"CHR+2","Mag. Acc.+11",'"Mag.Atk.Bns."+9',}},  -- FC+6; original: { name="Samnuha Coat", augments={'Mag. Acc.+8','"Mag.Atk.Bns."+11','"Dual Wield"+2',}} (Samnuha Coat is not GEO-equippable)
         hands={ name="Agwu's Gages", augments={'Path: A',}},
         ring1="Kishar Ring",
         ring2="Lebeche Ring",
@@ -433,7 +433,7 @@ function init_gear_sets()
     sets.midcast['Elemental Magic'].Fodder = {
         main="Daybreak",
         sub="Ammurapi Shield",
-        ammo={ name="Coiste Bodhar", augments={'Path: A',}},
+        ammo = "Pemphredo Tathlum",  -- original: { name="Coiste Bodhar", augments={'Path: A',}} (Coiste Bodhar is not GEO-equippable)
         head={ name="Merlinic Hood", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','"Occult Acumen"+5',"CHR+4","Mag. Acc.+14",'"Mag.Atk.Bns."+15',}},
         neck="Baetyl Pendant",  -- MAB+13 beats Sibyl Scarf
         ear1="Malignance Earring",
@@ -441,7 +441,7 @@ function init_gear_sets()
         body={ name="Merlinic Jubbah", augments={'Mag. Acc.+25 "Mag.Atk.Bns."+25',"CHR+2","Mag. Acc.+11",'"Mag.Atk.Bns."+9',}},
         hands={ name="Agwu's Gages", augments={'Path: A',}},
         ring1="Stikini Ring",
-        ring2="Lebeche Ring",
+        ring2 = "Mallquis Ring",  -- Magic Damage +12, MAcc+6, elemental cast -3%; Lebeche has no nuke stats; original: "Lebeche Ring" (owned, swapped)
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
         legs={ name="Agwu's Slops", augments={'Path: A',}},
@@ -451,7 +451,7 @@ function init_gear_sets()
     sets.midcast['Elemental Magic'].HighTierNuke = {
         main={ name="Malevolence", augments={'INT+10','Mag. Acc.+10','"Mag.Atk.Bns."+10','"Fast Cast"+5',}},
         sub="Ammurapi Shield",
-        ammo={ name="Coiste Bodhar", augments={'Path: A',}},  -- upgrade to Ghastly Tathlum +1 when acquired
+        ammo = "Pemphredo Tathlum",  -- original: { name="Coiste Bodhar", augments={'Path: A',}} (Coiste Bodhar is not GEO-equippable)
         head={ name="Agwu's Cap", augments={'Path: A',}},
         neck="Baetyl Pendant",
         ear1="Malignance Earring",  -- upgrade to Regal Earring when acquired
@@ -459,7 +459,7 @@ function init_gear_sets()
         body="Azimuth Coat +3",  -- upgraded from Agwu's Robe per BG-wiki BIS
         hands={ name="Agwu's Gages", augments={'Path: A',}},
         ring1={ name="Metamor. Ring +1", augments={'Path: A',}},
-        ring2="Lebeche Ring",  -- upgrade to Freke Ring when acquired
+        ring2 = "Mallquis Ring",  -- Magic Damage +12, MAcc+6, elemental cast -3%; Lebeche has no nuke stats; original: "Lebeche Ring" (owned, swapped)
         back=gear.nuke_jse_back,
         waist="Eschan Stone",  -- upgrade to Acuity Belt +1 when acquired
         legs="Azimuth Tights +3",  -- upgraded from Agwu's Slops per BG-wiki BIS
@@ -477,7 +477,7 @@ function init_gear_sets()
         body="Azimuth Coat +3",
         hands="Azimuth Gloves +3",
         ring1={ name="Metamor. Ring +1", augments={'Path: A',}},
-        ring2="Lebeche Ring",
+        ring2 = "Mallquis Ring",  -- Magic Damage +12, MAcc+6, elemental cast -3%; Lebeche has no nuke stats; original: "Lebeche Ring" (owned, swapped)
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
         legs="Azimuth Tights +3",
@@ -487,7 +487,7 @@ function init_gear_sets()
     sets.midcast['Elemental Magic'].HighTierNuke.Fodder = {
         main={ name="Malevolence", augments={'INT+10','Mag. Acc.+10','"Mag.Atk.Bns."+10','"Fast Cast"+5',}},
         sub="Ammurapi Shield",
-        ammo={ name="Coiste Bodhar", augments={'Path: A',}},  -- upgrade to Ghastly Tathlum +1 when acquired
+        ammo = "Pemphredo Tathlum",  -- original: { name="Coiste Bodhar", augments={'Path: A',}} (Coiste Bodhar is not GEO-equippable)
         head={ name="Merlinic Hood", augments={'Mag. Acc.+24 "Mag.Atk.Bns."+24','"Occult Acumen"+5',"CHR+4","Mag. Acc.+14",'"Mag.Atk.Bns."+15',}},
         neck="Baetyl Pendant",  -- MAB+13 beats Sibyl Scarf
         ear1="Malignance Earring",
@@ -495,7 +495,7 @@ function init_gear_sets()
         body="Azimuth Coat +3",  -- upgraded from Merlinic Jubbah per BG-wiki BIS
         hands={ name="Agwu's Gages", augments={'Path: A',}},
         ring1={ name="Metamor. Ring +1", augments={'Path: A',}},
-        ring2="Lebeche Ring",  -- upgrade to Freke Ring when acquired
+        ring2 = "Mallquis Ring",  -- Magic Damage +12, MAcc+6, elemental cast -3%; Lebeche has no nuke stats; original: "Lebeche Ring" (owned, swapped)
         back=gear.nuke_jse_back,
         waist="Eschan Stone",  -- upgrade to Acuity Belt +1 when acquired
         legs="Azimuth Tights +3",  -- upgraded from Agwu's Slops per BG-wiki BIS
@@ -537,7 +537,7 @@ function init_gear_sets()
         back=gear.nuke_jse_back,
         waist="Fucho-no-Obi",
         legs={ name="Agwu's Slops", augments={'Path: A',}},
-        feet=gear.merlinic_aspir_feet
+        feet = { name="Agwu's Pigaches", augments={'Path: A',}}  -- original: gear.merlinic_aspir_feet (gear.merlinic_aspir_feet: Drain/Aspir Crackows not owned)
     }
     
     sets.midcast.Aspir = sets.midcast.Drain
@@ -586,7 +586,7 @@ function init_gear_sets()
         neck="Baetyl Pendant",
         ear1="Malignance Earring",
         ear2="Azimuth Earring +2",
-        body="Twilight Cape",
+        body = "Twilight Cloak",  -- original: "Twilight Cape" (a cape in the body slot; Impact needs Twilight Cloak)
         hands={ name="Agwu's Gages", augments={'Path: A',}},
         ring1="Stikini Ring",
         ring2={ name="Metamor. Ring +1", augments={'Path: A',}},
@@ -699,7 +699,7 @@ function init_gear_sets()
         hands={ name="Telchine Gloves", augments={'Mag. Acc.+23','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
         ring1="Stikini Ring",
         ring2="Kishar Ring",
-        back="Twilight Cape",
+        back = "Perimede Cape",  -- Enhancing skill +7; original: "Twilight Cape" (Twilight Cape only helps on matching day/weather)
         waist="Embla Sash",
         legs={ name="Telchine Braconi", augments={'Mag. Acc.+15','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
         feet={ name="Telchine Pigaches", augments={'Mag. Acc.+18','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}}
@@ -770,7 +770,7 @@ function init_gear_sets()
     sets.idle = {
         main="Idris",
         sub="Ammurapi Shield",
-        ammo="Homiliary",
+        ammo = "Staunch Tathlum +1",  -- original: "Homiliary" (Homiliary is not GEO-equippable)
         head="Null Masque",
         neck={ name="Loricate Torque +1", augments={'Path: A',}},
         ear1="Alabaster Earring",
@@ -788,7 +788,7 @@ function init_gear_sets()
     sets.idle.PDT = {
         main="Malignance Pole",
         sub="Umbra Strap",
-        ammo="Homiliary",
+        ammo = "Staunch Tathlum +1",  -- original: "Homiliary" (Homiliary is not GEO-equippable)
         head={ name="Nyame Helm", augments={'Path: B',}},
         neck={ name="Loricate Torque +1", augments={'Path: A',}},
         ear1="Alabaster Earring",
@@ -822,9 +822,9 @@ function init_gear_sets()
         body="Adamantite Armor",
         hands="Geo. Mitaines +4",
         ring1={ name="Murky Ring", augments={'Path: A',}},
-        ring2="Ragelise's Ring",
-        back="Moonlight Cape",
-        waist="Plat. Mog. Belt",
+        ring2="Ragelise's Ring",  -- DT-10%, Cure received +10%; falls back to Defending Ring when not on you (user_job_customize_idle_set)
+        back = gear.idle_jse_back,  -- Nantosuelta's: Luopan Regen+15; original: "Moonlight Cape" (not owned)
+        waist = "Isa Belt",  -- DT-3%, Regen+1, Pet Eva+10; original: "Plat. Mog. Belt" (not owned)
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet="Azimuth Gaiters +3"
     }
@@ -842,9 +842,9 @@ function init_gear_sets()
         body="Adamantite Armor",
         hands="Geo. Mitaines +4",
         ring1={ name="Murky Ring", augments={'Path: A',}},
-        ring2="Ragelise's Ring",
-        back="Moonlight Cape",
-        waist="Plat. Mog. Belt",
+        ring2="Ragelise's Ring",  -- DT-10%, Cure received +10%; falls back to Defending Ring when not on you (user_job_customize_idle_set)
+        back = gear.idle_jse_back,  -- Nantosuelta's: Luopan Regen+15; original: "Moonlight Cape" (not owned)
+        waist = "Isa Belt",  -- DT-3%, Regen+1, Pet Eva+10; original: "Plat. Mog. Belt" (not owned)
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet="Azimuth Gaiters +3"
     }
@@ -898,7 +898,7 @@ function init_gear_sets()
     sets.packing = {
         main={ name="Mpaca's Staff", augments={'Path: A',}},
         sub="Umbra Strap",
-        ammo="Homiliary",
+        ammo = "Staunch Tathlum +1",  -- original: "Homiliary" (Homiliary is not GEO-equippable)
         head="Null Masque",
         neck="Sibyl Scarf",
         ear1="Alabaster Earring",
@@ -917,7 +917,7 @@ function init_gear_sets()
     sets.defense.PDT = {
         main="Malignance Pole",
         sub="Umbra Strap",
-        ammo="Homiliary",
+        ammo = "Staunch Tathlum +1",  -- original: "Homiliary" (Homiliary is not GEO-equippable)
         head={ name="Nyame Helm", augments={'Path: B',}},
         neck={ name="Loricate Torque +1", augments={'Path: A',}},
         ear1="Alabaster Earring",
@@ -935,7 +935,7 @@ function init_gear_sets()
     sets.defense.MDT = {
         main="Malignance Pole",
         sub="Umbra Strap",
-        ammo="Homiliary",
+        ammo = "Staunch Tathlum +1",  -- original: "Homiliary" (Homiliary is not GEO-equippable)
         head="Mall. Chapeau +2",
         neck={ name="Loricate Torque +1", augments={'Path: A',}},
         ear1="Alabaster Earring",
@@ -953,7 +953,7 @@ function init_gear_sets()
     sets.defense.MEVA = {
         main="Malignance Pole",
         sub="Enki Strap",
-        ammo="Homiliary",
+        ammo = "Staunch Tathlum +1",  -- original: "Homiliary" (Homiliary is not GEO-equippable)
         head="Mall. Chapeau +2",
         neck="Unmoving Collar",
         ear1="Alabaster Earring",
@@ -979,7 +979,7 @@ function init_gear_sets()
     sets.TPEat = {neck="Unmoving Collar"}
     sets.DayIdle = {}
     sets.NightIdle = {}
-    sets.TreasureHunter = {feet={ name="Merlinic Crackows", augments={'Mag. Acc.+18 "Mag.Atk.Bns."+18','"Treasure Hunter"+2',"Mag. Acc.+6",'"Mag.Atk.Bns."+14',}}}
+    sets.TreasureHunter = {waist="Chaac Belt"}  -- original: TH+2 Merlinic Crackows (not owned); Chaac Belt TH+1
     
     sets.HPDown = {
         head="Befouled Crown",
@@ -1036,7 +1036,7 @@ function init_gear_sets()
     --------------------------------------
     
     -- Gear that converts elemental damage done to recover MP
-    sets.RecoverMP = {body={ name="Samnuha Coat", augments={'Mag. Acc.+8','"Mag.Atk.Bns."+11','"Dual Wield"+2',}}}
+    sets.RecoverMP = {}  -- original: {body=Samnuha Coat} (Samnuha Coat is not GEO-equippable)
     
     -- Magic Burst mode
     -- MB dmg toward 40% cap: Bunzi's Rod(+10) + Agwu's Cap(+7) + Agwu's Robe(+10)
@@ -1046,12 +1046,12 @@ function init_gear_sets()
         main={ name="Bunzi's Rod", augments={'Path: A',}},  -- MB+10 + MAB+35
         sub="Ammurapi Shield",
         head={ name="Agwu's Cap", augments={'Path: A',}},   -- MB+7 + MAB+50
-        neck="Mizu. Kubikazari",
+        neck = "Sibyl Scarf",  -- MB dmg already 41 vs the 40 cap without Mizuchi; Sibyl INT+10 MAB+10 counts; original: "Mizu. Kubikazari" (owned, swapped)
         ear1="Malignance Earring",
         ear2={ name="Azimuth Earring +2", augments={'System: 1 ID: 1676 Val: 0','Mag. Acc.+18','Damage taken-7%','INT+11 MND+11',}},
         body={ name="Agwu's Robe", augments={'Path: A',}},  -- MB+10 + MAB+50
         hands={ name="Agwu's Gages", augments={'Path: A',}},  -- MB+8 + MAB+50
-        ring1="Stikini Ring",
+        ring1 = { name="Metamor. Ring +1", augments={'Path: A',}},  -- keeps INT/MND+6 from the base nuke set; original: "Stikini Ring" (owned, swapped)
         legs="Azimuth Tights +3",  -- MB Dmg II+5 (uncapped, multiplicative)
         feet={ name="Agwu's Pigaches", augments={'Path: A',}}  -- MB+6 + MAB+50
     }
@@ -1074,10 +1074,8 @@ function init_gear_sets()
     
     -- Weapons sets
     sets.weapons.Maxentius = {main='Maxentius',sub='Genmei Shield'}
-    sets.weapons.DualWeapons = {
-        main={ name="Malevolence", augments={'INT+10','Mag. Acc.+10','"Mag.Atk.Bns."+10','"Fast Cast"+5',}},
-        sub={ name="Malevolence", augments={'INT+7','"Mag.Atk.Bns."+5','"Fast Cast"+3',}}
-    }
+    -- original: sets.weapons.DualWeapons = { main={ name="Malevolence", augments={'INT+10','Mag. Acc.+10','"Mag.Atk.Bns."+10','"Fast Cast"+5',}}, sub={ name="Malevolence", augments={'INT+7','"Mag.Atk.Bns."+5','"Fast Cast"+3',}} }  (only one Malevolence owned)
+    sets.weapons.DualWeapons = {main="Idris", sub={ name="Bunzi's Rod", augments={'Path: A',}}}
     sets.weapons.Daybreak = {main='Daybreak',sub='Ammurapi Shield'}
     sets.weapons.Bunzi = {
         main={ name="Bunzi's Rod", augments={'Path: A',}},
@@ -1200,7 +1198,16 @@ end
 --   1. state.AutoMBMode must be manually enabled (defaults to false)
 --   2. Will not fire when PetDT weapon set is active (protects luopan)
 -- Window stays open for full SC_WINDOW_DURATION (8s) to allow multiple bursts.
-function job_post_midcast(spell, action, spellMap, eventArgs)
+-- LINKTRI 2026-10-19: renamed from job_post_midcast. The old name replaced GEO.lua's job_post_midcast, which is
+-- what equips sets.midcast.Geomancy.Indi (Solstice/Bagua Pants duration) and locks Blaze of Glory gear.
+-- Sel runs user_job_post_midcast right after GEO.lua's version, so both now apply.
+function user_job_post_midcast(spell, spellMap, eventArgs)
+    -- Cure main: Daybreak by default; Raetic Rod +1 (Cure potency II +10%, Cure+50, MP cost +30%)
+    -- when Refresh or Ballad is on you. Never touches a locked weapon set.
+    if (spellMap == 'Cure' or spellMap == 'Curaga') and state.Weapons.value == 'None'
+        and (buffactive['Refresh'] or buffactive['Ballad']) and item_available('Raetic Rod +1') then
+        equip({main="Raetic Rod +1"})
+    end
     if spell.skill == 'Elemental Magic'
         and state.AutoMBMode.value
         and is_sc_window_open()
@@ -1213,4 +1220,21 @@ function job_post_midcast(spell, action, spellMap, eventArgs)
             equip(sets.MagicBurst)
         end
     end
+end
+
+-- LINKTRI 2026-10-19: Ragelise's Ring is a choose-one mission ring (TVR 11-2, swappable with Ephramad's).
+-- Pet idle/defense sets name it; if it isn't in your inventory/wardrobes, use Defending Ring (also DT-10%).
+local function ragelise_fallback(set)
+    if set and set.ring2 == "Ragelise's Ring" and not item_available("Ragelise's Ring") then
+        return set_combine(set, {ring2="Defending Ring"})
+    end
+    return set
+end
+
+function user_job_customize_idle_set(idleSet)
+    return ragelise_fallback(idleSet)
+end
+
+function user_job_customize_defense_set(defenseSet)
+    return ragelise_fallback(defenseSet)
 end
