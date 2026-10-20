@@ -742,7 +742,7 @@ sets.idle.Regen = {
 		ammo    = "Homiliary",
 		head    = "Null Masque",
 		body    = "Sakpata's Plate",
-		hands   = "Chev. Gauntlets +3",     -- original: Regal Gloves (PLD can't equip)
+		hands   = "Sakpata's Gauntlets",    -- original: Regal Gloves (PLD can't equip)
 		legs    = "Sakpata's Cuisses",
 		feet    = "Sakpata's Leggings",
 		neck    = { name="Kgt. Beads +2", augments={'Path: A',}},
