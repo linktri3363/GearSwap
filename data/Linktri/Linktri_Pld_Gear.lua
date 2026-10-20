@@ -5,27 +5,37 @@ phalanx_saved_weapons = 'None'
 
 near_porter = false
 
-function get_sets()
-  mote_include_version = 2
-  include('Mote-Include.lua')
-end
+-- LINKTRI (2026-10-20): removed a leftover get_sets()/Mote-Include block. PLD.lua's get_sets() loads Sel-Include,
+-- which loads this file, so the copy here was never used.
+--   original: function get_sets() mote_include_version = 2 include('Mote-Include.lua') end
+
+-- LINKTRI (2026-10-20) PLD audit notes:
+--   * Rare items (one copy per character) are never put in both ear or both ring slots of one set.
+--   * Ears/rings keep a consistent side across sets (Chev. Earring +1 always ear2, Murky Ring always ring2) to avoid
+--     "Failed to equip" mirror swaps.
+--   * Only one Rudianos's Mantle is owned (VIT+20 / Eva.+10 Mag. Eva.+10 / Enmity+10). Every set uses gear.pld_rudianos;
+--     the augment strings for capes not owned are kept in "original:" comments for when they're made.
+--   * Reverence / Caballarius / Chevalier's need no augment strings (plain names match any copy).
+--   * Stored (unpack with PorterPacker): Plat. Mog. Belt, Elite Royal Collar, Rep. Plat. Medal, Naegling,
+--     Rev. Coronet +4, Twilight Helm/Mail. Until unpacked, those slots keep whatever is already worn.
 
 function user_job_setup()
 
-    -- Options: Override default values	
+    -- Options: Override default values
 	state.OffenseMode:options('Normal','Acc')
     state.HybridMode:options('Tank','DDTank','Normal')
     state.WeaponskillMode:options('Match','Normal', 'Acc')
-    state.CastingMode:options('Normal','Phalanx')
+    state.CastingMode:options('Normal','SIRD') -- LINKTRI: original 'Normal','Phalanx' (no SIRD option, so every .SIRD set was unreachable)
 	state.Passive:options('None','AbsorbMP')
     state.PhysicalDefenseMode:options('PDT_HP','PDT','PDT_Reraise')
     state.MagicalDefenseMode:options('MDT_HP','MDT','MDT_Reraise')
 	state.ResistDefenseMode:options('MEVA_HP','MEVA')
 	state.IdleMode:options('Normal','Tank','Kiting','Block','MEVA','Aminon','Regen','elemental','Statresist')
-	state.Weapons:options('None','BurtgangPriwen','SakpataPriwen','NaeglingBlurred','DualWeapons')
-	
+	-- LINKTRI: Caliburnus/Duban sets added at the end so the default and usual cycle order are unchanged
+	state.Weapons:options('None','BurtgangPriwen','SakpataPriwen','NaeglingBlurred','DualWeapons','CaliburnusPriwen','CaliburnusDuban','BurtgangDuban')
+
     state.ExtraDefenseMode = M{['description']='Extra Defense Mode','None','MP','Twilight'}
-	
+
 	-- Additional local binds
 	send_command('bind !` gs c SubJobEnmity')
 	send_command('bind ^backspace input /ja "Shield Bash" <t>')
@@ -40,54 +50,57 @@ function user_job_setup()
 	send_command('bind @` gs c cycle RuneElement')
 	send_command('bind ^pause gs c toggle AutoRuneMode')
 	send_command('bind ^q gs c set IdleMode Kiting')
-	send_command('bind !q gs c set IdleMode PDT')
+	send_command('bind !q gs c set IdleMode Tank') -- LINKTRI: original 'set IdleMode PDT' (no PDT idle mode exists)
 	send_command('bind @f8 gs c toggle AutoTankMode')
 	send_command('bind @f10 gs c toggle TankAutoDefense')
 	send_command('bind ^@!` gs c cycle SkillchainMode')
-	
+
     select_default_macro_book()
     update_defense_mode()
 	send_command('@wait 5;du lockstyle 7') -- LINKTRI MODIFICATION (2026-10-11): via DressUp so blink prevention doesn't swallow it
 end
 
 function init_gear_sets()
-	
+
+	-- LINKTRI: the one Rudianos's Mantle owned (augments must match exactly or GearSwap won't equip it)
+	gear.pld_rudianos = { name="Rudianos's Mantle", augments={'VIT+20','Eva.+10 /Mag. Eva.+10','Enmity+10',}}
+
 	--------------------------------------
 	-- Precast sets
 	--------------------------------------
-	
+
     sets.Enmity = {
-	ammo  = "Paeapua",                  -- Enmity+2, Fast Cast+2%, HP+40
-	head  = "Loess Barbuta",              -- Enmity+19–24%, DT-20%, MDB+5, MEVA+91
-	body  = "Sakpata's Plate",              -- Enmity+9, Cure Potency Rec.+15%
-	hands = "Sakpata's Gauntlets",             -- Enmity+9, Cure Potency Rec.+15%
-	legs  = "Sakpata's Cuisses",           -- Enmity+9, Cure Potency Rec.+15%
-	feet  = "Chev. Sabatons +3",             -- Enmity+12, MEVA+40+
-	neck  = { name="Kgt. Beads +2", augments={'Path: A'}},            -- Enmity+10, MEVA+70, Status Resist+10
-	waist = "Plat. Mog. Belt",               
-	ear1  = "Trux Earring",               -- Enmity+4
-	ear2  = "Cryptic Earring",                  -- Enmity+5
-	ring1 = "Supershear Ring",                   -- Enmity+5
-	ring2 = "Supershear Ring",               -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Eva.+20 /Mag. Eva.+20','Mag. Evasion+15',}},
-	} -- Enmity 106-111 ( cap 100 Burtgang gives extra enmity ( 23 ) as well as DT II -18% )
-		
+	ammo  = "Paeapua",                  -- Enmity+2
+	head  = "Loess Barbuta",            -- Enmity+9~14 (Unity), DT-9%
+	body  = "Chev. Cuirass +3",         -- Enmity+16  -- original: Sakpata's Plate (no Enmity)
+	hands = "Cab. Gauntlets +4",        -- Enmity+9   -- original: Sakpata's Gauntlets (no Enmity)
+	legs  = "Cab. Breeches +4",         -- Enmity+9, PDT-7%  -- original: Sakpata's Cuisses (no Enmity)
+	feet  = "Chev. Sabatons +3",        -- Enmity+15
+	neck  = { name="Kgt. Beads +2", augments={'Path: A'}},  -- Enmity+10 (base)
+	waist = "Plat. Mog. Belt",          -- HP+10%, DT-3% (stored)
+	ear1  = "Trux Earring",             -- Enmity+5
+	ear2  = "Cryptic Earring",          -- Enmity+4
+	ring1 = "Supershear Ring",          -- Enmity+5
+	ring2 = "Pernicious Ring",          -- Enmity+5  -- original: Supershear Ring (Rare, only one owned)
+	back  = gear.pld_rudianos,          -- Enmity+10  -- original: { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Eva.+20 /Mag. Eva.+20','Mag. Evasion+15',}} (not owned)
+	} -- Enmity about +100 before Burtgang
+
     sets.Enmity.DT = {
-	ammo	= "Staunch Tathlum",
-    head	= { name="Sakpata's Helm", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-    body	= "Rev. Surcoat +4",
-    hands	= { name="Sakpata's Gauntlets", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-    legs	= { name="Sakpata's Cuisses", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-    feet	= { name="Sakpata's Leggings", augments={'HP+65','STR+12','Accuracy+13',}},
-    neck 	= { name="Loricate Torque +1", augments={'Path: A'}},
-    waist	= "Plat. Mog. Belt",
+	ammo	= "Staunch Tathlum +1",     -- DT-3%  -- original: Staunch Tathlum (not owned)
+    head	= "Loess Barbuta",          -- DT-9%, Enmity+9~14  -- original: { name="Sakpata's Helm", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}} (augments not owned)
+    body	= "Rev. Surcoat +4",        -- DT-11%, Enmity+10
+    hands	= "Cab. Gauntlets +4",      -- Enmity+9  -- original: { name="Sakpata's Gauntlets", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}} (augments not owned)
+    legs	= "Cab. Breeches +4",       -- PDT-7%, Enmity+9  -- original: { name="Sakpata's Cuisses", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}} (augments not owned)
+    feet	= "Chev. Sabatons +3",      -- Enmity+15  -- original: { name="Sakpata's Leggings", augments={'HP+65','STR+12','Accuracy+13',}} (augments not owned)
+    neck 	= { name="Kgt. Beads +2", augments={'Path: A'}},  -- Enmity+10  -- original: { name="Loricate Torque +1", augments={'Path: A'}}
+    waist	= "Plat. Mog. Belt",        -- DT-3%
     ear1	= "Trux Earring",
     ear2	= "Cryptic Earring",
-    ring1	= "Defending Ring",
-    ring2	= "Defending Ring",
-    back	= { name="Rudianos's Mantle", augments={'VIT+20','Eva.+10 /Mag. Eva.+10','Enmity+10'}},
-}
-		
+    ring1	= "Defending Ring",         -- DT-10%
+    ring2	= { name="Murky Ring", augments={'Path: A'}},  -- DT-10%  -- original: Defending Ring (Rare, only one owned)
+    back	= gear.pld_rudianos,
+} -- about PDT-53% / MDT-46% with Priwen (cap 50%), Enmity about +90
+
     -- Precast sets to enhance JAs
     sets.precast.JA['Invincible'] = set_combine(sets.Enmity,{legs="Cab. Breeches +4"})
     sets.precast.JA['Holy Circle'] = set_combine(sets.Enmity,{feet="Rev. Leggings +4"})
@@ -95,8 +108,8 @@ function init_gear_sets()
     sets.precast.JA['Rampart'] = set_combine(sets.Enmity,{head="Cab. Coronet +4"})
     sets.precast.JA['Fealty'] = set_combine(sets.Enmity,{body="Cab. Surcoat +4"})
     sets.precast.JA['Divine Emblem'] = set_combine(sets.Enmity,{feet="Chev. Sabatons +3"})
-    sets.precast.JA['Cover'] = set_combine(sets.Enmity, {body="Cab. Surcoat +4", head="Rev. Coronet +4"}) 
-	
+    sets.precast.JA['Cover'] = set_combine(sets.Enmity, {body="Cab. Surcoat +4", head="Rev. Coronet +4"})
+
     sets.precast.JA['Invincible'].DT = set_combine(sets.Enmity.DT,{legs="Cab. Breeches +4"})
     sets.precast.JA['Holy Circle'].DT = set_combine(sets.Enmity.DT,{feet="Rev. Leggings +4"})
     sets.precast.JA['Sentinel'].DT = set_combine(sets.Enmity.DT,{feet="Cab. Leggings +4"})
@@ -104,40 +117,40 @@ function init_gear_sets()
     sets.precast.JA['Fealty'].DT = set_combine(sets.Enmity.DT,{body="Cab. Surcoat +4"})
     sets.precast.JA['Divine Emblem'].DT = set_combine(sets.Enmity.DT,{feet="Chev. Sabatons +3"})
     sets.precast.JA['Cover'].DT = set_combine(sets.Enmity.DT, {body="Cab. Surcoat +4", head="Rev. Coronet +4"})
-	
+
     sets.precast.JA['Chivalry'] = {
-	ammo  = "Pemphredo Tathlum",            
-	head  = { name="Sakpata's Helm", augments={'Accuracy+20','Mag. Acc.+12','"Fast Cast"+4'} }, 
-	body  = { name="Nyame Mail", augments={'Path: B'} },         
-	hands = "Cab. Gauntlets +4",            
-	legs  = { name="Nyame Flanchard", augments={'Path: B'} },    
-	feet  = { name="Nyame Sollerets", augments={'Path: B'} },    
-	neck  = "Incanter's Torque",            
-	waist = "Luminary Sash",                
-	ear1  = { name="Nourish. Earring +1", augments={'Path: A',}}, 
+	ammo  = "Pemphredo Tathlum",
+	head  = "Sakpata's Helm",           -- original: { name="Sakpata's Helm", augments={'Accuracy+20','Mag. Acc.+12','"Fast Cast"+4'} } (augments not owned)
+	body  = { name="Nyame Mail", augments={'Path: B'} },
+	hands = "Cab. Gauntlets +4",
+	legs  = { name="Nyame Flanchard", augments={'Path: B'} },
+	feet  = { name="Nyame Sollerets", augments={'Path: B'} },
+	neck  = "Null Loop",                -- original: Incanter's Torque (not owned)
+	waist = "Luminary Sash",
+	ear1  = { name="Nourish. Earring +1", augments={'Path: A',}},
     ear2  = "Chev. Earring +1",
-	ring1 = "Stikini Ring",              
-	ring2 = { name="Metamor. Ring +1", augments={'Path: A'} }, 
-	back  = { name="Rudianos's Mantle", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+4','Enmity+10','Mag. Evasion+15',}},
-	} 
-		
+	ring1 = "Stikini Ring",
+	ring2 = { name="Metamor. Ring +1", augments={'Path: A'} },
+	back  = gear.pld_rudianos,          -- original: { name="Rudianos's Mantle", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+4','Enmity+10','Mag. Evasion+15',}} (not owned)
+	}
+
     sets.precast.JA['Chivalry'].DT = {
-	ammo  = "Staunch Tathlum +1",            
-	head  = { name="Nyame Helm", augments={'Path: B'} },        
-	body  = { name="Nyame Mail", augments={'Path: B'} },         
-	hands = "Cab. Gauntlets +4",             
-	legs  = { name="Nyame Flanchard", augments={'Path: B'} },    
-	feet  = { name="Nyame Sollerets", augments={'Path: B'} },    
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},            
-	waist = "Plat. Mog. Belt",               
-	ear1  = "Etiolation Earring",             
-	ear2  = "Chev. Earring +1",          
-	ring1 = "Defending Ring",                
-	ring2 = "Stikini Ring",              
-	back  = { name="Rudianos's Mantle", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+4','Enmity+10','Mag. Evasion+15',}},
+	ammo  = "Staunch Tathlum +1",
+	head  = { name="Nyame Helm", augments={'Path: B'} },
+	body  = { name="Nyame Mail", augments={'Path: B'} },
+	hands = "Cab. Gauntlets +4",
+	legs  = { name="Nyame Flanchard", augments={'Path: B'} },
+	feet  = { name="Nyame Sollerets", augments={'Path: B'} },
+	neck  = { name="Loricate Torque +1", augments={'Path: A'}},
+	waist = "Plat. Mog. Belt",
+	ear1  = "Etiolation Earring",
+	ear2  = "Chev. Earring +1",
+	ring1 = "Defending Ring",
+	ring2 = "Stikini Ring",
+	back  = gear.pld_rudianos,          -- original: { name="Rudianos's Mantle", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+4','Enmity+10','Mag. Evasion+15',}} (not owned)
 }
 
-			
+
     sets.precast.JA['Provoke'] = set_combine(sets.Enmity, {})
 	sets.precast.JA['Warcry'] = set_combine(sets.Enmity, {})
 	sets.precast.JA['Palisade'] = set_combine(sets.Enmity, {})
@@ -145,7 +158,7 @@ function init_gear_sets()
 	sets.precast.JA['Defender'] = set_combine(sets.Enmity, {})
 	sets.precast.JA['Berserk'] = set_combine(sets.Enmity, {})
 	sets.precast.JA['Aggressor'] = set_combine(sets.Enmity, {})
-	
+
 	sets.precast.JA['Provoke'].DT = set_combine(sets.Enmity.DT, {})
 	sets.precast.JA['Warcry'].DT = set_combine(sets.Enmity.DT, {})
 	sets.precast.JA['Palisade'].DT = set_combine(sets.Enmity.DT, {})
@@ -155,28 +168,30 @@ function init_gear_sets()
 	sets.precast.JA['Aggressor'].DT = set_combine(sets.Enmity.DT, {})
 
     -- Fast cast sets for spells
-    
+
     sets.precast.FC = {
 	ammo	= "Staunch Tathlum +1",
-    head	= { name="Sakpata's Helm", augments={'Accuracy+20','Mag. Acc.+12','"Fast Cast"+4',}},
-    body	= "Rev. Surcoat +4",
-    hands	= { name="Leyline Gloves", augments={'Accuracy+15','Mag. Acc.+15','"Mag.Atk.Bns."+15','"Fast Cast"+3',}},
-    legs	= "Rawhide Trousers",
-    feet	= { name="Founder's Greaves", augments={'Accuracy+30','"Fast Cast"+6','VIT+5',}},
-    neck	= { name="Loricate Torque +1", augments={'Path: A',}},
+    head	= "Chev. Armet +3",         -- FC+9%, DT-11%  -- original: { name="Sakpata's Helm", augments={'Accuracy+20','Mag. Acc.+12','"Fast Cast"+4',}} (augments not owned)
+    body	= "Rev. Surcoat +4",        -- FC+10%, DT-11%
+    hands	= "Chev. Gauntlets +3",     -- DT-11%  -- original: { name="Leyline Gloves", augments={'Accuracy+15','Mag. Acc.+15','"Mag.Atk.Bns."+15','"Fast Cast"+3',}} (not owned)
+    legs	= "Chev. Cuisses +3",       -- DT-13%  -- original: Rawhide Trousers (PLD can't equip)
+    feet	= "Chev. Sabatons +3",      -- FC+13%  -- original: { name="Founder's Greaves", augments={'Accuracy+30','"Fast Cast"+6','VIT+5',}} (augments not owned)
+    neck	= "Voltsurge Torque",       -- FC+4%  -- original: { name="Loricate Torque +1", augments={'Path: A',}}
     waist	= "Plat. Mog. Belt",
-    ear1	= "Loquac. Earring",
+    ear1	= "Etiolation Earring",     -- FC+1%  -- original: Loquac. Earring (not owned)
     ear2	= "Chev. Earring +1",
-    ring1 = "Defending Ring",
+    ring1 = "Kishar Ring",              -- FC+4%  -- original: Defending Ring
     ring2 = { name="Murky Ring", augments={'Path: A'}},
-    back	= { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Spell interruption rate down-10%',}},
+    back	= gear.pld_rudianos,        -- original: { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Spell interruption rate down-10%',}} (not owned)
 
-	}
-	    		
+	} -- FC about 41% (+10% with Sakpata's Sword); DT stays above the 50% cap
+
     sets.precast.FC['Enhancing Magic'] = set_combine(sets.precast.FC, {waist="Siegel Sash"})
-		
+
 	-- Weaponskill sets
     -- Default set for any weaponskill that isn't any more specifically defined
+    -- LINKTRI: Moonshade augments fixed everywhere -- original: { name="Moonshade Earring", augments={'Accuracy+4','TP Bonus +250',}} (yours is Attack+4, so it never equipped)
+    -- LINKTRI: weapon skill backs -> Null Shawl -- original: { name="Rudianos's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%','Damage taken-5%',}} (not owned)
     sets.precast.WS = {
 	ammo	= { name="Coiste Bodhar", augments={'Path: A',}},
     head	= { name="Nyame Helm", augments={'Path: B',}},
@@ -187,12 +202,12 @@ function init_gear_sets()
     neck	= { name="Kgt. Beads +2", augments={'Path: A',}},
     waist	= { name="Sailfi Belt +1", augments={'Path: A',}},
     ear1	= "Ishvara Earring",
-    ear2	= { name="Moonshade Earring", augments={'Accuracy+4','TP Bonus +250',}},
+    ear2	= { name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},
     ring1	= "Ephramad's Ring",
     ring2	= { name="Metamor. Ring +1", augments={'Path: A'}},
-    back	= { name="Rudianos's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%','Damage taken-5%',}},
+    back	= "Null Shawl",
 }
-		
+
     sets.precast.WS.DT = {
 	ammo	= { name="Coiste Bodhar", augments={'Path: A',}},
     head	= { name="Nyame Helm", augments={'Path: B',}},
@@ -203,10 +218,10 @@ function init_gear_sets()
     neck	= { name="Kgt. Beads +2", augments={'Path: A',}},
     waist	= { name="Sailfi Belt +1", augments={'Path: A',}},
     ear1	= "Ishvara Earring",
-    ear2	= { name="Moonshade Earring", augments={'Accuracy+4','TP Bonus +250',}},
+    ear2	= { name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},
     ring1	= "Ephramad's Ring",
     ring2	= { name="Metamor. Ring +1", augments={'Path: A'}},
-    back	= { name="Rudianos's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%','Damage taken-5%',}},
+    back	= "Null Shawl",
 }
 
     sets.precast.WS.Acc = {
@@ -219,17 +234,18 @@ function init_gear_sets()
     neck	= { name="Kgt. Beads +2", augments={'Path: A',}},
     waist	= { name="Sailfi Belt +1", augments={'Path: A',}},
     ear1	= "Ishvara Earring",
-    ear2	= { name="Moonshade Earring", augments={'Accuracy+4','TP Bonus +250',}},
+    ear2	= { name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},
     ring1	= "Ephramad's Ring",
     ring2	= { name="Metamor. Ring +1", augments={'Path: A'}},
-    back	= { name="Rudianos's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%','Damage taken-5%',}},
+    back	= "Null Shawl",
 }
 
     -- Specific weaponskill sets.  Uses the base set if an appropriate WSMod version isn't found.
-    sets.precast.WS['Requiescat'] = set_combine(sets.precast.WS, {neck="Sacro Gorget",ear1="Brutal Earring",ear2="Moonshade Earring"})
+    -- LINKTRI: ear1 Brutal Earring dropped (not owned), so the base set's Ishvara Earring stays
+    sets.precast.WS['Requiescat'] = set_combine(sets.precast.WS, {neck="Sacro Gorget",ear2="Moonshade Earring"}) -- original: ear1="Brutal Earring"
     sets.precast.WS['Requiescat'].Acc = set_combine(sets.precast.WS.Acc, {neck="Sacro Gorget",ear1="Telos Earring",ear2="Moonshade Earring"})
 
-	sets.precast.WS['Chant du Cygne'] = set_combine(sets.precast.WS, {neck="Sacro Gorget",ear1="Brutal Earring",ear2="Moonshade Earring"})
+	sets.precast.WS['Chant du Cygne'] = set_combine(sets.precast.WS, {neck="Sacro Gorget",ear2="Moonshade Earring"}) -- original: ear1="Brutal Earring"
     sets.precast.WS['Chant du Cygne'].Acc = set_combine(sets.precast.WS.Acc, {neck="Sacro Gorget",ear1="Telos Earring",ear2="Moonshade Earring"})
 
 	sets.precast.WS['Savage Blade'] = {
@@ -242,10 +258,10 @@ function init_gear_sets()
     neck="Rep. Plat. Medal",
     waist={ name="Sailfi Belt +1", augments={'Path: A',}},
     ear1 ="Ishvara Earring",
-    ear2 ={ name="Moonshade Earring", augments={'Accuracy+4','TP Bonus +250',}},
+    ear2 ={ name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},
     ring1 ="Ephramad's Ring",
-    ring2 = "", --needs update
-    back={ name="Rudianos's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%','Damage taken-5%',}},
+    ring2 ={ name="Metamor. Ring +1", augments={'Path: A'}}, -- original: "" (needs update)
+    back="Null Shawl",
 }
 
     sets.precast.WS['Savage Blade'].Acc = {
@@ -258,12 +274,12 @@ function init_gear_sets()
     neck="Rep. Plat. Medal",
     waist={ name="Sailfi Belt +1", augments={'Path: A',}},
     ear1="Ishvara Earring",
-    ear2={ name="Moonshade Earring", augments={'Accuracy+4','TP Bonus +250',}},
+    ear2={ name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},
     ring1 ="Ephramad's Ring",
-    ring2 = "", --needs update
-    back={ name="Rudianos's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%','Damage taken-5%',}},
+    ring2 ={ name="Metamor. Ring +1", augments={'Path: A'}}, -- original: "" (needs update)
+    back="Null Shawl",
 }
-	
+
 	sets.precast.WS['Flat Blade'] = {
 		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
         head={ name="Nyame Helm", augments={'Path: B'}},
@@ -274,13 +290,13 @@ function init_gear_sets()
 		ear2="Telos Earring",
 		ring1="Defending Ring",
 		ring2="Stikini Ring",
-        back={ name="Rudianos's Mantle", augments={'VIT+20','Eva.+10 /Mag. Eva.+10','Enmity+10'}},
+        back=gear.pld_rudianos,
 		waist={ name="Sailfi Belt +1", augments={'Path: A'}},
 		legs={ name="Nyame Flanchard", augments={'Path: B'}},
 		feet={ name="Nyame Sollerets", augments={'Path: B'}}
 	}
 
-    sets.precast.WS['Sanguine Blade'] = { 
+    sets.precast.WS['Sanguine Blade'] = {
 	ammo	= { name="Coiste Bodhar", augments={'Path: A',}},
     head	= "Chev. Armet +3",
     body	= "Sakpata's Plate",
@@ -293,25 +309,25 @@ function init_gear_sets()
     ear2	= "Ishvara Earring",
     ring1	= "Stikini Ring",
     ring2	= "Stikini Ring",
-    back	= { name="Rudianos's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%','Damage taken-5%',}},
+    back	= gear.pld_rudianos,        -- original: { name="Rudianos's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%','Damage taken-5%',}} (not owned)
 }
 
     sets.precast.WS['Atonement'] = {
 	ammo	= "Paeapua",
     head	= { name="Loess Barbuta", augments={'Path: A',}},
-    body	= { name="Sakpata's Plate", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-    hands	= { name="Sakpata's Gauntlets", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-    legs	= { name="Sakpata's Cuisses", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
+    body	= "Sakpata's Plate",        -- original: { name="Sakpata's Plate", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}} (augments not owned)
+    hands	= "Sakpata's Gauntlets",    -- original: { name="Sakpata's Gauntlets", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}} (augments not owned)
+    legs	= "Sakpata's Cuisses",      -- original: { name="Sakpata's Cuisses", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}} (augments not owned)
     feet	= "Eschite Greaves",
     neck	= { name="Loricate Torque +1", augments={'Path: A'}},
-    waist	= "Creed Baudrier",
+    waist	= "Isa Belt",               -- original: Creed Baudrier (not owned)
     ear1	= "Trux Earring",
     ear2	= "Cryptic Earring",
     ring1	= "Chirich Ring +1",
     ring2	= "Chirich Ring +1",
-    back	= { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Accuracy+4','Enmity+10','Mag. Evasion+15',}},
-	} 
-	
+    back	= gear.pld_rudianos,        -- original: { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Accuracy+4','Enmity+10','Mag. Evasion+15',}} (not owned)
+	}
+
 	sets.precast.WS['Knights of Round'] = {
 	ammo	= "Coiste Bodhar",
 	head	= "Null Masque",
@@ -322,15 +338,35 @@ function init_gear_sets()
     neck	= "Null Loop",
     waist	= "Null Belt",
     ear1	= "Ishvara Earring",
-    ear2	= "Ishvara Earring",
+    ear2	= "Mache Earring +1",       -- original: Ishvara Earring (Rare, only one owned; Moonshade does nothing here, KoR fTP doesn't scale with TP)
     ring1	= "Ephramad's Ring",
     ring2	= { name="Metamor. Ring +1", augments={'Path: A'}},
-    back	= { name="Rudianos's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Weapon skill damage +10%','Damage taken-5%',}},
+    back	= "Null Shawl",
 	}
-	
+
+	-- LINKTRI (2026-10-20): Imperator (Caliburnus weapon skill, needs Caliburnus Level 119 or higher).
+	-- 70% DEX / 70% MND, physical, damage scales with TP (fTP 3.75 / 7.5 / 11.75), so Moonshade helps.
+	sets.precast.WS['Imperator'] = {
+	ammo	= { name="Coiste Bodhar", augments={'Path: A',}},
+    head	= { name="Nyame Helm", augments={'Path: B',}},
+    body	= { name="Nyame Mail", augments={'Path: B',}},
+    hands	= { name="Nyame Gauntlets", augments={'Path: B',}},
+    legs	= { name="Nyame Flanchard", augments={'Path: B',}},
+    feet	= { name="Nyame Sollerets", augments={'Path: B',}},
+    neck	= "Rep. Plat. Medal",
+    waist	= { name="Sailfi Belt +1", augments={'Path: A',}},
+    ear1	= "Ishvara Earring",
+    ear2	= { name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},
+    ring1	= "Ephramad's Ring",        -- DEX
+    ring2	= { name="Metamor. Ring +1", augments={'Path: A'}}, -- MND
+    back	= "Null Shawl",
+	}
+	sets.precast.WS['Imperator'].Acc = set_combine(sets.precast.WS['Imperator'], {neck="Null Loop",ear1="Telos Earring"})
+
 	-- Swap to these on Moonshade using WS if at 3000 TP
-	sets.MaxTP = {ear1="Cessance Earring",ear2="Brutal Earring",}
-	sets.AccMaxTP = {ear1="Telos Earring",ear2="Telos Earring"}
+	-- LINKTRI: replace only Moonshade (ear2) and keep Ishvara in ear1; Mache Earring +1 is ear2-only, so no mirror swaps
+	sets.MaxTP = {ear2="Mache Earring +1"}                         -- original: {ear1="Cessance Earring",ear2="Brutal Earring"} (not owned)
+	sets.AccMaxTP = {ear1="Telos Earring",ear2="Crep. Earring"}    -- original: {ear1="Telos Earring",ear2="Telos Earring"} (Rare, only one owned)
 
 
 	--------------------------------------
@@ -338,387 +374,107 @@ function init_gear_sets()
 	--------------------------------------
 
     sets.midcast.FastRecast = {
-    ammo="Staunch Tathlum +1",             -- DT-3%, SIRD+11%
-    head="Sakpata's Helm",                -- Fast Cast+14%
-    neck="Loricate Torque +1",             -- DT-6%, HP+60
-    body="Rev. Surcoat +4",                -- Fast Cast+15%, Enmity+10
-    hands="Leyline Gloves",                -- Fast Cast+8%, M.Acc+25
-    feet="Founder's Greaves",               -- Fast Cast+5–7% (augmented), HP+20
-	legs="Rawhide Trousers",                 -- Fast Cast+8%, DT-3%
-	waist="Creed Baudrier",                -- Enmity+5
-	ring1="Defending Ring",            -- DT-7%, Enmity+3
-    ring2={ name="Murky Ring", augments={'Path: A'}},                -- DT-5%, HP+110
-	ear1="Odnowa Earring",                 -- HP+150
-    ear2="Chev. Earring +1",              -- DT-3%, HP+110
-	back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Spell interruption rate down-10%',}},
+    ammo="Staunch Tathlum +1",          -- DT-3%, SIRD 11%
+    head="Chev. Armet +3",              -- FC+9%, DT-11%  -- original: Sakpata's Helm
+    neck={ name="Loricate Torque +1", augments={'Path: A'}},  -- DT-6%
+    body="Rev. Surcoat +4",             -- FC+10%, DT-11%, Enmity+10
+    hands="Chev. Gauntlets +3",         -- DT-11%  -- original: Leyline Gloves (not owned)
+    feet="Chev. Sabatons +3",           -- FC+13%, Enmity+15  -- original: Founder's Greaves (owned copy has no Fast Cast)
+	legs="Chev. Cuisses +3",            -- DT-13%  -- original: Rawhide Trousers (PLD can't equip)
+	waist="Isa Belt",                   -- DT-3%  -- original: Creed Baudrier (not owned)
+	ring1="Defending Ring",             -- DT-10%
+    ring2={ name="Murky Ring", augments={'Path: A'}},  -- DT-10%
+	ear1={ name="Odnowa Earring +1", augments={'Path: A',}},  -- original: Odnowa Earring (yours is the +1)
+    ear2="Chev. Earring +1",            -- DT-5%
+	back=gear.pld_rudianos,             -- original: { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Spell interruption rate down-10%',}} (not owned)
 }
-	
-		
-	sets.midcast.FastRecast.DT = {
-    ammo="Staunch Tathlum +1",             -- DT-3%, SIRD+11%
-    head="Sakpata's Helm",                -- Fast Cast+14%
-    neck="Loricate Torque +1",             -- DT-6%, HP+60
-    body="Rev. Surcoat +4",                -- Fast Cast+15%, Enmity+10
-    hands="Leyline Gloves",                -- Fast Cast+8%, M.Acc+25
-    feet="Founder's Greaves",               -- Fast Cast+5–7% (augmented), HP+20
-	legs="Rawhide Trousers",                 -- Fast Cast+8%, DT-3%
-	waist="Creed Baudrier",                -- Enmity+5
-	ring1="Defending Ring",            -- DT-7%, Enmity+3
-    ring2={ name="Murky Ring", augments={'Path: A'}},                -- DT-5%, HP+110
-	ear1="Odnowa Earring",                 -- HP+150
-    ear2="Chev. Earring +1",              -- DT-3%, HP+110
-	back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Spell interruption rate down-10%',}},
-}
-	
 
-	sets.midcast["Jettatura"] = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3%
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
+	sets.midcast.FastRecast.DT = set_combine(sets.midcast.FastRecast, {}) -- was an exact copy of FastRecast
 
-	sets.midcast["Blank Gaze"] = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3%
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
 
-	sets.midcast["Sheep Song"] = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3%
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
+	-- LINKTRI (2026-10-20): these 17 enmity/SIRD spell sets were identical blocks. They are now built from one base.
+	-- set_combine() gives each spell its OWN copy (no shared table), and every spell keeps its own named set, so Sel
+	-- finds exactly the same sets as before and any spell can still get its own tweak later.
+	-- original per-set items changed: legs Kaykaus Tights +1 (PLD can't equip), ring2 Supershear Ring (Rare, only one
+	-- owned), back { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',}} (not owned)
+	local enmity_sird = {
+	ammo  = "Staunch Tathlum +1",       -- SIRD 11%, DT-3%
+	head  = "Sakpata's Helm",           -- DT-7%, FC+8%
+	body  = "Chev. Cuirass +3",         -- SIRD 20%, Enmity+16
+	hands = "Chev. Gauntlets +3",       -- DT-11%
+	legs  = "Cab. Breeches +4",         -- SIRD 10%, Enmity+9, PDT-7%  -- original: Kaykaus Tights +1
+	feet  = "Chev. Sabatons +3",        -- Enmity+15, FC+13%
+	neck  = { name="Loricate Torque +1", augments={'Path: A'}},  -- DT-6%
+	waist = "Rumination Sash",          -- SIRD 10%
+	ear1  = "Cryptic Earring",          -- Enmity+4
+	ear2  = "Chev. Earring +1",         -- DT-5%
+	ring1 = "Supershear Ring",          -- Enmity+5
+	ring2 = "Pernicious Ring",          -- Enmity+5  -- original: Supershear Ring
+	back  = gear.pld_rudianos,          -- Enmity+10
+	} -- SIRD 51% (+7% with Sacro Bulwark), Enmity about +64 before Burtgang
 
-	sets.midcast["Geist Wall"] = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3% 
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
-
-	sets.midcast["Pollen"] = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3% 
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
-
-	sets.midcast["Healing Breeze"] = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3% 
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
-
-	sets.midcast["Sandspin"] = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3% 
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
-
-	sets.midcast["Wild Carrot"] = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3% 
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
-
-	sets.midcast["Magic Fruit"] = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3% 
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
-
-	sets.midcast["Metallic Body"] = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3% 
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
-	
-	
-    sets.midcast.Flash = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3% 
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
-	
-	sets.midcast.Flash.SIRD = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3%
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
-	
-    sets.midcast.Stun = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3% 
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
-	
-	sets.midcast.Stun.SIRD = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3% 
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
-	
-	sets.midcast['Blue Magic'] = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3% 
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
-	
-	sets.midcast['Blue Magic'].SIRD = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3% 
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
-	
-	sets.midcast.Cocoon = {
-	
-	ammo  = "Staunch Tathlum +1",         -- SIRD+11%, DT-3%
-	head  = "Sakpata's Helm",          -- SIRD+20%, Enmity+9, Cure Potency Rec.+15%
-	body  = "Chev. Cuirass +3",           -- SIRD+20%, Enmity+7, DT-10%
-	hands = "Chev. Gauntlets +3",         -- Enmity+9, HP+88 (geen SIRD)
-	legs  = "Kaykaus Tights +1",             -- SIRD+30% (augmented)
-	feet  = "Chev. Sabatons +3",          -- Enmity+15, Fast Cast+13%, MEVA+136
-	neck  = { name="Loricate Torque +1", augments={'Path: A'}},         -- SIRD+15%, Enmity+15, M.Acc+15, MEVA+15
-	waist = "Rumination Sash",              -- SIRD+10%
-	ear1  = "Cryptic Earring",            -- Enmity+4
-	ear2  = "Chev. Earring +1",           -- SIRD+3% 
-	ring1 = "Supershear Ring",                -- Enmity+5
-	ring2 = "Supershear Ring",            -- Enmity+5
-	back  = { name="Rudianos's Mantle", augments={'HP+60','Enmity+10','Spell interruption rate down -10%',  }},
-	} -- maximum SIRD and Enmity ( 100+ ) with Burtgang/Duban DT- 50+
+	sets.midcast["Jettatura"]      = set_combine(enmity_sird, {})
+	sets.midcast["Blank Gaze"]     = set_combine(enmity_sird, {})
+	sets.midcast["Sheep Song"]     = set_combine(enmity_sird, {})
+	sets.midcast["Geist Wall"]     = set_combine(enmity_sird, {})
+	sets.midcast["Pollen"]         = set_combine(enmity_sird, {})
+	sets.midcast["Healing Breeze"] = set_combine(enmity_sird, {})
+	sets.midcast["Sandspin"]       = set_combine(enmity_sird, {})
+	sets.midcast["Wild Carrot"]    = set_combine(enmity_sird, {})
+	sets.midcast["Magic Fruit"]    = set_combine(enmity_sird, {})
+	sets.midcast["Metallic Body"]  = set_combine(enmity_sird, {})
+	sets.midcast.Flash             = set_combine(enmity_sird, {})
+	sets.midcast.Flash.SIRD        = set_combine(enmity_sird, {})
+	sets.midcast.Stun              = set_combine(enmity_sird, {})
+	sets.midcast.Stun.SIRD         = set_combine(enmity_sird, {})
+	sets.midcast['Blue Magic']     = set_combine(enmity_sird, {})
+	sets.midcast['Blue Magic'].SIRD = set_combine(enmity_sird, {})
+	sets.midcast.Cocoon            = set_combine(enmity_sird, {})
+	-- LINKTRI: Foil (RUN subjob) is Enhancing Magic, so it used to get the Enhancing set; it's an enmity spell
+	sets.midcast.Foil              = set_combine(enmity_sird, {})
 
     sets.midcast.Cure = {
-    ammo="Staunch Tathlum +1",             -- DT-3%, SIRD+11%
-    head="Sakpata's Helm",              -- Cure Potency+10%, Enmity+9
-    body="Chev. Cuirass +3",         -- SIRD+20%, Enmity+10
-    hands="Cab. Gauntlets +4",          -- Cure Potency+11%, Enmity+7
-    legs="Kaykaus Tights +1",                 -- SIRD+30%, MND+
-    feet="Founder's Greaves",               -- SIRD+20% (augmented), HP+
-    neck="Sacro Gorget",                   -- Cure Potency+10%, Enmity+5
-    waist="Rumination Sash",               -- SIRD+10%, MND+4
-    ear1={ name="Nourish. Earring +1", augments={'Path: A'}},                 -- Cure Potency+5%
-    ear2="Sanare Earring",                 -- 
-    ring1="Defending Ring",                -- DT-5%, HP+110
-    ring2={ name="Murky Ring", augments={'Path: A'}},                -- DT-5%, HP+110
-    back={name="Rudianos's Mantle",augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Spell interruption rate down-10%',}}
+    ammo="Staunch Tathlum +1",          -- DT-3%, SIRD 11%
+    head="Sakpata's Helm",              -- Cure potency +5% (R30)
+    body="Chev. Cuirass +3",            -- SIRD 20%, Enmity+16
+    hands="Cab. Gauntlets +4",          -- Enmity+9
+    legs="Cab. Breeches +4",            -- SIRD 10%, Enmity+9  -- original: Kaykaus Tights +1 (PLD can't equip)
+    feet="Founder's Greaves",
+    neck="Sacro Gorget",                -- Cure potency +10%, Enmity+5
+    waist="Rumination Sash",            -- SIRD 10%
+    ear1={ name="Nourish. Earring +1", augments={'Path: A'}},  -- Cure potency +3%
+    ear2="Chev. Earring +1",            -- Cure potency +11%  -- original: Sanare Earring
+    ring1="Defending Ring",             -- DT-10%
+    ring2={ name="Murky Ring", augments={'Path: A'}},  -- DT-10%
+    back=gear.pld_rudianos,             -- original: {name="Rudianos's Mantle",augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Spell interruption rate down-10%',}} (not owned)
 }
-		
-    sets.midcast.Cure.SIRD = {
-    ammo="Staunch Tathlum +1",             -- DT-3%, SIRD+11%
-    head="Sakpata's Helm",              -- Cure Potency+10%, Enmity+9
-    body="Chev. Cuirass +3",         -- SIRD+20%, Enmity+10
-    hands="Cab. Gauntlets +4",          -- Cure Potency+11%, Enmity+7
-    legs="Kaykaus Tights +1",                 -- SIRD+30%, MND+
-    feet="Founder's Greaves",               -- SIRD+20% (augmented), HP+
-    neck="Sacro Gorget",                   -- Cure Potency+10%, Enmity+5
-    waist="Rumination Sash",               -- SIRD+10%, MND+4
-    ear1={ name="Nourish. Earring +1", augments={'Path: A'}},                 -- Cure Potency+5%
-    ear2="Sanare Earring",                 -- 
-    ring1="Defending Ring",                -- DT-5%, HP+110
-    ring2={ name="Murky Ring", augments={'Path: A'}},                -- DT-5%, HP+110
-    back={name="Rudianos's Mantle",augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Spell interruption rate down-10%',}}
-}
-		
+
+    sets.midcast.Cure.SIRD = set_combine(sets.midcast.Cure, {}) -- was an exact copy of Cure
+
     sets.midcast.Cure.DT ={
-    
-    ammo="Staunch Tathlum +1",             -- DT-3%, SIRD+11%
-    head="Sakpata's Helm",              -- Cure Potency+10%, Enmity+9, HP+100
-    body="Sakpata's Plate",               -- SIRD+15%, HP+130
-    hands="Cab. Gauntlets +4",          -- Cure Potency+11%, Enmity+7
-    legs="Kaykaus Tights +1",                 -- SIRD+30%, MND+20
-    feet="Founder's Greaves",               -- SIRD+20%, HP+20
-    neck="Incanter's Torque",              -- Healing Magic Skill+10
-    waist="Rumination Sash",               -- SIRD+10%, MND+4
-    ear1={ name="Nourish. Earring +1", augments={'Path: A'}},                 -- Cure Potency+5%
-    ear2="Sanare Earring",                 -- 
-    ring1="Defending Ring",                -- DT-5%, HP+110, MP+110
-    ring2={ name="Murky Ring", augments={'Path: A'}},                -- DT-5%, HP+110, MP+110
-    back= { name="Rudianos's Mantle", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+4','Enmity+10','Mag. Evasion+15',}},
+    ammo="Staunch Tathlum +1",          -- DT-3%, SIRD 11%
+    head="Sakpata's Helm",              -- DT-7%, Cure potency +5%
+    body="Sakpata's Plate",             -- DT-10%
+    hands="Cab. Gauntlets +4",          -- Enmity+9
+    legs="Cab. Breeches +4",            -- SIRD 10%, PDT-7%  -- original: Kaykaus Tights +1 (PLD can't equip)
+    feet="Founder's Greaves",
+    neck="Sacro Gorget",                -- Cure potency +10%  -- original: Incanter's Torque (not owned)
+    waist="Rumination Sash",            -- SIRD 10%
+    ear1={ name="Nourish. Earring +1", augments={'Path: A'}},  -- Cure potency +3%
+    ear2="Chev. Earring +1",            -- Cure potency +11%, DT-5%  -- original: Sanare Earring
+    ring1="Defending Ring",             -- DT-10%
+    ring2={ name="Murky Ring", augments={'Path: A'}},  -- DT-10%
+    back=gear.pld_rudianos,             -- original: { name="Rudianos's Mantle", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+4','Enmity+10','Mag. Evasion+15',}} (not owned)
 }
-		
+
 	sets.midcast.CureSelf     = set_combine(sets.midcast.Cure, {})
 	sets.midcast.CureSelf.SIRD = set_combine(sets.midcast.Cure.SIRD, {})
 	sets.midcast.CureSelf.DT   = set_combine(sets.midcast.Cure.DT, {})
 
     sets.midcast.Reprisal = {
-	
 	ammo="Staunch Tathlum +1",
     head="Chev. Armet +3",
-    body={ name="Cab. Surcoat +4", augments={'Enhances "Fealty" effect',}},
+    body="Cab. Surcoat +4",
     hands="Chev. Gauntlets +3",
     legs="Chev. Cuisses +3",
     feet="Rev. Leggings +4",
@@ -727,100 +483,73 @@ function init_gear_sets()
     ear1="Cryptic Earring",
     ear2="Chev. Earring +1",
     ring1="Defending Ring",
-    ring2="Defending Ring",
-    back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Spell interruption rate down-10%',}},
+    ring2={ name="Murky Ring", augments={'Path: A'}},  -- original: Defending Ring (Rare, only one owned)
+    back=gear.pld_rudianos,             -- original: { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Spell interruption rate down-10%',}} (not owned)
 }
 
+	-- Self-cures (Sel uses these when you cure yourself). Sakpata's Plate: Cure received +10%.
 	sets.Self_Healing = {
 	ammo="Staunch Tathlum +1",
-    head={ name="Sakpata's Helm", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
+    head="Sakpata's Helm",              -- original: { name="Sakpata's Helm", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}} (augments not owned)
     body="Sakpata's Plate",
-    hands={ name="Sakpata's Gauntlets", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-    legs={ name="Kaykaus Tights +1", augments={'MND+5','Mag. Acc.+2','Breath dmg. taken -2%',}},
-    feet={ name="Founder's Greaves", augments={'Accuracy+30','"Fast Cast"+6','VIT+5',}},
+    hands="Sakpata's Gauntlets",        -- original: { name="Sakpata's Gauntlets", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}} (augments not owned)
+    legs="Cab. Breeches +4",            -- original: { name="Kaykaus Tights +1", augments={'MND+5','Mag. Acc.+2','Breath dmg. taken -2%',}} (PLD can't equip)
+    feet="Sakpata's Leggings",          -- original: { name="Founder's Greaves", augments={'Accuracy+30','"Fast Cast"+6','VIT+5',}} (augments not owned)
     neck={ name="Loricate Torque +1", augments={'Path: A'}},
     waist="Rumination Sash",
     ear1={ name="Nourish. Earring +1", augments={'Path: A',}},
     ear2="Chev. Earring +1",
     ring1="Defending Ring",
     ring2={ name="Murky Ring", augments={'Path: A'}},
-    back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Spell interruption rate down-10%',}},
+    back=gear.pld_rudianos,             -- original: { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Spell interruption rate down-10%',}} (not owned)
 
-}		
-		
-	sets.Self_Healing.SIRD = {
-	ammo="Staunch Tathlum +1",
-    head={ name="Sakpata's Helm", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-    body="Sakpata's Plate",
-    hands={ name="Sakpata's Gauntlets", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-    legs={ name="Kaykaus Tights +1", augments={'MND+5','Mag. Acc.+2','Breath dmg. taken -2%',}},
-    feet={ name="Founder's Greaves", augments={'Accuracy+30','"Fast Cast"+6','VIT+5',}},
-    neck={ name="Loricate Torque +1", augments={'Path: A'}},
-    waist="Rumination Sash",
-    ear1={ name="Nourish. Earring +1", augments={'Path: A',}},
-    ear2="Chev. Earring +1",
-    ring1="Defending Ring",
-    ring2={ name="Murky Ring", augments={'Path: A'}},
-    back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Spell interruption rate down-10%',}},
+}
 
-}		
+	sets.Self_Healing.SIRD = set_combine(sets.Self_Healing, {}) -- was an exact copy of Self_Healing
+
 	sets.Self_Healing.DT = {
-	ammo	= "Staunch Tathlum",
+	ammo	= "Staunch Tathlum +1",     -- original: Staunch Tathlum (not owned)
     head	= "Chev. Armet +3",
-    body	= { name="Sakpata's Plate", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-    hands	= { name="Cab. Gauntlets +4", augments={'Path: A',}},
+    body	= "Sakpata's Plate",        -- original: { name="Sakpata's Plate", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}} (augments not owned)
+    hands	= "Cab. Gauntlets +4",      -- original: { name="Cab. Gauntlets +4", augments={'Path: A',}} (augments not owned)
     legs	= "Chev. Cuisses +3",
-    feet	= { name="Founder's Greaves", augments={'Attack+15','"Cure" potency +4%','Mag. Acc.+6','"Mag.Atk.Bns."+6',}},
+    feet	= "Sakpata's Leggings",     -- original: { name="Founder's Greaves", augments={'Attack+15','"Cure" potency +4%','Mag. Acc.+6','"Mag.Atk.Bns."+6',}} (augments not owned)
     neck	= { name="Loricate Torque +1", augments={'Path: A'}},
     waist	= "Plat. Mog. Belt",
     ear1	= "Nourish. Earring +1",
     ear2	= "Chev. Earring +1",
     ring1 = "Defending Ring",
     ring2 = { name="Murky Ring", augments={'Path: A'}},
-    back	= { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Accuracy+4','Enmity+10','Mag. Evasion+15',}},
+    back	= gear.pld_rudianos,        -- original: { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Accuracy+4','Enmity+10','Mag. Evasion+15',}} (not owned)
 }
-        
-	
+
+
     sets.midcast['Enhancing Magic'] = {
-    
     ammo="Staunch Tathlum +1",
-    head={ name="Sakpata's Helm", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-    body={ name="Telchine Chas.", augments={'Mag. Acc.+24','"Conserve MP"+5','Enh. Mag. eff. dur. +10'}},
-    hands="Regal Gloves",
-    legs={ name="Kaykaus Tights +1", augments={'MND+5','Mag. Acc.+2','Breath dmg. taken -2%',}},
-    feet={ name="Founder's Greaves", augments={'Accuracy+30','"Fast Cast"+6','VIT+5',}},
+    head="Sakpata's Helm",              -- original: { name="Sakpata's Helm", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}} (augments not owned)
+    body="Rev. Surcoat +4",             -- original: { name="Telchine Chas.", augments={'Mag. Acc.+24','"Conserve MP"+5','Enh. Mag. eff. dur. +10'}} (PLD can't equip)
+    hands="Chev. Gauntlets +3",         -- original: Regal Gloves (PLD can't equip)
+    legs="Rev. Breeches +4",            -- Enhancing magic skill +20  -- original: { name="Kaykaus Tights +1", augments={'MND+5','Mag. Acc.+2','Breath dmg. taken -2%',}} (PLD can't equip)
+    feet="Sakpata's Leggings",          -- original: { name="Founder's Greaves", augments={'Accuracy+30','"Fast Cast"+6','VIT+5',}} (augments not owned)
     neck={ name="Loricate Torque +1", augments={'Path: A'}},
     waist="Rumination Sash",
-    ear1 ="Odnowa Earring",
-    ear2 ="Chev. Earring +1",
-    ring1 ="Defending Ring",
-    ring2 ={ name="Murky Ring", augments={'Path: A'}},
-    back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Spell interruption rate down-10%',}},
+    ear1={ name="Odnowa Earring +1", augments={'Path: A',}},  -- original: Odnowa Earring (yours is the +1)
+    ear2="Chev. Earring +1",
+    ring1="Defending Ring",
+    ring2={ name="Murky Ring", augments={'Path: A'}},
+    back=gear.pld_rudianos,             -- original: { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Spell interruption rate down-10%',}} (not owned)
 }
-		
-    sets.midcast['Enhancing Magic'].SIRD = {
-    
-    ammo="Staunch Tathlum +1",
-    head={ name="Sakpata's Helm", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-    body={ name="Telchine Chas.", augments={'Mag. Acc.+24','"Conserve MP"+5','Enh. Mag. eff. dur. +10'}},
-    hands="Regal Gloves",
-    legs={ name="Kaykaus Tights +1", augments={'MND+5','Mag. Acc.+2','Breath dmg. taken -2%',}},
-    feet={ name="Founder's Greaves", augments={'Accuracy+30','"Fast Cast"+6','VIT+5',}},
-    neck={ name="Loricate Torque +1", augments={'Path: A'}},
-    waist="Rumination Sash",
-    ear1 ="Odnowa Earring",
-    ear2 ="Chev. Earring +1",
-    ring1 ="Defending Ring",
-    ring2 ={ name="Murky Ring", augments={'Path: A'}},
-    back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','HP+20','Enmity+10','Spell interruption rate down-10%',}},
-}
+
+    sets.midcast['Enhancing Magic'].SIRD = set_combine(sets.midcast['Enhancing Magic'], {legs="Cab. Breeches +4"}) -- SIRD 10% legs
 
 	sets.midcast.Stoneskin = set_combine(sets.midcast['Enhancing Magic'], {waist="Siegel Sash"})
 
-    sets.midcast.Protect = set_combine(sets.midcast['Enhancing Magic'], {ring2="Defending Ring"})
-    sets.midcast.Shell = set_combine(sets.midcast['Enhancing Magic'], {ring2="Defending Ring"})
-	
+	-- LINKTRI: original added ring2="Defending Ring" on top of ring1 Defending Ring (Rare, only one owned)
+    sets.midcast.Protect = set_combine(sets.midcast['Enhancing Magic'], {})
+    sets.midcast.Shell = set_combine(sets.midcast['Enhancing Magic'], {})
+
 	-- Phalanx casting set (Rhandalthor gear - upgrade as inventory allows)
+	-- Phalanx+: Valorous head/body/hands +4 each, feet +5; Phalanx received: Sakpata's Sword +5, Sakpata's Cuisses +5, Priwen +2
 	sets.midcast.Phalanx = {
     main	= "Sakpata's Sword",
     sub		= "Priwen",
@@ -828,50 +557,26 @@ function init_gear_sets()
     head	= gear.valorous_phalanx_tank_head,
     body	= gear.valorous_phalanx_tank_body,
     hands	= gear.valorous_phalanx_tank_hands,
-    legs	= gear.valorous_phalanx_tank_legs,
+    legs	= "Sakpata's Cuisses",      -- Phalanx received +5, DT-9%  -- original: gear.valorous_phalanx_tank_legs (Phalanx +4)
     feet	= gear.valorous_phalanx_tank_feet,
-    neck	= "Incanter's Torque",
-    waist	= "Olympus Sash",
-    ear1	= "Mimir Earring",
+    neck	= { name="Loricate Torque +1", augments={'Path: A'}},  -- original: Incanter's Torque (not owned)
+    waist	= "Rumination Sash",        -- SIRD 10%  -- original: Olympus Sash (not owned)
+    ear1	= { name="Odnowa Earring +1", augments={'Path: A',}},  -- original: Mimir Earring (not owned)
     ear2	= "Andoaa Earring",
-    ring1	= "Stikini Ring +1",
-    ring2	= "Stikini Ring +1",
-    back	= { name="Weard Mantle", augments={'VIT+2','DEX+4','Enmity+5','Phalanx +5',}},
+    ring1	= "Stikini Ring",           -- original: Stikini Ring +1 (not owned; you have two Stikini Ring)
+    ring2	= "Stikini Ring",           -- original: Stikini Ring +1
+    back	= gear.pld_rudianos,        -- original: { name="Weard Mantle", augments={'VIT+2','DEX+4','Enmity+5','Phalanx +5',}} (not owned)
 	}
 
-	-- Phalanx SIRD variant (max spell interruption resistance)
-	sets.midcast.Phalanx.SIRD = {
-    ammo	= "Staunch Tathlum +1",
-    head	= "Souv. Schaller +1",
-    body	= { name="Odyss. Chestplate", augments={'Mag. Acc.+16','Sklchn.dmg.+1%','Phalanx +4','Accuracy+8 Attack+8','Mag. Acc.+20 "Mag.Atk.Bns."+20',}},
-    hands	= "Souv. Handsch. +1",
-    legs	= "Founder's Hose",
-    feet	= "Souveran Schuhs +1",
-    neck	= "Moonlight Necklace",
-    waist	= "Audumbla Sash",
-    ear1	= "Knightly Earring",
-    ear2	= "Nourish. Earring +1",
-    ring1	= "Evanescence Ring",
-    ring2	= "Moonlight Ring",
-    back	= "Weard Mantle",
-	}
-
-	-- Phalanx DT variant (damage taken reduction while casting)
-	sets.midcast.Phalanx.DT = {
-    ammo	= "Staunch Tathlum +1",
-    head	= "Souv. Schaller +1",
-    body	= "Yorium Cuirass",
-    hands	= "Souv. Handsch. +1",
-    legs	= "Founder's Hose",
-    feet	= "Souveran Schuhs +1",
-    neck	= "Moonlight Necklace",
-    waist	= "Audumbla Sash",
-    ear1	= "Knightly Earring",
-    ear2	= "Nourish. Earring +1",
-    ring1	= "Evanescence Ring",
-    ring2	= "Moonlight Ring",
-    back	= "Weard Mantle",
-	}
+	-- LINKTRI: the SIRD and DT variants were almost entirely gear not owned (Souveran, Odyssean, Founder's Hose,
+	-- Moonlight, Audumbla, Knightly, Evanescence, Weard, Yorium), which dropped the Phalanx gear when used.
+	-- They now match the main Phalanx set.
+	--   original SIRD: head Souv. Schaller +1, body Odyss. Chestplate (Phalanx +4), hands Souv. Handsch. +1, legs Founder's Hose,
+	--     feet Souveran Schuhs +1, neck Moonlight Necklace, waist Audumbla Sash, ear1 Knightly Earring, ear2 Nourish. Earring +1,
+	--     ring1 Evanescence Ring, ring2 Moonlight Ring, back Weard Mantle
+	--   original DT: same, with body Yorium Cuirass
+	sets.midcast.Phalanx.SIRD = set_combine(sets.midcast.Phalanx, {})
+	sets.midcast.Phalanx.DT = set_combine(sets.midcast.Phalanx, {})
 
 	-- PhalanxWithWeapons: used for prephalanx command and self-cast pre-equip
 	sets.midcast.PhalanxWithWeapons = set_combine(sets.midcast.Phalanx, {
@@ -881,8 +586,11 @@ function init_gear_sets()
 	--------------------------------------
 	-- Idle/resting/defense/etc sets
 	--------------------------------------
-    
+
     -- Idle sets
+	-- LINKTRI: every idle/defense back -> gear.pld_rudianos (the augment strings below were for capes not owned)
+	--   original backs: {'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Damage taken-5%'},
+	--   {'HP+60','Eva.+20 /Mag. Eva.+20','Accuracy+4','Enmity+10','Mag. Evasion+15'}, {'VIT+20','Eva.+20 /Mag. Eva.+20','VIT+10','Enmity+10','"Regen"+5'}
   sets.idle = {
   ammo	= "Staunch Tathlum +1",
   head	= "Chev. Armet +3",
@@ -896,58 +604,58 @@ function init_gear_sets()
   ear2	= "Chev. Earring +1",
   ring1 = "Defending Ring",
   ring2 = { name="Murky Ring", augments={'Path: A'}},
-  back	= { name="Rudianos's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Damage taken-5%',}},
+  back	= gear.pld_rudianos,
  }
- 
-  sets.idle.elemental = { 
+
+  sets.idle.elemental = {
   ammo	= "Staunch Tathlum +1",
   head	= "Chev. Armet +3",
   body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
   hands	= "Cab. Gauntlets +4",
   legs	= "Chev. Cuisses +3",
   feet	= "Rev. Leggings +4",
-  neck	= "Warder's Charm +1",
+  neck	= { name="Kgt. Beads +2", augments={'Path: A',}},  -- original: Warder's Charm +1 (not owned)
   waist	= "Carrier's Sash",
   ear1	= "Sanare Earring",
-  ear2	= "", --needs update
+  ear2	= "Chev. Earring +1",           -- original: "" (needs update)
   ring1	= "Defending Ring",
   ring2	= { name="Murky Ring", augments={'Path: A'}},
-  back={ name="Rudianos's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Damage taken-5%',}},
+  back	= gear.pld_rudianos,
 	}
-	
-  sets.idle.Statresist = { 
+
+  sets.idle.Statresist = {
   ammo	= "Staunch Tathlum +1",
   head	= "Chev. Armet +3",
   body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
   hands	= "Cab. Gauntlets +4",
   legs	= "Chev. Cuisses +3",
   feet 	= "Rev. Leggings +4",
-  neck	= "Warder's Charm +1",
+  neck	= { name="Kgt. Beads +2", augments={'Path: A',}},  -- original: Warder's Charm +1 (not owned)
   waist = "Carrier's Sash",
   ear1	= "Sanare Earring",
-  ear2	= "", --needs update
+  ear2	= "Chev. Earring +1",           -- original: "" (needs update)
   ring1	= "Defending Ring",
   ring2	= { name="Murky Ring", augments={'Path: A'}},
-  back	= { name="Rudianos's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Damage taken-5%',}},
+  back	= gear.pld_rudianos,
 	}
-	
-	
+
+
 sets.idle.Regen = {
   ammo	= "Staunch Tathlum +1",
   head	= "Null Masque",
   body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
-  hands	= "Regal Gloves",
+  hands	= "Volte Moufles",              -- Regen+2  -- original: Regal Gloves (PLD can't equip)
   legs	= "Chev. Cuisses +3",
   feet	= "Chev. Sabatons +3",
   neck	= "Elite Royal Collar",
   waist	= "Null Belt",
-  ear1	= "Odnowa Earring",
+  ear1	= { name="Odnowa Earring +1", augments={'Path: A',}},  -- original: Odnowa Earring (yours is the +1)
   ear2	= "Chev. Earring +1",
   ring1	= "Chirich Ring +1",
   ring2	= "Chirich Ring +1",
-  back	= { name="Rudianos's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','VIT+10','Enmity+10','"Regen"+5',}},
+  back	= gear.pld_rudianos,
  }
- 
+
   sets.idle.Aminon = {
   ammo		= "Staunch Tathlum +1",
   head		= "Null Masque",
@@ -955,33 +663,33 @@ sets.idle.Regen = {
   hands		= "Sakpata's Gauntlets",
   legs		= "Sakpata's Cuisses",
   feet		= "Sakpata's Leggings",
-  neck		= "Incanter's Torque",
+  neck		= { name="Kgt. Beads +2", augments={'Path: A',}},  -- original: Incanter's Torque (not owned)
   waist		= "Asklepian Belt",
   ear1		= "Sanare Earring",
   ear2		= "Chev. Earring +1",
   ring1		= "Defending Ring",
   ring2		= { name="Murky Ring", augments={'Path: A'}},
-  back		= { name="Rudianos's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Damage taken-5%',}},
+  back		= gear.pld_rudianos,
 	}
-	
+
    sets.idle.MEVA = {
    ammo		= "Staunch Tathlum +1",
    head		= "Null Masque",
    body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
-   hands	= { name="Cab. Gauntlets +4", augments={'Path: A',}},
+   hands	= "Cab. Gauntlets +4",      -- original: { name="Cab. Gauntlets +4", augments={'Path: A',}} (augments not owned)
    legs		= "Chev. Cuisses +3",
-   feet		= { name="Sakpata's Leggings", augments={'HP+65','STR+12','Accuracy+13',}},
-   neck		= "Warder's Charm +1",
+   feet		= "Sakpata's Leggings",     -- original: { name="Sakpata's Leggings", augments={'HP+65','STR+12','Accuracy+13',}} (augments not owned)
+   neck		= { name="Kgt. Beads +2", augments={'Path: A',}},  -- original: Warder's Charm +1 (not owned)
    waist	= "Plat. Mog. Belt",
    ear1		= "Sanare Earring",
-   ear2		= "", --needs update
+   ear2		= "Chev. Earring +1",       -- original: "" (needs update)
    ring1	= "Defending Ring",
    ring2	= { name="Murky Ring", augments={'Path: A'}},
-   back		= { name="Rudianos's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Damage taken-5%',}},
+   back		= gear.pld_rudianos,
 }
-	
+
     sets.idle.Block = {
-	ammo	= "Staunch Tathlum",
+	ammo	= "Staunch Tathlum +1",     -- original: Staunch Tathlum (not owned)
     head	= "Chev. Armet +3",
     body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
     hands	= "Sulev. Gauntlets +2",
@@ -992,15 +700,15 @@ sets.idle.Regen = {
     ear1	= "Genmei Earring",
     ear2	= "Chev. Earring +1",
     ring1 = "Defending Ring",
-    ring	= "Moonlight Ring",
-    back	= { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Accuracy+4','Enmity+10','Mag. Evasion+15',}},
+    ring2	= { name="Murky Ring", augments={'Path: A'}},  -- original: ring = "Moonlight Ring" (typo'd slot name, and not owned)
+    back	= gear.pld_rudianos,
 }
-		
+
     sets.idle.Tank = {
   ammo	= "Staunch Tathlum +1",
   head	= "Chev. Armet +3",
   body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
-  hands	= "Regal Gloves",
+  hands	= "Chev. Gauntlets +3",         -- original: Regal Gloves (PLD can't equip)
   legs	= "Chev. Cuisses +3",
   feet	= "Chev. Sabatons +3",
   neck	= { name="Kgt. Beads +2", augments={'Path: A',}},
@@ -1009,9 +717,9 @@ sets.idle.Regen = {
   ear2	= "Chev. Earring +1",
   ring1 = "Defending Ring",
   ring2 = { name="Murky Ring", augments={'Path: A'}},
-  back	= { name="Rudianos's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Damage taken-5%',}},
+  back	= gear.pld_rudianos,
  }
-		
+
 	sets.idle.Kiting = {
 	ammo 	= "Homiliary",
     head	= "Chev. Armet +3",
@@ -1025,7 +733,7 @@ sets.idle.Regen = {
     ear2	= "Chev. Earring +1",
     ring1 = "Defending Ring",
     ring2 = { name="Shneddick Ring +1"},
-    back	= { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Accuracy+4','Enmity+10','Mag. Evasion+15',}},
+    back	= gear.pld_rudianos,
 }
 
 	sets.Kiting = {ring1 = { name="Shneddick Ring +1"}}
@@ -1034,20 +742,20 @@ sets.idle.Regen = {
 		ammo    = "Homiliary",
 		head    = "Null Masque",
 		body    = "Sakpata's Plate",
-		hands   = "Regal Gloves",
+		hands   = "Chev. Gauntlets +3",     -- original: Regal Gloves (PLD can't equip)
 		legs    = "Sakpata's Cuisses",
 		feet    = "Sakpata's Leggings",
 		neck    = { name="Kgt. Beads +2", augments={'Path: A',}},
-		waist   = "Fucho-no-obi",
+		waist   = "Fucho-no-Obi",
 		ear1    = "Etiolation Earring",
 		ear2    = "Chev. Earring +1",
 		ring1   = "Defending Ring",
 		ring2   = { name="Murky Ring", augments={'Path: A'}},
-		back    = { name="Rudianos's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Damage taken-5%',}},
+		back    = gear.pld_rudianos,
 	}
 
-	sets.latent_refresh = {waist="Fucho-no-obi"}
-	sets.latent_refresh_grip = {sub="Oneiros Grip"}
+	sets.latent_refresh = {waist="Fucho-no-Obi"}
+	-- sets.latent_refresh_grip = {sub="Oneiros Grip"} -- LINKTRI: not owned, and PLD uses a shield
 	sets.latent_regen = {ring1="Chirich Ring +1",ring2="Chirich Ring +1"}
 	sets.DayIdle = {}
 	sets.NightIdle = {}
@@ -1055,23 +763,31 @@ sets.idle.Regen = {
 	--------------------------------------
     -- Defense sets
     --------------------------------------
-    
+
     -- Extra defense sets.  Apply these on top of melee or defense sets.
 	sets.Knockback = {}
-    sets.MP = {head="Chev. Armet +3",neck="Incanter's Torque",ear2="Etiolation Earring",waist="Flume Belt +1",feet="Rev. Leggings +4"}
-	sets.passive.AbsorbMP = {head="Chev. Armet +3",neck="Incanter's Torque",ear2="Etiolation Earring",waist="Flume Belt +1",feet="Rev. Leggings +4"}
+	-- LINKTRI: Etiolation moved to ear1 (its side everywhere else; ear2 would duplicate it on top of idle sets)
+	--   original: {head="Chev. Armet +3",neck="Incanter's Torque",ear2="Etiolation Earring",waist="Flume Belt +1",feet="Rev. Leggings +4"}
+	--   (Incanter's Torque and Flume Belt +1 not owned)
+    sets.MP = {head="Chev. Armet +3",ear1="Etiolation Earring",feet="Rev. Leggings +4"}
+	sets.passive.AbsorbMP = {head="Chev. Armet +3",ear1="Etiolation Earring",feet="Rev. Leggings +4"}
     sets.MP_Knockback = {}
     sets.Twilight = {head="Twilight Helm", body="Twilight Mail"}
+	sets.Reraise = {head="Twilight Helm", body="Twilight Mail"} -- LINKTRI: used by engaged.Reraise (was undefined)
 	sets.TreasureHunter = set_combine(sets.TreasureHunter, {})
-	
+
 	-- Weapons sets
 	sets.weapons.BurtgangPriwen = {main="Burtgang",sub={ name="Priwen", augments={'HP+50','Mag. Evasion+50','Damage Taken -3%'}}}
 	sets.weapons.SakpataPriwen = {main="Sakpata's Sword",sub={ name="Priwen", augments={'HP+50','Mag. Evasion+50','Damage Taken -3%'}}}
 	sets.weapons.NaeglingBlurred = {main="Naegling",sub="Blurred Shield +1"}
 	sets.weapons.DualWeapons = {main="Naegling",sub={ name="Ternion Dagger +1", augments={'Path: A'}}}
-	
+	-- LINKTRI (2026-10-20): Prime weapons (currently Incomplete: no DT/refresh yet, and both drain 1 HP/MP per tick)
+	sets.weapons.CaliburnusPriwen = {main="Caliburnus",sub={ name="Priwen", augments={'HP+50','Mag. Evasion+50','Damage Taken -3%'}}}
+	sets.weapons.CaliburnusDuban = {main="Caliburnus",sub="Duban"}
+	sets.weapons.BurtgangDuban = {main="Burtgang",sub="Duban"}
+
     sets.defense.Block = {
-	ammo	= "Staunch Tathlum",
+	ammo	= "Staunch Tathlum +1",     -- original: Staunch Tathlum (not owned)
     head	= "Chev. Armet +3",
     body	= "Adamantite Armor",  -- DT-20%, MEVA+107, MDB+20
     hands	= "Sulev. Gauntlets +2",
@@ -1082,8 +798,8 @@ sets.idle.Regen = {
     ear1	= "Genmei Earring",
     ear2	= "Chev. Earring +1",
     ring1 = "Defending Ring",
-    ring	= "Moonlight Ring",
-    back	= { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Accuracy+4','Enmity+10','Mag. Evasion+15',}},
+    ring2	= { name="Murky Ring", augments={'Path: A'}},  -- original: ring = "Moonlight Ring" (typo'd slot name, and not owned)
+    back	= gear.pld_rudianos,
 }
 
 	sets.defense.Aminon = {
@@ -1093,16 +809,16 @@ sets.idle.Regen = {
     hands	= "Sakpata's Gauntlets",
     legs	= "Sakpata's Cuisses",
     feet	= "Sakpata's Leggings",
-    neck	= "Incanter's Torque",
+    neck	= { name="Kgt. Beads +2", augments={'Path: A',}},  -- original: Incanter's Torque (not owned)
     waist	= "Asklepian Belt",
-    ear1  	= "Sanare Earring", 
-	ear2  	= "Chev. Earring +1",  
+    ear1  	= "Sanare Earring",
+	ear2  	= "Chev. Earring +1",
     ring1	= "Defending Ring",
     ring2	= { name="Murky Ring", augments={'Path: A'}},
-    back	= { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Accuracy+4','Enmity+10','Mag. Evasion+15',}},
+    back	= gear.pld_rudianos,
 	}
-	
-		
+
+
 	sets.defense.PDT = {
 	ammo	= "Homiliary",
     head	= "Chev. Armet +3",
@@ -1112,13 +828,13 @@ sets.idle.Regen = {
     feet	= "Sakpata's Leggings",
     neck	= "Elite Royal Collar",
     waist	= "Plat. Mog. Belt",
-    ear1	= "Odnowa Earring",
+    ear1	= { name="Odnowa Earring +1", augments={'Path: A',}},  -- original: Odnowa Earring (yours is the +1)
     ear2	= "Chev. Earring +1",
     ring1 = "Defending Ring",
     ring2 = { name="Murky Ring", augments={'Path: A'}},
-    back	= { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Accuracy+4','Enmity+10','Mag. Evasion+15',}},
+    back	= gear.pld_rudianos,
 }
-		
+
     sets.defense.PDT_HP = {
 	ammo	= "Homiliary",
     head	= "Chev. Armet +3",
@@ -1128,12 +844,12 @@ sets.idle.Regen = {
     feet	= "Sakpata's Leggings",
     neck	= { name="Kgt. Beads +2", augments={'Path: A'}},
     waist	= "Plat. Mog. Belt",
-    ear1	= "Odnowa Earring",
+    ear1	= { name="Odnowa Earring +1", augments={'Path: A',}},  -- original: Odnowa Earring (yours is the +1)
     ear2	= "Chev. Earring +1",
     ring1 = "Defending Ring",
     ring2 = { name="Murky Ring", augments={'Path: A'}},
-    back	= { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Accuracy+4','Enmity+10','Mag. Evasion+15',}},
-}		
+    back	= gear.pld_rudianos,
+}
 
 	sets.defense.MDT = {
 	ammo	= "Homiliary",
@@ -1144,13 +860,13 @@ sets.idle.Regen = {
     feet	= "Sakpata's Leggings",
     neck	= "Elite Royal Collar",
     waist	= "Plat. Mog. Belt",
-    ear1	= "Odnowa Earring",
+    ear1	= { name="Odnowa Earring +1", augments={'Path: A',}},  -- original: Odnowa Earring (yours is the +1)
     ear2	= "Chev. Earring +1",
     ring1 = "Defending Ring",
     ring2 = { name="Murky Ring", augments={'Path: A'}},
-    back	= { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Accuracy+4','Enmity+10','Mag. Evasion+15',}},
-}		
-		
+    back	= gear.pld_rudianos,
+}
+
     sets.defense.MDT_HP = {
 	ammo	= "Homiliary",
     head	= "Chev. Armet +3",
@@ -1160,41 +876,42 @@ sets.idle.Regen = {
     feet	= "Sakpata's Leggings",
     neck	= { name="Kgt. Beads +2", augments={'Path: A'}},
     waist	= "Plat. Mog. Belt",
-    ear1	= "Odnowa Earring",
+    ear1	= { name="Odnowa Earring +1", augments={'Path: A',}},  -- original: Odnowa Earring (yours is the +1)
     ear2	= "Chev. Earring +1",
     ring1 = "Defending Ring",
     ring2 = { name="Murky Ring", augments={'Path: A'}},
-    back	= { name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Accuracy+4','Enmity+10','Mag. Evasion+15',}},
-}		
+    back	= gear.pld_rudianos,
+}
 
 	sets.defense.MEVA = {
-    ammo 	= "Staunch Tathlum +1",               
-    head 	= "Loess Barbuta",                 
+    ammo 	= "Staunch Tathlum +1",
+    head 	= "Loess Barbuta",
     body	= "Adamantite Armor",                   -- DT-20%, MEVA+107, MDB+20
-    hands 	= "Sakpata's Gauntlets",             
-    legs	= "Chev. Cuisses +3",          
-    feet	= "Sakpata's Leggings",              
-    neck	= "Warder's Charm +1",               
-    waist	= "Plat. Mog. Belt",                 
+    hands 	= "Sakpata's Gauntlets",
+    legs	= "Chev. Cuisses +3",
+    feet	= "Sakpata's Leggings",
+    neck	= { name="Kgt. Beads +2", augments={'Path: A',}},  -- original: Warder's Charm +1 (not owned)
+    waist	= "Plat. Mog. Belt",
     ear1	= "Sanare Earring",
-    ear2	= "Chev. Earring +1",           
-    ring1 = "Defending Ring",                  
-    ring2	= "Chirich Ring +1",                  
-    back	= { name="Rudianos's Mantle", augments={'VIT+20','Enmity+10','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Damage taken-5%',}},
+    ear2	= "Chev. Earring +1",
+    ring1 = "Defending Ring",
+    ring2	= "Chirich Ring +1",
+    back	= gear.pld_rudianos,            -- original: { name="Rudianos's Mantle", augments={'VIT+20','Enmity+10','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Damage taken-5%',}} (not owned)
 	}
-		
-    		
-		
+
+
+
     sets.defense.PDT_Reraise = set_combine(sets.defense.PDT_HP,{head="Twilight Helm",body="Twilight Mail"})
     sets.defense.MDT_Reraise = set_combine(sets.defense.MDT_HP,{head="Twilight Helm",body="Twilight Mail"})
-		
+
 	--------------------------------------
 	-- Engaged sets
 	--------------------------------------
-    
+    -- LINKTRI: head -> Sakpata's Helm in every engaged set -- original: Hjarrandi Helm (not owned)
+
 	sets.engaged = {
 	ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-    head="Hjarrandi Helm",
+    head="Sakpata's Helm",
     body="Hjarrandi Breast.",
     hands={ name="Sakpata's Gauntlets", augments={'Path: A'}},
     legs={ name="Nyame Flanchard", augments={'Path: B',}},
@@ -1207,10 +924,10 @@ sets.idle.Regen = {
     ring2 ={ name="Murky Ring", augments={'Path: A'}},
     back="Null Shawl",
 	}
-	
+
     sets.engaged.Acc = {
 	ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-    head="Hjarrandi Helm",
+    head="Sakpata's Helm",
     body="Hjarrandi Breast.",
     hands={ name="Sakpata's Gauntlets", augments={'Path: A'}},
     legs={ name="Nyame Flanchard", augments={'Path: B',}},
@@ -1228,26 +945,30 @@ sets.idle.Regen = {
 
     sets.engaged.DW.Acc = {}
 
+	-- LINKTRI (2026-10-20): real tanking set for the default HybridMode (Tank). It used to be a copy of the damage set.
+	--   DT: Armet 11 + Sakpata's Plate 10 + Gauntlets 8 + Chev. Cuisses 13 + Leggings 6 + Chev. Earring 5 = 53, plus Priwen 6
+	--   Chev. Cuisses: enmity retention when taking damage; Kgt. Beads +2 and Rudianos's Mantle: Enmity
+	--   original: same items as sets.engaged (with Hjarrandi Helm)
 	sets.engaged.Tank = {
 	ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-    head="Hjarrandi Helm",
-    body="Hjarrandi Breast.",
+    head="Chev. Armet +3",
+    body="Sakpata's Plate",
     hands={ name="Sakpata's Gauntlets", augments={'Path: A'}},
-    legs={ name="Nyame Flanchard", augments={'Path: B',}},
-    feet={ name="Nyame Sollerets", augments={'Path: B',}},
-    neck="Null Loop",
+    legs="Chev. Cuisses +3",
+    feet="Sakpata's Leggings",
+    neck={ name="Kgt. Beads +2", augments={'Path: A',}},
     waist={ name="Sailfi Belt +1", augments={'Path: A',}},
     ear1 = "Telos Earring",
-    ear2 = "Dedition Earring",
+    ear2 = "Chev. Earring +1",
     ring1 = "Chirich Ring +1",
-    ring2 = { name="Murky Ring", augments={'Path: A'}},
-    back="Null Shawl",
+    ring2 = "Chirich Ring +1",
+    back=gear.pld_rudianos,
 	}
-	
-		
+
+
 	sets.engaged.DDTank = {
 	ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-    head="Hjarrandi Helm",
+    head="Sakpata's Helm",
     body="Hjarrandi Breast.",
     hands={ name="Sakpata's Gauntlets", augments={'Path: A'}},
     legs={ name="Nyame Flanchard", augments={'Path: B',}},
@@ -1260,10 +981,10 @@ sets.idle.Regen = {
     ring2 = { name="Murky Ring", augments={'Path: A'}},
     back="Null Shawl",
 	}
-		
+
 	sets.engaged.Acc.DDTank = {
 	ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-    head="Hjarrandi Helm",
+    head="Sakpata's Helm",
     body="Hjarrandi Breast.",
     hands={ name="Sakpata's Gauntlets", augments={'Path: A'}},
     legs={ name="Nyame Flanchard", augments={'Path: B',}},
@@ -1276,10 +997,10 @@ sets.idle.Regen = {
     ring2 = { name="Murky Ring", augments={'Path: A'}},
     back="Null Shawl",
 	}
-		
+
 	sets.engaged.NoShellTank = {
 	ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-    head="Hjarrandi Helm",
+    head="Sakpata's Helm",
     body="Hjarrandi Breast.",
     hands={ name="Sakpata's Gauntlets", augments={'Path: A'}},
     legs={ name="Nyame Flanchard", augments={'Path: B',}},
@@ -1292,15 +1013,15 @@ sets.idle.Regen = {
     ring2 = { name="Murky Ring", augments={'Path: A'}},
     back="Null Shawl",
 	}
-		
+
     sets.engaged.Reraise = set_combine(sets.engaged.Tank, sets.Reraise)
-    sets.engaged.Acc.Reraise = set_combine(sets.engaged.Acc.Tank, sets.Reraise)
-		
+    sets.engaged.Acc.Reraise = set_combine(sets.engaged.Acc, sets.Reraise) -- original: set_combine(sets.engaged.Acc.Tank, ...) (Acc.Tank doesn't exist)
+
 	--------------------------------------
 	-- Custom buff sets
 	--------------------------------------
 	sets.buff.Doom = set_combine(sets.buff.Doom, {})
-	sets.buff.Sleep = {neck="Vim Torque +1"}
+	sets.buff.Sleep = {} -- original: {neck="Vim Torque +1"} (not owned)
     sets.buff.Cover = {body="Cab. Surcoat +4"}
 end
 
@@ -1320,10 +1041,12 @@ function select_default_macro_book()
     else
         set_macro_page(1, 7) --War/Etc
     end
-	
+
 end
 
-function job_customize_idle_set(idleSet)
+-- LINKTRI (2026-10-20): renamed from job_customize_idle_set. That name replaced PLD.lua's own version, which adds
+-- Fucho-no-Obi below 51% MP and Chirich rings below 71% HP. user_job_* runs after it instead.
+function user_job_customize_idle_set(idleSet)
     local currently_near_porter = near_porter_moogle()
 
     if currently_near_porter then
@@ -1352,47 +1075,41 @@ function near_porter_moogle()
     return false
 end
 
-function job_precast(spell, action, spellMap, eventArgs)
+-- LINKTRI (2026-10-20): renamed from job_precast(spell, action, spellMap, eventArgs). That name replaced PLD.lua's own
+-- version (Auto Divine Emblem before Flash), and the extra 'action' argument shifted the others.
+-- Removed the Reprisal line that equipped Telchine Chasuble (PLD can't equip; precast uses the fast cast set).
+--   original: elseif spell.english == 'Reprisal' then equip({ body={ name="Telchine Chas.", augments={'Mag. Acc.+24','"Conserve MP"+5','Enh. Mag. eff. dur. +10'}} })
+function user_job_precast(spell, spellMap, eventArgs)
     if spell.english == 'Phalanx' then
         self_cast_phalanx = true
         phalanx_saved_weapons = state.Weapons.value
-    elseif spell.english == 'Phalanx II' then
-        -- Phalanx II is cast by a RDM on you; self_cast_phalanx stays false
-     elseif spell.english == 'Reprisal' then
-        equip({ body={ name="Telchine Chas.", augments={'Mag. Acc.+24','"Conserve MP"+5','Enh. Mag. eff. dur. +10'}} }) 
     end
 end
 
-function job_midcast(spell, action, spellMap, eventArgs)
-    if spell.english == 'Reprisal' then
-        equip(sets.midcast.Reprisal)
-    elseif spell.english:match('Phalanx') then
+-- LINKTRI (2026-10-20): renamed from job_midcast(spell, action, spellMap, eventArgs); with the extra argument eventArgs
+-- was always nil, so 'handled' was never set. Removed the Reprisal line (Sel already picks sets.midcast.Reprisal).
+function user_job_midcast(spell, spellMap, eventArgs)
+    if spell.english:match('Phalanx') then
         enable('main', 'sub')
         equip(sets.midcast.Phalanx)
         if eventArgs then eventArgs.handled = true end
     end
 end
 
-function job_post_midcast(spell, action, spellMap, eventArgs)
-    if spell.english:startswith('Cure') then
-        if spell.target.type == 'SELF' then
-            equip(sets.midcast.CureSelf)
-        else
-            equip(sets.midcast.Cure)
-        end
-    end
-end
+-- LINKTRI (2026-10-20): removed job_post_midcast. It equipped sets.midcast.Cure / CureSelf on every Cure, which
+-- overwrote Sel's choice of Self_Healing (self-cures) and the SIRD variants.
+--   original:
+--   function job_post_midcast(spell, action, spellMap, eventArgs)
+--       if spell.english:startswith('Cure') then
+--           if spell.target.type == 'SELF' then equip(sets.midcast.CureSelf) else equip(sets.midcast.Cure) end
+--       end
+--   end
 
-function job_aftercast(spell, action, spellMap, eventArgs)
+-- LINKTRI (2026-10-20): renamed from job_aftercast (replaced PLD.lua's own). Removed the enable('waist') and the
+-- idle set equip after every spell (Sel equips the right idle/engaged set right after this anyway).
+function user_job_aftercast(spell, spellMap, eventArgs)
     if spell.english == 'Phalanx' then
         self_cast_phalanx = false
-    end
-    if not spell.interrupted then
-        enable('waist')
-        local idleSet = sets.idle and sets.idle[state.IdleMode.current] or sets.idle
-        if idleSet then
-            equip(idleSet)
-        end
     end
 end
 
@@ -1442,8 +1159,8 @@ end)
 
 local danger_list = S{
     'sleep', 'silence', 'paralyze', 'break', 'petrify', 'slow', 'stun', 'bind', 'gravity',
-    'defense down', 'magic evasion down', 'magic def. down', 'magic def down', 'max hp down', 
-    'max mp down', 'attack down', 'accuracy down', 'evasion down', 'bio', 'dia', 'curse', 
+    'defense down', 'magic evasion down', 'magic def. down', 'magic def down', 'max hp down',
+    'max mp down', 'attack down', 'accuracy down', 'evasion down', 'bio', 'dia', 'curse',
     'amnesia', 'doom', 'terror', 'plague', 'blind', 'weight', 'death', 'charm', 'vit down',
     'dex down', 'agi down', 'str down', 'int down', 'mnd down', 'chr down', 'blight'
 }
@@ -1453,7 +1170,7 @@ local stat_triggers = S{'starts casting', 'is preparing', 'readies'}
 
 windower.register_event('incoming text', function(original, modified, mode, mode_modified, blocked)
     if original == nil or original == '' then return end
-    
+
     local str = original:lower()
     local player_name = player.name:lower()
 
@@ -1472,23 +1189,26 @@ windower.register_event('incoming text', function(original, modified, mode, mode
     if str:contains(player_name) then
         local is_action = false
         for trigger in stat_triggers:it() do
-            if str:contains(trigger) then
+            local trigger_pos = str:find(trigger, 1, true)
+            -- LINKTRI (2026-10-20): skip lines where you are the one acting ("Linktri starts casting Slow on ...").
+            -- Your name appearing before the trigger means you're the caster; it used to lock your gear for 3s mid-cast.
+            if trigger_pos and str:find(player_name, 1, true) > trigger_pos then
                 is_action = true
                 break
             end
         end
-        
+
         if is_action then
             for danger in danger_list:it() do
                 if str:contains(danger) then
                     if sets.idle.Statresist then
                         equip(sets.idle.Statresist)
-                        
+
                         -- Lock slots to ensure the hit lands in the correct gear
                         disable('head','body','hands','legs','feet','neck','waist','ear1','ear2','ring1','ring2','back','ammo')
-                        
+
                         add_to_chat(158, '[Statresist] Danger detected: '..danger..' - Locking gear.')
-                        
+
                         -- Release after 3 seconds (standard monster action time)
                         coroutine.schedule(function()
                             enable('head','body','hands','legs','feet','neck','waist','ear1','ear2','ring1','ring2','back','ammo')
