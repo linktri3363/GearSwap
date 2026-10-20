@@ -12,58 +12,14 @@
 -------------------------------------------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------------------------------------------
--- Skillchain Window Tracking for Magic Burst (Auto-Detection System)
+-- Skillchain / Magic Burst window (shared with BLM and GEO): Linktri-MBWindow.lua
+-- LINKTRI (2026-10-20): windows open only for skillchains made by you, your party/alliance (trusts included) or
+-- their pets, and only for the monster that was skillchained.
 -------------------------------------------------------------------------------------------------------------------
-SCWindowOpen = false
-SCWindowTimer = 0
 SC_WINDOW_DURATION = 10  -- Skillchain window lasts ~10 seconds
+include('Linktri-MBWindow.lua')
 
 local near_porter = false  -- Track Porter Moogle proximity state
-
--------------------------------------------------------------------------------------------------------------------
--- Skillchain Detection Functions
--------------------------------------------------------------------------------------------------------------------
--- LINKTRI (2026-10-20): ported from GEO/BLM. Opens the window only on real skillchain messages
--- (add_effect_message IDs, confirmed from Ivaar's Skillchains addon):
---   288-301 standard skillchains, 385-397 higher tier (Radiance, Umbra...), 767-770 additional types.
--- original: opened on ANY add_effect_animation > 0 on categories 3/4/11, so ordinary actions also opened it.
-function check_skillchain(act)
-    if act.category == 3 or act.category == 4 or act.category == 11 then
-        for _, target in ipairs(act.targets) do
-            for _, action in ipairs(target.actions) do
-                local msg = action.add_effect_message
-                if msg and (
-                    (msg >= 288 and msg <= 301) or
-                    (msg >= 385 and msg <= 397) or
-                    (msg >= 767 and msg <= 770)
-                ) then
-                    SCWindowOpen = true
-                    SCWindowTimer = os.clock()
-                    windower.add_to_chat(121, '[GearSwap] SKILLCHAIN DETECTED - MAGIC BURST WINDOW NOW OPEN')
-                end
-            end
-        end
-    end
-end
-
--- Function to check if SC window is still valid
-function is_sc_window_open()
-    if SCWindowOpen then
-        local elapsed = os.clock() - SCWindowTimer
-        if elapsed < SC_WINDOW_DURATION then
-            return true
-        else
-            SCWindowOpen = false
-            return false
-        end
-    end
-    return false
-end
-
--- Register for action packets to detect skillchains (moved here from user_job_setup, same as GEO)
-windower.raw_register_event('action', function(act)
-    check_skillchain(act)
-end)
 
 -------------------------------------------------------------------------------------------------------------------
 -- User Job Setup
@@ -189,7 +145,7 @@ function user_job_post_midcast(spell, spellMap, eventArgs)
         and state.CastingMode.value ~= 'Proc' and state.CastingMode.value ~= 'OccultAcumen'
     if not is_nuke then return end
 
-    if state.AutoMBMode.value and is_sc_window_open() then
+    if state.AutoMBMode.value and is_sc_window_open(spell.target and spell.target.id) then
         local helix = spellMap == 'Helix'
         if state.CastingMode.value == 'Resistant' then
             windower.add_to_chat(121, '[GearSwap] Auto-MB: SC Window Active - Equipping Resistant '..(helix and 'Helix ' or '')..'MB set for: '..spell.english)
@@ -1003,19 +959,14 @@ end
 function user_job_self_command(cmdParams, eventArgs)
     if cmdParams[1] == 'mb' then
         if cmdParams[2] == 'on' then
-            SCWindowOpen = true
-            SCWindowTimer = os.clock()
-            windower.add_to_chat(121, '[GearSwap] MB window manually enabled')
+            mb_window_manual(true)
+            windower.add_to_chat(121, '[GearSwap] MB window manually enabled (any target)')
         elseif cmdParams[2] == 'off' then
-            SCWindowOpen = false
+            mb_window_manual(false)
             windower.add_to_chat(121, '[GearSwap] MB window manually disabled')
         else
             -- Toggle
-            SCWindowOpen = not SCWindowOpen
-            if SCWindowOpen then
-                SCWindowTimer = os.clock()
-            end
-            windower.add_to_chat(121, '[GearSwap] MB window: '..tostring(SCWindowOpen))
+            windower.add_to_chat(121, '[GearSwap] MB window: '..tostring(mb_window_manual()))
         end
         eventArgs.handled = true
     end

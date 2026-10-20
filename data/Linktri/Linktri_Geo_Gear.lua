@@ -3,52 +3,11 @@
 -- ("Failed to equip ..."), e.g. FC (Loquac./Malignance) -> Dia II (Malignance/Alabaster) while Loquac. is stored.
 near_porter = false  -- Track if we're near Porter Moogle
 
--- Skillchain / Magic Burst window tracking
-SCWindowOpen = false
-SCWindowTimer = 0
+-- Skillchain / Magic Burst window (shared with BLM and SCH): Linktri-MBWindow.lua
+-- LINKTRI (2026-10-20): windows open only for skillchains made by you, your party/alliance (trusts included) or
+-- their pets, and only for the monster that was skillchained. Previously any skillchain seen nearby counted.
 SC_WINDOW_DURATION = 8  -- Skillchain window duration in seconds
--- Skillchain detection: listens for WS (cat 3), magic finish (cat 4), monster TP move (cat 11).
--- Opens an 8-second MB window when a skillchain is detected via add_effect_message IDs.
--- Skillchain message IDs confirmed from Ivaar's Skillchains addon:
---   288-301: standard skillchains (Light, Darkness, Gravitation, etc.)
---   385-397: higher-tier skillchains (Radiance, Umbra, etc.)
---   767-770: additional skillchain types
-function check_skillchain(act)
-    if act.category == 3 or act.category == 4 or act.category == 11 then
-        for _, target in ipairs(act.targets) do
-            for _, action in ipairs(target.actions) do
-                local msg = action.add_effect_message
-                if msg and (
-                    (msg >= 288 and msg <= 301) or
-                    (msg >= 385 and msg <= 397) or
-                    (msg >= 767 and msg <= 770)
-                ) then
-                    SCWindowOpen = true
-                    SCWindowTimer = os.clock()
-                    windower.add_to_chat(121, '[GearSwap] Skillchain detected - MB window OPEN')
-                end
-            end
-        end
-    end
-end
-
--- Returns true if currently within the skillchain MB window
-function is_sc_window_open()
-    if SCWindowOpen then
-        local elapsed = os.clock() - SCWindowTimer
-        if elapsed < SC_WINDOW_DURATION then
-            return true
-        else
-            SCWindowOpen = false
-            return false
-        end
-    end
-    return false
-end
-
-windower.raw_register_event('action', function(act)
-    check_skillchain(act)
-end)
+include('Linktri-MBWindow.lua')
 
 function user_job_setup()
     -- Options: Override default values
@@ -1146,11 +1105,10 @@ function user_job_self_command(cmdParams, eventArgs)
         -- Manual MB window control: //gs c mb [on|off|status]
         local sub = cmdParams[2] and cmdParams[2]:lower() or ''
         if sub == 'on' then
-            SCWindowOpen = true
-            SCWindowTimer = os.clock()
-            windower.add_to_chat(121, '[AutoMB] MB window manually opened.')
+            mb_window_manual(true)
+            windower.add_to_chat(121, '[AutoMB] MB window manually opened (any target).')
         elseif sub == 'off' then
-            SCWindowOpen = false
+            mb_window_manual(false)
             windower.add_to_chat(121, '[AutoMB] MB window manually closed.')
         elseif sub == 'status' then
             windower.add_to_chat(121, '[AutoMB] AutoMBMode: '..tostring(state.AutoMBMode.value)..
@@ -1213,7 +1171,7 @@ function user_job_post_midcast(spell, spellMap, eventArgs)
     end
     if spell.skill == 'Elemental Magic'
         and state.AutoMBMode.value
-        and is_sc_window_open()
+        and is_sc_window_open(spell.target and spell.target.id)
         and state.Weapons.value ~= 'PetDT' then
         if state.CastingMode.value == 'Resistant' then
             windower.add_to_chat(121, '[AutoMB] SC window active - equipping ResistantMagicBurst for: '..spell.english)

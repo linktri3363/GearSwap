@@ -1,20 +1,18 @@
 -------------------------------------------------------------------------------------------------------------------
 -- Skillchain & Magic Burst Detection
--- Skillchain: detected via add_effect_message 196 or 288-302 on category 3 (weaponskill) actions
---             NOT add_effect_animation, which fires on any add effect (poison, enspell, etc.)
+-- Skillchain: shared detection in Linktri-MBWindow.lua (skillchain add_effect_message IDs, party/alliance only,
+--             per monster). NOT add_effect_animation, which fires on any add effect (poison, enspell, etc.)
 -- Magic Burst: detected via message IDs 252/265/268-275 on category 4 (spell finish)
 --              restricted to player's own actions via act.actor_id == player.id
 -------------------------------------------------------------------------------------------------------------------
 
--- Skillchain window state
-SCWindowOpen = false
-SCWindowTimer = 0
+-- Skillchain window state + detection are shared with GEO and SCH: Linktri-MBWindow.lua
+-- LINKTRI (2026-10-20): windows open only for skillchains made by you, your party/alliance (trusts included) or
+-- their pets, and only for the monster that was skillchained. Spell skillchains (category 4) and pet abilities
+-- (category 13) now count too. Previously any weapon-skill skillchain seen nearby counted.
+--   original: SC_MESSAGES = S{196, 288-302} on category 3 only, no actor or target check
 SC_WINDOW_DURATION = 8
-
--- Skillchain add_effect_message IDs (Windower wiki Message IDs reference)
--- 196 = generic "Skillchain!" on weaponskill add_effect
--- 288-302 = named skillchains (Light, Darkness, Gravitation, Fragmentation, etc.)
-local SC_MESSAGES = S{196, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302}
+include('Linktri-MBWindow.lua')
 
 -- Magic burst message IDs on spell finish (category 4)
 -- 252 = "Magic Burst! <target> takes damage" (with actor/spell name)
@@ -24,36 +22,14 @@ local SC_MESSAGES = S{196, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298
 -- 274/275 = Magic Burst + HP/MP drained
 local MB_MESSAGES = S{252, 265, 268, 269, 271, 272, 274, 275}
 
-function is_sc_window_open()
-    if SCWindowOpen then
-        if (os.clock() - SCWindowTimer) < SC_WINDOW_DURATION then
-            return true
-        else
-            SCWindowOpen = false
-            return false
-        end
-    end
-    return false
-end
-
+-- Category 4: spell finish - your own confirmed magic burst closes that monster's window (single-burst behavior)
 windower.raw_register_event('action', function(act)
-    -- Category 3: weapon skill finish — check add_effect_message for skillchain IDs
-    if act.category == 3 then
-        for _, target in ipairs(act.targets) do
-            for _, action in ipairs(target.actions) do
-                if action.has_add_effect and SC_MESSAGES:contains(action.add_effect_message) then
-                    SCWindowOpen = true
-                    SCWindowTimer = os.clock()
-                    windower.add_to_chat(121, '[GearSwap] Skillchain - MB window open ('..SC_WINDOW_DURATION..'s)')
-                end
-            end
-        end
-    -- Category 4: spell finish — detect our own magic bursts to close the SC window
-    elseif act.category == 4 and act.actor_id == windower.ffxi.get_player().id then
+    if act.category == 4 and act.actor_id == windower.ffxi.get_player().id then
         for _, target in ipairs(act.targets) do
             for _, action in ipairs(target.actions) do
                 if MB_MESSAGES:contains(action.message) then
                     windower.add_to_chat(121, '[GearSwap] Magic Burst confirmed')
+                    mb_window_close(target.id)
                     SCWindowOpen = false
                 end
             end
@@ -65,16 +41,13 @@ register_unhandled_command(function (...)
     local commands = {...}
     if commands[1] and commands[1]:lower() == 'mb' then
         if commands[2] and commands[2]:lower() == 'on' then
-            SCWindowOpen = true
-            SCWindowTimer = os.clock()
-            windower.add_to_chat(121, '[GearSwap] MB window manually opened')
+            mb_window_manual(true)
+            windower.add_to_chat(121, '[GearSwap] MB window manually opened (any target)')
         elseif commands[2] and commands[2]:lower() == 'off' then
-            SCWindowOpen = false
+            mb_window_manual(false)
             windower.add_to_chat(121, '[GearSwap] MB window manually closed')
         else
-            SCWindowOpen = not SCWindowOpen
-            if SCWindowOpen then SCWindowTimer = os.clock() end
-            windower.add_to_chat(121, '[GearSwap] MB window: '..tostring(SCWindowOpen))
+            windower.add_to_chat(121, '[GearSwap] MB window: '..tostring(mb_window_manual()))
         end
         return true
     end
@@ -1287,7 +1260,7 @@ function job_post_midcast(spell, spellMap, eventArgs)
         end
 
         -- Auto Magic Burst detection (skillchain window open)
-        if spell.skill == 'Elemental Magic' and state.AutoMBMode.value and is_sc_window_open() then
+        if spell.skill == 'Elemental Magic' and state.AutoMBMode.value and is_sc_window_open(spell.target and spell.target.id) then
             if state.CastingMode.value == 'Resistant' then
                 windower.add_to_chat(121, '[GearSwap] MB window open - equipping ResistantMagicBurst for: '..spell.english)
                 equip(sets.ResistantMagicBurst)
