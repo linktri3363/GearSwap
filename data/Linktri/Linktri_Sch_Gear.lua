@@ -767,7 +767,7 @@ function init_gear_sets()
         sub = "Enki Strap",
         ammo = "Homiliary",
         head = "Null Masque",
-        neck = "Sibyl Scarf",
+        neck = "Null Loop",                 -- original: Sibyl Scarf
         ear1 = "Alabaster Earring",         -- original: ear1 Etiolation Earring, ear2 Ethereal Earring (not owned)
         ear2 = "Etiolation Earring",
         body = "Nyame Mail",
