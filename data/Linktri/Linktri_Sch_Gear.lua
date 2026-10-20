@@ -1,25 +1,42 @@
 -------------------------------------------------------------------------------------------------------------------
+-- LINKTRI (2026-10-20) SCH audit notes:
+--   * Gear rebuilt around what you own: Arbatel +3, Pedagogy +3, Academic +4 (Acad. Mortar. +4 is stored), Agwu R15.
+--     Items replaced keep an "original:" comment so they can be restored if acquired.
+--   * Rare items (one copy per character) never sit in both ear or both ring slots of one set.
+--   * Fixed sides to avoid "Failed to equip" mirror swaps:
+--       ear1 = Malignance / Alabaster / Andoaa / Evans / Dedition      ear2 = Etiolation / Arbatel +1 (right ear only) / Meili / Sanare / Magnetic / Telos
+--       ring1 = Murky / Kishar / Menelaus / Vengeful / Chirich        ring2 = Metamor. +1 / Defending / Lebeche / Mephitas / Petrov / Shneddick
+--     (Stikini Ring: two owned, either side.)
+--   * Stored (unpack with PorterPacker): Acad. Mortar. +4, Twilight Cloak, Twilight Cape, Maxentius.
+--   * Shedir Seraweels (Stoneskin/Aquaveil/bar-spells) is listed in those sets; it starts working once bought.
+-------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------
 -- Skillchain Window Tracking for Magic Burst (Auto-Detection System)
 -------------------------------------------------------------------------------------------------------------------
 SCWindowOpen = false
 SCWindowTimer = 0
 SC_WINDOW_DURATION = 10  -- Skillchain window lasts ~10 seconds
 
--------------------------------------------------------------------------------------------------------------------
--- Position Fix for Casting Interruptions
--------------------------------------------------------------------------------------------------------------------
 local near_porter = false  -- Track Porter Moogle proximity state
+
 -------------------------------------------------------------------------------------------------------------------
 -- Skillchain Detection Functions
 -------------------------------------------------------------------------------------------------------------------
--- Function to check incoming actions for skillchain resonance
+-- LINKTRI (2026-10-20): ported from GEO/BLM. Opens the window only on real skillchain messages
+-- (add_effect_message IDs, confirmed from Ivaar's Skillchains addon):
+--   288-301 standard skillchains, 385-397 higher tier (Radiance, Umbra...), 767-770 additional types.
+-- original: opened on ANY add_effect_animation > 0 on categories 3/4/11, so ordinary actions also opened it.
 function check_skillchain(act)
-    -- Category 3 = Weaponskill, Category 4 = Magic finish, Category 11 = Monster TP move
     if act.category == 3 or act.category == 4 or act.category == 11 then
         for _, target in ipairs(act.targets) do
             for _, action in ipairs(target.actions) do
-                if action.has_add_effect and action.add_effect_animation and action.add_effect_animation > 0 then
-                    -- Skillchain detected! Open the window
+                local msg = action.add_effect_message
+                if msg and (
+                    (msg >= 288 and msg <= 301) or
+                    (msg >= 385 and msg <= 397) or
+                    (msg >= 767 and msg <= 770)
+                ) then
                     SCWindowOpen = true
                     SCWindowTimer = os.clock()
                     windower.add_to_chat(121, '[GearSwap] SKILLCHAIN DETECTED - MAGIC BURST WINDOW NOW OPEN')
@@ -43,6 +60,11 @@ function is_sc_window_open()
     return false
 end
 
+-- Register for action packets to detect skillchains (moved here from user_job_setup, same as GEO)
+windower.raw_register_event('action', function(act)
+    check_skillchain(act)
+end)
+
 -------------------------------------------------------------------------------------------------------------------
 -- User Job Setup
 -------------------------------------------------------------------------------------------------------------------
@@ -52,7 +74,7 @@ function user_job_setup()
     state.CastingMode:options("Normal", "Resistant", "Proc", "OccultAcumen", "9k")
     state.IdleMode:options("Normal", "PDT")
     state.HybridMode:options("Normal", "PDT")
-    state.Weapons:options("None", "Akademos", "Khatvanga")
+    state.Weapons:options("None", "Akademos") -- LINKTRI: original "None", "Akademos", "Khatvanga" (Khatvanga not owned yet)
 
     -- Auto Magic Burst Mode toggle (enabled by default)
     state.AutoMBMode = M(true, 'Auto MB Mode')
@@ -63,7 +85,8 @@ function user_job_setup()
     send_command("bind ^` gs c cycle ElementalMode")
     send_command("bind !` gs c scholar power")
     send_command("bind @` gs c cycle MagicBurstMode")
-    send_command("bind ^q gs c weapons Khatvanga;gs c set CastingMode OccultAcumen")
+    -- send_command("bind ^q gs c weapons Khatvanga;gs c set CastingMode OccultAcumen") -- LINKTRI: re-enable when Khatvanga is owned
+    send_command("bind ^q gs c set CastingMode OccultAcumen") -- LINKTRI: Occult Acumen without the Khatvanga weapon swap
     send_command("bind !q gs c weapons default;gs c reset CastingMode")
     send_command("bind @f10 gs c cycle RecoverMode")
     send_command("bind @f8 gs c toggle AutoNukeMode")
@@ -80,43 +103,112 @@ function user_job_setup()
     -- Auto MB Mode toggle keybind
     send_command('bind @f7 gs c toggle AutoMBMode')
 
-    -- Register for action packets to detect skillchains
-    windower.raw_register_event('action', function(act)
-        check_skillchain(act)
-    end)
-
     select_default_macro_book()
 end
 
 -------------------------------------------------------------------------------------------------------------------
--- User Job Post Midcast - Handle Automatic Magic Burst Detection
+-- Nuke waist selection (ported from BLM)
 -------------------------------------------------------------------------------------------------------------------
-function user_job_post_midcast(spell, action, spellMap, eventArgs)
-    -- Check for automatic MB when AutoMBMode is enabled
-    -- Exclude ElementalEnfeeble spells (Burn, Choke, Shock, Drown, Frost, Rasp) from MB logic
-    if spell.skill == 'Elemental Magic' and spellMap ~= 'ElementalEnfeeble' and state.AutoMBMode.value and is_sc_window_open() then
-        -- Check current casting mode for Resistant vs Normal MB set
-        if state.CastingMode.value == 'Resistant' then
-            -- Check if it's a Helix spell for specialized burst set
-            if spell.english:startswith('Helix') then
-                windower.add_to_chat(121, '[GearSwap] Auto-MB: SC Window Active - Equipping Resistant Helix Burst set for: '..spell.english)
-                equip(sets.ResistantHelixBurst)
-            else
-                windower.add_to_chat(121, '[GearSwap] Auto-MB: SC Window Active - Equipping Resistant MB set for: '..spell.english)
-                equip(sets.ResistantMagicBurst)
+-- Orpheus's Sash affinity: +15 at <=1.93 yalms, tapering to +1 at >=13 yalms.
+-- Hachirin-no-Obi: +10 day match, +10 single weather, +25 double weather (stack with day).
+local ORPHEUS_MIN_DIST = 1.93   -- distance at which Orpheus gives its max +15
+local ORPHEUS_MAX_DIST = 13.0   -- distance beyond which Orpheus gives only +1
+local ORPHEUS_MIN_WORTH = 2     -- below this affinity, the set's neutral waist (Sacro Cord / Null Belt) wins
+
+local function nuke_waist_bonus(spell, spellMap)
+    local el = spell.element
+    if not el or el == 'None' then return nil end
+
+    -- Hachirin side: day + weather bonuses.
+    -- Per BG-Wiki (Magic Damage): Helix spells get day/weather at 100% with NO equipment, so the obi adds
+    -- nothing on a Helix - skip straight to Orpheus/neutral.
+    local obi = 0
+    if spellMap ~= 'Helix' then
+        if world.day_element == el then obi = obi + 10 end
+        if world.weather_element == el then
+            local intensity = 1
+            if world.weather_id and gearswap and gearswap.res and gearswap.res.weather
+                    and gearswap.res.weather[world.weather_id] then
+                intensity = gearswap.res.weather[world.weather_id].intensity or 1
             end
-        else
-            -- Check if it's a Helix spell for specialized burst set
-            if spell.english:startswith('Helix') then
-                windower.add_to_chat(121, '[GearSwap] Auto-MB: SC Window Active - Equipping Helix Burst set for: '..spell.english)
-                equip(sets.HelixBurst)
-            else
-                windower.add_to_chat(121, '[GearSwap] Auto-MB: SC Window Active - Equipping MB set for: '..spell.english)
-                equip(sets.MagicBurst)
-            end
+            obi = obi + (intensity == 2 and 25 or 10)
         end
-        -- Close the window after use (single burst behavior)
-        SCWindowOpen = false
+    end
+
+    -- Orpheus side: distance-scaled affinity
+    local dist = (spell.target and spell.target.distance) or 21
+    local aff
+    if dist <= ORPHEUS_MIN_DIST then
+        aff = 15
+    elseif dist >= ORPHEUS_MAX_DIST then
+        aff = 1
+    else
+        aff = math.floor(15 - ((dist - ORPHEUS_MIN_DIST) * (14 / (ORPHEUS_MAX_DIST - ORPHEUS_MIN_DIST))))
+    end
+
+    -- Day/weather still proc naturally ~33% of the time WITHOUT the obi, so wearing Orpheus only gives up
+    -- ~2/3 of the obi's bonus.
+    if (obi * 0.67) >= aff and obi > 0 then
+        return "Hachirin-no-Obi"
+    elseif aff >= ORPHEUS_MIN_WORTH then
+        return "Orpheus's Sash"
+    end
+    return nil
+end
+
+-- Re-apply the grimoire buff gear SCH.lua equips (it runs before this file's post-midcast, so an MB set would erase it)
+local function reapply_sch_buff_gear(spell)
+    if state.Buff.Klimaform and spell.element == world.weather_element and sets.buff['Klimaform'] then
+        equip(sets.buff['Klimaform'])
+    end
+    if state.Buff.Ebullience and sets.buff['Ebullience'] then
+        equip(sets.buff['Ebullience'])
+    end
+    if state.Buff.Immanence and sets.buff['Immanence'] then
+        equip(sets.buff['Immanence'])
+    end
+end
+
+-------------------------------------------------------------------------------------------------------------------
+-- User Job Post Midcast - Raetic cures, Automatic Magic Burst, nuke waist
+-------------------------------------------------------------------------------------------------------------------
+-- LINKTRI (2026-10-20): original signature was (spell, action, spellMap, eventArgs). Sel passes (spell, spellMap,
+-- eventArgs), so 'spellMap' was really the eventArgs table and the ElementalEnfeeble exclusion never worked
+-- (Burn/Choke/Shock... got the burst set).
+-- The window now stays open for its full duration so a Helix + nuke can both burst on one skillchain.
+--   original: SCWindowOpen = false after the first burst
+function user_job_post_midcast(spell, spellMap, eventArgs)
+    -- Cure main: Daybreak by default; Raetic Rod +1 (Cure potency II +10%, Cure+50, MP cost +30%) when Refresh or
+    -- Ballad is on you. Never touches a locked weapon set. (same rule as GEO)
+    if (spellMap == 'Cure' or spellMap == 'Curaga') and state.Weapons.value == 'None'
+        and (buffactive['Refresh'] or buffactive['Ballad']) and item_available('Raetic Rod +1') then
+        equip({main="Raetic Rod +1"})
+    end
+
+    local is_nuke = spell.skill == 'Elemental Magic' and spellMap ~= 'ElementalEnfeeble' and spell.english ~= 'Impact'
+        and state.CastingMode.value ~= 'Proc' and state.CastingMode.value ~= 'OccultAcumen'
+    if not is_nuke then return end
+
+    if state.AutoMBMode.value and is_sc_window_open() then
+        local helix = spellMap == 'Helix'
+        if state.CastingMode.value == 'Resistant' then
+            windower.add_to_chat(121, '[GearSwap] Auto-MB: SC Window Active - Equipping Resistant '..(helix and 'Helix ' or '')..'MB set for: '..spell.english)
+            equip(helix and sets.ResistantHelixBurst or sets.ResistantMagicBurst)
+        else
+            windower.add_to_chat(121, '[GearSwap] Auto-MB: SC Window Active - Equipping '..(helix and 'Helix ' or '')..'MB set for: '..spell.english)
+            equip(helix and sets.HelixBurst or sets.MagicBurst)
+        end
+        reapply_sch_buff_gear(spell)
+        -- Dark bursts (Noctohelix, Kaustra...) keep Pixie Hairpin +1 (dark affinity x1.28), as on BLM
+        if spell.element == 'Dark' then
+            equip({head = "Pixie Hairpin +1"})
+        end
+    end
+
+    -- Orpheus/Hachirin/neutral waist, runs after the MB equip so the affinity waist also applies to bursts
+    local waist = nuke_waist_bonus(spell, spellMap)
+    if waist then
+        equip({waist = waist})
     end
 end
 
@@ -127,40 +219,51 @@ function init_gear_sets()
     --------------------------------------
     -- Start defining the sets
     --------------------------------------
+    local kaykaus_tights = { name="Kaykaus Tights +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}}
+    local kaykaus_mitra  = { name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}}
+    local kaykaus_bliaut = { name="Kaykaus Bliaut +1", augments={'MP+80','"Cure" potency +6%','"Conserve MP"+7',}}
+    local kaykaus_cuffs  = { name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}}
+    local kaykaus_boots  = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}
 
     -- Precast Sets
 
     -- Precast sets to enhance JAs
 
     sets.precast.JA["Tabula Rasa"] = {legs = "Peda. Pants +3"}
-    sets.precast.JA["Enlightenment"] = {body="Peda. Gown +3"} 
+    sets.precast.JA["Enlightenment"] = {body="Peda. Gown +3"}
 
+    -- FC about 72%: Grioavolr 11, Clerisy 3, Merlinic Hood 8, Voltsurge 4, Malignance 4, Etiolation 1, Agwu's Robe 8,
+    -- Acad. Bracers 9, Kishar 4, Embla 5, Agwu's Slops 7, Peda. Loafers 8
     sets.precast.FC = {
         main = gear.grioavolr_fc_staff,
         sub = "Clerisy Strap +1",
         ammo = "Impatiens",
-        head = "Agwu's Cap", 
+        head = gear.merlinic_nuke_head,     -- FC+8  -- original: Agwu's Cap (FC+5)
         neck = "Voltsurge Torque",
         ear1 = "Malignance Earring",
-		ear2 = "Enchntr. Earring +1",
-        body = "Zendik Robe",
-        hands = "Arbatel Bracers +3",
+		ear2 = "Etiolation Earring",        -- original: Enchntr. Earring +1 (not owned)
+        body = "Agwu's Robe",               -- FC+8  -- original: Zendik Robe (not owned)
+        hands = "Acad. Bracers +4",         -- FC+9  -- original: Arbatel Bracers +3 (no Fast Cast)
         ring1 = "Kishar Ring",
         ring2 = "Lebeche Ring",
         back = "Perimede Cape",
-        waist = "Witful Belt",
-        legs = "Psycloth Lappas",
-        feet = "Regal Pumps +1"
+        waist = "Embla Sash",               -- FC+5  -- original: Witful Belt (Haste only)
+        legs = "Agwu's Slops",              -- FC+7  -- original: Psycloth Lappas (not owned)
+        feet = "Peda. Loafers +3"           -- FC+8  -- original: Regal Pumps +1 (FC+4~5)
     }
 
-    sets.precast.FC.Arts = {}
+    -- LINKTRI: SCH.lua equips this over FC when the spell matches your active Arts (white magic in Light Arts,
+    -- black magic in Dark Arts). Peda. M.Board +3: Grimoire spellcasting time -13%; Acad. Loafers +4: Arts casting time -12%.
+    -- original: {}
+    sets.precast.FC.Arts = {head = "Peda. M.Board +3", feet = "Acad. Loafers +4"}
 
     sets.precast.FC["Enhancing Magic"] = set_combine(sets.precast.FC, {waist = "Siegel Sash"})
 
-    sets.precast.FC["Elemental Magic"] = set_combine(sets.precast.FC, {ear1 = "Malignance Earring"})  -- FIXED: Was ear1, caused slot conflict
+    sets.precast.FC["Elemental Magic"] = set_combine(sets.precast.FC, {ear1 = "Malignance Earring"})
 
-    sets.precast.FC.Cure =
-        set_combine(sets.precast.FC, {main = "Serenity", sub = "Clerisy Strap +1", body = "Heka's Kalasiris"})
+    -- LINKTRI: Kaykaus Tights (FC+7 and Cure spellcasting time -7%)
+    -- original: {main = "Serenity", sub = "Clerisy Strap +1", body = "Heka's Kalasiris"} (not owned)
+    sets.precast.FC.Cure = set_combine(sets.precast.FC, {legs = kaykaus_tights})
 
     sets.precast.FC.Curaga = sets.precast.FC.Cure
 
@@ -168,141 +271,85 @@ function init_gear_sets()
     sets.precast.FC.Dispelga = set_combine(sets.precast.FC, {main = "Daybreak", sub = "Genmei Shield"})
 
     -- Weaponskill sets
-    -- Default set for any weaponskill that isn't any more specifically defined
-    -- CORRECTED: Replaced missing items with inventory equivalents
+    -- Myrkr: MP gear
     sets.precast.WS["Myrkr"] = {
-        ammo = "Pemphredo Tathlum",  -- CORRECTED: Was Ghastly Tathlum +1
-        head = "Arbatel Bonnet +3",  -- CORRECTED: Was Pixie Hairpin +1 (keep if you have it for dark)
-        neck = "Sanctity Necklace",
+        ammo = "Pemphredo Tathlum",
+        head = "Arbatel Bonnet +3",         -- MP+86
+        neck = "Voltsurge Torque",          -- MP+20  -- original: Sanctity Necklace (not owned)
         ear1 = "Evans Earring",
-        ear2 = "Etiolation Earring",
-        body = "Agwu's Robe",  -- CORRECTED: Was Amalric Doublet +1
-        hands = "Regal Cuffs",
-        ring1 = "Mephitas's Ring +1",
-        ring2 = "Mephitas's Ring",
+        ear2 = "Etiolation Earring",        -- MP+50
+        body = "Acad. Gown +4",             -- MP+183  -- original: Agwu's Robe (MP+88)
+        hands = "Agwu's Gages",             -- MP+73  -- original: Regal Cuffs (not owned)
+        ring2 = "Mephitas's Ring",          -- original: ring1 Mephitas's Ring +1 (not owned)
         back = "Aurist's Cape +1",
         waist = "Luminary Sash",
-        legs = "Psycloth Lappas",
-        feet={ name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}},
+        legs = "Acad. Pants +4",            -- MP+78  -- original: Psycloth Lappas (not owned)
+        feet = "Arbatel Loafers +3",        -- MP+90  -- original: Kaykaus Boots +1
     }
 
     -- Midcast Sets
 
-    sets.TreasureHunter = set_combine(sets.TreasureHunter, {feet = gear.chironic_treasure_feet})
+    sets.TreasureHunter = set_combine(sets.TreasureHunter, {}) -- original: {feet = gear.chironic_treasure_feet} (augments not owned)
 
     -- Gear that converts elemental damage done to recover MP.
-    sets.RecoverMP = {body = "Seidr Cotehardie"}
+    sets.RecoverMP = {} -- original: {body = "Seidr Cotehardie"} (not owned)
 
     -- Gear for specific elemental nukes.
-    -- NOTE: Pixie Hairpin +1 and Archon Ring - verify you own these for dark damage boost
-    sets.element.Dark = {head = "Pixie Hairpin +1", ring2 = "Archon Ring"}
+    sets.element.Dark = {head = "Pixie Hairpin +1"} -- original: also ring2 = "Archon Ring" (not owned)
 
-    -- CORRECTED: Replaced Amalric Coif +1 with Agwu's Cap
-    sets.midcast.FastRecast = {
-        main = gear.grioavolr_fc_staff,
-        sub = "Clerisy Strap +1",
-        ammo = "Hasty Pinion +1",
-        head = "Agwu's Cap",  -- CORRECTED: Was Amalric Coif +1
-        neck = "Voltsurge Torque",
-        ear1 = "Malignance Earring",
-		ear2 = "Enchntr. Earring +1",
-        body = "Zendik Robe",
-        hands = "Gende. Gages +1",
-        ring1 = "Kishar Ring",
-        ring2 = "Prolix Ring",
-        back = "Swith Cape +1",
-        waist = "Witful Belt",
-        legs = "Psycloth Lappas",
-        feet = "Regal Pumps +1"
-    }
+    sets.midcast.FastRecast = set_combine(sets.precast.FC, {})
+    -- original: Grioavolr/Clerisy, Hasty Pinion +1, Agwu's Cap, Voltsurge, Malignance/Enchntr. +1, Zendik Robe,
+    --   Gende. Gages +1, Kishar/Prolix, Swith Cape +1, Witful Belt, Psycloth Lappas, Regal Pumps +1
 
+    -- Cure potency is far past the 50% cap, so these sets also carry SIRD/Conserve MP.
+    -- Raetic Rod +1 replaces Daybreak automatically when Refresh or Ballad is on you (see user_job_post_midcast).
     sets.midcast.Cure = {
-        main = "Serenity",
-        sub = "Curatio Grip",
-        ammo = "Hasty Pinion +1",
-        head = "Gende. Caubeen +1",
-        neck = "Incanter's Torque",
+        main = "Daybreak",                  -- Cure potency +30%  -- original: Serenity (not owned)
+        sub = "Sors Shield",                -- Cure potency +3%  -- original: Curatio Grip (not owned)
+        ammo = "Impatiens",                 -- SIRD 10%  -- original: Hasty Pinion +1 (not owned)
+        head = kaykaus_mitra,               -- Cure potency +11%, SIRD 12%  -- original: Gende. Caubeen +1 (not owned)
+        neck = "Nodens Gorget",             -- Cure potency +5%  -- original: Incanter's Torque (not owned)
         ear1 = "Malignance Earring",
 		ear2 = "Meili Earring",
-        body={ name="Kaykaus Bliaut +1", augments={'MP+80','"Cure" potency +6%','"Conserve MP"+7',}},
-        hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-        ring1 = "Janniston Ring",
-        ring2 = "Lebeche Ring",
-        back = "Tempered Cape +1",
+        body = kaykaus_bliaut,              -- Cure potency II +4%, +6%
+        hands = "Peda. Bracers +3",         -- Cure potency II +3%  -- original: Kaykaus Cuffs +1
+        ring1 = "Menelaus's Ring",          -- Cure potency +5%  -- original: Janniston Ring (not owned)
+        ring2 = "Lebeche Ring",             -- Cure potency +3%
+        back = "Vates Cape +1",             -- Enmity-8  -- original: Tempered Cape +1 (not owned)
         waist = "Luminary Sash",
-        legs = "Chironic Hose",
-        feet={ name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}},
+        legs = "Acad. Pants +4",            -- Cure potency +15%  -- original: Chironic Hose (not owned)
+        feet = kaykaus_boots,               -- Cure potency +11%, +6%
     }
 
-    sets.midcast.LightWeatherCure = {
-        main = "Chatoyant Staff",
-        sub = "Curatio Grip",
-        ammo = "Hasty Pinion +1",
-        head = "Gende. Caubeen +1",
-        neck = "Incanter's Torque",
-        ear1 = "Malignance Earring",
-		ear2 = "Meili Earring",
-        body={ name="Kaykaus Bliaut +1", augments={'MP+80','"Cure" potency +6%','"Conserve MP"+7',}},
-        hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-        ring1 = "Janniston Ring",
-        ring2 = "Lebeche Ring",
-        back = "Twilight Cape",
-        waist = "Hachirin-no-Obi",
-        legs = "Chironic Hose",
-        feet={ name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}},
-    }
-
-    sets.midcast.LightDayCure = {
-        main = "Serenity",
-        sub = "Curatio Grip",
-        ammo = "Hasty Pinion +1",
-        head = "Gende. Caubeen +1",
-        neck = "Incanter's Torque",
-        ear1 = "Malignance Earring",
-		ear2 = "Meili Earring",
-        body={ name="Kaykaus Bliaut +1", augments={'MP+80','"Cure" potency +6%','"Conserve MP"+7',}},
-        hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-        ring1 = "Janniston Ring",
-        ring2 = "Lebeche Ring",
-        back = "Twilight Cape",
-        waist = "Hachirin-no-Obi",
-        legs = "Chironic Hose",
-        feet={ name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}},
-    }
+    -- original LightWeatherCure: Chatoyant Staff/Curatio Grip + Cure set items above with Twilight Cape and Hachirin-no-Obi
+    sets.midcast.LightWeatherCure = set_combine(sets.midcast.Cure, {main = "Chatoyant Staff", sub = "Khonsu", back = "Twilight Cape", waist = "Hachirin-no-Obi"})
+    sets.midcast.LightDayCure = set_combine(sets.midcast.Cure, {back = "Twilight Cape", waist = "Hachirin-no-Obi"})
 
     sets.midcast.Curaga = sets.midcast.Cure
 
-    sets.Self_Healing = {
-        neck = "Phalaina Locket",
-        ring1 = "Kunaji Ring",
-        ring2 = "Asklepian Ring",
-        waist = "Gishdubar Sash"
-    }
-    sets.Cure_Received = {
-        neck = "Phalaina Locket",
-        ring1 = "Kunaji Ring",
-        ring2 = "Asklepian Ring",
-        waist = "Gishdubar Sash"
-    }
-    sets.Self_Refresh = {back = "Grapevine Cape", waist = "Gishdubar Sash", feet = "Inspirited Boots"}
+    -- Agwu's Gages: Cure potency received +10%
+    -- original: {neck = "Phalaina Locket", ring1 = "Kunaji Ring", ring2 = "Asklepian Ring", waist = "Gishdubar Sash"} (not owned)
+    sets.Self_Healing = {hands = "Agwu's Gages"}
+    sets.Cure_Received = {hands = "Agwu's Gages"}
+    sets.Self_Refresh = {feet = "Inspirited Boots"} -- original: also back = "Grapevine Cape", waist = "Gishdubar Sash" (not owned)
 
-    -- CORRECTED: Replaced Amalric Coif +1 with Agwu's Cap
+    -- Cursna: Healing magic skill (Peda. +19/+19/+20, Meili +10, Vates +6) and Menelaus's Ring (Cursna+20)
     sets.midcast.Cursna = {
         main = gear.grioavolr_fc_staff,
         sub = "Clemency Grip",
-        ammo = "Hasty Pinion +1",
-        head = "Agwu's Cap",  -- CORRECTED: Was Amalric Coif +1
-        neck = "Debilis Medallion",
+        ammo = "Impatiens",                 -- original: Hasty Pinion +1 (not owned)
+        head = gear.merlinic_nuke_head,     -- FC+8  -- original: Agwu's Cap
+        neck = "Voltsurge Torque",          -- original: Debilis Medallion (not owned)
         ear1 = "Malignance Earring",
 		ear2 = "Meili Earring",
-        body = "Zendik Robe",
-        hands = "Hieros Mittens",
-        ring1 = "Haoma's Ring",
-        ring2 = "Menelaus's Ring",
-        back = "Oretan. Cape +1",
-        waist = "Witful Belt",
-        legs = "Psycloth Lappas",
-        feet = "Vanya Clogs"
+        body = "Peda. Gown +3",             -- Healing +19  -- original: Zendik Robe (not owned)
+        hands = "Peda. Bracers +3",         -- Healing +19  -- original: Hieros Mittens (not owned)
+        ring1 = "Menelaus's Ring",          -- Cursna+20  -- original: ring1 Haoma's Ring (not owned), ring2 Menelaus's Ring
+        ring2 = "Lebeche Ring",
+        back = "Vates Cape +1",             -- Healing +6  -- original: Oretan. Cape +1 (not owned)
+        waist = "Embla Sash",               -- original: Witful Belt
+        legs = "Agwu's Slops",              -- original: Psycloth Lappas (not owned)
+        feet = "Peda. Loafers +3"           -- Healing +20, FC+8  -- original: Vanya Clogs (not owned)
     }
 
     sets.midcast.StatusRemoval =
@@ -311,12 +358,12 @@ function init_gear_sets()
     sets.midcast["Enhancing Magic"] = {
         main = gear.gada_enhancing_club,
         sub = "Ammurapi Shield",
-        ammo = "Savant's Treatise",
+        ammo = "Pemphredo Tathlum",         -- original: Savant's Treatise (not owned)
         head = "Telchine Cap",
-        neck = "Incanter's Torque",
+        neck = { name="Loricate Torque +1", augments={'Path: A',}},  -- original: Incanter's Torque (not owned)
         ear1 = "Andoaa Earring",
-        ear2 = "Gifted Earring",
-        body = "Telchine Chas.",
+        ear2 = "Magnetic Earring",          -- Conserve MP+5, SIRD 8%  -- original: Gifted Earring (not owned)
+        body = "Peda. Gown +3",             -- Enhancing duration +12%  -- original: Telchine Chas. (+10%)
         hands = "Telchine Gloves",
         ring1 = "Stikini Ring",
         ring2 = "Stikini Ring",
@@ -326,27 +373,23 @@ function init_gear_sets()
         feet = "Telchine Pigaches"
     }
 
-    sets.midcast.Regen = set_combine(sets.midcast["Enhancing Magic"], {back = gear.nuke_jse_back})
+    -- Arbatel Bonnet +3: Regen potency +25%; Lugh's Cape: Regen duration +15
+    sets.midcast.Regen = set_combine(sets.midcast["Enhancing Magic"], {head = "Arbatel Bonnet +3", back = gear.nuke_jse_back}) -- original: back only
 
     sets.midcast.Stoneskin =
         set_combine(
         sets.midcast["Enhancing Magic"],
-        {neck = "Nodens Gorget", ear2 = "Earthcry Earring", waist = "Siegel Sash", legs = "Shedir Seraweels"}
+        {neck = "Nodens Gorget", waist = "Siegel Sash", legs = "Shedir Seraweels"} -- original: also ear2 = "Earthcry Earring" (not owned)
     )
 
-    -- CORRECTED: Replaced Amalric Coif +1 with Agwu's Cap
-    sets.midcast.Refresh = set_combine(sets.midcast["Enhancing Magic"], {head = "Agwu's Cap"})  -- CORRECTED: Was Amalric Coif +1
+    sets.midcast.Refresh = set_combine(sets.midcast["Enhancing Magic"], {head = "Agwu's Cap"})
 
-    -- CORRECTED: Replaced Amalric Coif +1 with Agwu's Cap
+    -- original: main = "Vadose Rod", sub = "Genmei Shield", hands = "Regal Cuffs", waist = "Emphatikos Rope" (not owned)
     sets.midcast.Aquaveil =
         set_combine(
         sets.midcast["Enhancing Magic"],
         {
-            main = "Vadose Rod",
-            sub = "Genmei Shield",
-            head = "Agwu's Cap",  -- CORRECTED: Was Amalric Coif +1
-            hands = "Regal Cuffs",
-            waist = "Emphatikos Rope",
+            head = "Agwu's Cap",            -- SIRD 10%
             legs = "Shedir Seraweels"
         }
     )
@@ -355,74 +398,72 @@ function init_gear_sets()
 
     sets.midcast.Storm = set_combine(sets.midcast["Enhancing Magic"], {feet = "Peda. Loafers +3"})
 
-    sets.midcast.Protect = set_combine(sets.midcast["Enhancing Magic"], {ring2 = "Sheltered Ring"})
+    -- original: {ring2 = "Sheltered Ring"} (not owned)
+    sets.midcast.Protect = set_combine(sets.midcast["Enhancing Magic"], {})
     sets.midcast.Protectra = sets.midcast.Protect
 
-    sets.midcast.Shell = set_combine(sets.midcast["Enhancing Magic"], {ring2 = "Sheltered Ring"})
+    sets.midcast.Shell = set_combine(sets.midcast["Enhancing Magic"], {})
     sets.midcast.Shellra = sets.midcast.Shell
 
     -- Custom spell classes
 
-    -- CORRECTED: Replaced Acad. Mortar. +4 with Arbatel Bonnet +3, Regal Earring with Arbatel Earring +1
+    -- SCH.lua adds Acad. Pants +4 (Light Arts) or Acad. Gown +4 (Dark Arts) on top of these sets.
     sets.midcast["Enfeebling Magic"] = {
         main = "Daybreak",
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
-        head = "Arbatel Bonnet +3",  -- CORRECTED: Was Acad. Mortar. +4
-        neck = "Erra Pendant",
+        head = "Arbatel Bonnet +3",
+        neck = "Null Loop",                 -- Magic Accuracy+50  -- original: Erra Pendant (+17)
         ear1 = "Malignance Earring",
-		ear2 = "Arbatel Earring +1",  -- CORRECTED: Was Regal Earring
-        body = "Chironic Doublet",
-        hands = "Regal Cuffs",
+		ear2 = "Arbatel Earring +1",
+        body = "Arbatel Gown +3",           -- Magic Accuracy+64  -- original: Chironic Doublet (not owned)
+        hands = "Arbatel Bracers +3",       -- Magic Accuracy+62  -- original: Regal Cuffs (not owned)
         ring1 = "Kishar Ring",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
         waist = "Obstin. Sash",
-        legs = "Chironic Hose",
-        feet = "Uk'uxkaj Boots"
+        legs = "Arbatel Pants +3",          -- Enfeebling +28, Grimoire Magic Accuracy+36  -- original: Chironic Hose (not owned)
+        feet = "Acad. Loafers +4"           -- Magic Accuracy+56, Arts Magic Accuracy+20  -- original: Uk'uxkaj Boots (not owned)
     }
 
-    -- CORRECTED: Replaced Acad. Mortar. +4, Regal Earring, Acad. Bracers +3
     sets.midcast["Enfeebling Magic"].Resistant = {
         main = "Daybreak",
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
-        head = "Arbatel Bonnet +3",  -- CORRECTED: Was Acad. Mortar. +4
-        neck = "Erra Pendant",
-        ear1 = "Digni. Earring",
-		ear2 = "Arbatel Earring +1",  -- CORRECTED: Was Regal Earring
-        body = "Chironic Doublet",
-        hands = "Arbatel Bracers +3",  -- CORRECTED: Was Acad. Bracers +4
-        ring1 = "Metamor. Ring +1",
-        ring2 = "Stikini Ring",
+        head = "Arbatel Bonnet +3",
+        neck = "Null Loop",                 -- original: Erra Pendant
+        ear1 = "Malignance Earring",        -- original: Digni. Earring (not owned)
+		ear2 = "Arbatel Earring +1",
+        body = "Arbatel Gown +3",           -- original: Chironic Doublet (not owned)
+        hands = "Arbatel Bracers +3",
+        ring1 = "Murky Ring",               -- Magic Accuracy+15  -- original: ring1 Metamor. Ring +1 (moved to ring2)
+        ring2 = { name="Metamor. Ring +1", augments={'Path: A',}},  -- original: Stikini Ring
         back = gear.nuke_jse_back,
-        waist = "Luminary Sash",
-        legs = "Chironic Hose",
-        feet = "Medium's Sabots"
+        waist = "Null Belt",                -- Magic Accuracy+30  -- original: Luminary Sash
+        legs = "Arbatel Pants +3",          -- original: Chironic Hose (not owned)
+        feet = "Acad. Loafers +4"           -- original: Medium's Sabots
     }
 
-    -- CORRECTED: Replaced Amalric Coif +1 with Agwu's Cap
     sets.midcast.ElementalEnfeeble =
         set_combine(
         sets.midcast["Enfeebling Magic"],
-        {head = "Agwu's Cap", ear1 = "Malignance Earring", back = gear.nuke_jse_back, waist = "Acuity Belt +1"}  -- CORRECTED: Was Amalric Coif +1
+        {head = "Agwu's Cap", ear1 = "Malignance Earring", back = gear.nuke_jse_back, waist = "Sacro Cord"} -- original: waist = "Acuity Belt +1" (not owned)
     )
     sets.midcast.ElementalEnfeeble.Resistant =
         set_combine(
         sets.midcast["Enfeebling Magic"].Resistant,
-        {head = "Agwu's Cap", back = gear.nuke_jse_back, waist = "Acuity Belt +1"}  -- CORRECTED: Was Amalric Coif +1
+        {head = "Agwu's Cap", back = gear.nuke_jse_back, waist = "Null Belt"} -- original: waist = "Acuity Belt +1" (not owned)
     )
 
-    -- CORRECTED: Replaced Amalric Coif +1 with Agwu's Cap
     sets.midcast.IntEnfeebles =
         set_combine(
         sets.midcast["Enfeebling Magic"],
-        {head = "Agwu's Cap", ear1 = "Malignance Earring", back = gear.nuke_jse_back, waist = "Acuity Belt +1"}  -- CORRECTED: Was Amalric Coif +1, FIXED ear slot
+        {head = "Agwu's Cap", ear1 = "Malignance Earring", back = gear.nuke_jse_back, waist = "Sacro Cord"} -- original: waist = "Acuity Belt +1" (not owned)
     )
     sets.midcast.IntEnfeebles.Resistant =
         set_combine(
         sets.midcast["Enfeebling Magic"].Resistant,
-        {head = "Agwu's Cap", back = gear.nuke_jse_back, waist = "Acuity Belt +1"}  -- CORRECTED: Was Amalric Coif +1
+        {head = "Agwu's Cap", back = gear.nuke_jse_back, waist = "Null Belt"} -- original: waist = "Acuity Belt +1" (not owned)
     )
 
     sets.midcast.MndEnfeebles = set_combine(sets.midcast["Enfeebling Magic"], {})
@@ -437,199 +478,163 @@ function init_gear_sets()
     sets.midcast["Divine Magic"] =
         set_combine(sets.midcast["Enfeebling Magic"], {ring2 = "Stikini Ring", feet = gear.chironic_nuke_feet})
 
-    -- CORRECTED: Replaced Amalric Coif +1, Regal Earring, Acad. Bracers +4
     sets.midcast["Dark Magic"] = {
         main = "Rubicundity",
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
-        head = "Agwu's Cap",  -- CORRECTED: Was Amalric Coif +1
-        neck = "Incanter's Torque",
+        head = "Agwu's Cap",
+        neck = "Erra Pendant",              -- Dark magic +10  -- original: Incanter's Torque (not owned)
         ear1 = "Malignance Earring",
-		ear2 = "Arbatel Earring +1",  -- CORRECTED: Was Regal Earring
-        body = "Chironic Doublet",
-        hands = "Arbatel Bracers +3",  -- CORRECTED: Was Acad. Bracers +4
+		ear2 = "Arbatel Earring +1",
+        body = "Psycloth Vest",             -- Dark magic +21  -- original: Chironic Doublet (not owned)
+        hands = "Arbatel Bracers +3",
         ring1 = "Stikini Ring",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
-        waist = "Acuity Belt +1",
-        legs = "Chironic Hose",
-        feet = gear.merlinic_aspir_feet
+        waist = "Null Belt",                -- original: Acuity Belt +1 (not owned)
+        legs = "Peda. Pants +3",            -- Dark magic +19  -- original: Chironic Hose (not owned)
+        feet = "Agwu's Pigaches"            -- Drain/Aspir +20  -- original: gear.merlinic_aspir_feet (augments not owned)
     }
 
-    -- CORRECTED: Replaced Amalric Gages +1, Freke Ring, Archon Ring, Amalric Nails +1
-    -- NOTE: Keeping Pixie Hairpin +1 for dark boost - verify you own it
     sets.midcast.Kaustra = {
         main = "Akademos",
         sub = "Enki Strap",
         ammo = "Pemphredo Tathlum",
-        head = "Pixie Hairpin +1",  -- Keep for dark boost if you have it, otherwise use Agwu's Cap
-        neck = "Saevus Pendant +1",
+        head = "Pixie Hairpin +1",
+        neck = "Sibyl Scarf",               -- original: Saevus Pendant +1 (not owned)
         ear1 = "Malignance Earring",
-		ear2 = "Crematio Earring",
-        body = gear.merlinic_nuke_body,
-        hands = "Agwu's Gages",  -- CORRECTED: Was Amalric Gages +1
-        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Freke Ring
-        ring2 = "Archon Ring",  -- Keep if you have it for dark boost
+		ear2 = "Arbatel Earring +1",        -- original: Crematio Earring
+        body = "Arbatel Gown +3",           -- original: gear.merlinic_nuke_body
+        hands = "Arbatel Bracers +3",       -- original: Agwu's Gages
+        ring1 = "Murky Ring",               -- original: ring1 Metamor. Ring +1, ring2 Archon Ring (not owned)
+        ring2 = { name="Metamor. Ring +1", augments={'Path: A',}},
         back = gear.nuke_jse_back,
-        waist = "Refoccilation Stone",
-        legs = "Merlinic Shalwar",
-        feet = "Agwu's Pigaches"  -- CORRECTED: Was Amalric Nails +1
+        waist = "Sacro Cord",               -- original: Refoccilation Stone (not owned)
+        legs = "Arbatel Pants +3",          -- original: Merlinic Shalwar (not owned)
+        feet = "Arbatel Loafers +3"         -- original: Agwu's Pigaches
     }
 
-    -- CORRECTED: Replaced Amalric Gages +1, Shiva Ring +1, Freke Ring, Amalric Nails +1
-    sets.midcast.Kaustra.Resistant = {
-        main = gear.grioavolr_nuke_staff,
-        sub = "Enki Strap",
-        ammo = "Pemphredo Tathlum",
-        head = gear.merlinic_nuke_head,
-        neck = "Erra Pendant",
-        ear1 = "Malignance Earring",
-		ear2 = "Crematio Earring",
-        body = gear.merlinic_nuke_body,
-        hands = "Agwu's Gages",  -- CORRECTED: Was Amalric Gages +1
-        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Shiva Ring +1
-        ring2 = "Stikini Ring",  -- CORRECTED: Was Freke Ring
-        back = gear.nuke_jse_back,
-        waist = "Acuity Belt +1",
-        legs = "Merlinic Shalwar",
-        feet = "Agwu's Pigaches"  -- CORRECTED: Was Amalric Nails +1
-    }
+    sets.midcast.Kaustra.Resistant = set_combine(sets.midcast.Kaustra, {neck = "Null Loop", waist = "Null Belt"})
+    -- original Resistant: Grioavolr nuke staff/Enki, Merlinic Hood/Jubbah, Erra Pendant, Agwu's Gages/Pigaches,
+    --   Metamor./Stikini, Acuity Belt +1 (not owned), Merlinic Shalwar (not owned)
 
-    -- CORRECTED: Replaced Regal Earring, Acad. Bracers +4
-    -- NOTE: Keeping Pixie Hairpin +1 and Archon Ring for dark boost - verify you own them
     sets.midcast.Drain = {
         main = "Rubicundity",
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
-        head = "Pixie Hairpin +1",  -- Keep for dark boost if you have it
+        head = "Pixie Hairpin +1",
         neck = "Erra Pendant",
         ear1 = "Malignance Earring",
-		ear2 = "Arbatel Earring +1",  -- CORRECTED: Was Regal Earring
-        body = "Chironic Doublet",
-        hands = "Arbatel Bracers +3",  -- CORRECTED: Was Acad. Bracers +4
-        ring1 = "Evanescence Ring",
-        ring2 = "Archon Ring",  -- Keep if you have it for dark boost
+		ear2 = "Arbatel Earring +1",
+        body = "Psycloth Vest",             -- Dark magic +21  -- original: Chironic Doublet (not owned)
+        hands = "Arbatel Bracers +3",
+        ring1 = "Stikini Ring",             -- original: Evanescence Ring (not owned)
+        ring2 = "Stikini Ring",             -- original: Archon Ring (not owned)
         back = gear.nuke_jse_back,
-        waist = "Fucho-no-obi",
-        legs = "Chironic Hose",
-        feet = gear.merlinic_aspir_feet
+        waist = "Fucho-no-Obi",             -- Drain/Aspir +8
+        legs = "Peda. Pants +3",            -- Drain/Aspir +15  -- original: Chironic Hose (not owned)
+        feet = "Agwu's Pigaches"            -- Drain/Aspir +20  -- original: gear.merlinic_aspir_feet (augments not owned)
     }
 
-    -- CORRECTED: Replaced Amalric Coif +1, Regal Earring, Acad. Bracers +4
     sets.midcast.Drain.Resistant = {
         main = "Rubicundity",
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
-        head = "Agwu's Cap",  -- CORRECTED: Was Amalric Coif +1
+        head = "Agwu's Cap",
         neck = "Erra Pendant",
         ear1 = "Malignance Earring",
-		ear2 = "Arbatel Earring +1",  -- CORRECTED: Was Regal Earring
-        body = "Chironic Doublet",
-        hands = "Arbatel Bracers +3",  -- CORRECTED: Was Acad. Bracers +4
+		ear2 = "Arbatel Earring +1",
+        body = "Arbatel Gown +3",           -- original: Chironic Doublet (not owned)
+        hands = "Arbatel Bracers +3",
         ring1 = "Stikini Ring",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
-        waist = "Acuity Belt +1",
-        legs = "Chironic Hose",
-        feet = gear.merlinic_aspir_feet
+        waist = "Null Belt",                -- original: Acuity Belt +1 (not owned)
+        legs = "Peda. Pants +3",            -- original: Chironic Hose (not owned)
+        feet = "Agwu's Pigaches"            -- original: gear.merlinic_aspir_feet (augments not owned)
     }
 
     sets.midcast.Aspir = sets.midcast.Drain
     sets.midcast.Aspir.Resistant = sets.midcast.Drain.Resistant
 
-    -- CORRECTED: Replaced Amalric Coif +1, Acad. Bracers +4
     sets.midcast.Stun = {
         main = gear.grioavolr_fc_staff,
         sub = "Clerisy Strap +1",
-        ammo = "Hasty Pinion +1",
-        head = "Agwu's Cap",  -- CORRECTED: Was Amalric Coif +1
+        ammo = "Pemphredo Tathlum",         -- original: Hasty Pinion +1 (not owned)
+        head = "Agwu's Cap",
         neck = "Voltsurge Torque",
         ear1 = "Malignance Earring",
-		ear2 = "Enchntr. Earring +1",
-        body = "Zendik Robe",
-        hands = "Arbatel Bracers +3",  -- CORRECTED: Was Acad. Bracers +4
-        ring1 = "Metamor. Ring +1",
+		ear2 = "Arbatel Earring +1",        -- original: Enchntr. Earring +1 (not owned)
+        body = "Agwu's Robe",               -- FC+8  -- original: Zendik Robe (not owned)
+        hands = "Acad. Bracers +4",         -- FC+9, Magic Accuracy+58  -- original: Arbatel Bracers +3
+        ring1 = "Kishar Ring",              -- original: Metamor. Ring +1 (moved to ring2 side)
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
-        waist = "Witful Belt",
-        legs = "Psycloth Lappas",
-        feet = "Regal Pumps +1"
+        waist = "Embla Sash",               -- original: Witful Belt
+        legs = "Agwu's Slops",              -- FC+7  -- original: Psycloth Lappas (not owned)
+        feet = "Peda. Loafers +3"           -- FC+8  -- original: Regal Pumps +1
     }
 
-    -- CORRECTED: Replaced Acad. Mortar. +4, Regal Earring, Acad. Bracers +4
     sets.midcast.Stun.Resistant = {
         main = "Daybreak",
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
-        head = "Arbatel Bonnet +3",  -- CORRECTED: Was Acad. Mortar. +4
-        neck = "Erra Pendant",
+        head = "Arbatel Bonnet +3",
+        neck = "Null Loop",                 -- original: Erra Pendant
         ear1 = "Malignance Earring",
-		ear2 = "Arbatel Earring +1",  -- CORRECTED: Was Regal Earring
-        body = "Zendik Robe",
-        hands = "Arbatel Bracers +3",  -- CORRECTED: Was Acad. Bracers +4
-        ring1 = "Metamor. Ring +1",
-        ring2 = "Stikini Ring",
+		ear2 = "Arbatel Earring +1",
+        body = "Arbatel Gown +3",           -- original: Zendik Robe (not owned)
+        hands = "Arbatel Bracers +3",
+        ring1 = "Murky Ring",               -- original: ring1 Metamor. Ring +1, ring2 Stikini Ring
+        ring2 = { name="Metamor. Ring +1", augments={'Path: A',}},
         back = gear.nuke_jse_back,
-        waist = "Acuity Belt +1",
-        legs = "Chironic Hose",
-        feet = gear.merlinic_aspir_feet
+        waist = "Null Belt",                -- original: Acuity Belt +1 (not owned)
+        legs = "Arbatel Pants +3",          -- original: Chironic Hose (not owned)
+        feet = "Acad. Loafers +4"           -- original: gear.merlinic_aspir_feet (augments not owned)
     }
 
     -- Elemental Magic sets are default for handling low-tier nukes.
-    -- CORRECTED: Replaced Ghastly Tathlum +1, Amalric Doublet +1, Amalric Gages +1, Freke Ring, Shiva Ring +1, Amalric Nails +1
+    -- LINKTRI: Arbatel +3 beats Agwu R15 in every slot outside bursts (MAB 50-59 / Magic Dmg 30-34 / MAcc 60-64
+    -- vs Agwu R15 about MAB 50 / Magic Dmg 28 / MAcc 40).
+    -- original: Bunzi's Rod/Ammurapi, Pemphredo, Agwu's Cap/Robe/Gages/Pigaches, Saevus Pendant +1, Crematio/Friomisi,
+    --   Metamor./Stikini, Refoccilation Stone, Merlinic Shalwar (Saevus/Friomisi/Refoccilation/Shalwar not owned)
     sets.midcast["Elemental Magic"] = {
         main = "Bunzi's Rod",
         sub = "Ammurapi Shield",
-        ammo = "Pemphredo Tathlum",  -- CORRECTED: Was Ghastly Tathlum +1
-        head = "Agwu's Cap",
-        neck = "Saevus Pendant +1",
-        ear1 = "Crematio Earring",
-        ear2 = "Friomisi Earring",
-        body = "Agwu's Robe",  -- CORRECTED: Was Amalric Doublet +1
-        hands = "Agwu's Gages",  -- CORRECTED: Was Amalric Gages +1
-        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Freke Ring
-        ring2 = "Stikini Ring",  -- CORRECTED: Was Shiva Ring +1
-        back = gear.nuke_jse_back,
-        waist = "Refoccilation Stone",
-        legs = "Merlinic Shalwar",
-        feet = "Agwu's Pigaches"  -- CORRECTED: Was Amalric Nails +1
-    }
-
-    -- CORRECTED: Replaced Regal Earring, Amalric Doublet +1, Freke Ring
-    sets.midcast["Elemental Magic"].Resistant = {
-        main = "Bunzi's Rod",
-        sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
-        head = "Agwu's Cap",
-        neck = "Sanctity Necklace",
-        ear1 = "Malignance Earring",  -- FIXED: Was ear1
-		ear2 = "Arbatel Earring +1",  -- FIXED: Swapped to prevent ear slot conflict
-        body = "Agwu's Robe",  -- CORRECTED: Was Amalric Doublet +1
-        hands = "Mallquis Cuffs +2",
-        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Freke Ring
-        ring2 = "Metamor. Ring +1",
+        head = "Arbatel Bonnet +3",
+        neck = "Sibyl Scarf",
+        ear1 = "Malignance Earring",
+        ear2 = "Arbatel Earring +1",
+        body = "Arbatel Gown +3",
+        hands = "Arbatel Bracers +3",
+        ring1 = "Murky Ring",
+        ring2 = { name="Metamor. Ring +1", augments={'Path: A',}},
         back = gear.nuke_jse_back,
-        waist = "Acuity Belt +1",
-        legs = "Merlinic Shalwar",
-        feet = "Agwu's Pigaches"
+        waist = "Sacro Cord",               -- Orpheus/Hachirin replace this automatically when better
+        legs = "Arbatel Pants +3",
+        feet = "Arbatel Loafers +3"
     }
 
-    -- CORRECTED: Replaced Shiva Ring +1, Freke Ring
+    -- original: Sanctity Necklace, Mallquis Cuffs +2, Metamor. Ring +1 in BOTH rings (Rare, only one owned),
+    --   Acuity Belt +1, Merlinic Shalwar, Agwu's head/body/feet
+    sets.midcast["Elemental Magic"].Resistant = set_combine(sets.midcast["Elemental Magic"], {neck = "Null Loop", waist = "Null Belt"})
+
     sets.midcast["Elemental Magic"]["9k"] = {
         main = "Daybreak",
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
         head = gear.merlinic_nuke_head,
-        neck = "Saevus Pendant +1",
+        neck = "Sibyl Scarf",               -- original: Saevus Pendant +1 (not owned)
         ear1 = "Malignance Earring",
-		ear2 = "Crematio Earring",
+		ear2 = "Arbatel Earring +1",        -- original: Crematio Earring
         body = gear.merlinic_nuke_body,
         hands = "Mallquis Cuffs +2",
-        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Shiva Ring +1
-        ring2 = "Stikini Ring",  -- CORRECTED: Was Freke Ring
-        back = "Swith Cape +1",
-        waist = "Witful Belt",
-        legs = "Psycloth Lappas",
+        ring1 = "Stikini Ring",             -- original: ring1 Metamor. Ring +1, ring2 Stikini Ring
+        ring2 = { name="Metamor. Ring +1", augments={'Path: A',}},
+        back = gear.nuke_jse_back,          -- original: Swith Cape +1 (not owned)
+        waist = "Embla Sash",               -- original: Witful Belt
+        legs = "Agwu's Slops",              -- original: Psycloth Lappas (not owned)
         feet = "Regal Pumps +1"
     }
 
@@ -640,226 +645,95 @@ function init_gear_sets()
         head = "Vanya Hood",
         neck = "Voltsurge Torque",
         ear1 = "Malignance Earring",
-		ear2 = "Enchntr. Earring +1",
-        body = "Zendik Robe",
-        hands = "Gende. Gages +1",
+		ear2 = "Etiolation Earring",        -- original: Enchntr. Earring +1 (not owned)
+        body = "Vrikodara Jupon",           -- original: Zendik Robe (not owned)
+        hands = "Acad. Bracers +4",         -- original: Gende. Gages +1 (not owned)
         ring1 = "Kishar Ring",
-        ring2 = "Prolix Ring",
-        back = "Swith Cape +1",
-        waist = "Witful Belt",
-        legs = "Psycloth Lappas",
+        ring2 = "Lebeche Ring",             -- original: Prolix Ring (not owned)
+        back = "Perimede Cape",             -- original: Swith Cape +1 (not owned)
+        waist = "Embla Sash",               -- original: Witful Belt
+        legs = "Doyen Pants",               -- original: Psycloth Lappas (not owned)
         feet = "Regal Pumps +1"
     }
 
+    -- LINKTRI: Khatvanga and the Merlinic Occult Acumen pieces aren't owned; rebuilt on owned Occult Acumen/Store TP gear.
+    -- Mall. Chapeau +2 OA+11, Perdition Slops OA+30, Merlinic Crackows OA+4. Uses whatever weapon is equipped.
     sets.midcast["Elemental Magic"].OccultAcumen = {
-        main = "Khatvanga",
-        sub = "Bloodrain Strap",
+        -- main = "Khatvanga",              -- LINKTRI: restore when Khatvanga is owned
+        -- sub = "Bloodrain Strap",
         ammo = "Seraphic Ampulla",
         head = "Mall. Chapeau +2",
         neck = "Combatant's Torque",
         ear1 = "Dedition Earring",
         ear2 = "Telos Earring",
-        body = gear.merlinic_occult_body,
-        hands = gear.merlinic_occult_hands,
-        ring1 = "Rajas Ring",
+        body = gear.merlinic_nuke_body,     -- original: gear.merlinic_occult_body (augments not owned)
+        hands = "Mallquis Cuffs +2",        -- original: gear.merlinic_occult_hands (not owned)
+        ring1 = "Chirich Ring +1",          -- original: Rajas Ring (not owned)
         ring2 = "Petrov Ring",
         back = gear.nuke_jse_back,
-        waist = "Oneiros Rope",
+        waist = "Null Belt",                -- original: Oneiros Rope (not owned)
         legs = "Perdition Slops",
-        feet = gear.merlinic_occult_feet
+        feet = gear.merlinic_nuke_feet      -- OA+4  -- original: gear.merlinic_occult_feet (augments not owned)
     }
 
     -- Gear for Magic Burst mode.
-    -- CORRECTED: Replaced Ghastly Tathlum +1, Regal Earring, Amalric Doublet +1, Amalric Gages +1, Freke Ring, Mujin Band, Amalric Nails +1
-    -- NOTE: Agwu's Gages has MB Damage II +6 which exceeds the 40% cap! Excellent for MB.
+    -- LINKTRI: Magic burst damage from gear caps at +40: Bunzi's Rod 10 + Mizu. Kubikazari 10 + Agwu's Robe 10 +
+    -- Arbatel Bracers +3 15 = 45 (capped). That frees legs for Arbatel Pants (MAB54). Magic burst damage II is a separate
+    -- uncapped bonus: Peda. M.Board +3 (+4) + Arbatel Loafers +3 (+5).
+    -- original: Agwu's Cap/Gages/Slops/Pigaches, Metamor./Stikini, Acuity Belt +1 (not owned)
     sets.MagicBurst = {
         main = "Bunzi's Rod",
         sub = "Ammurapi Shield",
-        ammo = "Pemphredo Tathlum",  -- CORRECTED: Was Ghastly Tathlum +1
-        head = "Agwu's Cap",
-        neck = "Mizukage-no-Kubikazari",
-        ear1 = "Malignance Earring",  -- FIXED: Was ear1
-		ear2 = "Arbatel Earring +1",  -- FIXED: Swapped to prevent ear slot conflict
-        body = "Agwu's Robe",  -- CORRECTED: Was Amalric Doublet +1
-        hands = "Agwu's Gages",  -- CORRECTED: Was Amalric Gages +1 - HAS MB DAMAGE II +6!
-        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Freke Ring
-        ring2 = "Stikini Ring",  -- CORRECTED: Was Mujin Band (you lose MB II +5, consider acquiring)
+        ammo = "Pemphredo Tathlum",
+        head = "Peda. M.Board +3",          -- MB II +4, MB accuracy +15
+        neck = "Mizu. Kubikazari",          -- MB +10
+        ear1 = "Malignance Earring",
+		ear2 = "Arbatel Earring +1",
+        body = "Agwu's Robe",               -- MB +10
+        hands = "Arbatel Bracers +3",       -- MB +15
+        ring1 = "Murky Ring",               -- original: ring1 Metamor. Ring +1, ring2 Stikini Ring
+        ring2 = { name="Metamor. Ring +1", augments={'Path: A',}},
         back = gear.nuke_jse_back,
-        waist = "Acuity Belt +1",
-        legs = "Agwu's Slops",
-        feet = "Agwu's Pigaches"  -- CORRECTED: Was Amalric Nails +1
+        waist = "Sacro Cord",
+        legs = "Arbatel Pants +3",
+        feet = "Arbatel Loafers +3"         -- MB II +5
     }
 
     -- Resistant Magic Burst set (for high magic evasion targets)
-    -- CORRECTED: Replaced Regal Earring, Amalric Doublet +1, Amalric Gages +1, Mujin Band
-    sets.ResistantMagicBurst = {
-        main = "Bunzi's Rod",
-        sub = "Ammurapi Shield",
-        ammo = "Pemphredo Tathlum",
-        head = "Agwu's Cap",
-        neck = "Mizukage-no-Kubikazari",
-        ear1 = "Malignance Earring",  -- FIXED: Was ear1
-		ear2 = "Arbatel Earring +1",  -- FIXED: Swapped to prevent ear slot conflict
-        body = "Agwu's Robe",  -- CORRECTED: Was Amalric Doublet +1
-        hands = "Agwu's Gages",  -- CORRECTED: Was Amalric Gages +1 - HAS MB DAMAGE II +6!
-        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Mujin Band
-        ring2 = "Stikini Ring",
-        back = gear.nuke_jse_back,
-        waist = "Acuity Belt +1",
-        legs = "Agwu's Slops",
-        feet = "Agwu's Pigaches"
-    }
+    sets.ResistantMagicBurst = set_combine(sets.MagicBurst, {waist = "Null Belt"})
 
-    -- CORRECTED: Replaced Ghastly Tathlum +1, Regal Earring, Amalric Doublet +1, Amalric Gages +1, Freke Ring, Mujin Band, Amalric Nails +1
-    sets.HelixBurst = {
-        main = "Bunzi's Rod",
-        sub = "Culminus",
-        ammo = "Pemphredo Tathlum",  -- CORRECTED: Was Ghastly Tathlum +1
-        head = "Agwu's Cap",
-        neck = "Mizukage-no-Kubikazari",
-        ear1 = "Malignance Earring",  -- FIXED: Was ear1
-		ear2 = "Arbatel Earring +1",  -- FIXED: Swapped to prevent ear slot conflict
-        body = "Agwu's Robe",  -- CORRECTED: Was Amalric Doublet +1
-        hands = "Agwu's Gages",  -- CORRECTED: Was Amalric Gages +1 - HAS MB DAMAGE II +6!
-        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Freke Ring
-        ring2 = "Stikini Ring",  -- CORRECTED: Was Mujin Band
-        back = gear.nuke_jse_back,
-        waist = "Refoccilation Stone",
-        legs = "Agwu's Slops",
-        feet = "Agwu's Pigaches"  -- CORRECTED: Was Amalric Nails +1
-    }
-
-    -- CORRECTED: Replaced Ghastly Tathlum +1, Regal Earring, Amalric Doublet +1, Amalric Gages +1, Mujin Band
-    sets.ResistantHelixBurst = {
-        main = "Bunzi's Rod",
-        sub = "Ammurapi Shield",
-        ammo = "Pemphredo Tathlum",  -- CORRECTED: Was Ghastly Tathlum +1
-        head = "Agwu's Cap",
-        neck = "Mizukage-no-Kubikazari",
-        ear1 = "Malignance Earring",  -- FIXED: Was ear1
-		ear2 = "Arbatel Earring +1",  -- FIXED: Swapped to prevent ear slot conflict
-        body = "Agwu's Robe",  -- CORRECTED: Was Amalric Doublet +1
-        hands = "Agwu's Gages",  -- CORRECTED: Was Amalric Gages +1 - HAS MB DAMAGE II +6!
-        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Mujin Band
-        ring2 = "Stikini Ring",
-        back = gear.nuke_jse_back,
-        waist = "Acuity Belt +1",
-        legs = "Agwu's Slops",
-        feet = "Agwu's Pigaches"
-    }
+    -- LINKTRI: sub Culminus (MAB+20) -> Ammurapi Shield (MAB+38, MAcc+38)
+    sets.HelixBurst = set_combine(sets.MagicBurst, {})
+    sets.ResistantHelixBurst = set_combine(sets.ResistantMagicBurst, {})
 
     -- Custom refinements for certain nuke tiers
-    -- CORRECTED: Replaced Ghastly Tathlum +1, Regal Earring, Amalric Doublet +1, Amalric Gages +1, Freke Ring, Amalric Nails +1
-    sets.midcast["Elemental Magic"].HighTierNuke = {
-        main = "Bunzi's Rod",
-        sub = "Ammurapi Shield",
-        ammo = "Pemphredo Tathlum",  -- CORRECTED: Was Ghastly Tathlum +1
-        head = "Merlinic Hood",
-        neck = "Saevus Pendant +1",
-        ear1 = "Malignance Earring",  -- FIXED: Was ear1
-		ear2 = "Arbatel Earring +1",  -- FIXED: Swapped to prevent ear slot conflict
-        body = "Agwu's Robe",  -- CORRECTED: Was Amalric Doublet +1
-        hands = "Agwu's Gages",  -- CORRECTED: Was Amalric Gages +1
-        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Freke Ring
-        ring2 = "Metamor. Ring +1",
-        back = gear.nuke_jse_back,
-        waist = "Acuity Belt +1",
-        legs = "Merlinic Shalwar",
-        feet = "Agwu's Pigaches"  -- CORRECTED: Was Amalric Nails +1
-    }
+    -- original HighTierNuke: Merlinic Hood, Saevus Pendant +1 (not owned), Metamor. Ring +1 in BOTH rings (Rare),
+    --   Acuity Belt +1, Merlinic Shalwar (not owned); the Arbatel set above beats Merlinic Hood (MAB49/MAcc53)
+    sets.midcast["Elemental Magic"].HighTierNuke = set_combine(sets.midcast["Elemental Magic"], {})
+    sets.midcast["Elemental Magic"].HighTierNuke.Resistant = set_combine(sets.midcast["Elemental Magic"].Resistant, {})
 
-    -- CORRECTED: Replaced Ghastly Tathlum +1, Regal Earring, Amalric Doublet +1, Freke Ring
-    sets.midcast["Elemental Magic"].HighTierNuke.Resistant = {
-        main = "Bunzi's Rod",
-        sub = "Ammurapi Shield",
-        ammo = "Pemphredo Tathlum",  -- CORRECTED: Was Ghastly Tathlum +1
-        head = "Merlinic Hood",
-        neck = "Sanctity Necklace",
-        ear1 = "Malignance Earring",  -- FIXED: Was ear1
-		ear2 = "Arbatel Earring +1",  -- FIXED: Swapped to prevent ear slot conflict
-        body = "Agwu's Robe",  -- CORRECTED: Was Amalric Doublet +1
-        hands = "Jhakri Cuffs +2",
-        ring1 = "Metamor. Ring +1",  -- CORRECTED: Was Freke Ring
-        ring2 = "Metamor. Ring +1",
-        back = gear.nuke_jse_back,
-        waist = "Acuity Belt +1",
-        legs = "Merlinic Shalwar",
-        feet = "Jhakri Pigaches +2"
-    }
+    -- original Helix: Culminus, Merlinic Hood/Jubbah, Saevus, Crematio/Friomisi, Metamor. Ring +1 in BOTH rings (Rare),
+    --   Refoccilation Stone, Merlinic Shalwar
+    sets.midcast.Helix = set_combine(sets.midcast["Elemental Magic"], {})
+    sets.midcast.Helix.Resistant = set_combine(sets.midcast["Elemental Magic"].Resistant, {})
+    sets.midcast.Helix.Proc = set_combine(sets.midcast["Elemental Magic"].Proc, {})
 
-    -- CORRECTED: Replaced Ghastly Tathlum +1, Amalric Gages +1, Freke Ring, Amalric Nails +1
-    sets.midcast.Helix = {
-        main = "Bunzi's Rod",
-        sub = "Culminus",
-        ammo = "Pemphredo Tathlum",  -- CORRECTED: Was Ghastly Tathlum +1
-        head = "Merlinic Hood",
-        neck = "Saevus Pendant +1",
-        ear1 = "Crematio Earring",
-        ear2 = "Friomisi Earring",
-        body = gear.merlinic_nuke_body,
-        hands = "Agwu's Gages",  -- CORRECTED: Was Amalric Gages +1
-        ring1 = "Metamor. Ring +1",
-        ring2 = "Metamor. Ring +1",  -- CORRECTED: Was Freke Ring
-        back = gear.nuke_jse_back,
-        waist = "Refoccilation Stone",
-        legs = "Merlinic Shalwar",
-        feet = "Agwu's Pigaches"  -- CORRECTED: Was Amalric Nails +1
-    }
-
-    -- CORRECTED: Replaced Amalric Gages +1, Freke Ring, Amalric Nails +1
-    sets.midcast.Helix.Resistant = {
-        main = "Daybreak",
-        sub = "Ammurapi Shield",
-        ammo = "Pemphredo Tathlum",
-        head = gear.merlinic_nuke_head,
-        neck = "Sanctity Necklace",
-        ear1 = "Malignance Earring",  -- FIXED: Was ear1
-		ear2 = "Friomisi Earring",  -- FIXED: Swapped to prevent ear slot conflict
-        body = gear.merlinic_nuke_body,
-        hands = "Agwu's Gages",  -- CORRECTED: Was Amalric Gages +1
-        ring1 = "Metamor. Ring +1",
-        ring2 = "Metamor. Ring +1",  -- CORRECTED: Was Freke Ring
-        back = gear.nuke_jse_back,
-        waist = "Acuity Belt +1",
-        legs = "Merlinic Shalwar",
-        feet = "Agwu's Pigaches"  -- CORRECTED: Was Amalric Nails +1
-    }
-
-    sets.midcast.Helix.Proc = {
-        main = empty,
-        sub = empty,
-        ammo = "Impatiens",
-        head = "Vanya Hood",
-        neck = "Voltsurge Torque",
-        ear1 = "Malignance Earring",
-		ear2 = "Enchntr. Earring +1",
-        body = "Zendik Robe",
-        hands = "Gende. Gages +1",
-        ring1 = "Kishar Ring",
-        ring2 = "Prolix Ring",
-        back = "Swith Cape +1",
-        waist = "Witful Belt",
-        legs = "Psycloth Lappas",
-        feet = "Regal Pumps +1"
-    }
-
-    -- CORRECTED: Replaced Regal Earring, Acad. Bracers +4, Amalric Nails +1
     sets.midcast.Impact = {
         main = "Daybreak",
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
         head = empty,
-        neck = "Erra Pendant",
+        neck = "Null Loop",                 -- original: Erra Pendant
         ear1 = "Malignance Earring",
-		ear2 = "Arbatel Earring +1",  -- CORRECTED: Was Regal Earring
+		ear2 = "Arbatel Earring +1",
         body = "Twilight Cloak",
-        hands = "Arbatel Bracers +3",  -- CORRECTED: Was Acad. Bracers +4
-        ring1 = "Metamor. Ring +1",
-        ring2 = "Stikini Ring",
+        hands = "Arbatel Bracers +3",
+        ring1 = "Murky Ring",               -- original: ring1 Metamor. Ring +1, ring2 Stikini Ring
+        ring2 = { name="Metamor. Ring +1", augments={'Path: A',}},
         back = gear.nuke_jse_back,
-        waist = "Acuity Belt +1",
-        legs = "Merlinic Shalwar",
-        feet = "Agwu's Pigaches"  -- CORRECTED: Was Amalric Nails +1
+        waist = "Null Belt",                -- original: Acuity Belt +1 (not owned)
+        legs = "Arbatel Pants +3",          -- original: Merlinic Shalwar (not owned)
+        feet = "Acad. Loafers +4"           -- Arts Magic Accuracy+20  -- original: Agwu's Pigaches
     }
 
     sets.midcast.Impact.OccultAcumen =
@@ -867,41 +741,20 @@ function init_gear_sets()
 
     -- Sets to return to when not performing an action.
 
-    -- Resting sets
-    -- CORRECTED: Replaced Amalric Doublet +1
-    sets.resting = {
-        main = "Chatoyant Staff",
-        sub = "Oneiros Grip",
-        ammo = "Homiliary",
-        head = "Befouled Crown",
-        neck = "Chrys. Torque",
-        ear1 = "Etiolation Earring",
-        ear2 = "Ethereal Earring",
-        body = "Agwu's Robe",  -- CORRECTED: Was Amalric Doublet +1
-        hands = gear.merlinic_refresh_hands,
-        ring1 = "Defending Ring",
-        ring2 = "Dark Ring",
-        back = "Umbra Cape",
-        waist = "Fucho-no-obi",
-        legs = "Assid. Pants +1",
-        feet = gear.chironic_refresh_feet
-    }
-
-    -- Idle sets (default idle set not needed since the other three are defined, but leaving for testing purposes)
-
+    -- Idle sets
     sets.idle = {
         main = "Mpaca's Staff",
         sub = "Umbra Strap",
         ammo = "Homiliary",
         head = "Null Masque",
-        neck = "Loricate Torque +1",
+        neck = { name="Loricate Torque +1", augments={'Path: A',}},
         ear1 = "Alabaster Earring",
-        ear2 = "Ethereal Earring",
+        ear2 = "Etiolation Earring",        -- original: Ethereal Earring (not owned)
         body = "Arbatel Gown +3",
         hands = "Peda. Bracers +3",
         ring1 = "Murky Ring",
         ring2 = "Stikini Ring",
-        back = "Umbra Cape",
+        back = gear.nuke_jse_back,          -- original: Umbra Cape (not owned)
         waist = "Carrier's Sash",
         legs = "Arbatel Pants +3",
         feet = "Arbatel Loafers +3",
@@ -911,21 +764,26 @@ function init_gear_sets()
         main = "Malignance Pole",
         sub = "Umbra Strap",
         ammo = "Staunch Tathlum +1",
-        head = "Gende. Caubeen +1",
-        neck = "Loricate Torque +1",
-        ear1 = "Etiolation Earring",
-        ear2 = "Ethereal Earring",
-        body = "Vrikodara Jupon",
-        hands = "Gende. Gages +1",
-        ring1 = "Defending Ring",
-        ring2 = "Dark Ring",
-        back = "Umbra Cape",
+        head = { name="Nyame Helm", augments={'Path: B',}},        -- original: Gende. Caubeen +1 (not owned)
+        neck = { name="Loricate Torque +1", augments={'Path: A',}},
+        ear1 = "Alabaster Earring",         -- original: ear1 Etiolation Earring, ear2 Ethereal Earring (not owned)
+        ear2 = "Etiolation Earring",
+        body = "Adamantite Armor",          -- DT-20%  -- original: Vrikodara Jupon (DT-3%)
+        hands = { name="Nyame Gauntlets", augments={'Path: B',}},  -- original: Gende. Gages +1 (not owned)
+        ring1 = "Murky Ring",               -- original: ring1 Defending Ring, ring2 Dark Ring (not owned)
+        ring2 = "Defending Ring",
+        back = gear.nuke_jse_back,          -- original: Umbra Cape (not owned)
         waist = "Carrier's Sash",
-        legs = "Nyame Flanchard",
-        feet = gear.chironic_refresh_feet
+        legs = { name="Nyame Flanchard", augments={'Path: B',}},
+        feet = { name="Nyame Sollerets", augments={'Path: B',}}    -- original: gear.chironic_refresh_feet (augments not owned)
     }
 
-    sets.idle.Hippo = set_combine(sets.idle.PDT, {feet = "Hippo. Socks +1"})
+    sets.idle.Hippo = set_combine(sets.idle.PDT, {}) -- original: {feet = "Hippo. Socks +1"} (not owned)
+
+    -- Resting sets
+    -- original: Chatoyant Staff/Oneiros Grip, Befouled Crown, Chrys. Torque, Etiolation/Ethereal, Agwu's Robe,
+    --   Merlinic Dastanas, Defending/Dark Ring, Umbra Cape, Fucho-no-Obi, Assid. Pants +1, Chironic Slippers (refresh)
+    sets.resting = set_combine(sets.idle, {main = "Chatoyant Staff", sub = "Khonsu"})
 
     -- LINKTRI: Weakness set commented out (2026-10-17). Without it, Sel uses your normal idle set while weakened.
     -- To restore, uncomment the lines below; Sel-Include equips sets.idle.Weak automatically when it exists.
@@ -954,125 +812,74 @@ function init_gear_sets()
         ammo = "Homiliary",
         head = "Null Masque",
         neck = "Sibyl Scarf",
-        ear1 = "Etiolation Earring",
-        ear2 = "Ethereal Earring",
+        ear1 = "Alabaster Earring",         -- original: ear1 Etiolation Earring, ear2 Ethereal Earring (not owned)
+        ear2 = "Etiolation Earring",
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
-        ring1 = "Defending Ring",
-        ring2 = "Dark Ring",
+        ring1 = "Murky Ring",               -- original: ring1 Defending Ring, ring2 Dark Ring (not owned)
+        ring2 = "Defending Ring",
         back = gear.nuke_jse_back,
-        waist = "Fucho-no-obi",
+        waist = "Fucho-no-Obi",
         legs = "Assid. Pants +1",
         feet = "Nyame Sollerets"
     }
 
     -- Defense sets
+    -- original PDT/MDT: Malignance Pole/Umbra Strap, Staunch +1, Gende. Caubeen +1, Loricate, Etiolation/Ethereal,
+    --   Mallquis Saio +2, Gende. Gages +1, Defending/Dark Ring, Umbra Cape, Carrier's Sash, Nyame Flanchard, Battlecast Gaiters
+    sets.defense.PDT = set_combine(sets.idle.PDT, {})
+    sets.defense.MDT = set_combine(sets.idle.PDT, {})
 
-    sets.defense.PDT = {
-        main = "Malignance Pole",
-        sub = "Umbra Strap",
-        ammo = "Staunch Tathlum +1",
-        head = "Gende. Caubeen +1",
-        neck = "Loricate Torque +1",
-        ear1 = "Etiolation Earring",
-        ear2 = "Ethereal Earring",
-        body = "Mallquis Saio +2",
-        hands = "Gende. Gages +1",
-        ring1 = "Defending Ring",
-        ring2 = "Dark Ring",
-        back = "Umbra Cape",
-        waist = "Carrier's Sash",
-        legs = "Nyame Flanchard",
-        feet = "Battlecast Gaiters"
-    }
-
-    sets.defense.MDT = {
-        main = "Malignance Pole",
-        sub = "Umbra Strap",
-        ammo = "Staunch Tathlum +1",
-        head = "Gende. Caubeen +1",
-        neck = "Loricate Torque +1",
-        ear1 = "Etiolation Earring",
-        ear2 = "Ethereal Earring",
-        body = "Mallquis Saio +2",
-        hands = "Gende. Gages +1",
-        ring1 = "Defending Ring",
-        ring2 = "Dark Ring",
-        back = "Umbra Cape",
-        waist = "Carrier's Sash",
-        legs = "Nyame Flanchard",
-        feet = "Battlecast Gaiters"
-    }
-
-    -- CORRECTED: Replaced Amalric Nails +1
     sets.defense.MEVA = {
         main = "Daybreak",
         sub = "Genmei Shield",
         ammo = "Staunch Tathlum +1",
-        head = gear.merlinic_nuke_head,
-        neck = "Warder's Charm +1",
-        ear1 = "Etiolation Earring",
+        head = "Arbatel Bonnet +3",         -- MEVA+136  -- original: gear.merlinic_nuke_head
+        neck = { name="Loricate Torque +1", augments={'Path: A',}},  -- original: Warder's Charm +1 (not owned)
+        ear1 = "Alabaster Earring",         -- original: ear1 Etiolation Earring
         ear2 = "Sanare Earring",
-        body = gear.merlinic_nuke_body,
-        hands = "Gende. Gages +1",
+        body = "Arbatel Gown +3",           -- MEVA+141  -- original: gear.merlinic_nuke_body
+        hands = { name="Nyame Gauntlets", augments={'Path: B',}},  -- original: Gende. Gages +1 (not owned)
         ring1 = "Vengeful Ring",
-        ring2 = "Purity Ring",
+        ring2 = "Defending Ring",           -- original: Purity Ring (not owned)
         back = gear.nuke_jse_back,
-        waist = "Acuity Belt +1",
-        legs = "Merlinic Shalwar",
-        feet = "Agwu's Pigaches"  -- CORRECTED: Was Amalric Nails +1
+        waist = "Carrier's Sash",           -- original: Acuity Belt +1 (not owned)
+        legs = "Arbatel Pants +3",          -- MEVA+168  -- original: Merlinic Shalwar (not owned)
+        feet = "Arbatel Loafers +3"         -- MEVA+168  -- original: Agwu's Pigaches
     }
 
-    sets.Kiting = {Ring2 = "Shneddick Ring +1"}
-    sets.latent_refresh = {waist = "Fucho-no-obi"}
-    sets.latent_refresh_grip = {sub = "Oneiros Grip"}
-    sets.TPEat = {neck = "Chrys. Torque"}
+    sets.Kiting = {ring2 = "Shneddick Ring +1"}
+    sets.latent_refresh = {waist = "Fucho-no-Obi"}
+    -- sets.latent_refresh_grip = {sub = "Oneiros Grip"} -- LINKTRI: not owned
+    -- sets.TPEat = {neck = "Chrys. Torque"}             -- LINKTRI: not owned
     sets.DayIdle = {}
     sets.NightIdle = {}
 
     -- Engaged sets
 
-    -- Variations for TP weapon and (optional) offense/defense modes.  Code will fall back on previous
-    -- sets if more refined versions aren't defined.
-    -- If you create a set with both offense and defense modes, the offense mode should be first.
-    -- EG: sets.engaged.Dagger.Accuracy.Evasion
-
     -- Normal melee group
+    -- original: Befouled Crown/Jhakri Robe +2 refresh set with Merlinic Dastanas, Etiolation/Ethereal, Defending/Sheltered,
+    --   Umbra Cape, Chironic Slippers (refresh)
     sets.engaged = {
         main = "Maxentius",
         sub = "Genmei Shield",
         ammo = "Homiliary",
         head = "Befouled Crown",
-        neck = "Loricate Torque +1",
-        ear1 = "Etiolation Earring",
-        ear2 = "Ethereal Earring",
+        neck = { name="Loricate Torque +1", augments={'Path: A',}},
+        ear1 = "Alabaster Earring",
+        ear2 = "Etiolation Earring",
         body = "Jhakri Robe +2",
-        hands = gear.merlinic_refresh_hands,
-        ring1 = "Defending Ring",
-        ring2 = "Sheltered Ring",
-        back = "Umbra Cape",
+        hands = { name="Nyame Gauntlets", augments={'Path: B',}},
+        ring1 = "Murky Ring",
+        ring2 = "Defending Ring",
+        back = gear.nuke_jse_back,
         waist = "Carrier's Sash",
         legs = "Assid. Pants +1",
-        feet = gear.chironic_refresh_feet
+        feet = { name="Nyame Sollerets", augments={'Path: B',}}
     }
 
-    sets.engaged.PDT = {
-        main = "Malignance Pole",
-        sub = "Oneiros Grip",
-        ammo = "Staunch Tathlum +1",
-        head = "Gende. Caubeen +1",
-        neck = "Loricate Torque +1",
-        ear1 = "Etiolation Earring",
-        ear2 = "Ethereal Earring",
-        body = "Vrikodara Jupon",
-        hands = "Gende. Gages +1",
-        ring1 = "Defending Ring",
-        ring2 = "Dark Ring",
-        back = "Umbra Cape",
-        waist = "Carrier's Sash",
-        legs = "Nyame Flanchard",
-        feet = gear.chironic_refresh_feet
-    }
+    -- original: same as idle.PDT but sub Oneiros Grip (not owned)
+    sets.engaged.PDT = set_combine(sets.idle.PDT, {})
 
     -- Buff sets: Gear that needs to be worn to actively enhance a current player buff.
     sets.buff["Ebullience"] = {head = "Arbatel Bonnet +3"}
@@ -1085,10 +892,11 @@ function init_gear_sets()
     sets.buff["Alacrity"] = {feet = "Peda. Loafers +3"}
     sets.buff["Klimaform"] = {feet = "Arbatel Loafers +3"}
 
+    -- HPDown/HPCure are only used by Sel's curecheat (dormant). Unowned items left as-is.
     sets.HPDown = {
         head = "Pixie Hairpin +1",
-        ear1 = "Mendicant's Earring",
-        ear2 = "Evans Earring",
+        ear1 = "Evans Earring",             -- LINKTRI: sides swapped so Evans stays ear1 (as in Myrkr)
+        ear2 = "Mendicant's Earring",
         body = "Zendik Robe",
         hands = "Hieros Mittens",
         ring1 = "Mephitas's Ring +1",
@@ -1108,14 +916,14 @@ function init_gear_sets()
         neck = "Unmoving Collar +1",
         ear1 = "Gifted Earring",
         ear2 = "Mendi. Earring",
-        body={ name="Kaykaus Bliaut +1", augments={'MP+80','"Cure" potency +6%','"Conserve MP"+7',}},
-        hands={ name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
+        body = kaykaus_bliaut,
+        hands = kaykaus_cuffs,
         ring1 = "Gelatinous Ring +1",
         ring2 = "Meridian Ring",
         back = "Moonlight Cape",
         waist = "Luminary Sash",
-        legs = "Carmine Cuisses +1",
-        feet={ name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}},
+        legs = "Acad. Pants +4",            -- original: Carmine Cuisses +1 (SCH can't equip)
+        feet = kaykaus_boots,
     }
 
     sets.buff.Doom = set_combine(sets.buff.Doom, {})
@@ -1123,12 +931,12 @@ function init_gear_sets()
     sets.buff["Dark Arts"] = {body="Acad. Gown +4"}
 
 
-    sets.buff.Sublimation = {head = "Acad. Mortar. +4", waist = "Embla Sash"} 
+    sets.buff.Sublimation = {head = "Acad. Mortar. +4", waist = "Embla Sash"}
     sets.buff.DTSublimation = {waist = "Embla Sash"}
 
     -- Weapons sets
     sets.weapons.Akademos = {main = "Akademos", sub = "Enki Strap"}
-    sets.weapons.Khatvanga = {main = "Khatvanga", sub = "Bloodrain Strap"}
+    -- sets.weapons.Khatvanga = {main = "Khatvanga", sub = "Bloodrain Strap"} -- LINKTRI: restore (and add to state.Weapons) when Khatvanga is owned
 end
 
 -------------------------------------------------------------------------------------------------------------------
@@ -1145,11 +953,14 @@ function near_porter_moogle()
     return false
 end
 
--- Function to customize idle sets based on current modes and conditions
-function job_customize_idle_set(idleSet)
+-- LINKTRI (2026-10-20): renamed from job_customize_idle_set. That name replaced SCH.lua's own version (Sublimation
+-- gear, Fucho-no-Obi below 51% MP, staff grip and TP-eat swaps). SCH.lua's version now runs first; this only adds
+-- the Porter Moogle packing set.
+--   original also re-did the Sublimation and latent-refresh logic here.
+function user_job_customize_idle_set(idleSet)
     -- Check if near Porter Moogle first
     local currently_near_porter = near_porter_moogle()
-    
+
     if currently_near_porter then
         -- Show message only when entering range
         if not near_porter then
@@ -1164,21 +975,7 @@ function job_customize_idle_set(idleSet)
             near_porter = false
         end
     end
-    
-    -- Apply sublimation gear if active
-    if buffactive["Sublimation: Activated"] then
-        if state.IdleMode.value == 'Normal' and sets.buff.Sublimation then
-            idleSet = set_combine(idleSet, sets.buff.Sublimation)
-        elseif state.IdleMode.value:contains("DT") and sets.buff.DTSublimation then
-            idleSet = set_combine(idleSet, sets.buff.DTSublimation)
-        end
-    end
 
-    -- Apply conditional refresh gear when MP is low
-    if player.mpp < 51 and sets.latent_refresh then
-        idleSet = set_combine(idleSet, sets.latent_refresh)
-    end
-    
     return idleSet
 end
 
@@ -1201,7 +998,9 @@ end
 -------------------------------------------------------------------------------------------------------------------
 -- Custom Self Commands for MB Control
 -------------------------------------------------------------------------------------------------------------------
-function job_self_command(cmdParams, eventArgs)
+-- LINKTRI (2026-10-20): renamed from job_self_command. That name replaced SCH.lua's own, which prints your remaining
+-- stratagem charges ('gs c showcharge', sent automatically after every stratagem).
+function user_job_self_command(cmdParams, eventArgs)
     if cmdParams[1] == 'mb' then
         if cmdParams[2] == 'on' then
             SCWindowOpen = true
