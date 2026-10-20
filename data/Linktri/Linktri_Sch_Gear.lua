@@ -30,7 +30,7 @@ function user_job_setup()
     state.CastingMode:options("Normal", "Resistant", "Proc", "OccultAcumen", "9k")
     state.IdleMode:options("Normal", "PDT")
     state.HybridMode:options("Normal", "PDT")
-    state.Weapons:options("None", "Akademos") -- LINKTRI: original "None", "Akademos", "Khatvanga" (Khatvanga not owned yet)
+    state.Weapons:options("None", "Akademos", "Opashoro") -- LINKTRI: original "None", "Akademos", "Khatvanga" (Khatvanga not owned yet; Opashoro added 2026-10-20)
 
     -- Auto Magic Burst Mode toggle (enabled by default)
     state.AutoMBMode = M(true, 'Auto MB Mode')
@@ -892,6 +892,9 @@ function init_gear_sets()
 
     -- Weapons sets
     sets.weapons.Akademos = {main = "Akademos", sub = "Enki Strap"}
+    -- LINKTRI (2026-10-20): Opashoro stage 3 (MAB+60, Magic Damage+294, INT/MND+25, MAcc+25). About even with Bunzi's Rod +
+    -- Ammurapi Shield for free nukes; the Rod's Magic burst damage +10 is better for bursts. Option, not default.
+    sets.weapons.Opashoro = {main = "Opashoro", sub = "Enki Strap"}
     -- sets.weapons.Khatvanga = {main = "Khatvanga", sub = "Bloodrain Strap"} -- LINKTRI: restore (and add to state.Weapons) when Khatvanga is owned
 end
 

@@ -242,14 +242,16 @@ function init_gear_sets()
     -- Buff wards: summoning magic skill (Beck. Horn +23, Doublet +24, Spats +30, Glyphic Bracers +23, Evoker's +10,
     -- Conveyance +8, Lucidity +7, C. Palug +5) and Avatar Lv.+1 (Beck. Earring +1, Bunzi's Sabots)
     -- original: Beckoner's +1 head/body/hands/legs/feet (not owned), Andoaa/Lugalbanda
-    sets.midcast.Pet.BloodPactWard = {main="Espiritus",sub="Umbra Strap",ammo={name="Epitaph", augments={'Path: A'}},
+    -- LINKTRI: Opashoro (stage 3) main: avatar Lv.+1, Acc/MAcc+25. original main: Espiritus
+    sets.midcast.Pet.BloodPactWard = {main="Opashoro",sub="Umbra Strap",ammo={name="Epitaph", augments={'Path: A'}},
         head="Beckoner's Horn +3",neck="Adad Amulet",ear1="C. Palug Earring",ear2="Beck. Earring +1",
         body="Beck. Doublet +3",hands="Glyphic Bracers +3",ring1="Evoker's Ring",ring2="Stikini Ring",
         back="Conveyance Cape",waist="Lucidity Sash",legs="Beck. Spats +3",feet={name="Bunzi's Sabots", augments={'Path: A'}}}
 
     -- Debuff wards: avatar Magic Accuracy (Beckoner's +3: +60-64 each)
     -- original: Beckoner's +1 head/body/feet (not owned), Chironic Gloves (SMN can't equip), C. Palug, Regal Belt, Assid. Pants +1
-    sets.midcast.Pet.DebuffBloodPactWard = {main="Espiritus",sub="Umbra Strap",ammo={name="Epitaph", augments={'Path: A'}},
+    -- LINKTRI: Opashoro (stage 3) main: avatar Magic Accuracy+25, Lv.+1 (Espiritus: +15). original main: Espiritus
+    sets.midcast.Pet.DebuffBloodPactWard = {main="Opashoro",sub="Umbra Strap",ammo={name="Epitaph", augments={'Path: A'}},
         head="Beckoner's Horn +3",neck="Adad Amulet",ear1="Lugalbanda Earring",ear2="Beck. Earring +1",
         body="Beck. Doublet +3",hands="Beck. Bracers +3",ring1="Evoker's Ring",ring2="Stikini Ring",
         back=gear.magic_jse_back,waist="Incarnation Sash",legs="Beck. Spats +3",feet="Beck. Pigaches +3"}
@@ -261,7 +263,9 @@ function init_gear_sets()
     -- Beck. Earring +1 (+4), Shulmanu Collar, Incarnation Sash
     -- original: Beckoner's +1 head/body/feet (not owned), Gelos Earring (not owned), Chironic Gloves (SMN can't equip),
     --   Regal Belt, Assid. Pants +1
-    sets.midcast.Pet.PhysicalBloodPactRage = {main="Espiritus",sub="Umbra Strap",ammo={name="Epitaph", augments={'Path: A'}},
+    -- LINKTRI: Opashoro (stage 3) main: Blood Pact damage +30, avatar Acc+25, Lv.+1. Espiritus's avatar MAB+120 does
+    -- nothing for physical pacts (it only adds BP damage +3). Magical pacts keep Espiritus. original main: Espiritus
+    sets.midcast.Pet.PhysicalBloodPactRage = {main="Opashoro",sub="Umbra Strap",ammo={name="Epitaph", augments={'Path: A'}},
         head={name="Glyphic Horn +3", augments={'Enhances "Astral Flow" effect',}},neck="Shulmanu Collar",ear1="Lugalbanda Earring",ear2="Beck. Earring +1",
         body={name="Glyphic Doublet +3", augments={'Reduces Sp. "Blood Pact" MP cost',}},hands="Beck. Bracers +3",ring1="Stikini Ring",ring2="Stikini Ring",
         back=gear.phys_jse_back,waist="Incarnation Sash",legs={name="Enticer's Pants", augments={'MP+50','Pet: Accuracy+15 Pet: Rng. Acc.+15','Pet: Mag. Acc.+15','Pet: Damage taken -5%'}},feet="Beck. Pigaches +3"}
