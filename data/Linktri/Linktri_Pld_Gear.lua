@@ -314,7 +314,7 @@ function init_gear_sets()
 
     sets.precast.WS['Atonement'] = {
 	ammo	= "Paeapua",
-    head	= { name="Loess Barbuta", augments={'Path: A',}},
+    head	= "Loess Barbuta",          -- original: { name="Loess Barbuta", augments={'Path: A',}} (your copy has no augments)
     body	= "Sakpata's Plate",        -- original: { name="Sakpata's Plate", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}} (augments not owned)
     hands	= "Sakpata's Gauntlets",    -- original: { name="Sakpata's Gauntlets", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}} (augments not owned)
     legs	= "Sakpata's Cuisses",      -- original: { name="Sakpata's Cuisses", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}} (augments not owned)
@@ -338,7 +338,8 @@ function init_gear_sets()
     neck	= "Null Loop",
     waist	= "Null Belt",
     ear1	= "Ishvara Earring",
-    ear2	= "Mache Earring +1",       -- original: Ishvara Earring (Rare, only one owned; Moonshade does nothing here, KoR fTP doesn't scale with TP)
+    ear2	= "Lugra Earring",          -- STR+7 dusk to dawn; by day PLD.lua swaps in sets.DayWSEars (Mache Earring +1)
+                                        -- original: Ishvara Earring (Rare, only one owned; Moonshade does nothing here, KoR fTP doesn't scale with TP)
     ring1	= "Ephramad's Ring",
     ring2	= { name="Metamor. Ring +1", augments={'Path: A'}},
     back	= "Null Shawl",
@@ -364,8 +365,11 @@ function init_gear_sets()
 	sets.precast.WS['Imperator'].Acc = set_combine(sets.precast.WS['Imperator'], {neck="Null Loop",ear1="Telos Earring"})
 
 	-- Swap to these on Moonshade using WS if at 3000 TP
-	-- LINKTRI: replace only Moonshade (ear2) and keep Ishvara in ear1; Mache Earring +1 is ear2-only, so no mirror swaps
-	sets.MaxTP = {ear2="Mache Earring +1"}                         -- original: {ear1="Cessance Earring",ear2="Brutal Earring"} (not owned)
+	-- LINKTRI: replace only Moonshade (ear2) and keep Ishvara in ear1. Lugra Earring (STR+7) only works dusk to dawn,
+	-- so PLD.lua swaps in the Day* sets below by day. Lugra and Mache are both ear2-only, so no mirror swaps.
+	sets.MaxTP = {ear2="Lugra Earring"}                            -- original: {ear1="Cessance Earring",ear2="Brutal Earring"} (not owned)
+	sets.DayMaxTPWSEars = {ear2="Mache Earring +1"}                -- daytime replacement for MaxTP
+	sets.DayWSEars = {ear2="Mache Earring +1"}                     -- daytime replacement for Lugra in Knights of Round
 	sets.AccMaxTP = {ear1="Telos Earring",ear2="Crep. Earring"}    -- original: {ear1="Telos Earring",ear2="Telos Earring"} (Rare, only one owned)
 
 
