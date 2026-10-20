@@ -1,5 +1,16 @@
 near_porter = false
 
+-- LINKTRI (2026-10-20) NIN audit notes:
+--   * Rare items (one copy per character) never sit in both ear or both ring slots of one set.
+--   * Fixed sides to avoid "Failed to equip" mirror swaps:
+--       ear1 = Odr / Mache +1 / Moonshade / Lugra / Etiolation / Crematio / Psystorm / Gwati / Genmei / Trux / Suppanomimi / Dudgeon / Crep.
+--       ear2 = Hattori Earring +1 (its Physical damage limit +8% is RIGHT EAR ONLY) / Telos / Alabaster / Sanare / Loquac. / Hecate's / Dedition / Ishvara / Heartseeker
+--       ring2 = Ephramad's / Epona's / Murky / Metamor. +1 / Kishar (Gere, Ilabrat, Defending, Dingir, Chirich: ring1)
+--   * Lugra Earring only works dusk to dawn; NIN.lua swaps in sets.DayWSEars / DayMaxTPWSEars by day.
+--   * Stored (unpack with PorterPacker): Loquac. Earring, Naegling, Tauret.
+--   * Brutal Earring dropped: Hattori Earring +1, Telos, Dedition and Odr cover every slot it was in.
+--   * Items replaced keep an "original:" comment.
+
 -- Setup vars that are user-dependent.  Can override this function in a sidecar file.
 function user_job_setup()
     state.OffenseMode:options("Normal", "SomeAcc", "Acc", "FullAcc", "Fodder", "Crit")
@@ -11,28 +22,29 @@ function user_job_setup()
     state.PhysicalDefenseMode:options("PDT")
     state.MagicalDefenseMode:options("MDT")
     state.ResistDefenseMode:options("MEVA")
+    -- LINKTRI (2026-10-20): proc weapons commented out (none owned right now); add them back to this list later
     state.Weapons:options(
         "Heishi",
         "Savage",
-        "MagicWeapons",
-        "ProcDagger",
-        "ProcSword",
-        "ProcGreatSword",
-        "ProcScythe",
-        "ProcPolearm",
-        "ProcGreatKatana",
-        "ProcKatana",
-        "ProcClub",
-        "ProcStaff"
+        "MagicWeapons"
+        -- "ProcDagger",
+        -- "ProcSword",
+        -- "ProcGreatSword",
+        -- "ProcScythe",
+        -- "ProcPolearm",
+        -- "ProcGreatKatana",
+        -- "ProcKatana",
+        -- "ProcClub",
+        -- "ProcStaff"
     )
     state.ExtraMeleeMode = M {["description"] = "Extra Melee Mode", "None", "SuppaBrutal", "DWEarrings", "DWMax"}
 
     -- LINKTRI MODIFICATION 2026-06-11: Andartia's Mantle not owned (it is the NIN-only JSE Ambuscade cape,
     -- so Senuna's Mantle (DNC-only) and Lugh's Cape (SCH-only) cannot substitute - neither is NIN-equippable).
-    -- Using Null Shawl (All Jobs: Acc+50 R.Acc+50 M.Acc+50 Eva+50 M.Eva+50 DA+7% StoreTP+7) as the
-    -- general-purpose substitute until Andartia's Mantle is acquired.
     -- To revert: swap names/augments back to Andartia's Mantle as originally defined.
-    gear.wsd_jse_back = "Null Shawl"
+    -- LINKTRI (2026-10-20): weapon skill back -> Sacro Mantle (WSD+6, DEX+25, Acc/Atk+20), same as THF.
+    --   original: gear.wsd_jse_back = "Null Shawl"
+    gear.wsd_jse_back = "Sacro Mantle"
     gear.da_jse_back = "Null Shawl"
 
     send_command('bind ^` input /ja "Innin" <me>')
@@ -54,19 +66,19 @@ function init_gear_sets()
     --------------------------------------
 
     sets.Enmity = {
-        ammo = "Paeapua",
+        ammo = "Yamarang",                  -- original: Paeapua (NIN can't equip)
         head = "Dampening Tam",
-        neck = "Unmoving Collar",
-        ear1 = "Crematio Earring",
-        ear2 = "Enervating Earring",
+        neck = "Unmoving Collar",           -- Enmity+9
+        ear1 = "Trux Earring",              -- Enmity+5  -- original: Crematio Earring
+        ear2 = "Alabaster Earring",         -- original: Enervating Earring (Enmity-3)
         body = "Ashera Harness",
         hands = "Malignance Gloves",
-        ring1 = "Petrov Ring",
-        ring2 = "Vengeful Ring",
+        ring1 = "Petrov Ring",              -- Enmity+4
+        ring2 = "Vengeful Ring",            -- Enmity+3
         back = "Null Shawl",
         waist = "Chaac Belt",
         legs = "Nyame Flanchard",
-        feet = "Malignance Boots"
+        feet = "Mochi. Kyahan +3"           -- Enmity+8  -- original: Malignance Boots
     }
 
     -- Precast sets to enhance JAs
@@ -84,8 +96,8 @@ function init_gear_sets()
         ammo = "Yamarang",
         head = "Mummu Bonnet +2",
         neck = "Unmoving Collar",
-        ear1 = "Enchntr. Earring +1",
-        ear2 = "Mache Earring +1",
+        ear1 = "Mache Earring +1",          -- original: ear1 Enchntr. Earring +1 (not owned), ear2 Mache Earring +1
+        ear2 = "Alabaster Earring",
         body = gear.herculean_waltz_body,
         hands = gear.herculean_waltz_hands,
         ring1 = "Defending Ring",
@@ -93,7 +105,7 @@ function init_gear_sets()
         back = "Null Shawl",
         waist = "Chaac Belt",
         legs = "Dashing Subligar",
-        feet = gear.herculean_waltz_feet
+        feet = "Mochi. Kyahan +3"           -- CHR+39  -- original: gear.herculean_waltz_feet (Herculean Boots not owned)
     }
 
     -- Don't need any special gear for Healing Waltz.
@@ -120,8 +132,8 @@ function init_gear_sets()
         ammo = "Yamarang",
         head = "Dampening Tam",
         neck = "Combatant's Torque",
-        ear1 = "Gwati Earring",
-        ear2 = "Digni. Earring",
+        ear1 = "Psystorm Earring",          -- Magic Accuracy+12  -- original: Gwati Earring (+8)
+        ear2 = { name="Hattori Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Store TP"+5',}}, -- original: Digni. Earring (not owned)
         body = "Ashera Harness",
         hands = "Adhemar Wrist. +1",
         ring1 = "Chirich Ring +1",
@@ -136,22 +148,26 @@ function init_gear_sets()
 
     sets.precast.FC = {
         ammo = "Impatiens",
-        head = gear.herculean_fc_head,
+        head = "Hattori Zukin +3",          -- original: gear.herculean_fc_head (Herculean Helm not owned; no owned FC head)
         neck = "Voltsurge Torque",
-        ear1 = "Enchntr. Earring +1",
-        ear2 = "Loquac. Earring",
+        ear1 = "Etiolation Earring",        -- FC+1  -- original: Enchntr. Earring +1 (not owned)
+        ear2 = "Loquac. Earring",           -- (stored)
         body = "Dread Jupon",
-        hands = "Chironic Gloves",
+        hands = "Sombra Mittens",           -- FC+3  -- original: Chironic Gloves (NIN can't equip)
         ring1 = "Lebeche Ring",
         ring2 = "Kishar Ring",
         legs = "Rawhide Trousers",
         feet = "Hachi. Kyahan +1"
     }
 
+    -- LINKTRI: Mochi. Chainmail +3 ("Utsusemi" spellcasting time -14%) must be worn at PRECAST to shorten the cast.
+    --   original: body = "Dread Jupon", feet = "Hattori Kyahan +3" here, Mochi. Chainmail +3 only in midcast (no effect there).
+    --   Hattori Kyahan +3 (Utsusemi +1) stays in midcast, where the extra shadow is applied.
     sets.precast.FC.Utsusemi =
-        set_combine(sets.precast.FC, {neck = "Magoraga Beads", body = "Dread Jupon", feet = "Hattori Kyahan +3"})
+        set_combine(sets.precast.FC, {neck = "Magoraga Beads", body = "Mochi. Chainmail +3"})
+    -- original: also ring1 = "Kishar Ring" (Rare, already in ring2)
     sets.precast.FC.Shadows =
-        set_combine(sets.precast.FC.Utsusemi, {ammo = "Staunch Tathlum +1", ring1 = "Kishar Ring"})
+        set_combine(sets.precast.FC.Utsusemi, {ammo = "Staunch Tathlum +1"})
 
     -- Snapshot for ranged
     sets.precast.RA = {}
@@ -161,8 +177,8 @@ function init_gear_sets()
         ammo = "Voluspa Tathlum",
         head={ name="Nyame Helm", augments={'Path: B',}},
         neck = "Combatant's Torque",
-        ear1 = "Sherida Earring",
-        ear2 = "Brutal Earring",
+        ear1 = "Odr Earring",               -- original: Sherida Earring (NIN can't equip)
+        ear2 = { name="Hattori Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Store TP"+5',}}, -- PDL+8%  -- original: Brutal Earring
         body={ name="Nyame Mail", augments={'Path: B',}},
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         ring1 = "Ilabrat Ring",
@@ -226,6 +242,8 @@ function init_gear_sets()
     }
 
     -- Specific weaponskill sets.  Uses the base set if an appropriate WSMod version isn't found.
+    -- LINKTRI: Blade: Jin is a critical-hit weapon skill -> Mpaca's Gloves (crit +5%)
+    --   original hands: Hachiya Tekko +1 (no Jin stats) in every Jin set
     sets.precast.WS["Blade: Jin"] =
         set_combine(
         sets.precast.WS,
@@ -233,7 +251,7 @@ function init_gear_sets()
             ammo = "Voluspa Tathlum",
             head = "Mummu Bonnet +2",
             body = { name="Mpaca's Doublet", augments={'Path: A',}},
-            hands = "Hachiya Tekko +1",
+            hands = { name="Mpaca's Gloves", augments={'Path: A',}},
             ring1 = "Ilabrat Ring",
             waist = "Chaac Belt",
             legs = "Mummu Kecks +2",
@@ -247,7 +265,7 @@ function init_gear_sets()
             ammo = "Voluspa Tathlum",
             head = "Mummu Bonnet +2",
             body = { name="Mpaca's Doublet", augments={'Path: A',}},
-            hands = "Hachiya Tekko +1",
+            hands = { name="Mpaca's Gloves", augments={'Path: A',}},
             waist = "Chaac Belt",
             legs = "Mummu Kecks +2",
             feet = "Mummu Gamash. +2"
@@ -259,7 +277,7 @@ function init_gear_sets()
         {
             head = "Mummu Bonnet +2",
             body = { name="Mpaca's Doublet", augments={'Path: A',}},
-            hands = "Hachiya Tekko +1",
+            hands = { name="Mpaca's Gloves", augments={'Path: A',}},
             legs = "Mummu Kecks +2",
             feet = "Mummu Gamash. +2"
         }
@@ -267,10 +285,15 @@ function init_gear_sets()
     sets.precast.WS["Blade: Jin"].FullAcc =
         set_combine(
         sets.precast.WS.FullAcc,
-        {body = "Mummu Jacket +2", hands = "Hachiya Tekko +1", legs = "Mummu Kecks +2", feet = "Mummu Gamash. +2"}
+        {body = "Mummu Jacket +2", hands = { name="Mpaca's Gloves", augments={'Path: A',}}, legs = "Mummu Kecks +2", feet = "Mummu Gamash. +2"}
     )
     sets.precast.WS["Blade: Jin"].Fodder = set_combine(sets.precast.WS["Blade: Jin"], {head = "Mummu Bonnet +2"})
 
+    -- LINKTRI: Blade: Hi (single hit, crit rate varies with TP):
+    --   body Hattori Ningi +3 (crit +8%)  -- original: Mpaca's Doublet
+    --   hands Mpaca's Gloves (crit +5%)  -- original: Hachiya Tekko +1
+    --   legs Mochi. Hakama +3 (WSD+10)  -- original: Hiza. Hizayoroi +2 (WSD+7)
+    --   ear2 Hattori Earring +1 (PDL+8%)  -- original: Brutal Earring (Enervating in SomeAcc)
     sets.precast.WS["Blade: Hi"] =
         set_combine(
         sets.precast.WS,
@@ -278,12 +301,11 @@ function init_gear_sets()
             ammo = "Voluspa Tathlum",
             head = "Mummu Bonnet +2",
             ear1 = "Moonshade Earring",
-            ear2 = "Brutal Earring",
-            body = { name="Mpaca's Doublet", augments={'Path: A',}},
-            hands = "Hachiya Tekko +1",
+            body = "Hattori Ningi +3",
+            hands = { name="Mpaca's Gloves", augments={'Path: A',}},
             ring1 = "Ilabrat Ring",
             back = gear.wsd_jse_back,
-            legs = "Hiza. Hizayoroi +2",
+            legs = "Mochi. Hakama +3",
             feet = "Mummu Gamash. +2"
         }
     )
@@ -294,12 +316,12 @@ function init_gear_sets()
             ammo = "Voluspa Tathlum",
             head = "Mummu Bonnet +2",
             ear1 = "Moonshade Earring",
-            ear2 = "Enervating Earring",
-            body = { name="Mpaca's Doublet", augments={'Path: A',}},
-            hands = "Hachiya Tekko +1",
+            ear2 = "Telos Earring",
+            body = "Hattori Ningi +3",
+            hands = { name="Mpaca's Gloves", augments={'Path: A',}},
             ring1 = "Ilabrat Ring",
             back = gear.wsd_jse_back,
-            legs = "Hiza. Hizayoroi +2",
+            legs = "Mochi. Hakama +3",
             feet = "Mummu Gamash. +2"
         }
     )
@@ -310,16 +332,18 @@ function init_gear_sets()
             head = "Mummu Bonnet +2",
             ear1 = "Moonshade Earring",
             ear2 = "Telos Earring",
-            body = { name="Mpaca's Doublet", augments={'Path: A',}},
-            hands = "Hachiya Tekko +1",
-            legs = "Hiza. Hizayoroi +2",
+            body = "Hattori Ningi +3",
+            hands = { name="Mpaca's Gloves", augments={'Path: A',}},
+            legs = "Mochi. Hakama +3",
             feet = "Mummu Gamash. +2"
         }
     )
     sets.precast.WS["Blade: Hi"].FullAcc =
-        set_combine(sets.precast.WS.FullAcc, {hands = "Hachiya Tekko +1", legs = "Hiza. Hizayoroi +2"})
+        set_combine(sets.precast.WS.FullAcc, {hands = { name="Mpaca's Gloves", augments={'Path: A',}}, legs = "Hiza. Hizayoroi +2"})
     sets.precast.WS["Blade: Hi"].Fodder = set_combine(sets.precast.WS["Blade: Hi"], {})
 
+    -- LINKTRI: Lugra Earring (night STR/DEX+7) ear1 + Hattori Earring +1 ear2.
+    --   original: Lugra Earring in BOTH ears (Rare, only one owned). By day NIN.lua swaps in sets.DayWSEars.
     sets.precast.WS["Blade: Shun"] =
         set_combine(
         sets.precast.WS,
@@ -327,7 +351,6 @@ function init_gear_sets()
             ammo = "Voluspa Tathlum",
             head = { name="Mpaca's Cap", augments={'Path: A',}},
             ear1 = "Lugra Earring",
-            ear2 = "Lugra Earring",
             body = { name="Mpaca's Doublet", augments={'Path: A',}},
             legs = "Hiza. Hizayoroi +2",
             feet = { name="Mpaca's Boots", augments={'Path: A',}},
@@ -340,7 +363,7 @@ function init_gear_sets()
             ammo = "Voluspa Tathlum",
             head = { name="Mpaca's Cap", augments={'Path: A',}},
             ear1 = "Lugra Earring",
-            ear2 = "Lugra Earring",
+            ear2 = { name="Hattori Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Store TP"+5',}},
             body = { name="Mpaca's Doublet", augments={'Path: A',}},
             legs = "Hiza. Hizayoroi +2",
             feet = "Malignance Boots"
@@ -353,6 +376,12 @@ function init_gear_sets()
         body = { name="Mpaca's Doublet", augments={'Path: A',}},
     })
 
+    -- LINKTRI: Blade: Ten (single hit, STR, WSD):
+    --   body Nyame Mail (base set)  -- original: gear.herculean_wsd_body (augments not owned)
+    --   feet Hattori Kyahan +3 (WSD+12, base set)  -- original: gear.herculean_wsd_feet (Herculean Boots not owned)
+    --   legs Mochi. Hakama +3 (WSD+10)  -- original: Hiza. Hizayoroi +2 (WSD+7)
+    --   ear2 Hattori Earring +1 (PDL+8%)  -- original: Lugra Earring
+    --   waist Sailfi Belt +1 (base set)  -- original: Chaac Belt
     sets.precast.WS["Blade: Ten"] =
         set_combine(
         sets.precast.WS,
@@ -360,12 +389,8 @@ function init_gear_sets()
             ammo = "Voluspa Tathlum",
             neck = "Combatant's Torque",
             ear1 = "Moonshade Earring",
-            ear2 = "Lugra Earring",
-            body = gear.herculean_wsd_body,
             back = gear.wsd_jse_back,
-            waist = "Chaac Belt",
-            legs = "Hiza. Hizayoroi +2",
-            feet = gear.herculean_wsd_feet
+            legs = "Mochi. Hakama +3",
         }
     )
     sets.precast.WS["Blade: Ten"].SomeAcc =
@@ -375,32 +400,36 @@ function init_gear_sets()
             ammo = "Voluspa Tathlum",
             neck = "Combatant's Torque",
             ear1 = "Moonshade Earring",
-            body = gear.herculean_wsd_body,
+            body = { name="Nyame Mail", augments={'Path: B',}},
             back = gear.wsd_jse_back,
-            waist = "Chaac Belt",
-            legs = "Hiza. Hizayoroi +2",
-            feet = gear.herculean_wsd_feet
+            legs = "Mochi. Hakama +3",
+            feet = "Hattori Kyahan +3"
         }
     )
     sets.precast.WS["Blade: Ten"].Acc = set_combine(sets.precast.WS.Acc, {back = gear.wsd_jse_back})
     sets.precast.WS["Blade: Ten"].FullAcc = set_combine(sets.precast.WS.FullAcc, {})
     sets.precast.WS["Blade: Ten"].Fodder = set_combine(sets.precast.WS["Blade: Ten"], {})
 
+    -- LINKTRI: Aeolian Edge is a magical weapon skill -> Magic Atk. Bonus gear
+    --   original: Voluspa, Dampening Tam, Etiolation (ear2), Mpaca's Doublet, Adhemar Wrist. +1, Apate Ring,
+    --   Chaac Belt, Malignance Boots
     sets.precast.WS["Aeolian Edge"] = {
-        ammo = "Voluspa Tathlum",
-        head = "Dampening Tam",
+        ammo = "Pemphredo Tathlum",
+        head = "Mochi. Hatsuburi +3",       -- MAB+61
         neck = "Baetyl Pendant",
         ear1 = "Crematio Earring",
-        ear2 = "Etiolation Earring",
-        body = { name="Mpaca's Doublet", augments={'Path: A',}},
-        hands = "Adhemar Wrist. +1",
-        ring1 = "Apate Ring",
-        ring2 = "Metamor. Ring +1",
+        ear2 = "Hecate's Earring",
+        body = { name="Nyame Mail", augments={'Path: B',}},
+        hands = { name="Nyame Gauntlets", augments={'Path: B',}},
+        ring1 = "Dingir Ring",              -- MAB+10
+        ring2 = { name="Metamor. Ring +1", augments={'Path: A',}},
         back = "Null Shawl",
-        waist = "Chaac Belt",
-        legs = "Nyame Flanchard",
-        feet = "Malignance Boots"
+        waist = "Orpheus's Sash",
+        legs = { name="Nyame Flanchard", augments={'Path: B',}},
+        feet = { name="Nyame Sollerets", augments={'Path: B',}}
     }
+    -- LINKTRI: legs Mochi. Hakama +3 (WSD+10), feet Hattori Kyahan +3 (WSD+12), rings Gere (STR+10) / Ephramad's (STR+10)
+    --   original: Nyame Flanchard / Nyame Sollerets, Ilabrat Ring / Apate Ring
     sets.precast.WS["Savage Blade"] = {
         ammo = "Coiste Bodhar",
         head = { name="Nyame Helm", augments={'Path: B',}},
@@ -409,12 +438,12 @@ function init_gear_sets()
         ear2 = "Ishvara Earring",
         body = { name="Nyame Mail", augments={'Path: B',}},
         hands = { name="Nyame Gauntlets", augments={'Path: B',}},
-        ring1 = "Ilabrat Ring",
-        ring2 = "Apate Ring",
-        back = gear.wsd_jse_back, -- Null Shawl substitute; swap to Andartia's Mantle once obtained
+        ring1 = "Gere Ring",
+        ring2 = "Ephramad's Ring",
+        back = gear.wsd_jse_back,
         waist = { name="Sailfi Belt +1", augments={'Path: A',}},
-        legs = { name="Nyame Flanchard", augments={'Path: B',}},
-        feet = { name="Nyame Sollerets", augments={'Path: B',}},
+        legs = "Mochi. Hakama +3",
+        feet = "Hattori Kyahan +3",
     }
     sets.precast.WS["Savage Blade"].SomeAcc = set_combine(sets.precast.WS["Savage Blade"], {
         ear1 = "Mache Earring +1",
@@ -427,25 +456,26 @@ function init_gear_sets()
         ring2 = "Chirich Ring +1",
     })
 
-    -- Swap to these on Moonshade using WS if at 3000 TP
-    sets.MaxTP = {ear1 = "Lugra Earring", ear2 = "Lugra Earring"}
+    -- Swap to these on Moonshade using WS if at 3000 TP (Moonshade is always ear1)
+    -- original: MaxTP = {ear1 = "Lugra Earring", ear2 = "Lugra Earring"} (Rare, only one owned)
+    sets.MaxTP = {ear1 = "Lugra Earring"}
     sets.AccMaxTP = {ear1 = "Mache Earring +1", ear2 = "Telos Earring"}
     sets.AccDayMaxTPWSEars = {ear1 = "Mache Earring +1", ear2 = "Telos Earring"}
-    sets.DayMaxTPWSEars = {ear1 = "Sherida Earring", ear2 = "Brutal Earring"}
+    sets.DayMaxTPWSEars = {ear1 = "Odr Earring"}           -- original: {ear1 = "Sherida Earring", ear2 = "Brutal Earring"}
     sets.AccDayWSEars = {ear1 = "Mache Earring +1", ear2 = "Telos Earring"}
-    sets.DayWSEars = {ear1 = "Moonshade Earring", ear2 = "Brutal Earring"}
+    sets.DayWSEars = {ear1 = "Moonshade Earring"}          -- original: {ear1 = "Moonshade Earring", ear2 = "Brutal Earring"}
 
     --------------------------------------
     -- Midcast sets
     --------------------------------------
 
     sets.midcast.FastRecast = {
-        head = gear.herculean_fc_head,
+        head = "Hattori Zukin +3",          -- original: gear.herculean_fc_head (not owned)
         neck = "Voltsurge Torque",
-        ear1 = "Enchntr. Earring +1",
+        ear1 = "Etiolation Earring",        -- original: Enchntr. Earring +1 (not owned)
         ear2 = "Loquac. Earring",
         body = "Dread Jupon",
-        hands = "Chironic Gloves",
+        hands = "Sombra Mittens",           -- original: Chironic Gloves (NIN can't equip)
         ring1 = "Defending Ring",
         ring2 = "Kishar Ring",
         legs = "Rawhide Trousers",
@@ -459,13 +489,13 @@ function init_gear_sets()
         head = "Mochi. Hatsuburi +3",
         neck = "Baetyl Pendant",
         ear1 = "Crematio Earring",
-        ear2 = "Etiolation Earring",
+        ear2 = "Hecate's Earring",          -- MAB+6  -- original: Etiolation Earring
         body = "Samnuha Coat",
         hands = "Hattori Tekko +3",
-        ring1 = "Apate Ring",
+        ring1 = "Dingir Ring",              -- MAB+10  -- original: Apate Ring (no magic stats)
         ring2 = "Metamor. Ring +1",
         back = "Null Shawl",
-        waist = "Eschan Stone",
+        waist = "Orpheus's Sash",           -- original: Eschan Stone
         legs = "Gyve Trousers",
         feet = "Mochi. Kyahan +3"
     }
@@ -474,41 +504,42 @@ function init_gear_sets()
 
     sets.midcast.ElementalNinjutsu.Resistant = set_combine(sets.midcast.ElementalNinjutsu, {})
 
-    -- Mujin Band/Locus Ring not owned; Apate Ring (MAB) used as MagicBurst ring substitute
-    sets.MagicBurst = {ring1 = "Apate Ring", ring2 = "Metamor. Ring +1"}
+    -- LINKTRI: Nyame Flanchard (Magic burst damage +6); Hattori Tekko +3 (MB+15) is already in the nuke set.
+    -- original: {ring1 = "Apate Ring", ring2 = "Metamor. Ring +1"} (no burst stats)
+    sets.MagicBurst = {legs = { name="Nyame Flanchard", augments={'Path: B',}}}
 
-    -- LINKTRI MODIFICATION 2026-06-27: Mochi. Kyahan +3 (Ninj. skill+23) replaces Hachi. Kyahan +1
-    -- (no MAcc) in NinjutsuDebuff feet; Hachi. Kyahan +1 demoted to FC set only (movement speed).
+    -- LINKTRI (2026-10-20): Magic Accuracy rebuild. original: Voluspa, Dampening Tam, Combatant's Torque, Gwati/Digni.,
+    --   Ashera Harness, Hachiya Tekko +1, Stikini/Metamor., Chaac Belt, Rawhide Trousers, Mochi. Kyahan +3
     sets.midcast.NinjutsuDebuff = {
-        ammo = "Voluspa Tathlum",
-        head = "Dampening Tam",
-        neck = "Combatant's Torque",
-        ear1 = "Gwati Earring",
-        ear2 = "Digni. Earring",
-        body = "Ashera Harness",
-        hands = "Hachiya Tekko +1",
+        ammo = "Yamarang",                  -- Magic Accuracy+15
+        head = "Hattori Zukin +3",          -- Magic Accuracy+61
+        neck = "Null Loop",                 -- Magic Accuracy+50
+        ear1 = "Psystorm Earring",          -- Magic Accuracy+12
+        ear2 = { name="Hattori Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Store TP"+5',}},
+        body = "Hattori Ningi +3",          -- Magic Accuracy+64
+        hands = "Hattori Tekko +3",         -- Magic Accuracy+62
         ring1 = "Stikini Ring",
         ring2 = "Metamor. Ring +1",
-        back = gear.da_jse_back,
-        waist = "Chaac Belt",
-        legs = "Rawhide Trousers",
-        feet = "Mochi. Kyahan +3"
+        back = gear.da_jse_back,            -- Null Shawl, Magic Accuracy+50
+        waist = "Null Belt",                -- Magic Accuracy+30
+        legs = "Hattori Hakama +3",         -- Magic Accuracy+63
+        feet = "Mochi. Kyahan +3"           -- Ninjutsu skill+23
     }
 
     -- LINKTRI MODIFICATION 2026-06-27: Mochizuki Tekko +3 (NTE+38, 20x enhanced) in NinjutsuBuff hands.
-    -- Mochi. Chainmail +3 (Utsusemi cast time -14%) added to Utsusemi feet override.
     sets.midcast.NinjutsuBuff = set_combine(sets.midcast.FastRecast, {
         back = gear.da_jse_back,
         hands = { name="Mochizuki Tekko +3", augments={'Enh. "Ninja Tool Expertise" effect',}}
     })
 
+    -- Hattori Kyahan +3: "Utsusemi"+1. original: also body = "Mochi. Chainmail +3" (casting time gear; moved to precast)
     sets.midcast.Utsusemi =
-        set_combine(sets.midcast.NinjutsuBuff, {back = gear.da_jse_back, body = "Mochi. Chainmail +3", feet = "Hattori Kyahan +3"})
+        set_combine(sets.midcast.NinjutsuBuff, {back = gear.da_jse_back, feet = "Hattori Kyahan +3"})
 
     sets.midcast.RA = {
         head = "Malignance Chapeau",
         neck = "Combatant's Torque",
-        ear1 = "Enervating Earring",
+        ear1 = "Crep. Earring",             -- original: Enervating Earring (moved off ear1)
         ear2 = "Telos Earring",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
@@ -520,20 +551,7 @@ function init_gear_sets()
         feet = "Malignance Boots"
     }
 
-    sets.midcast.RA.Acc = {
-        head = "Malignance Chapeau",
-        neck = "Combatant's Torque",
-        ear1 = "Enervating Earring",
-        ear2 = "Telos Earring",
-        body = "Malignance Tabard",
-        hands = "Malignance Gloves",
-        ring1 = "Ilabrat Ring",
-        ring2 = "Apate Ring",
-        back = gear.da_jse_back,
-        waist = "Chaac Belt",
-        legs = "Malignance Tights",
-        feet = "Malignance Boots"
-    }
+    sets.midcast.RA.Acc = set_combine(sets.midcast.RA, {})
 
     --------------------------------------
     -- Idle/resting/defense/etc sets
@@ -556,61 +574,53 @@ function init_gear_sets()
         back = "Null Shawl",
         waist = "Null Belt",
         legs = "Hattori Hakama +3",
-        feet = "Hattori Kyahan",
+        feet = "Hattori Kyahan +3",         -- original: Hattori Kyahan (you have the +3)
     }
 
     sets.idle.Sphere = set_combine(sets.idle, {body = "Samnuha Coat"})
 
+    -- original PDT: Yamarang, Dampening Tam (DT-4%), Ashera Harness (DT-7%), Chaac Belt
     sets.defense.PDT = {
-        ammo = "Yamarang",
-        head = "Dampening Tam",
+        ammo = "Staunch Tathlum +1",
+        head = "Hattori Zukin +3",          -- DT-10%
         neck = "Loricate Torque +1",
         ear1 = "Genmei Earring",
         ear2 = "Sanare Earring",
-        body = "Ashera Harness",
+        body = "Hattori Ningi +3",          -- DT-13%
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
         ring2 = "Murky Ring",
         back = "Null Shawl",
-        waist = "Chaac Belt",
+        waist = "Null Belt",
         legs = "Nyame Flanchard",
         feet = "Malignance Boots"
     }
 
-    sets.defense.MDT = {
-        ammo = "Yamarang",
-        head = "Dampening Tam",
+    -- original MDT: same as PDT original plus ring2 Ice Ring (elemental magic skill)
+    sets.defense.MDT = set_combine(sets.defense.PDT, {ear1 = "Etiolation Earring"})
+
+    -- original MEVA: Yamarang, Dampening Tam, Sacro Gorget (NIN can't equip), Samnuha Coat/Tights, Chironic Gloves
+    --   (NIN can't equip), Vengeful/Ice Ring, Chaac Belt, Malignance Boots
+    sets.defense.MEVA = {
+        ammo = "Staunch Tathlum +1",
+        head = "Hattori Zukin +3",          -- MEVA+119
         neck = "Loricate Torque +1",
         ear1 = "Etiolation Earring",
         ear2 = "Sanare Earring",
-        body = "Ashera Harness",
-        hands = "Malignance Gloves",
+        body = "Hattori Ningi +3",          -- MEVA+129
+        hands = "Nyame Gauntlets",          -- MEVA+112
         ring1 = "Defending Ring",
-        ring2 = "Ice Ring",
+        ring2 = "Murky Ring",
         back = "Null Shawl",
-        waist = "Chaac Belt",
-        legs = "Nyame Flanchard",
-        feet = "Malignance Boots"
+        waist = "Null Belt",
+        legs = "Hattori Hakama +3",         -- MEVA+135
+        feet = "Hattori Kyahan +3"          -- MEVA+135
     }
 
-    sets.defense.MEVA = {
-        ammo = "Yamarang",
-        head = "Dampening Tam",
-        neck = "Sacro Gorget",
-        ear1 = "Etiolation Earring",
-        ear2 = "Sanare Earring",
-        body = "Samnuha Coat",
-        hands = "Chironic Gloves",
-        ring1 = "Vengeful Ring",
-        ring2 = "Ice Ring",
-        back = "Null Shawl",
-        waist = "Chaac Belt",
-        legs = "Samnuha Tights",
-        feet = "Malignance Boots"
-    }
-
-    sets.Kiting = {feet = "Hachi. Kyahan +1"}
-    sets.DuskKiting = {}
+    -- LINKTRI: Hachi. Kyahan +1 only gives movement speed dusk to dawn; NIN.lua uses sets.DuskKiting at night.
+    --   original: sets.Kiting = {feet = "Hachi. Kyahan +1"}, sets.DuskKiting = {}
+    sets.Kiting = {ring2 = "Shneddick Ring +1"}
+    sets.DuskKiting = {feet = "Hachi. Kyahan +1"}
     sets.DuskIdle = {}
     sets.DayIdle = {}
     sets.NightIdle = {}
@@ -618,11 +628,8 @@ function init_gear_sets()
     --------------------------------------
     -- Engaged sets
     --------------------------------------
-
-    -- Variations for TP weapon and (optional) offense/defense modes.  Code will fall back on previous
-    -- sets if more refined versions aren't defined.
-    -- If you create a set with both offense and defense modes, the offense mode should be first.
-    -- EG: sets.engaged.Dagger.Accuracy.Evasion
+    -- LINKTRI: Sherida Earring and Regal Belt (NIN can't equip) -> Odr Earring and Sailfi Belt +1;
+    --   Brutal Earring -> Hattori Earring +1 / Dedition; Herculean Boots (not owned) -> Mpaca's Boots (TA+3%, DT-6%)
 
     -- Normal melee group
     sets.engaged = {
@@ -638,30 +645,30 @@ function init_gear_sets()
         back = "Null Shawl",
         waist = "Null Belt",
         legs = "Samnuha Tights",
-        feet = gear.herculean_ta_feet
+        feet = { name="Mpaca's Boots", augments={'Path: A',}}  -- original: gear.herculean_ta_feet
     }
 
     sets.engaged.SomeAcc = {
         ammo = "Yamarang",
         head = "Dampening Tam",
         neck = "Combatant's Torque",
-        ear1 = "Sherida Earring",
-        ear2 = "Brutal Earring",
+        ear1 = "Odr Earring",               -- original: Sherida Earring
+        ear2 = { name="Hattori Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Store TP"+5',}}, -- original: Brutal Earring
         body = { name="Mpaca's Doublet", augments={'Path: A',}},
         hands = "Adhemar Wrist. +1",
         ring1 = "Ilabrat Ring",
         ring2 = "Epona's Ring",
         back = gear.da_jse_back,
-        waist = "Regal Belt",
+        waist = { name="Sailfi Belt +1", augments={'Path: A',}},  -- original: Regal Belt
         legs = "Samnuha Tights",
-        feet = gear.herculean_ta_feet
+        feet = { name="Mpaca's Boots", augments={'Path: A',}}    -- original: gear.herculean_ta_feet
     }
 
     sets.engaged.Acc = {
         ammo = "Yamarang",
         head = "Dampening Tam",
         neck = "Combatant's Torque",
-        ear1 = "Digni. Earring",
+        ear1 = "Odr Earring",               -- original: Digni. Earring (not owned)
         ear2 = "Telos Earring",
         body = { name="Mpaca's Doublet", augments={'Path: A',}},
         hands = "Adhemar Wrist. +1",
@@ -693,30 +700,30 @@ function init_gear_sets()
         ammo = "Yamarang",
         head = "Dampening Tam",
         neck = "Combatant's Torque",
-        ear1 = "Dedition Earring",
-        ear2 = "Brutal Earring",
+        ear1 = "Odr Earring",               -- original: ear1 Dedition Earring, ear2 Brutal Earring
+        ear2 = "Dedition Earring",
         body = { name="Mpaca's Doublet", augments={'Path: A',}},
         hands = "Adhemar Wrist. +1",
         ring1 = "Gere Ring",
         ring2 = "Epona's Ring",
         back = gear.da_jse_back,
-        waist = "Regal Belt",
+        waist = { name="Sailfi Belt +1", augments={'Path: A',}},  -- original: Regal Belt
         legs = "Samnuha Tights",
-        feet = gear.herculean_ta_feet
+        feet = { name="Mpaca's Boots", augments={'Path: A',}}    -- original: gear.herculean_ta_feet
     }
 
     sets.engaged.Crit = {
         ammo = "Yamarang",
         head = "Mummu Bonnet +2",
         neck = "Combatant's Torque",
-        ear1 = "Sherida Earring",
-        ear2 = "Brutal Earring",
+        ear1 = "Odr Earring",               -- crit +5%  -- original: Sherida Earring
+        ear2 = { name="Hattori Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','"Store TP"+5',}}, -- original: Brutal Earring
         body = "Mummu Jacket +2",
         hands = "Mummu Wrists +2",
         ring1 = "Gere Ring",
         ring2 = "Epona's Ring",
         back = gear.da_jse_back,
-        waist = "Regal Belt",
+        waist = { name="Sailfi Belt +1", augments={'Path: A',}},  -- original: Regal Belt
         legs = "Mummu Kecks +2",
         feet = "Mummu Gamash. +2"
     }
@@ -725,14 +732,14 @@ function init_gear_sets()
         ammo = "Yamarang",
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
-        ear1 = "Sherida Earring",
+        ear1 = "Odr Earring",               -- original: Sherida Earring
         ear2 = "Alabaster Earring",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
         ring2 = "Epona's Ring",
         back = gear.da_jse_back,
-        waist = "Regal Belt",
+        waist = { name="Sailfi Belt +1", augments={'Path: A',}},  -- original: Regal Belt
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
@@ -741,14 +748,14 @@ function init_gear_sets()
         ammo = "Yamarang",
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
-        ear1 = "Telos Earring",
+        ear1 = "Mache Earring +1",          -- original: Telos Earring (moved off ear1)
         ear2 = "Alabaster Earring",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
         ring2 = "Epona's Ring",
         back = gear.da_jse_back,
-        waist = "Regal Belt",
+        waist = { name="Sailfi Belt +1", augments={'Path: A',}},  -- original: Regal Belt
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
@@ -764,7 +771,7 @@ function init_gear_sets()
         ring1 = "Defending Ring",
         ring2 = "Epona's Ring",
         back = gear.da_jse_back,
-        waist = "Regal Belt",
+        waist = { name="Sailfi Belt +1", augments={'Path: A',}},  -- original: Regal Belt
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
@@ -774,7 +781,7 @@ function init_gear_sets()
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
         ear1 = "Mache Earring +1",
-        ear2 = "Odr Earring",
+        ear2 = "Telos Earring",             -- original: Odr Earring (moved off ear2)
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
@@ -785,21 +792,7 @@ function init_gear_sets()
         feet = "Malignance Boots"
     }
 
-    sets.engaged.Fodder.DT = {
-        ammo = "Yamarang",
-        head = "Malignance Chapeau",
-        neck = "Loricate Torque +1",
-        ear1 = "Sherida Earring",
-        ear2 = "Alabaster Earring",
-        body = "Malignance Tabard",
-        hands = "Malignance Gloves",
-        ring1 = "Defending Ring",
-        ring2 = "Epona's Ring",
-        back = gear.da_jse_back,
-        waist = "Regal Belt",
-        legs = "Malignance Tights",
-        feet = "Malignance Boots"
-    }
+    sets.engaged.Fodder.DT = set_combine(sets.engaged.DT, {}) -- was an exact copy of engaged.DT
 
     --------------------------------------
     -- Custom buff sets
@@ -813,7 +806,7 @@ function init_gear_sets()
 
     -- Extra Melee sets.  Apply these on top of melee sets.
     sets.Knockback = {}
-    sets.SuppaBrutal = {ear1 = "Suppanomimi", ear2 = "Brutal Earring"}
+    sets.SuppaBrutal = {ear1 = "Suppanomimi"} -- original: also ear2 = "Brutal Earring" (engaged ear2 Hattori Earring +1 stays)
     sets.DWEarrings = {ear1 = "Dudgeon Earring", ear2 = "Heartseeker Earring"}
     -- LINKTRI MODIFICATION 2026-06-27: Mochi. Chainmail +3 (DW+9) and Mochi. Hakama +3 (DW+10)
     -- replace Mpaca's Doublet in DWMax; Hachiya body (DW+8) is inferior to both Mochi. and Mpaca's.
@@ -823,7 +816,7 @@ function init_gear_sets()
         body = "Mochi. Chainmail +3",
         hands = "Floral Gauntlets",
         legs = "Mochi. Hakama +3",
-        waist = "Chaac Belt"
+        waist = "Reiki Yotai"               -- Dual Wield+7  -- original: Chaac Belt (no Dual Wield)
     }
     sets.TreasureHunter = set_combine(sets.TreasureHunter, {})
     sets.Skillchain = {legs = "Hattori Hakama +3"}
@@ -833,15 +826,16 @@ function init_gear_sets()
     sets.weapons.Savage = {main = "Naegling", sub = "Yagyu Darkblade"}
     sets.weapons.Evisceration = {main = "Tauret", sub = "Kunimitsu"}
     sets.weapons.MagicWeapons = {main = "Kunimitsu", sub = "Tauret"}
-    sets.weapons.ProcDagger = {main = "Chicken Knife II", sub = empty}
-    sets.weapons.ProcSword = {main = "Ark Sword", sub = empty}
-    sets.weapons.ProcGreatSword = {main = "Lament", sub = empty}
-    sets.weapons.ProcScythe = {main = "Ark Scythe", sub = empty}
-    sets.weapons.ProcPolearm = {main = "Pitchfork +1", sub = empty}
-    sets.weapons.ProcGreatKatana = {main = "Hardwood Katana", sub = empty}
-    sets.weapons.ProcKatana = {main = "Kanaria", sub = empty}
-    sets.weapons.ProcClub = {main = "Dream Bell +1", sub = empty}
-    sets.weapons.ProcStaff = {main = "Terra's Staff", sub = empty}
+    -- LINKTRI (2026-10-20): proc weapons commented out (not owned right now); restore with the state.Weapons list
+    -- sets.weapons.ProcDagger = {main = "Chicken Knife II", sub = empty}
+    -- sets.weapons.ProcSword = {main = "Ark Sword", sub = empty}
+    -- sets.weapons.ProcGreatSword = {main = "Lament", sub = empty}
+    -- sets.weapons.ProcScythe = {main = "Ark Scythe", sub = empty}
+    -- sets.weapons.ProcPolearm = {main = "Pitchfork +1", sub = empty}
+    -- sets.weapons.ProcGreatKatana = {main = "Hardwood Katana", sub = empty}
+    -- sets.weapons.ProcKatana = {main = "Kanaria", sub = empty}
+    -- sets.weapons.ProcClub = {main = "Dream Bell +1", sub = empty}
+    -- sets.weapons.ProcStaff = {main = "Terra's Staff", sub = empty}
 
     sets.packing = {
         ammo  = "Staunch Tathlum +1",
@@ -854,13 +848,15 @@ function init_gear_sets()
         ring1 = "Defending Ring",
         ring2 = { name="Murky Ring", augments={'Path: A'}},
         back  = "Null Shawl",
-        waist = "Fucho-no-Obi",
+        waist = "Isa Belt",                 -- original: Fucho-no-Obi (NIN can't equip)
         legs  = "Nyame Flanchard",
         feet  = "Nyame Sollerets"
     }
 end
 
-function job_customize_idle_set(idleSet)
+-- LINKTRI (2026-10-20): renamed from job_customize_idle_set. That name replaced NIN.lua's own version, which puts on
+-- Hattori Ningi +3 (Migawari+16) while Migawari is up. NIN.lua's runs first now; this only adds the packing set.
+function user_job_customize_idle_set(idleSet)
     local currently_near_porter = near_porter_moogle()
 
     if currently_near_porter then
