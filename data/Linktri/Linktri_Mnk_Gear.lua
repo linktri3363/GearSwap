@@ -160,7 +160,7 @@ function init_gear_sets()
         body = "Mpaca's Doublet",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
-        ring2 = "Epona's Ring",
+        ring2 = "Ephramad's Ring",       -- LINKTRI: original: Epona's Ring (DA/TA only on the first hit). STR+10, Acc/Atk+20, PDL+10% on every hit
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
         waist = "Eschan Stone",
         legs = "Mpaca's Hose",
@@ -211,7 +211,7 @@ function init_gear_sets()
         body = "Bhikku Cyclas +3",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
-        ring2 = "Epona's Ring",
+        ring2 = "Ephramad's Ring",       -- LINKTRI: original: Epona's Ring (DA/TA only on the first hit). STR+10, Acc/Atk+20, PDL+10% on every hit
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
         waist = "Thunder Belt", -- LINKTRI MODIFICATION: Raging Fists = Impaction; Thunder Belt +0.1 fTP replicates across all 5 hits
         legs = "Mpaca's Hose",
@@ -228,7 +228,7 @@ function init_gear_sets()
         body = "Nyame Mail",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
-        ring2 = "Epona's Ring",
+        ring2 = "Ephramad's Ring",       -- LINKTRI: original: Epona's Ring (DA/TA only on the first hit). STR+10, Acc/Atk+20, PDL+10% on every hit
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
         waist = "Thunder Belt", -- LINKTRI MODIFICATION: Howling Fist is Impaction-aligned; elemental belt +0.1 fTP
         legs = "Mpaca's Hose",
@@ -245,7 +245,7 @@ function init_gear_sets()
         body = "Bhikku Cyclas +3",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
-        ring2 = "Epona's Ring",
+        ring2 = "Ephramad's Ring",       -- LINKTRI: original: Epona's Ring (DA/TA only on the first hit). STR+10, Acc/Atk+20, PDL+10% on every hit
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
         waist = "Eschan Stone",
         legs = "Mpaca's Hose",
@@ -271,7 +271,7 @@ function init_gear_sets()
         body = "Mpaca's Doublet",
         hands = "Mpaca's Gloves",       -- LINKTRI: original: Anch. Gloves +4 (WSD+12%, first hit only). Crit rate+5%/TA+3% on every hit of a crit WS
         ring1 = "Gere Ring",
-        ring2 = "Epona's Ring",
+        ring2 = "Ephramad's Ring",       -- LINKTRI: original: Epona's Ring (DA/TA only on the first hit). STR+10, Acc/Atk+20, PDL+10% on every hit
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
         waist = "Light Belt", -- LINKTRI MODIFICATION: pairs with Light Gorget for +0.2 fTP total on Light WS
         legs = "Mpaca's Hose",
@@ -293,7 +293,7 @@ function init_gear_sets()
         body = "Mpaca's Doublet",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
-        ring2 = "Epona's Ring",
+        ring2 = "Ephramad's Ring",       -- LINKTRI: original: Epona's Ring (DA/TA only on the first hit). STR+10, Acc/Atk+20, PDL+10% on every hit
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
         waist = "Light Belt", -- LINKTRI MODIFICATION: pairs with Light Gorget for +0.2 fTP on Fusion open
         legs = "Mpaca's Hose",
@@ -309,7 +309,7 @@ function init_gear_sets()
         body = "Mpaca's Doublet",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
-        ring2 = "Epona's Ring",
+        ring2 = "Ephramad's Ring",       -- LINKTRI: original: Epona's Ring (DA/TA only on the first hit). STR+10, Acc/Atk+20, PDL+10% on every hit
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
         waist = "Thunder Belt", -- LINKTRI MODIFICATION: Tornado Kick = Impaction; Thunder Belt +0.1 fTP replicates across all hits
         legs = "Mpaca's Hose",
@@ -328,7 +328,7 @@ function init_gear_sets()
         body = "Mpaca's Doublet",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
-        ring2 = "Epona's Ring",
+        ring2 = "Ephramad's Ring",       -- LINKTRI: original: Epona's Ring (DA/TA only on the first hit). STR+10, Acc/Atk+20, PDL+10% on every hit
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
         waist = "Thunder Belt",
         legs = "Mpaca's Hose",
@@ -345,7 +345,7 @@ function init_gear_sets()
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
         ring1 = "Gere Ring",
-        ring2 = "Epona's Ring",
+        ring2 = "Ephramad's Ring",       -- LINKTRI: original: Epona's Ring (DA/TA only on the first hit). STR+10, Acc/Atk+20, PDL+10% on every hit
         back = "Sacro Mantle",          -- LINKTRI: original: Segomo's Mantle (DA cape). Final Heaven is one hit, so WSD+6% applies in full
         waist = "Eschan Stone",
         legs = "Nyame Flanchard",
