@@ -2,7 +2,7 @@ function user_job_setup()
     -- Options: Override default values
     state.OffenseMode:options("Normal", "Acc", "FullAcc", "SubtleBlow", "Counter")
     state.WeaponskillMode:options("Match", "Normal", "Acc", "FullAcc")
-    state.HybridMode:options("Normal", "PDT", "Gleti", "PDTOffense") -- LINKTRI MODIFICATION: added armor-capped PDT-offense hybrid
+    state.HybridMode:options("Normal", "PDT", "PDTOffense") -- LINKTRI MODIFICATION: added armor-capped PDT-offense hybrid; removed "Gleti" (Gleti's armor is not MNK-equippable)
     state.PhysicalDefenseMode:options("PDT")
     state.MagicalDefenseMode:options("MDT")
     state.ResistDefenseMode:options("MEVA")
@@ -10,14 +10,10 @@ function user_job_setup()
         "Prime",
 		"Godhands",
         "Staff",
-        "ProcStaff",
-        "ProcClub",
-        "Barehanded",
-        "ProcSword",
-        "ProcGreatSword",
-        "ProcScythe",
-        "ProcPolearm",
-        "ProcGreatKatana"
+        "Barehanded"
+        -- LINKTRI: proc weapons commented out (stored, rarely used on MNK). To restore, add back:
+        -- "ProcStaff", "ProcClub", "ProcSword", "ProcGreatSword", "ProcScythe", "ProcPolearm", "ProcGreatKatana"
+        -- and uncomment their sets.weapons entries below.
     )
 
     state.ExtraMeleeMode = M {["description"] = "Extra Melee Mode", "None"}
@@ -32,7 +28,9 @@ function user_job_setup()
 end
 
 -- Function to customize idle sets based on current modes and conditions
-function job_customize_idle_set(idleSet)
+-- LINKTRI: renamed from job_customize_idle_set, which replaced MNK.lua's version. MNK.lua's now runs
+-- first (it applies the Boost/Ask Sash overlay), then this one.
+function user_job_customize_idle_set(idleSet)
     -- Check if near Porter Moogle first
     local currently_near_porter = near_porter_moogle()
     
@@ -51,31 +49,12 @@ function job_customize_idle_set(idleSet)
         end
     end
     
-    -- Keep Ask Sash equipped while Boost is active
-    if buffactive['Boost'] then
-        idleSet = set_combine(idleSet, sets.buff.Boost)
-    end
-    
+    -- LINKTRI: Boost/Ask Sash overlay removed here - MNK.lua's job_customize_idle_set applies it.
     return idleSet
 end
 
--- Function to customize engaged sets to keep Boost gear equipped
-function job_customize_melee_set(meleeSet)
-    -- LINKTRI MODIFICATION: this override was clobbering MNK.lua's version, killing the Impetus body
-    -- swap and Footwork feet handling while engaged. Base logic restored below, Boost kept.
-    if state.OffenseMode.value ~= 'FullAcc' then
-        if state.Buff['Impetus'] then
-            meleeSet = set_combine(meleeSet, sets.buff.Impetus)
-        end
-        if buffactive.Footwork then
-            meleeSet = set_combine(meleeSet, sets.buff.Footwork)
-        end
-    end
-    if buffactive['Boost'] then
-        meleeSet = set_combine(meleeSet, sets.buff.Boost)
-    end
-    return meleeSet
-end
+-- LINKTRI: removed this file's job_customize_melee_set. It replaced MNK.lua's and copied its logic
+-- (Impetus body / Footwork feet outside FullAcc, Boost Ask Sash); MNK.lua's own version now runs.
 
 function init_gear_sets()
     --------------------------------------
@@ -106,8 +85,8 @@ function init_gear_sets()
         ear2 = "Sanare Earring",
         body = "Anch. Cyclas +4", -- LINKTRI MODIFICATION: fixed missing + (Chakra body was silently failing)
         hands = "Hesy. Gloves +4",
-        ring1 = "Gere Ring",
-        ring2 = { name="Murky Ring", augments={'Path: A',}},
+        ring1 = { name="Murky Ring", augments={'Path: A',}}, -- LINKTRI: moved from ring2 (Murky keeps ring1)
+        ring2 = "Defending Ring",       -- LINKTRI: original: Gere Ring (STR/Atk/TA do nothing for Chakra); DT-10%
         back = { name="Segomo's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','"Waltz" potency +10%','Damage taken-5%',}},
         waist = "Carrier's Sash",
         legs = "Hesy. Hose +4",
@@ -124,8 +103,8 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
         neck = "Combatant's Torque",
-        ear1 = "Bhikku Earring +1", -- LINKTRI MODIFICATION: filled empty ear1 (Acc+13/MAcc+13/STP+4)
-        ear2 = "Telos Earring",
+        ear1 = "Telos Earring",
+        ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only (Acc+13/MAcc+13/STP+4)
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
@@ -140,8 +119,8 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
         neck = "Combatant's Torque",
-        ear1 = "Bhikku Earring +1", -- LINKTRI MODIFICATION: filled empty ear1
-        ear2 = "Telos Earring",
+        ear1 = "Telos Earring",
+        ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
@@ -154,20 +133,21 @@ function init_gear_sets()
 
     -- Fast cast sets for spells
 
+    -- LINKTRI: head removed (original: gear.herculean_fc_head - not owned; no owned MNK FC head).
     sets.precast.FC = {
         ammo = "Impatiens",
-        head = gear.herculean_fc_head,
         neck = "Voltsurge Torque",
-        ear1 = "Enchntr. Earring +1",
+        ear1 = "Etiolation Earring",    -- LINKTRI: original: Enchntr. Earring +1 (not owned); FC+1
         ear2 = "Loquac. Earring",
         body = "Dread Jupon",
-        hands = "Malignance Gloves",
+        hands = "Sombra Mittens",       -- LINKTRI: original: Malignance Gloves (no FC); FC+3
         ring1 = "Lebeche Ring",
-        ring2 = "Kishar Ring",
+        ring2 = "Naji's Loop",          -- LINKTRI: original: Kishar Ring (not MNK-equippable); FC+1
         legs = "Rawhide Trousers"
     }
 
-    sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {neck = "Magoraga Beads", body = "Passion Jacket"})
+    -- LINKTRI: Passion Jacket removed (not owned); body stays Dread Jupon (FC+7).
+    sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {neck = "Magoraga Beads"})
 
     -- Weaponskill sets
     -- Default set for any weaponskill that isn't any more specifically defined
@@ -190,8 +170,8 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Dampening Tam",
         neck = "Combatant's Torque",
-        ear1 = "Bhikku Earring +1", -- LINKTRI MODIFICATION: filled empty ear1
-        ear2 = "Telos Earring",
+        ear1 = "Telos Earring",
+        ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
@@ -205,8 +185,8 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
         neck = "Combatant's Torque",
-        ear1 = "Bhikku Earring +1", -- LINKTRI MODIFICATION: filled empty ear1
-        ear2 = "Telos Earring",
+        ear1 = "Telos Earring",
+        ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
@@ -289,7 +269,7 @@ function init_gear_sets()
         ear1 = "Moonshade Earring", -- LINKTRI MODIFICATION: TP Bonus+250 (swapped out above 3200 TP via sets.MaxTP)
         ear2 = "Sherida Earring",
         body = "Mpaca's Doublet",
-        hands = "Anch. Gloves +4",
+        hands = "Mpaca's Gloves",       -- LINKTRI: original: Anch. Gloves +4 (WSD+12%, first hit only). Crit rate+5%/TA+3% on every hit of a crit WS
         ring1 = "Gere Ring",
         ring2 = "Epona's Ring",
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
@@ -308,8 +288,8 @@ function init_gear_sets()
         ammo = "Coiste Bodhar", -- LINKTRI MODIFICATION: Shijin (5 hits, cannot crit); Coiste DA adds hits > first-hit-only WSD. NOTE: Mpaca's crit rate here is dead stat (Shijin can't crit) but its TA/Atk/PDL still count
         head = "Mpaca's Cap",
         neck = "Light Gorget", -- LINKTRI MODIFICATION: Shijin = Fusion/Reverberation; Fusion carries the Light element, so Light Gorget aligns & +0.1 fTP replicates all 5 hits
-        ear1 = "Sherida Earring",
-        ear2 = "Mache Earring +1",
+        ear1 = "Mache Earring +1",      -- LINKTRI: sides swapped so Sherida keeps ear2
+        ear2 = "Sherida Earring",
         body = "Mpaca's Doublet",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
@@ -360,13 +340,13 @@ function init_gear_sets()
         ammo = "Knobkierrie",
         head = "Mpaca's Cap",
         neck = "Rep. Plat. Medal",
-        ear1 = "Sherida Earring",
-        ear2 = "Ishvara Earring",
+        ear1 = "Ishvara Earring",       -- LINKTRI: sides swapped so Sherida keeps ear2
+        ear2 = "Sherida Earring",
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
         ring1 = "Gere Ring",
         ring2 = "Epona's Ring",
-        back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
+        back = "Sacro Mantle",          -- LINKTRI: original: Segomo's Mantle (DA cape). Final Heaven is one hit, so WSD+6% applies in full
         waist = "Eschan Stone",
         legs = "Nyame Flanchard",
         feet = "Nyame Sollerets"
@@ -377,8 +357,8 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head = "Malignance Chapeau",
         neck = "Rep. Plat. Medal",
-        ear1 = "",
-        ear2 = "Telos Earring",
+        ear1 = "Telos Earring",         -- LINKTRI: original: "" (empty string equipped nothing)
+        ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only; original: Telos Earring
         body = "Bhikku Cyclas +3",
         hands = "Bhikku Gloves +3",
         ring1 = "Stikini Ring",
@@ -393,11 +373,11 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head = "Nyame Helm",
         neck = "Sibyl Scarf",
-        ear1 = "Etiolation Earring",
+        ear1 = "Crematio Earring",      -- LINKTRI: original: Etiolation Earring. MAB+6, Magic Damage+6, Staff skill+5
         ear2 = "Moonshade Earring",
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
-        ring1 = "Archon Ring",
+        ring1 = "Gere Ring",            -- LINKTRI: original: Archon Ring (not owned); STR+10 for Cataclysm's STR mod
         ring2 = { name="Metamor. Ring +1", augments={'Path: A',}},
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
         waist = "Eschan Stone",
@@ -459,8 +439,8 @@ function init_gear_sets()
         ear2 = "Sanare Earring",
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
-        ring1 = "Archon Ring",
-        ring2 = { name="Murky Ring", augments={'Path: A',}},
+        ring1 = { name="Murky Ring", augments={'Path: A',}}, -- LINKTRI: moved from ring2 (Murky keeps ring1)
+        ring2 = "Defending Ring",       -- LINKTRI: original: Archon Ring (not owned); DT-10%
         back = { name="Segomo's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','"Waltz" potency +10%','Damage taken-5%',}},
         waist = "Carrier's Sash",
         legs = "Nyame Flanchard",
@@ -475,8 +455,8 @@ function init_gear_sets()
         ear2 = "Sanare Earring",
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
-        ring1 = "Archon Ring",
-        ring2 = { name="Murky Ring", augments={'Path: A',}},
+        ring1 = { name="Murky Ring", augments={'Path: A',}}, -- LINKTRI: moved from ring2 (Murky keeps ring1)
+        ring2 = "Defending Ring",       -- LINKTRI: original: Archon Ring (not owned); DT-10%
         back = { name="Segomo's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','"Waltz" potency +10%','Damage taken-5%',}},
         waist = "Carrier's Sash",
         legs = "Nyame Flanchard",
@@ -525,8 +505,8 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
         neck = "Rep. Plat. Medal",
-        ear1 = "Bhikku Earring +1", -- LINKTRI MODIFICATION: filled empty ear1
-        ear2 = "Telos Earring",
+        ear1 = "Telos Earring",
+        ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
@@ -542,8 +522,8 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Bhikku Crown +3",
         neck = "Mnk. Nodowa +2",
-        ear1 = "Bhikku Earring +1",
-        ear2 = "Sherida Earring",
+        ear1 = "Sherida Earring",
+        ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only
         body = "Bhikku Cyclas +3",
         hands = "Anch. Gloves +4",
         ring1 = "Chirich Ring +1",
@@ -592,8 +572,8 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
-        ear1 = "Bhikku Earring +1", -- LINKTRI MODIFICATION: filled empty ear1
-        ear2 = "Sherida Earring",
+        ear1 = "Sherida Earring",
+        ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
@@ -608,8 +588,8 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
-        ear1 = "Bhikku Earring +1", -- LINKTRI MODIFICATION: filled empty ear1
-        ear2 = "Telos Earring",
+        ear1 = "Telos Earring",
+        ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
@@ -620,22 +600,24 @@ function init_gear_sets()
         feet = "Malignance Boots"
     }
 
-    -- NEW: Gleti's hybrid set (Store TP+35 total!)
-    sets.engaged.Gleti = {
-        ammo = "Coiste Bodhar",
-        head = "Malignance Chapeau",
-        neck = "Rep. Plat. Medal",
-        ear1 = "Schere Earring",
-        ear2 = "Sherida Earring",
-        body = "Gleti's Cuirass",
-        hands = "Gleti's Gauntlets",
-        ring1 = "Gere Ring",
-        ring2 = "Epona's Ring",
-        back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Reiki Yotai",
-        legs = "Gleti's Breeches",
-        feet = "Gleti's Boots"
-    }
+    -- LINKTRI: Gleti hybrid removed - Gleti's armor is not MNK-equippable (THF/BST/DRG/BLU/DNC only),
+    -- so body/hands/legs/feet never equipped. PDTOffense covers this role (DT-50% from armor).
+    -- -- NEW: Gleti's hybrid set (Store TP+35 total!)
+    -- sets.engaged.Gleti = {
+    --     ammo = "Coiste Bodhar",
+    --     head = "Malignance Chapeau",
+    --     neck = "Rep. Plat. Medal",
+    --     ear1 = "Schere Earring",
+    --     ear2 = "Sherida Earring",
+    --     body = "Gleti's Cuirass",
+    --     hands = "Gleti's Gauntlets",
+    --     ring1 = "Gere Ring",
+    --     ring2 = "Epona's Ring",
+    --     back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
+    --     waist = "Reiki Yotai",
+    --     legs = "Gleti's Breeches",
+    --     feet = "Gleti's Boots"
+    -- }
 
     -- LINKTRI MODIFICATION: PDT-offense hybrid. Armor alone caps physical DT at -50
     -- (Bhikku Crown+3 DT-11, Mpaca's Doublet PDT-10, Malig. Gloves DT-5, Bhikku Hose+3 DT-14,
@@ -663,35 +645,43 @@ function init_gear_sets()
     sets.engaged.FullAcc.HF = set_combine(sets.engaged.FullAcc, {})
 
     sets.buff.Doom = set_combine(sets.buff.Doom, {})
-    sets.buff.Sleep = {head = "Frenzy Sallet"}
+    -- LINKTRI: sets.buff.Sleep removed (Frenzy Sallet not owned); Sel's sleep handling checks for owned wake-up items itself.
     sets.buff.Impetus = {body = "Bhikku Cyclas +3"}
     sets.buff.Footwork = {feet = "Bhikku Gaiters +3"}
     sets.buff.Boost = {waist = "Ask Sash"}
 
-    sets.FootworkWS = {feet = "Bhikku Gaiters +3"}
+    sets.buff.FootworkWS = {feet = "Bhikku Gaiters +3"} -- LINKTRI: was sets.FootworkWS; MNK.lua looks for sets.buff.FootworkWS
 
     -- LINKTRI MODIFICATION: MaxTP sets — MNK.lua's job_post_precast swaps Moonshade out of a WS set
     -- when effective TP > 3200. Without these defined, that swap silently did nothing.
     sets.MaxTP = {ear1 = "Schere Earring"}
-    sets.AccMaxTP = {ear1 = "Bhikku Earring +1"}
+    -- LINKTRI: Bhikku Earring +1 is ear2-only, so AccMaxTP sets both ears (Schere replaces Moonshade).
+    sets.AccMaxTP = {ear1 = "Schere Earring", ear2 = "Bhikku Earring +1"}
+    -- LINKTRI: Raging Fists / Howling Fist wear Moonshade + Schere (ear2); the generic MaxTP put Schere in
+    -- ear1 too (same Rare item in both ears). These restore the engaged pair instead.
+    sets.MaxTP["Raging Fists"] = {ear1 = "Schere Earring", ear2 = "Sherida Earring"}
+    sets.MaxTP["Howling Fist"] = {ear1 = "Schere Earring", ear2 = "Sherida Earring"}
+    -- LINKTRI: Cataclysm wears Moonshade in ear2; at capped TP swap it for another MAB earring.
+    sets.MaxTP["Cataclysm"] = {ear2 = "Hecate's Earring"}
+    sets.AccMaxTP["Cataclysm"] = {ear2 = "Hecate's Earring"}
     sets.DayIdle = {}
     sets.NightIdle = {}
     sets.Knockback = {}
     sets.TreasureHunter = set_combine(sets.TreasureHunter, {})
-    sets.Skillchain = {legs = "Ryuo Hakama"}
+    sets.Skillchain = {back = "Sacro Mantle"} -- LINKTRI: original: {legs = "Ryuo Hakama"} (not owned). Sacro Mantle: Skillchain Bonus+8
 
     -- Weapons sets
 	sets.weapons.Prime = {main = "Varga Purnikawa", sub = empty}
 	sets.weapons.Godhands = {main = "Godhands", sub = empty}
 	sets.weapons.Barehanded = {main = empty, sub = empty}
 	sets.weapons.Staff = {main = "Malignance Pole", sub = "Bloodrain Strap"}
-	sets.weapons.ProcStaff = {main = "Terra's Staff", sub = empty}
-	sets.weapons.ProcClub = {main = "Mafic Cudgel", sub = empty}
-	sets.weapons.ProcSword = {main = "Ark Sword", sub = empty}
-	sets.weapons.ProcGreatSword = {main = "Lament", sub = empty}
-	sets.weapons.ProcScythe = {main = "Ark Scythe", sub = empty}
-	sets.weapons.ProcPolearm = {main = "Pitchfork +1", sub = empty}
-	sets.weapons.ProcGreatKatana = {main = "Hardwood Katana", sub = empty}
+	-- sets.weapons.ProcStaff = {main = "Terra's Staff", sub = empty}
+	-- sets.weapons.ProcClub = {main = "Mafic Cudgel", sub = empty}
+	-- sets.weapons.ProcSword = {main = "Ark Sword", sub = empty}
+	-- sets.weapons.ProcGreatSword = {main = "Lament", sub = empty}
+	-- sets.weapons.ProcScythe = {main = "Ark Scythe", sub = empty}
+	-- sets.weapons.ProcPolearm = {main = "Pitchfork +1", sub = empty}
+	-- sets.weapons.ProcGreatKatana = {main = "Hardwood Katana", sub = empty}
 	
 	    -- Packing set for Porter Moogle
     sets.packing = {
