@@ -137,9 +137,11 @@ function user_job_setup()
 
     -- Additional local binds
     send_command("bind @` gs c step")
-    send_command("bind ^!@` gs c toggle usealtstep")
+    -- LINKTRI: Ctrl+Alt+Win+` and Alt+Win+` used to point at usealtstep/altstep, which DNC.lua
+    -- doesn't define (Mote leftovers), so they did nothing. Repointed to AutoStepMode / DanceStance.
+    send_command("bind ^!@` gs c cycle AutoStepMode")
     send_command("bind ^@` gs c cycle mainstep")
-    send_command("bind !@` gs c cycle altstep")
+    send_command("bind !@` gs c cycle DanceStance")
     send_command('bind ^` input /ja "Saber Dance" <me>')
     send_command('bind !` input /ja "Fan Dance" <me>')
     send_command('bind ^\\\\ input /ja "Chocobo Jig II" <me>')
@@ -1104,6 +1106,36 @@ function extra_user_post_precast(spell, spellMap, eventArgs)
     if spell.type == 'WeaponSkill' and state.HybridMode.value == 'DTFull' then
         ws_dt_cap()
     end
+end
+
+-- ======================================================================
+-- LINKTRI: AutoStepMode fix - replaces DNC.lua's check_step (called from its job_tick).
+-- DNC.lua's engaged-only test was `not player.status == 'Engaged'`, which is always false, so the
+-- engaged requirement never applied, and it also stepped with too little TP.
+-- Now: auto-steps only while engaged - EXCEPT in Aminon HybridMode, which fights unengaged at range,
+-- so there it still auto-steps unengaged as long as you're in combat with a monster targeted.
+-- Also requires enough TP for the step (step_cost()).
+-- Only affects AutoStepMode (Ctrl+Alt+Win+`). Manual steps (Win+` / macros) are untouched and
+-- work engaged or unengaged as before.
+-- ======================================================================
+function check_step()
+    if state.AutoStepMode.value == 'Off' or moving then return false end
+    if not (player.target and player.target.type == "MONSTER") then return false end
+    if not in_combat then return false end
+    if autostep_engaged_only and player.status ~= 'Engaged' and state.HybridMode.value ~= 'Aminon' then
+        return false
+    end
+    if player.tp < step_cost() then return false end
+
+    local abil_recasts = windower.ffxi.get_ability_recasts()
+    if abil_recasts[220] > latency then
+        return false
+    elseif state.AutoStepMode.value == 'Main' then
+        do_step()
+    elseif state.AutoStepMode.value == 'Cycle' then
+        do_step('cycle')
+    end
+    return false
 end
 
 -- ======================================================================
