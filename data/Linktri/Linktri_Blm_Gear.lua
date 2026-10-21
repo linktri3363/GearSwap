@@ -133,7 +133,7 @@ function init_gear_sets()
         main = gear.grioavolr_fc_staff,
         sub = "Clerisy Strap +1",
         ammo = "Impatiens",
-        head = "Agwu's Cap",
+        head = "Merlinic Hood",        -- LINKTRI: original: Agwu's Cap (FC+5%). FC+8%
         neck = "Voltsurge Torque",
         ear1 = "Malignance Earring",
         ear2 = "Loquac. Earring",
@@ -187,7 +187,7 @@ function init_gear_sets()
         main = gear.grioavolr_nuke_staff,
         sub = "Enki Strap",
         ammo = "Impatiens",
-        head = "Agwu's Cap",
+        head = "Merlinic Hood",        -- LINKTRI: original: Agwu's Cap (FC+5%). FC+8%
         neck = "Voltsurge Torque",
         ear1 = "Malignance Earring",
         ear2 = "Loquac. Earring",
@@ -452,7 +452,7 @@ function init_gear_sets()
         back = gear.nuke_jse_back,
         waist = "Null Belt",
         legs = "Arch. Tonban +4",
-        feet = "Mallquis Clogs +2"
+        feet = "Arch. Sabots +4"        -- LINKTRI: original: Mallquis Clogs +2. Elemental magic status down effect +30 (~-30 stat, +15 HP/tick), MAcc+47
     }
 
     sets.midcast.IntEnfeebles =
