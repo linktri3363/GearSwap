@@ -156,7 +156,7 @@ function init_gear_sets()
         head = "Mpaca's Cap",
         neck = "Rep. Plat. Medal",
         ear1 = "Schere Earring",
-        ear2 = "Sherida Earring",
+        ear2 = "Hoxne Earring", -- LINKTRI: original: Sherida Earring. All stats +15 (Mastery Rank 7) over DA (first hit only)
         body = "Mpaca's Doublet",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
@@ -207,7 +207,7 @@ function init_gear_sets()
         head = "Mpaca's Cap",
         neck = "Rep. Plat. Medal",
         ear1 = "Moonshade Earring",
-        ear2 = "Schere Earring",
+        ear2 = "Hoxne Earring", -- LINKTRI: original: Schere Earring. All stats +15 (Mastery Rank 7): STR/DEX+15 on all 5 hits
         body = "Bhikku Cyclas +3",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
@@ -224,7 +224,7 @@ function init_gear_sets()
         head = "Mpaca's Cap",
         neck = "Light Gorget", -- LINKTRI MODIFICATION: Howling Fist = Transfixion/Impaction; Light Gorget (Transfixion) +0.1 fTP replicates all hits
         ear1 = "Moonshade Earring",
-        ear2 = "Schere Earring",
+        ear2 = "Hoxne Earring", -- LINKTRI: original: Schere Earring. All stats +15 (Mastery Rank 7): STR/VIT+15
         body = "Nyame Mail",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
@@ -241,7 +241,7 @@ function init_gear_sets()
         head = "Hes. Crown +4",
         neck = "Rep. Plat. Medal",
         ear1 = "Schere Earring",
-        ear2 = "Bhikku Earring +1",
+        ear2 = "Hoxne Earring", -- LINKTRI: original: Bhikku Earring +1 (H2H skill+11). All stats +15 (Mastery Rank 7): STR/VIT+15 on all 8 hits
         body = "Bhikku Cyclas +3",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
@@ -267,7 +267,7 @@ function init_gear_sets()
         head = "Mpaca's Cap",
         neck = "Light Gorget", -- LINKTRI MODIFICATION: Victory Smite = Light/Fragmentation (fTP-replicating); Light Gorget +0.1 fTP on EVERY hit
         ear1 = "Moonshade Earring", -- LINKTRI MODIFICATION: TP Bonus+250 (swapped out above 3200 TP via sets.MaxTP)
-        ear2 = "Odr Earring",             -- LINKTRI: original: "Sherida Earring". Crit+5%, DEX+10, Acc+10 (Sherida DA only affects the first hit)
+        ear2 = "Hoxne Earring", -- LINKTRI: original: Sherida Earring, then Odr Earring. STR+15 (80% STR mod); Odr now replaces Moonshade at capped TP
         body = "Mpaca's Doublet",
         hands = "Mpaca's Gloves",       -- LINKTRI: original: Anch. Gloves +4 (WSD+12%, first hit only). Crit rate+5%/TA+3% on every hit of a crit WS
         ring1 = "Gere Ring",
@@ -289,7 +289,7 @@ function init_gear_sets()
         head = "Mpaca's Cap",
         neck = "Light Gorget", -- LINKTRI MODIFICATION: Shijin = Fusion/Reverberation; Fusion carries the Light element, so Light Gorget aligns & +0.1 fTP replicates all 5 hits
         ear1 = "Mache Earring +1",      -- LINKTRI: sides swapped so Sherida keeps ear2
-        ear2 = "Sherida Earring",
+        ear2 = "Hoxne Earring", -- LINKTRI: original: Sherida Earring. All stats +15 (Mastery Rank 7): DEX+15 on all 5 hits
         body = "Mpaca's Doublet",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
@@ -305,7 +305,7 @@ function init_gear_sets()
         head = "Mpaca's Cap",
         neck = "Mnk. Nodowa +2", -- LINKTRI MODIFICATION: kick WS -- Kick Attacks+25 directly boosts the kick hits; also PDL+10%/DEX+15 (beats Rep. Plat. Medal here)
         ear1 = "Moonshade Earring",
-        ear2 = "Sherida Earring",
+        ear2 = "Hoxne Earring", -- LINKTRI: original: Sherida Earring. All stats +15 (Mastery Rank 7): STR/VIT+15
         body = "Mpaca's Doublet",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
@@ -324,7 +324,7 @@ function init_gear_sets()
         head = "Mpaca's Cap",
         neck = "Mnk. Nodowa +2",
         ear1 = "Moonshade Earring",
-        ear2 = "Sherida Earring",
+        ear2 = "Hoxne Earring", -- LINKTRI: original: Sherida Earring. All stats +15 (Mastery Rank 7): STR+15
         body = "Mpaca's Doublet",
         hands = "Bhikku Gloves +3",
         ring1 = "Gere Ring",
@@ -341,7 +341,7 @@ function init_gear_sets()
         head = "Mpaca's Cap",
         neck = "Rep. Plat. Medal",
         ear1 = "Ishvara Earring",       -- LINKTRI: sides swapped so Sherida keeps ear2
-        ear2 = "Sherida Earring",
+        ear2 = "Hoxne Earring", -- LINKTRI: original: Sherida Earring. All stats +15 (Mastery Rank 7): VIT+15 (80% VIT mod)
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
         ring1 = "Gere Ring",
@@ -399,7 +399,7 @@ function init_gear_sets()
         head = "Null Masque",             -- LINKTRI: original: "Bhikku Crown +3". DT-10%, Regen+3, Refresh+1, Regain+2 (idle DT still ~80%)
         neck = "Bathy Choker +1",         -- LINKTRI: original: Loricate Torque +1 (DT-6%). Regen+3
         ear1 = { name="Alabaster Earring", augments={'Path: A',}},
-        ear2 = "Infused Earring",         -- LINKTRI: original: Hoxne Earring (stats only via Hoxne Ampulla mastery). Regen+1
+        ear2 = "Hoxne Earring",           -- LINKTRI: reverted from Infused Earring (Regen+1); Hoxne gives all stats +15 at Mastery Rank 7
         body = "Hiza. Haramaki +2", -- LINKTRI MODIFICATION: Regen+12 vs Cyclas Regen+5; idle DT still capped
         hands = "Nyame Gauntlets",
         ring1 = "Chirich Ring +1",        -- LINKTRI: original: Murky Ring (DT-10%). Regen+2
@@ -657,10 +657,10 @@ function init_gear_sets()
     sets.MaxTP = {ear1 = "Schere Earring"}
     -- LINKTRI: Bhikku Earring +1 is ear2-only, so AccMaxTP sets both ears (Schere replaces Moonshade).
     sets.AccMaxTP = {ear1 = "Schere Earring", ear2 = "Bhikku Earring +1"}
-    -- LINKTRI: Raging Fists / Howling Fist wear Moonshade + Schere (ear2); the generic MaxTP put Schere in
-    -- ear1 too (same Rare item in both ears). These restore the engaged pair instead.
-    sets.MaxTP["Raging Fists"] = {ear1 = "Schere Earring", ear2 = "Sherida Earring"}
-    sets.MaxTP["Howling Fist"] = {ear1 = "Schere Earring", ear2 = "Sherida Earring"}
+    -- (Raging Fists / Howling Fist now wear Hoxne in ear2, so the generic MaxTP's Schere in ear1 no longer
+    -- duplicates; their dedicated MaxTP sets were removed.)
+    -- Victory Smite at capped TP: Odr Earring (Crit+5%) replaces Moonshade, Hoxne stays in ear2.
+    sets.MaxTP["Victory Smite"] = {ear1 = "Odr Earring"}
     -- LINKTRI: Cataclysm wears Moonshade in ear2; at capped TP swap it for another MAB earring.
     sets.MaxTP["Cataclysm"] = {ear2 = "Hecate's Earring"}
     sets.AccMaxTP["Cataclysm"] = {ear2 = "Hecate's Earring"}
