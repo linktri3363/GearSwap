@@ -181,12 +181,12 @@ function init_gear_sets()
     -- equips the ampulla, auto-uses it once ready (hoxne_try_use), and disable()s the slot, so WS/waltz/step swaps can never unequip it
     -- (unequipping drops the buff until re-used).
     -- Deliberately unchanged: Sailfi Belt +1 (DA+5%) stays in WS sets since its STR+15 is still
-    -- the best owned WS waist, and Brutal Earring stays in Evisceration - their DA is just wasted.
+    -- the best owned WS waist - its DA is just wasted. (Brutal Earring was retired from Evisceration for Odr.)
     sets.Hoxne = {
-        ear1 = "Odr Earring",           -- DEX+10, Acc+10, Crit+5% (replaces Sherida: DA+5%)
-        ear2 = "Hoxne Earring",         -- All stats +15 at Mastery Rank 7 (replaces Telos: DA+1%)
-        ring1 = "Gere Ring",            -- STR+10, Atk+16, TA+5%
-        ring2 = "Hetairoi Ring",        -- TA+2%, TA dmg+5, Crit+1%
+        ear1 = "Hoxne Earring",         -- All stats +15 at Mastery Rank 7 (replaces Sherida: DA+5%)
+        ear2 = "Odr Earring",           -- DEX+10, Acc+10, Crit+5% (replaces Telos: DA+1%) - LINKTRI: sides swapped so Odr stays ear2
+        ring2 = "Gere Ring",            -- STR+10, Atk+16, TA+5% - LINKTRI: sides swapped so Gere stays ring2
+        ring1 = "Hetairoi Ring",        -- TA+2%, TA dmg+5, Crit+1%
         waist = "Cornelia's Belt"       -- Haste+10%, STR+10 (replaces Sailfi Belt +1: DA+5%)
     }
 
@@ -216,8 +216,8 @@ function init_gear_sets()
         ammo = "Yamarang",
         head = "Horos Tiara +4",           -- Waltz potency +15%
         neck = "Etoile Gorget +2",         -- LINKTRI: CHR+25 beats Unmoving CHR+8/VIT+8; gear waltz potency already at the +50% cap
-        ear1 = "Infused Earring",
-        ear2 = "Odnowa Earring +1",
+        ear1 = "Odnowa Earring +1",     -- LINKTRI: sides swapped to match idle (Odnowa ear1)
+        ear2 = "Infused Earring",
         body = "Maxixi Casaque +4",        -- Waltz potency +19%
         hands = "Horos Bangles +4",        -- LINKTRI: +4 carries no waltz potency (comment was wrong); kept for CHR+38
         ring1 = { name="Murky Ring", augments={'Path: A',}},
@@ -230,7 +230,7 @@ function init_gear_sets()
 
     -- LINKTRI: removed Vanya Robe (not DNC-equippable). Body now stays Maxixi Casaque +4 from the
     -- Waltz set: Waltz potency +19% and Waltz received +8%. Mummu Bonnet +2: Waltz received +9%.
-    sets.Self_Waltz = {head = "Mummu Bonnet +2", ring1 = "Defending Ring", ammo = "Yamarang",}
+    sets.Self_Waltz = {head = "Mummu Bonnet +2", ring2 = "Defending Ring", ammo = "Yamarang",} -- LINKTRI: ring1 -> ring2 so Defending keeps its side; now replaces Cacoethic (Acc only) instead of Murky (DT-10% either way)
 
     -- Don't need any special gear for Healing Waltz.
     sets.precast.Waltz["Healing Waltz"] = {ammo = "Yamarang"}
@@ -267,8 +267,8 @@ function init_gear_sets()
     sets.Enmity = {
         head = "Nyame Helm",
         neck = "Unmoving Collar",
-        ear1 = "Ishvara Earring",
-        ear2 = "Trux Earring",
+        ear1 = "Trux Earring",
+        ear2 = "Ishvara Earring", -- LINKTRI: sides swapped so this item keeps one ear/ring side across sets
         body = "Nyame Mail",
         hands = "Malignance Gloves",
         ring1 = "Pernicious Ring",
@@ -380,7 +380,7 @@ function init_gear_sets()
         ammo = "Coiste Bodhar",
         head = "Nyame Helm",
         neck = "Loricate Torque +1",
-        ear1 = "Brutal Earring",
+        ear1 = "Telos Earring",         -- original: Brutal Earring (DA/STP only; Telos Acc+10 helps the proc WS land)
         ear2 = "Sanare Earring",
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
@@ -546,12 +546,12 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",     -- LINKTRI: INT+4, MAcc+8, MAB+4 (Seraphic Ampulla is not DNC-equippable)
         head = "Nyame Helm",
         neck = "Baetyl Pendant",
-        ear1 = "Ishvara Earring",
-        ear2 = "Crematio Earring",
+        ear1 = "Crematio Earring",
+        ear2 = "Ishvara Earring", -- LINKTRI: sides swapped so this item keeps one ear/ring side across sets
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
-        ring1 = "Metamor. Ring +1",
-        ring2 = "Ilabrat Ring",         -- LINKTRI: DEX+10 for Aeolian Edge's DEX/INT mod (Dingir Ring is not DNC-equippable)
+        ring1 = "Ilabrat Ring",         -- LINKTRI: sides swapped (Ilabrat keeps ring1). DEX+10 for Aeolian Edge's DEX/INT mod (Dingir Ring is not DNC-equippable)
+        ring2 = "Metamor. Ring +1",
         back = gear.wsd_jse_back,
         waist = "Orpheus's Sash",       -- LINKTRI: default; job_post_precast swaps in Hachirin-no-Obi on strong wind day/weather. .TH variant still applies Chaac Belt
         legs = "Nyame Flanchard",
@@ -646,8 +646,8 @@ function init_gear_sets()
 			ammo = "Staunch Tathlum +1",              -- DT-3% (CHANGED)
 			head = "Null Masque",                      -- DT-10%, Regen+3, Refresh+1, Regain+2 (LINKTRI: was Gleti's Mask PDT-6/Regain+2 - net regain unchanged, adds regen/refresh)
 			neck = "Loricate Torque +1",               -- DT-6%
-			ear1 = "Alabaster Earring",                -- DT-5%, Haste+5% (LINKTRI: idle now caps MDT as well as PDT)
-			ear2 = "Odnowa Earring +1",                -- DT-3%, MDT-1% (LINKTRI)
+			ear1 = "Odnowa Earring +1",                -- DT-3%, MDT-1% (LINKTRI)
+			ear2 = "Alabaster Earring",                -- DT-5%, Haste+5% (LINKTRI: idle now caps MDT as well as PDT; sides swapped to match DTLite ear2)
 			body = "Gleti's Cuirass",                  -- PDT-9%, Regain+3
 			hands = "Gleti's Gauntlets",               
 			ring1 = { name="Murky Ring", augments={'Path: A',}}, -- DT-4%
@@ -761,8 +761,8 @@ function init_gear_sets()
         ear2 = "Telos Earring",                -- Acc+10, DA+1%, STP+5 (LINKTRI: DT still capped at 50% after Null Masque/Null Loop swaps)
         body = "Horos Casaque +4",             -- PDT-6%, Haste+4%, TA+4%
         hands = "Malignance Gloves",           -- DT-5%, STP+12, Haste+4%
-        ring1 = "Defending Ring",              -- DT-10%
-        ring2 = "Chirich Ring +1",             -- STP+4
+        ring1 = "Chirich Ring +1",             -- STP+4 (LINKTRI: sides swapped so Defending stays ring2)
+        ring2 = "Defending Ring",              -- DT-10%
         back = gear.stp_jse_back,              -- DT-5%, STP+10
         waist = "Sailfi Belt +1",
         legs = "Malignance Tights",            -- DT-7%, STP+10, Haste+9%
@@ -778,7 +778,7 @@ function init_gear_sets()
         ammo = "Crepuscular Pebble",
         ear2 = "Macu. Earring +1",
         hands = "Maculele Bangles +3",         -- Acc+62 instead of STP
-        ring2 = "Ilabrat Ring"                 -- Acc+10 instead of 2nd Chirich
+        ring1 = "Ilabrat Ring"                 -- Acc+10 instead of a Chirich (LINKTRI: ring2 -> ring1 so Ilabrat keeps its side)
     })
 
     sets.engaged.FullAcc = set_combine(sets.engaged.Acc, {
@@ -797,7 +797,7 @@ function init_gear_sets()
         ammo = "Crepuscular Pebble",
         ear2 = "Macu. Earring +1",
         hands = "Maculele Bangles +3",
-        ring2 = "Ilabrat Ring"
+        ring1 = "Ilabrat Ring"                 -- LINKTRI: ring2 -> ring1 so Ilabrat keeps its side
     })
 
     sets.engaged.DTLite.FullAcc = set_combine(sets.engaged.DTLite.Acc, {
@@ -905,149 +905,55 @@ local function elemental_ws_waist(spell)
     return nil
 end
 
--- Simple function to check if we're in a high buff situation
-function is_high_buff_situation()
-    local has_geo = false
-    local has_cor = false
-    local has_brd = false
-    
-    -- Check party for support jobs
-    if party then
-        for i = 1, 6 do
-            local member = party[i]
-            if member and member.job then
-                if member.job == "GEO" then has_geo = true end
-                if member.job == "COR" then has_cor = true end
-                if member.job == "BRD" then has_brd = true end
-            end
-        end
-    end
-    
-    -- Count support jobs
-    local support_count = 0
-    if has_geo then support_count = support_count + 1 end
-    if has_cor then support_count = support_count + 1 end
-    if has_brd then support_count = support_count + 1 end
-    
-    -- High buff if 2+ support or in Odyssey/Sortie content
+-- ======================================================================
+-- LINKTRI: Content detection for ContentMode "Auto".
+-- Previously matched "Odyssey"/"Sheol"/"Sortie" in world.area, which no real zone name contains,
+-- so Auto never fired. Zone names are from Windower resources (zones.lua):
+--   Odyssey (Sheol): Walk of Echoes [P1] (298), Walk of Echoes [P2] (279)
+--   Sortie:          Outer Ra'Kaznar [U1] (275), [U2] (133), [U3] (189)
+-- Plain "Walk of Echoes" (182) is the old Walk of Echoes content and is deliberately excluded.
+-- The old "2+ GEO/COR/BRD in party" check was removed: GearSwap's party table has no job
+-- field, so it never counted anyone. Cycle ContentMode manually (Ctrl+F10) for other high-buff content.
+-- ======================================================================
+local ODYSSEY_ZONES = S{"Walk of Echoes [P1]", "Walk of Echoes [P2]"}
+local SORTIE_ZONES = S{"Outer Ra'Kaznar [U1]", "Outer Ra'Kaznar [U2]", "Outer Ra'Kaznar [U3]"}
+
+function current_content_area()
     local content_area = state.ContentMode and state.ContentMode.value or "Auto"
-    if content_area == "Auto" and world.area then
-        if world.area:contains("Odyssey") or world.area:contains("Sheol") then
-            content_area = "Odyssey"
-        elseif world.area:contains("Sortie") then
-            content_area = "Sortie"
-        end
-    end
-    
-    return (support_count >= 2) or (content_area == "Odyssey") or (content_area == "Sortie")
-end
-
--- ========================================
--- Enhanced TP System Functions
--- ========================================
-
--- Enhanced TP calculation for more granular control
-function get_effective_player_tp(spell, WSset)
-    local base_tp = player.tp
-    
-    -- Account for TP bonus from Moonshade at different TP levels
-    if WSset.ear1 == "Moonshade Earring" or WSset.ear2 == "Moonshade Earring" then
-        if base_tp >= 1000 and base_tp < 2000 then
-            base_tp = base_tp + 250  -- TP+250 bonus
-        elseif base_tp >= 2000 and base_tp < 3000 then
-            base_tp = base_tp + 250  -- Still get bonus
-        end
-        -- No bonus at 3000+ TP
-    end
-    
-    return base_tp
-end
-
--- Get optimal TP threshold - 2000 TP with Centovente = effective 3000 (capped fTP)
-function get_tp_threshold(spell)
-    return 2000
-end
-
--- Content-specific TP optimization
-function get_custom_tp_set(spell)
-    local base_set = sets.MaxTP[spell.english] or sets.MaxTP
-    
-    -- Auto-detect content or use manual setting
-    local content_area = state.ContentMode and state.ContentMode.value or "Auto"
-    
     if content_area == "Auto" then
-        if world.area and (world.area:contains("Odyssey") or world.area:contains("Sheol")) then
-            content_area = "Odyssey"
-        elseif world.area and world.area:contains("Sortie") then
-            content_area = "Sortie"
+        local area = world.area or ""
+        if ODYSSEY_ZONES:contains(area) then
+            return "Odyssey"
+        elseif SORTIE_ZONES:contains(area) then
+            return "Sortie"
         end
     end
-    
-    -- Odyssey - prioritize accuracy over damage
-    if content_area == "Odyssey" then
-        base_set = set_combine(base_set, {
-            ear2 = "Macu. Earring +1",            -- More accuracy
-            ring1 = "Ilabrat Ring"             -- Accuracy + attack
-        })
-    end
-    
-    -- Sortie - different optimization  
-    if content_area == "Sortie" then
-        base_set = set_combine(base_set, {
-            ring2 = "Gere Ring"                -- Attack focus for Sortie enemies
-        })
-    end
-    
-    return base_set
+    return content_area
 end
 
--- Post-precast function for TP-based gear swapping
-function user_job_post_precast(spell, spellMap, eventArgs)
-    if spell.type == 'WeaponSkill' then
-        local current_tp = player.tp
-        local is_high_buff = is_high_buff_situation()
-        
-        -- At 2000+ TP, Centovente gives effective 3000 TP (capped fTP)
-        -- Swap Moonshade for damage earring
-        -- LINKTRI: gated on Centovente actually being equipped. With other subs (e.g. Gleti's
-        -- Knife) this fired 250 effective TP early; job_post_precast's >3200 effective-TP
-        -- check still covers the non-Centovente case.
-        if current_tp >= 2000 and player.equipment.sub == "Centovente" then
-            if sets.MaxTP[spell.english] then
-                equip(sets.MaxTP[spell.english])
-            elseif sets.MaxTP then
-                equip(sets.MaxTP)
-            end
-        end
-        
-        -- Ephramad's Ring for high buff situations (PDL) at 1000+ TP
-        if current_tp >= 1000 and is_high_buff then
-            equip({ring1 = "Ephramad's Ring"})
-        end
-        
-        -- Buff-specific modifications
-        if state.Buff['Climactic Flourish'] and sets.buff['Climactic Flourish'] then
-            equip(sets.buff['Climactic Flourish'])
-        end
-        
-        if state.Buff['Saber Dance'] and spell.english == "Rudra's Storm" then
-            equip({legs = "Horos Tights +4"})
-        end
-    end
+function is_high_buff_situation()
+    local content_area = current_content_area()
+    return content_area == "Odyssey" or content_area == "Sortie"
 end
+
+-- LINKTRI: removed this file's get_effective_player_tp override. It replaced Sel's global version
+-- (Sel-Utility) and only counted Moonshade, so Centovente (TP Bonus +1000) and Aeneas (aeonic +500)
+-- were ignored and Moonshade was never swapped out at capped TP. A "Centovente at 2000+ TP" patch in
+-- user_job_post_precast worked around that; Sel's version now covers it (and Aeneas) directly.
+-- Also removed unused get_tp_threshold / get_custom_tp_set (never called) and check_party_buffs.
 
 -- ======================================================================
 -- JOB POST PRECAST - Content-aware WS gear optimization
--- This overrides DNC.lua's job_post_precast since gear file loads after.
--- Replicates DNC.lua's Moonshade/Climactic Flourish logic, then adds
--- ContentMode-aware PDL swaps on top for high-buff content.
--- Roller's Ring is NOT handled here - job_aftercast covers that.
+-- Overrides DNC.lua's job_post_precast (gear file loads after). Replicates DNC.lua's
+-- Moonshade/Climactic Flourish logic, then adds the Aeolian waist, ContentMode-aware PDL swaps
+-- and the Saber Dance legs. LINKTRI: merged in user_job_post_precast, which repeated the
+-- MaxTP, Ephramad's Ring and Climactic Flourish equips a second time.
+-- Roller's Ring is NOT handled here - user_job_aftercast covers that.
 -- ======================================================================
 function job_post_precast(spell, spellMap, eventArgs)
     if spell.type ~= 'WeaponSkill' then return end
 
-    -- Step 1: Replicate DNC.lua Moonshade swap logic
-    -- Swap out Moonshade when TP bonus pushes us over effective 3000 cap
+    -- Step 1: DNC.lua Moonshade swap - drop Moonshade when TP bonuses already reach the 3000 cap
     local WSset = standardize_set(get_precast_set(spell, spellMap))
     if WSset.ear1 == "Moonshade Earring" or WSset.ear2 == "Moonshade Earring" then
         if get_effective_player_tp(spell, WSset) > 3200 then
@@ -1060,7 +966,7 @@ function job_post_precast(spell, spellMap, eventArgs)
         end
     end
 
-    -- Step 2: Replicate DNC.lua Climactic Flourish overlay
+    -- Step 2: DNC.lua Climactic Flourish overlay
     if state.Buff['Climactic Flourish'] and sets.buff['Climactic Flourish'] then
         equip(sets.buff['Climactic Flourish'])
     end
@@ -1072,23 +978,25 @@ function job_post_precast(spell, spellMap, eventArgs)
         if waist then equip({waist = waist}) end
     end
 
-    -- Step 3: ContentMode-aware PDL swaps for high-buff content
-    -- Only applies in Sortie/Odyssey where attack is high enough to hit pDIF cap
+    -- Step 3: ContentMode-aware PDL swaps for high-buff content (Odyssey/Sortie),
+    -- where attack is high enough to hit the pDIF cap.
     if is_high_buff_situation() then
-        -- All WSs: Ephramad's Ring in ring1 for PDL+10%
-        -- Exception: don't override ring1 if Climactic Flourish already set it
-        -- (Climactic Flourish set only touches head, so ring1 is safe to set here)
+        -- All WSs: Ephramad's Ring in ring1 for PDL+10% (Climactic Flourish set only touches head)
         equip({ring1 = "Ephramad's Ring"})
 
-        -- LINKTRI: extended to Rudra's Storm and Shark Bite - their base sets now use
-        -- Nyame Flanchard (WSD+11% R25), so high-buff situations swap to Maculele Tights +3
-        -- for PDL+10% (PDL+20% total with Ephramad's Ring).
-        -- Exception: Saber Dance active -> keep Horos Tights +4 for its WSD/Saber augment
+        -- LINKTRI: Rudra's Storm / Shark Bite / Ruthless Stroke base sets use Nyame Flanchard
+        -- (WSD+11% R25), so high-buff swaps to Maculele Tights +3 for PDL+10%.
+        -- Saber Dance active -> Horos Tights +4 instead (below).
         if spell.english == "Ruthless Stroke" or spell.english == "Rudra's Storm" or spell.english == "Shark Bite" then
             if not state.Buff['Saber Dance'] then
                 equip({legs = "Maculele Tights +3"})
             end
         end
+    end
+
+    -- Step 4: Saber Dance + Rudra's Storm -> Horos Tights +4 (moved from user_job_post_precast)
+    if state.Buff['Saber Dance'] and spell.english == "Rudra's Storm" then
+        equip({legs = "Horos Tights +4"})
     end
 end
 
@@ -1198,25 +1106,6 @@ function extra_user_post_precast(spell, spellMap, eventArgs)
     end
 end
 
--- Enhanced party buff checking
-function check_party_buffs()
-    local has_geo = false
-    local has_cor = false
-    
-    -- Check if we have GEO and COR support
-    if alliance and alliance[1] then
-        for i = 1, 6 do
-            local member = alliance[1][i]
-            if member and member.mob then
-                if member.main_job == "GEO" then has_geo = true end
-                if member.main_job == "COR" then has_cor = true end
-            end
-        end
-    end
-    
-    return has_geo, has_cor
-end
-
 -- ======================================================================
 -- RANGE ENGAGE FIX - Force engaged gear even when outside auto-attack range
 -- ======================================================================
@@ -1229,7 +1118,10 @@ function job_status_change(newStatus, oldStatus)
 end
 
 -- Force gear update after weaponskills at range
-function job_aftercast(spell, spellMap, eventArgs)
+-- LINKTRI: renamed from job_aftercast, which replaced DNC.lua's job_aftercast and silently disabled
+-- its CycleStep rotation (gs c step) and the auto Reverse Flourish after a Climactic Flourish WS.
+-- Sel runs job_aftercast (DNC.lua) first, then this.
+function user_job_aftercast(spell, spellMap, eventArgs)
     if spell.type == 'WeaponSkill' and player.status == 'Engaged' then
         -- After WS completes, re-equip melee set (which includes Roller's Ring via customize_melee_set)
         coroutine.schedule(function()
@@ -1274,10 +1166,8 @@ function user_job_customize_idle_set(idleSet)
     return idleSet
 end
 
--- Mote framework hook for idle set
-function job_customize_idle_set(idleSet)
-    return user_job_customize_idle_set(idleSet)
-end
+-- LINKTRI: removed job_customize_idle_set wrapper. Sel already calls user_job_customize_idle_set,
+-- so the wrapper ran it twice and replaced DNC.lua's job_customize_idle_set.
 
 function user_job_customize_melee_set(meleeSet)
     -- AMINON MODE: Force Aminon gear regardless of DW/haste tier
@@ -1293,20 +1183,14 @@ function user_job_customize_melee_set(meleeSet)
         end
     end
 
-    if state.DefenseMode.value ~= 'None' then
-        if state.Buff['Saber Dance'] then
-            meleeSet = set_combine(meleeSet, sets.buff['Saber Dance'])
-        end
-        if state.Buff['Climactic Flourish'] then
-            meleeSet = set_combine(meleeSet, sets.buff['Climactic Flourish'])
-        end
-    end
-    
+    -- LINKTRI: DefenseMode Saber Dance / Climactic Flourish overlays removed here - DNC.lua's
+    -- job_customize_melee_set applies them (it now runs, since the wrapper below was removed).
+
     -- Content-specific adjustments
     -- LINKTRI: gated to Normal/DTLite with no DefenseMode. Ungated, a manual ContentMode of
     -- "Odyssey" put Ilabrat Ring over DTFull's Defending Ring (DT-10%), dropping the capped
     -- DT-50% set to ~DT-42%, and over Aminon's Murky Ring. Same gating as the Hoxne overlay.
-    if state.ContentMode and state.ContentMode.value == "Odyssey" and state.DefenseMode.value == 'None'
+    if current_content_area() == "Odyssey" and state.DefenseMode.value == 'None'
             and (state.HybridMode.value == 'Normal' or state.HybridMode.value == 'DTLite') then
         meleeSet = set_combine(meleeSet, {
             ring1 = "Ilabrat Ring"             -- More accuracy for Odyssey
@@ -1329,10 +1213,8 @@ function user_job_customize_melee_set(meleeSet)
     return meleeSet
 end
 
--- Mote framework hook - this gets called by the base library
-function job_customize_melee_set(meleeSet)
-    return user_job_customize_melee_set(meleeSet)
-end
+-- LINKTRI: removed job_customize_melee_set wrapper. Sel already calls user_job_customize_melee_set,
+-- so the wrapper ran it twice and replaced DNC.lua's job_customize_melee_set.
 
 -- ======================================================================
 -- LINKTRI MODIFICATION: Hoxne Ampulla auto-use.
