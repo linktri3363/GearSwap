@@ -397,13 +397,13 @@ function init_gear_sets()
     sets.idle = {
         ammo = "Staunch Tathlum +1",
         head = "Null Masque",             -- LINKTRI: original: "Bhikku Crown +3". DT-10%, Regen+3, Refresh+1, Regain+2 (idle DT still ~80%)
-        neck = "Loricate Torque +1",
+        neck = "Bathy Choker +1",         -- LINKTRI: original: Loricate Torque +1 (DT-6%). Regen+3
         ear1 = { name="Alabaster Earring", augments={'Path: A',}},
-        ear2 = "Hoxne Earring",
+        ear2 = "Infused Earring",         -- LINKTRI: original: Hoxne Earring (stats only via Hoxne Ampulla mastery). Regen+1
         body = "Hiza. Haramaki +2", -- LINKTRI MODIFICATION: Regen+12 vs Cyclas Regen+5; idle DT still capped
         hands = "Nyame Gauntlets",
-        ring1 = { name="Murky Ring", augments={'Path: A',}},
-        ring2 = "Defending Ring",
+        ring1 = "Chirich Ring +1",        -- LINKTRI: original: Murky Ring (DT-10%). Regen+2
+        ring2 = "Chirich Ring +1",        -- LINKTRI: original: Defending Ring (DT-10%). Regen+2. Idle now DT-54%, Regen 26
         back = { name="Segomo's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','"Waltz" potency +10%','Damage taken-5%',}},
         waist = "Null Belt",              -- LINKTRI: original: "Carrier's Sash". Regen+3, MEva+30
         legs = "Bhikku Hose +3",
