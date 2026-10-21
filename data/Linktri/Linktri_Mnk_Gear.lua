@@ -100,33 +100,33 @@ function init_gear_sets()
     sets.precast.Waltz["Healing Waltz"] = {}
 
     sets.precast.Step = {
-        ammo = "Coiste Bodhar",
+        ammo = "Voluspa Tathlum",         -- LINKTRI: original: "Coiste Bodhar". Acc+10/MAcc+15, STR/DEX+5
         head = "Malignance Chapeau",
-        neck = "Combatant's Torque",
+        neck = "Null Loop",               -- LINKTRI: original: "Combatant's Torque". Acc/MAcc+50, DT-5%
         ear1 = "Telos Earring",
         ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only (Acc+13/MAcc+13/STP+4)
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
-        back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Eschan Stone",
+        back = "Null Shawl",              -- LINKTRI: original: { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}}. Acc/MAcc+50, DA+7%, STP+7
+        waist = "Null Belt",              -- LINKTRI: original: "Eschan Stone". Acc/MAcc+30
         legs = "Hiza. Hizayoroi +2",
         feet = "Malignance Boots"
     }
 
     sets.precast.Flourish1 = {
-        ammo = "Coiste Bodhar",
+        ammo = "Voluspa Tathlum",         -- LINKTRI: original: "Coiste Bodhar". Acc+10/MAcc+15, STR/DEX+5
         head = "Malignance Chapeau",
-        neck = "Combatant's Torque",
+        neck = "Null Loop",               -- LINKTRI: original: "Combatant's Torque". Acc/MAcc+50, DT-5%
         ear1 = "Telos Earring",
         ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
-        back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Eschan Stone",
+        back = "Null Shawl",              -- LINKTRI: original: { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}}. Acc/MAcc+50, DA+7%, STP+7
+        waist = "Null Belt",              -- LINKTRI: original: "Eschan Stone". Acc/MAcc+30
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
@@ -169,7 +169,7 @@ function init_gear_sets()
     sets.precast.WSAcc = {
         ammo = "Coiste Bodhar",
         head = "Dampening Tam",
-        neck = "Combatant's Torque",
+        neck = "Null Loop",               -- LINKTRI: original: "Combatant's Torque". Acc/MAcc+50, DT-5%
         ear1 = "Telos Earring",
         ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only
         body = "Malignance Tabard",
@@ -177,22 +177,22 @@ function init_gear_sets()
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Eschan Stone",
+        waist = "Null Belt",              -- LINKTRI: original: "Eschan Stone". Acc/MAcc+30
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
     sets.precast.WSFullAcc = {
-        ammo = "Coiste Bodhar",
+        ammo = "Voluspa Tathlum",         -- LINKTRI: original: "Coiste Bodhar". Acc+10/MAcc+15, STR/DEX+5
         head = "Malignance Chapeau",
-        neck = "Combatant's Torque",
+        neck = "Null Loop",               -- LINKTRI: original: "Combatant's Torque". Acc/MAcc+50, DT-5%
         ear1 = "Telos Earring",
         ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
-        back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Eschan Stone",
+        back = "Null Shawl",              -- LINKTRI: original: { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}}. Acc/MAcc+50, DA+7%, STP+7
+        waist = "Null Belt",              -- LINKTRI: original: "Eschan Stone". Acc/MAcc+30
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
@@ -267,7 +267,7 @@ function init_gear_sets()
         head = "Mpaca's Cap",
         neck = "Light Gorget", -- LINKTRI MODIFICATION: Victory Smite = Light/Fragmentation (fTP-replicating); Light Gorget +0.1 fTP on EVERY hit
         ear1 = "Moonshade Earring", -- LINKTRI MODIFICATION: TP Bonus+250 (swapped out above 3200 TP via sets.MaxTP)
-        ear2 = "Sherida Earring",
+        ear2 = "Odr Earring",             -- LINKTRI: original: "Sherida Earring". Crit+5%, DEX+10, Acc+10 (Sherida DA only affects the first hit)
         body = "Mpaca's Doublet",
         hands = "Mpaca's Gloves",       -- LINKTRI: original: Anch. Gloves +4 (WSD+12%, first hit only). Crit rate+5%/TA+3% on every hit of a crit WS
         ring1 = "Gere Ring",
@@ -354,17 +354,17 @@ function init_gear_sets()
 
     -- Staff Weaponskills
     sets.precast.WS["Shell Crusher"] = {
-        ammo = "Pemphredo Tathlum",
+        ammo = "Voluspa Tathlum",         -- LINKTRI: original: "Pemphredo Tathlum". Acc+10/MAcc+15, STR/DEX+5
         head = "Malignance Chapeau",
-        neck = "Rep. Plat. Medal",
+        neck = "Null Loop",               -- LINKTRI: original: "Rep. Plat. Medal". Acc/MAcc+50, DT-5%
         ear1 = "Telos Earring",         -- LINKTRI: original: "" (empty string equipped nothing)
         ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only; original: Telos Earring
         body = "Bhikku Cyclas +3",
         hands = "Bhikku Gloves +3",
         ring1 = "Stikini Ring",
         ring2 = { name="Metamor. Ring +1", augments={'Path: A',}},
-        back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Eschan Stone",
+        back = "Null Shawl",              -- LINKTRI: original: { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}}. Acc/MAcc+50, DA+7%, STP+7
+        waist = "Null Belt",              -- LINKTRI: original: "Eschan Stone". Acc/MAcc+30
         legs = "Bhikku Hose +3",
         feet = "Bhikku Gaiters +3"
     }
@@ -396,7 +396,7 @@ function init_gear_sets()
     -- NEW: Idle set optimized
     sets.idle = {
         ammo = "Staunch Tathlum +1",
-        head = "Bhikku Crown +3",
+        head = "Null Masque",             -- LINKTRI: original: "Bhikku Crown +3". DT-10%, Regen+3, Refresh+1, Regain+2 (idle DT still ~80%)
         neck = "Loricate Torque +1",
         ear1 = { name="Alabaster Earring", augments={'Path: A',}},
         ear2 = "Hoxne Earring",
@@ -405,7 +405,7 @@ function init_gear_sets()
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Defending Ring",
         back = { name="Segomo's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','"Waltz" potency +10%','Damage taken-5%',}},
-        waist = "Carrier's Sash",
+        waist = "Null Belt",              -- LINKTRI: original: "Carrier's Sash". Regen+3, MEva+30
         legs = "Bhikku Hose +3",
         feet = "Bhikku Gaiters +3"
     }
@@ -470,7 +470,7 @@ function init_gear_sets()
     -- OPTIMIZED: Normal melee set with Hesy hands and Bhikku feet
     sets.engaged = {
         ammo = "Coiste Bodhar",
-        head = "Dampening Tam",
+        head = "Mpaca's Cap",             -- LINKTRI: original: "Dampening Tam". TA+3%, Crit+4%, Acc/Atk+40, STR+33, PDT-7% (Tam: Haste+7/SB+8/Acc+20 only)
         neck = "Rep. Plat. Medal",
         ear1 = "Schere Earring",
         ear2 = "Sherida Earring",
@@ -487,7 +487,7 @@ function init_gear_sets()
     -- OPTIMIZED: Accuracy set
     sets.engaged.Acc = {
         ammo = "Coiste Bodhar",
-        head = "Dampening Tam",
+        head = "Mpaca's Cap",             -- LINKTRI: original: "Dampening Tam". TA+3%, Crit+4%, Acc/Atk+40, STR+33, PDT-7% (Tam: Haste+7/SB+8/Acc+20 only)
         neck = "Rep. Plat. Medal",
         ear1 = "Schere Earring",
         ear2 = "Sherida Earring",
@@ -502,17 +502,17 @@ function init_gear_sets()
     }
     
     sets.engaged.FullAcc = {
-        ammo = "Coiste Bodhar",
+        ammo = "Voluspa Tathlum",         -- LINKTRI: original: "Coiste Bodhar". Acc+10/MAcc+15, STR/DEX+5
         head = "Malignance Chapeau",
-        neck = "Rep. Plat. Medal",
+        neck = "Null Loop",               -- LINKTRI: original: "Rep. Plat. Medal". Acc/MAcc+50, DT-5%
         ear1 = "Telos Earring",
         ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
-        back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Eschan Stone", -- LINKTRI MODIFICATION: Reiki Yotai DW wasted on H2H; Eschan Stone Acc+15/Atk+15
+        back = "Null Shawl",              -- LINKTRI: original: { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}}. Acc/MAcc+50, DA+7%, STP+7
+        waist = "Null Belt",              -- LINKTRI: original: "Eschan Stone". Acc/MAcc+30
         legs = "Malignance Tights",
         feet = "Malignance Boots"
     }
@@ -555,13 +555,13 @@ function init_gear_sets()
     sets.engaged.PDT = {
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
-        neck = "Loricate Torque +1",
-        ear1 = "Brutal Earring",
+        neck = "Null Loop",               -- LINKTRI: original: "Loricate Torque +1". DT-5%, Acc/MAcc+50 (set was DT-62%, over the cap)
+        ear1 = "Schere Earring",          -- LINKTRI: original: "Brutal Earring". DA+6%, STR+5
         ear2 = "Sherida Earring",
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
-        ring2 = "Defending Ring",
+        ring2 = "Gere Ring",              -- LINKTRI: original: "Defending Ring". TA+5%, STR+10; set still DT-51%
         back = { name="Segomo's Mantle", augments={'VIT+20','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','"Waltz" potency +10%','Damage taken-5%',}},
         waist = "Carrier's Sash",
         legs = "Malignance Tights",
@@ -571,7 +571,7 @@ function init_gear_sets()
     sets.engaged.Acc.PDT = {
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
-        neck = "Loricate Torque +1",
+        neck = "Null Loop",               -- LINKTRI: original: "Loricate Torque +1". DT-5%, Acc/MAcc+50; set DT-51%
         ear1 = "Sherida Earring",
         ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only
         body = "Malignance Tabard",
@@ -587,7 +587,7 @@ function init_gear_sets()
     sets.engaged.FullAcc.PDT = {
         ammo = "Coiste Bodhar",
         head = "Malignance Chapeau",
-        neck = "Loricate Torque +1",
+        neck = "Null Loop",               -- LINKTRI: original: "Loricate Torque +1". DT-5%, Acc/MAcc+50; set DT-51%
         ear1 = "Telos Earring",
         ear2 = "Bhikku Earring +1", -- LINKTRI: Sortie earring, ear2 only
         body = "Malignance Tabard",
