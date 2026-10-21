@@ -169,8 +169,8 @@ function init_gear_sets()
         {
             ammo = "Staunch Tathlum +1",
             ear1 = "Alabaster Earring",
-            ring1 = "Defending Ring",
-            ring2 = "Murky Ring",
+            ring1 = "Murky Ring", -- LINKTRI: Murky moved to ring1 (keeps one side)
+            ring2 = "Defending Ring",
             feet = "Wicce Sabots +3"
         }
     )
@@ -204,7 +204,7 @@ function init_gear_sets()
     -- Weaponskill sets
     -- Default set for any weaponskill that isn't any more specifically defined
     sets.precast.WS = {
-        ammo = "Knobkierrie", -- LINKTRI FIX: Ghastly Tathlum +1 not owned; Knobkierrie = WSD+6%
+        ammo = "Pemphredo Tathlum", -- LINKTRI: original: Knobkierrie (not BLM-equippable). MAcc+8/MAB+4/INT+4 for magical WS
         head = "Nyame Helm",
         neck = "Src. Stole +2", -- LINKTRI (Aug 2026): MAcc+30 MAB+7; rank to 25 in Dyna-D
         ear1 = "Malignance Earring", -- LINKTRI FIX: Crematio was duplicated in both ears (one copy owned)
@@ -221,8 +221,8 @@ function init_gear_sets()
 
     -- Specific weaponskill sets.  Uses the base set if an appropriate WSMod version isn't found.
     sets.precast.WS["Vidohunir"] = {
-        ammo = "Knobkierrie", -- LINKTRI FIX: Ghastly Tathlum +1 not owned; Knobkierrie = WSD+6%
-        head = "Nyame Helm",
+        ammo = "Pemphredo Tathlum", -- LINKTRI: original: Knobkierrie (not BLM-equippable)
+        head = "Pixie Hairpin +1",     -- LINKTRI: original: Nyame Helm. Vidohunir is a dark magical WS: dark affinity +28%
         neck = "Src. Stole +2", -- LINKTRI (Aug 2026): MAcc+30 MAB+7; rank to 25 in Dyna-D
         ear1 = "Malignance Earring", -- LINKTRI FIX: Crematio was duplicated in both ears (one copy owned)
         ear2 = "Crematio Earring",
@@ -242,17 +242,17 @@ function init_gear_sets()
     -- STAGE 3: both the WS and its aftermath are SORTIE-ONLY (restriction lifts at stage 4).
     -- Waist: no owned physical-WS waist — Fotia Belt (fTP+) is the acquisition target for this slot.
     sets.precast.WS["Oshala"] = {
-        ammo = "Knobkierrie",
+        ammo = "Oshasha's Treatise",  -- LINKTRI: original: Knobkierrie (not BLM-equippable). WSD+3%
         head = "Nyame Helm",
-        neck = "Sacro Gorget",
+        neck = "Rep. Plat. Medal",    -- LINKTRI: original: Sacro Gorget (not BLM-equippable). Atk+30, STR+10
         ear1 = "Moonshade Earring",
         ear2 = "Hoxne Earring",
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
-        ring1 = "Chirich Ring +1",
+        ring1 = "Ephramad's Ring",    -- LINKTRI: original: Chirich Ring +1. PDL+10%, Acc/Atk+20
         ring2 = { name = "Metamor. Ring +1", augments = {'Path: A'}},
         back = gear.nuke_jse_back,
-        waist = "Plat. Mog. Belt",
+        waist = "Eschan Stone",       -- LINKTRI: original: Plat. Mog. Belt (no WS value). Acc+15/Atk+15
         legs = "Nyame Flanchard",
         feet = "Nyame Sollerets"
     }
@@ -296,12 +296,12 @@ function init_gear_sets()
     }
 
     sets.midcast.Cure = {
-        main = gear.gada_healing_club,
+        main = "Daybreak",              -- LINKTRI: original: gear.gada_healing_club (not owned - only the enhancing Gada is). Cure potency+30%
         sub = "Sors Shield",
         ammo = "Impatiens",
         head = "Wicce Petasos +3",
         neck = "Voltsurge Torque",
-        ear1 = "Loquac. Earring",
+        ear1 = "Malignance Earring",   -- LINKTRI: original: Loquac. Earring (FC only, no midcast value); MND+8, keeps Loquac on ear2
         ear2 = "Etiolation Earring",
         body = "Wicce Coat +3",
         hands = "Telchine Gloves",
@@ -319,7 +319,7 @@ function init_gear_sets()
         ammo = "Impatiens",
         head = "Wicce Petasos +3",
         neck = "Sibyl Scarf",
-        ear1 = "Loquac. Earring",
+        ear1 = "Malignance Earring",   -- LINKTRI: original: Loquac. Earring (FC only, no midcast value); MND+8, keeps Loquac on ear2
         ear2 = "Etiolation Earring",
         body = "Wicce Coat +3",
         hands = "Telchine Gloves",
@@ -338,7 +338,7 @@ function init_gear_sets()
         ammo = "Impatiens",
         head = "Wicce Petasos +3",
         neck = "Sibyl Scarf",
-        ear1 = "Loquac. Earring",
+        ear1 = "Malignance Earring",   -- LINKTRI: original: Loquac. Earring (FC only, no midcast value); MND+8, keeps Loquac on ear2
         ear2 = "Etiolation Earring",
         body = "Wicce Coat +3",
         hands = "Telchine Gloves",
@@ -502,8 +502,8 @@ function init_gear_sets()
         ear1 = "Hirudinea Earring",
         body = "Wicce Coat +3",
         hands = "Wicce Gloves +3",
-        ring1 = "Stikini Ring", -- LINKTRI FIX: rings were undefined; Kishar/Lebeche were lingering from precast
-        ring2 = "Murky Ring",
+        ring1 = "Murky Ring", -- LINKTRI: Murky moved to ring1 (keeps one side)
+        ring2 = "Stikini Ring", -- LINKTRI FIX: rings were undefined; Kishar/Lebeche were lingering from precast
         back = gear.nuke_jse_back,
         waist = "Fucho-no-obi",
         legs = "Spae. Tonban +4",
@@ -525,8 +525,8 @@ function init_gear_sets()
         ear2 = "Wicce Earring +2", -- LINKTRI FIX: Regal Earring not owned
         body = "Wicce Coat +3",
         hands = "Wicce Gloves +3",
-        ring1 = "Stikini Ring",
-        ring2 = "Murky Ring",
+        ring1 = "Murky Ring", -- LINKTRI: Murky moved to ring1 (keeps one side)
+        ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
         waist = "Fucho-no-obi",
         legs = "Spae. Tonban +4",
@@ -860,7 +860,7 @@ function init_gear_sets()
     sets.MagicBurst = {
         main = "Opashoro",
         sub = "Enki Strap",
-        ammo = "Pemphredo Tathlum", -- LINKTRI FIX: Ghastly Tathlum +1 not owned
+        ammo = "Sroda Tathlum",        -- LINKTRI: original: Pemphredo Tathlum. Magic crit rate II +10% (MAcc-10/MEva-10; Resistant MB keeps Pemphredo)
         head = "Wicce Petasos +3",
         neck = "Src. Stole +2", -- LINKTRI (Aug 2026): MB+10 hits the same 40 cap as Mizukage, then adds MB Acc+25, MAcc+30, MAB+7, INT+15
         ear2 = "Wicce Earring +2",
@@ -949,8 +949,8 @@ function init_gear_sets()
         ear2 = "Etiolation Earring",
         body = "Adamantite Armor",
         hands = "Wicce Gloves +3",
-        ring1 = "Defending Ring",
-        ring2 = "Murky Ring",
+        ring1 = "Murky Ring", -- LINKTRI: Murky moved to ring1 (keeps one side)
+        ring2 = "Defending Ring",
         back = "Aurist's Cape +1",
         waist = "Plat. Mog. Belt",
         legs = "Assid. Pants +1",
@@ -967,8 +967,8 @@ function init_gear_sets()
         ear2 = "Etiolation Earring",
         body = "Adamantite Armor", -- LINKTRI: DT-20% + MDB+20 vs Mallquis Saio
         hands = "Wicce Gloves +3",
-        ring1 = "Defending Ring",
-        ring2 = "Murky Ring",
+        ring1 = "Murky Ring", -- LINKTRI: Murky moved to ring1 (keeps one side)
+        ring2 = "Defending Ring",
         back = "Aurist's Cape +1",
         waist = "Carrier's Sash",
         legs = "Wicce Chausses +3",
@@ -1046,8 +1046,8 @@ function init_gear_sets()
         ear2 = "Etiolation Earring",
         body = "Adamantite Armor", -- LINKTRI: DT-20% vs Mallquis Saio
         hands = "Wicce Gloves +3",
-        ring1 = "Defending Ring",
-        ring2 = "Murky Ring", -- LINKTRI: DT-10% vs Dark Ring's PDT-6/MDT-6
+        ring1 = "Murky Ring", -- LINKTRI: DT-10% vs Dark Ring's PDT-6/MDT-6 -- LINKTRI: Murky moved to ring1 (keeps one side)
+        ring2 = "Defending Ring",
         back = "Aurist's Cape +1",
         waist = "Plat. Mog. Belt", -- LINKTRI: HP+10%, DT-3%
         legs = "Wicce Chausses +3",
@@ -1064,8 +1064,8 @@ function init_gear_sets()
         ear2 = "Etiolation Earring",
         body = "Adamantite Armor", -- LINKTRI: DT-20% + MDB+20
         hands = "Wicce Gloves +3",
-        ring1 = "Defending Ring",
-        ring2 = "Murky Ring",
+        ring1 = "Murky Ring", -- LINKTRI: Murky moved to ring1 (keeps one side)
+        ring2 = "Defending Ring",
         back = "Aurist's Cape +1",
         waist = "Carrier's Sash",
         legs = "Wicce Chausses +3",
@@ -1082,8 +1082,8 @@ function init_gear_sets()
         ear2 = "Etiolation Earring",
         body = "Wicce Coat +3", -- LINKTRI: MEva+141 (highest owned) + Refresh+4
         hands = "Wicce Gloves +3",
-        ring1 = "Defending Ring",
-        ring2 = "Murky Ring",
+        ring1 = "Murky Ring", -- LINKTRI: Murky moved to ring1 (keeps one side)
+        ring2 = "Defending Ring",
         back = "Aurist's Cape +1",
         waist = "Carrier's Sash",
         legs = "Wicce Chausses +3",
@@ -1101,8 +1101,8 @@ function init_gear_sets()
 
     sets.HPDown = {
         head = "Jhakri Coronal +2",
-        ear1 = "Genmei Earring",
-        ear2 = "Evans Earring",
+        ear1 = "Evans Earring",        -- LINKTRI: sides swapped so Evans keeps ear1
+        ear2 = "Genmei Earring",
         body = "Jhakri Robe +2",
         hands = "Jhakri Cuffs +2",
         ring1 = "Stikini Ring",
@@ -1113,7 +1113,7 @@ function init_gear_sets()
     }
 
     sets.HPCure = {
-        main = gear.gada_healing_club,
+        main = "Daybreak",              -- LINKTRI: original: gear.gada_healing_club (not owned). Cure potency+30%
         sub = "Sors Shield",
         ammo = "Impatiens",
         head = "Nyame Helm",
@@ -1141,20 +1141,22 @@ function init_gear_sets()
     -- EG: sets.engaged.Dagger.Accuracy.Evasion
 
     -- Normal melee group
+    -- LINKTRI: Malignance armor and Sailfi Belt +1 are not BLM-equippable (this set equipped almost nothing);
+    -- rebuilt from Nyame + Eschan Stone (Acc+15/Atk+15).
     sets.engaged = {
         ammo = "Staunch Tathlum +1",
-        head = "Malignance Chapeau",
+        head = "Nyame Helm",
         neck = "Combatant's Torque",
         ear1 = "Mache Earring +1",
         ear2 = "Telos Earring",
-        body = "Malignance Tabard",
-        hands = "Malignance Gloves",
+        body = "Nyame Mail",
+        hands = "Nyame Gauntlets",
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
         back = gear.stp_jse_back,
-        waist = "Sailfi Belt +1",
-        legs = "Malignance Tights",
-        feet = "Malignance Boots"
+        waist = "Eschan Stone",
+        legs = "Nyame Flanchard",
+        feet = "Nyame Sollerets"
     }
 
     sets.engaged.DT = {
@@ -1241,23 +1243,11 @@ local function nuke_waist_bonus(spell, spellMap)
     return nil -- no meaningful affinity bonus available; let the set's neutral waist decide
 end
 
-function job_post_midcast(spell, spellMap, eventArgs)
+-- LINKTRI: renamed from job_post_midcast (which replaced BLM.lua's and re-implemented its DeathMode and
+-- Mana Wall handling). BLM.lua's job_post_midcast now runs first (DeathMode, Mana Wall), then this one.
+-- Mana Wall's set (Taranus + Wicce Sabots) matches the MB/nuke sets' back and feet, so order doesn't matter.
+function user_job_post_midcast(spell, spellMap, eventArgs)
     if spell.action_type == 'Magic' then
-        -- LINKTRI FIX (Jul 2026): this override was replacing BLM.lua's job_post_midcast entirely,
-        -- silently dropping the stock DeathMode and Mana Wall handling. Both restored below.
-
-        -- (restored from BLM.lua) DeathMode: hold Death midcast gear through other casts
-        if state.DeathMode.value ~= 'Off' and spell.english ~= 'Death' then
-            if sets.midcast[spell.english] and sets.midcast[spell.english].Death then
-                equip(sets.midcast[spell.english].Death)
-            elseif sets.midcast[spellMap] and sets.midcast[spellMap].Death then
-                equip(sets.midcast[spellMap].Death)
-            elseif sets.midcast[spell.skill] and sets.midcast[spell.skill].Death then
-                equip(sets.midcast[spell.skill].Death)
-            else
-                equip(sets.precast.FC.Death)
-            end
-        end
 
         -- Auto Magic Burst detection (skillchain window open)
         if spell.skill == 'Elemental Magic' and state.AutoMBMode.value and is_sc_window_open(spell.target and spell.target.id) then
@@ -1288,16 +1278,14 @@ function job_post_midcast(spell, spellMap, eventArgs)
             end
             -- nil -> keep the set's neutral waist: Sacro Cord (Normal sets) / Null Belt (Resistant).
         end
-
-        -- (restored from BLM.lua) Mana Wall midcast overlay in DT/Tank idle modes
-        if state.Buff['Mana Wall'] and ((state.IdleMode.value:contains('DT') or state.IdleMode.value:contains('Tank')) and in_combat) then
-            equip(sets.buff['Mana Wall'])
-        end
     end
 end
 
 -- Function to customize idle sets based on porter moogle proximity
-function job_customize_idle_set(idleSet)
+-- LINKTRI: renamed from job_customize_idle_set. That name replaced BLM.lua's version and disabled its
+-- Fucho-no-Obi latent refresh (<51% MP), Sublimation Embla Sash, DeathMode idle set and Mana Wall overlay.
+-- BLM.lua's runs first now, then this Porter Moogle check.
+function user_job_customize_idle_set(idleSet)
     -- Check if near Porter Moogle first
     local currently_near_porter = near_porter_moogle()
     
