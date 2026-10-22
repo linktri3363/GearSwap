@@ -35,11 +35,13 @@ function user_job_setup()
 
     -- Default/Automatic maneuvers for each pet mode.  Define at least 3.
     defaultManeuvers = {
+        -- VE/VE ("boneslayer"): String Theory says no Thunder, which forces String Shredder over Bone Crusher
+        -- original: Fire 1 / Thunder 1 / Wind 1 / Light 0
         Melee = {
+            {Name = "Light Maneuver", Amount = 1},
             {Name = "Fire Maneuver", Amount = 1},
-            {Name = "Thunder Maneuver", Amount = 1},
             {Name = "Wind Maneuver", Amount = 1},
-            {Name = "Light Maneuver", Amount = 0}
+            {Name = "Thunder Maneuver", Amount = 0}
         },
         Bruiser = {
             {Name = "Light Maneuver", Amount = 1},
