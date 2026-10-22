@@ -9,7 +9,8 @@ function user_job_setup()
     state.IdleMode:options("Normal", "PDT", "Refresh")
     -- NOTE: every weapon set also sets the animator. Swapping animators while the automaton is
     -- out deactivates it, so only change to/from PrimeMagic before Activate.
-    state.Weapons:options("None", "Prime", "Kenkonken", "Godhands", "PetWeapons", "PrimeMagic")
+    -- Prime first so the animator is equipped on load (original order: "None" first, which equips no weapons/animator)
+    state.Weapons:options("Prime", "Kenkonken", "Godhands", "PetWeapons", "PrimeMagic", "None")
     state.PetMode =
         M {
         ["description"] = "Pet Mode",
