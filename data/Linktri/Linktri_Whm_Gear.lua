@@ -34,14 +34,23 @@ function user_job_setup()
     send_command('bind !\\\\ input /ma "Reraise IV" <me>')
 	send_command('bind !f11 gs c cycle CastingMode')
 
+    -- LINKTRI: sleep-proofing via Sel's built-in WakeUpWeapons (replaces the custom sleep handler).
+    -- Stage 2 Lorg Mor's HP drain wakes you; Sel locks sets.WakeUpWeapons on while asleep and releases
+    -- it when sleep wears off, without changing your Weapons mode.
+    state.WakeUpWeapons:set(true)
+
     select_default_macro_book()
 end
 
 -- Function to customize idle sets based on current modes and conditions
-function job_customize_idle_set(idleSet)
+-- LINKTRI: renamed from job_customize_idle_set, which replaced WHM.lua's version. WHM.lua's now runs first
+-- (Sublimation Embla Sash; Fucho-no-Obi latent refresh in Normal/Sphere idle only), then this Porter check.
+-- Removed: forcing sets.idle.PDT/MDT (Sel already picks the idle set from IdleMode) and the copied
+-- Sublimation/latent-refresh logic (which also put Fucho over Carrier's Sash in PDT/MDT idle).
+function user_job_customize_idle_set(idleSet)
     -- Check if near Porter Moogle first
     local currently_near_porter = near_porter_moogle()
-    
+
     if currently_near_porter then
         -- Show message only when entering range
         if not near_porter then
@@ -56,28 +65,7 @@ function job_customize_idle_set(idleSet)
             near_porter = false
         end
     end
-    
-    -- Apply IdleMode variants
-    if state.IdleMode.value == 'PDT' then
-        idleSet = sets.idle.PDT
-    elseif state.IdleMode.value == 'MDT' then
-        idleSet = sets.idle.MDT
-    end
-    
-    -- Apply sublimation gear if active
-    if buffactive["Sublimation: Activated"] then
-        if state.IdleMode.value == 'Normal' and sets.buff.Sublimation then
-            idleSet = set_combine(idleSet, sets.buff.Sublimation)
-        elseif state.IdleMode.value:contains("DT") and sets.buff.DTSublimation then
-            idleSet = set_combine(idleSet, sets.buff.DTSublimation)
-        end
-    end
 
-    -- Apply conditional refresh gear when MP is low
-    if player.mpp < 51 and sets.latent_refresh then
-        idleSet = set_combine(idleSet, sets.latent_refresh)
-    end
-    
     return idleSet
 end
 -- Define sets and vars used by this job file.
@@ -373,7 +361,7 @@ function init_gear_sets()
         hands = "Theo. Mitts +4",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Lebeche Ring",
-        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}},  -- original: "Twilight Cape" (not owned)
+        back = "Twilight Cape",         -- LINKTRI: original: Alaunus's Cape. Twilight Cape now owned: enhances the day/weather bonus
         waist = "Hachirin-no-Obi",
         legs = "Ebers Pant. +3",
         feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}
@@ -391,7 +379,7 @@ function init_gear_sets()
         hands = "Theo. Mitts +4",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Lebeche Ring",
-        back={ name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, --needs ambu curing back
+        back = "Twilight Cape",         -- LINKTRI: original: Alaunus's Cape. Twilight Cape now owned: enhances the day/weather bonus
         waist = "Hachirin-no-Obi",
         legs = "Ebers Pant. +3",
         feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}
@@ -409,7 +397,7 @@ function init_gear_sets()
         hands = "Theo. Mitts +4",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Menelaus's Ring",
-        back={ name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, --needs ambu curing back
+        back = "Twilight Cape",         -- LINKTRI: original: Alaunus's Cape. Twilight Cape now owned: enhances the day/weather bonus
         waist = "Hachirin-no-Obi",
         legs = "Ebers Pant. +3",
         feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}
@@ -427,7 +415,7 @@ function init_gear_sets()
         hands = "Theo. Mitts +4",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Menelaus's Ring",
-        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}},  -- original: "Twilight Cape" (not owned)
+        back = "Twilight Cape",         -- LINKTRI: original: Alaunus's Cape. Twilight Cape now owned: enhances the day/weather bonus
         waist = "Hachirin-no-Obi",
         legs = "Ebers Pant. +3",
         feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}
@@ -463,7 +451,7 @@ function init_gear_sets()
         hands = "Theo. Mitts +4",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Lebeche Ring",
-        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}},  -- original: "Twilight Cape" (not owned)
+        back = "Twilight Cape",         -- LINKTRI: original: Alaunus's Cape. Twilight Cape now owned: enhances the day/weather bonus
         waist = "Hachirin-no-Obi",
         legs = "Ebers Pant. +3",
         feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}
@@ -481,7 +469,7 @@ function init_gear_sets()
         hands = "Theo. Mitts +4",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Menelaus's Ring",
-        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}},  -- original: "Twilight Cape" (not owned)
+        back = "Twilight Cape",         -- LINKTRI: original: Alaunus's Cape. Twilight Cape now owned: enhances the day/weather bonus
         waist = "Hachirin-no-Obi",
         legs = "Ebers Pant. +3",
         feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}}
@@ -505,15 +493,15 @@ function init_gear_sets()
     }
 
     sets.midcast.MeleeCureSolace = set_combine(sets.midcast.MeleeCure, {body = "Ebers Bliaut +3"})
-    sets.midcast.MeleeLightWeatherCure = set_combine(sets.midcast.MeleeCure, {waist = "Hachirin-no-Obi"})
+    sets.midcast.MeleeLightWeatherCure = set_combine(sets.midcast.MeleeCure, {waist = "Hachirin-no-Obi", back = "Twilight Cape"})
     sets.midcast.MeleeLightWeatherCureSolace =
-        set_combine(sets.midcast.MeleeCure, {body = "Ebers Bliaut +3", waist = "Hachirin-no-Obi"})
+        set_combine(sets.midcast.MeleeCure, {body = "Ebers Bliaut +3", waist = "Hachirin-no-Obi", back = "Twilight Cape"})
     sets.midcast.MeleeLightDayCureSolace =
-        set_combine(sets.midcast.MeleeCure, {body = "Ebers Bliaut +3", waist = "Hachirin-no-Obi"})
-    sets.midcast.MeleeLightDayCure = set_combine(sets.midcast.MeleeCure, {waist = "Hachirin-no-Obi"})
+        set_combine(sets.midcast.MeleeCure, {body = "Ebers Bliaut +3", waist = "Hachirin-no-Obi", back = "Twilight Cape"})
+    sets.midcast.MeleeLightDayCure = set_combine(sets.midcast.MeleeCure, {waist = "Hachirin-no-Obi", back = "Twilight Cape"})
     sets.midcast.MeleeCuraga = set_combine(sets.midcast.MeleeCure, {})
-    sets.midcast.MeleeLightWeatherCuraga = set_combine(sets.midcast.MeleeCure, {waist = "Hachirin-no-Obi"})
-    sets.midcast.MeleeLightDayCuraga = set_combine(sets.midcast.MeleeCure, {waist = "Hachirin-no-Obi"})
+    sets.midcast.MeleeLightWeatherCuraga = set_combine(sets.midcast.MeleeCure, {waist = "Hachirin-no-Obi", back = "Twilight Cape"})
+    sets.midcast.MeleeLightDayCuraga = set_combine(sets.midcast.MeleeCure, {waist = "Hachirin-no-Obi", back = "Twilight Cape"})
 
     sets.midcast.Cursna = {
         main = "Yagrush",
@@ -646,21 +634,22 @@ function init_gear_sets()
     sets.midcast.Barvira = set_combine(sets.midcast["Enhancing Magic"], {neck = "Sroda Necklace"})
     sets.midcast.Barsleepra = set_combine(sets.midcast["Enhancing Magic"], {neck = "Sroda Necklace"})
 
+    -- LINKTRI: filled the blank ("") slots, which left fast cast gear on during the midcast. Twilight Cloak now owned.
     sets.midcast.Impact = {
         main = "Daybreak",
         sub = "Ammurapi Shield",
         ammo = "Pemphredo Tathlum",
         head = empty,
         neck = "Erra Pendant",
-        ear1 = "", --Digni. Earring Strophadia Reisenjima
-        ear2 = "", --Regal Earring Ou Omen Boss
-        body = "", --Twilight Cloak Shinryu HTMB
+        ear1 = "Psystorm Earring",
+        ear2 = "Malignance Earring",
+        body = "Twilight Cloak",
         hands = gear.chironic_enfeeble_hands,
         ring1 ={ name="Metamor. Ring +1", augments={'Path: A',}},
         ring2 = "Stikini Ring", -- +1 variant 40m on AH
-        back = "",  -- Toro Cape +10 MAB +8 INT Kumhau Wildskeeper Reive
-        waist = "", -- Acuity Belt +1 Joyous Green Unity Wanted
-        legs = "", --Chironic Hose 800 domain points
+        back = "Aurist's Cape +1",
+        waist = "Sacro Cord",
+        legs = { name="Bunzi's Pants", augments={'Path: A',}},
         feet = gear.chironic_nuke_feet
     }
 
@@ -675,14 +664,14 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum", -- Ghastly Tathlum +1 Specter Worm Unity Wanted  -- original: "" (blank: Ghastly Tathlum +1 not owned)
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Baetyl Pendant",
-        ear1 = "Malignance Earring", --Friomisi Earring Kumhau Wildskeeper Reive or 1m on AH  -- original: "" (blank: Friomisi Earring not owned)
-        ear2 = "Crematio Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
+        ear1 = "Crematio Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned) -- LINKTRI: sides swapped so Malignance keeps ear2
+        ear2 = "Malignance Earring", --Friomisi Earring Kumhau Wildskeeper Reive or 1m on AH  -- original: "" (blank: Friomisi Earring not owned)
         body={ name="Bunzi's Robe", augments={'Path: A',}},
         hands={ name="Bunzi's Gloves", augments={'Path: A',}},
         ring1 = "Metamor. Ring +1", --Shiva Ring +1 Synergy from Shivatear and Rhodium Ring or +1 variant  -- original: "" (blank: Shiva Ring +1 not owned)
         ring2 = "Persis Ring", --Freke Ring Odin HTMB  -- original: "" (blank: Freke Ring not owned)
         back = "Aurist's Cape +1",  -- Toro Cape +10 MAB +8 INT Kumhau Wildskeeper Reive  -- original: "" (blank: Toro Cape not owned)
-        waist = gear.ElementalObi,
+        waist = "Sacro Cord",           -- LINKTRI: original: gear.ElementalObi (empty name in Sel, so the precast waist stayed). Neutral default; overlay picks Orpheus/Hachirin when they pay
         legs={ name="Bunzi's Pants", augments={'Path: A',}},
         feet={ name="Bunzi's Sabots", augments={'Path: A',}}
     }
@@ -697,8 +686,8 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Erra Pendant",
-        ear1 = "Malignance Earring",
-        ear2 = "Crematio Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
+        ear1 = "Crematio Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned) -- LINKTRI: sides swapped so Malignance keeps ear2
+        ear2 = "Malignance Earring",
         body={ name="Bunzi's Robe", augments={'Path: A',}},
         hands={ name="Bunzi's Gloves", augments={'Path: A',}},
         ring1 = "Metamor. Ring +1",
@@ -716,8 +705,8 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: C. Palug Crown not in inventory; Bunzi M.Acc+40
         neck = "Null Loop", -- LINKTRI: blank neck was skipped by GearSwap; MAcc+50 for Repose/Flash/Banish landing (Holy keeps Baetyl Pendant)
-        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
-        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
+        ear1 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned) -- LINKTRI: sides swapped so Malignance keeps ear2
+        ear2 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
         body = "Theo. Bliaut +4",  -- original: "Inyanga Jubbah +2" (owned, swapped: MAcc+60 vs +46)
         hands="Theo. Mitts +4",  -- original: { name="Fanatic Gloves", augments={'MP+45','Healing magic skill +9','"Conserve MP"+6','"Fast Cast"+5',}} (owned, swapped: MAcc+58)
         ring1 = "Stikini Ring", -- +1 variant 40m on AH
@@ -738,14 +727,14 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Baetyl Pendant",
-        ear1 = "Malignance Earring", --Friomisi Earring Kumhau Wildskeeper Reive or 1m on AH  -- original: "" (blank: Friomisi Earring not owned)
-        ear2 = "Crematio Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
+        ear1 = "Crematio Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned) -- LINKTRI: sides swapped so Malignance keeps ear2
+        ear2 = "Malignance Earring", --Friomisi Earring Kumhau Wildskeeper Reive or 1m on AH  -- original: "" (blank: Friomisi Earring not owned)
         body={ name="Bunzi's Robe", augments={'Path: A',}},
         hands={ name="Bunzi's Gloves", augments={'Path: A',}},
         ring1 = "Metamor. Ring +1",
         ring2 = "Persis Ring", --Freke Ring Odin HTMB  -- original: "" (blank: Freke Ring not owned)
         back = "Aurist's Cape +1",  -- Toro Cape +10 MAB +8 INT Kumhau Wildskeeper Reive  -- original: "" (blank: Toro Cape not owned)
-        waist = gear.ElementalObi,
+        waist = "Sacro Cord",           -- LINKTRI: original: gear.ElementalObi (empty name in Sel, so the precast waist stayed). Neutral default; overlay picks Orpheus/Hachirin when they pay
         legs={ name="Bunzi's Pants", augments={'Path: A',}},
         feet={ name="Bunzi's Sabots", augments={'Path: A',}}
     }
@@ -757,8 +746,8 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Erra Pendant",
-        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
-        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
+        ear1 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned) -- LINKTRI: sides swapped so Malignance keeps ear2
+        ear2 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
         body = "Theo. Bliaut +4",  -- original: "Inyanga Jubbah +2" (owned, swapped: MAcc+60 vs +46)
         hands = "Theo. Mitts +4",  -- original: gear.chironic_enfeeble_hands (owned, swapped: MAcc+58)
         ring1 = "Stikini Ring", -- +1 variant 40m on AH
@@ -775,8 +764,8 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head = "Pixie Hairpin +1",
         neck = "Erra Pendant",
-        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
-        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank)
+        ear1 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank) -- LINKTRI: sides swapped so Malignance keeps ear2
+        ear2 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
         body = "Inyanga Jubbah +2",
         hands = gear.chironic_enfeeble_hands,
         ring1 = "Stikini Ring",  -- original: "Evanescence Ring" (not owned)
@@ -793,8 +782,8 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Erra Pendant",
-        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
-        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank)
+        ear1 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank) -- LINKTRI: sides swapped so Malignance keeps ear2
+        ear2 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
         body = { name="Bunzi's Robe", augments={'Path: A',}},  -- original: "Chironic Doublet" (not owned)
         hands = gear.chironic_enfeeble_hands,
         ring1 = "Stikini Ring", -- +1 variant 40m on AH
@@ -832,8 +821,8 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Erra Pendant",
-        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
-        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
+        ear1 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned) -- LINKTRI: sides swapped so Malignance keeps ear2
+        ear2 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
         body = "Theo. Bliaut +4",  -- original: "Inyanga Jubbah +2" (owned, swapped: MAcc+60 vs +46)
         hands="Theo. Mitts +4",  -- original: { name="Fanatic Gloves", augments={'MP+45','Healing magic skill +9','"Conserve MP"+6','"Fast Cast"+5',}} (owned, swapped: MAcc+58)
         ring1 = "Stikini Ring", -- +1 variant 40m on AH
@@ -850,8 +839,8 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Erra Pendant",
-        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
-        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned)
+        ear1 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank: Regal Earring not owned) -- LINKTRI: sides swapped so Malignance keeps ear2
+        ear2 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
         body = "Theo. Bliaut +4",  -- original: "Inyanga Jubbah +2" (owned, swapped: MAcc+60 vs +46)
         hands="Theo. Mitts +4",  -- original: { name="Fanatic Gloves", augments={'MP+45','Healing magic skill +9','"Conserve MP"+6','"Fast Cast"+5',}} (owned, swapped: MAcc+58)
         ring1 = "Stikini Ring", -- +1 variant 40m on AH
@@ -870,8 +859,8 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head = "Befouled Crown",
         neck = "Erra Pendant",
-        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
-        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank)
+        ear1 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank) -- LINKTRI: sides swapped so Malignance keeps ear2
+        ear2 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
         body = "Theo. Bliaut +4",
         hands = "Piety Mitts +4",  -- original: { name="Telchine Gloves", augments={'Mag. Acc.+23','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}} (owned, swapped: Enfeebling skill +27, MAcc+43; Telchine had none)
         ring1 = "Kishar Ring",
@@ -888,8 +877,8 @@ function init_gear_sets()
         ammo = "Pemphredo Tathlum",
         head = "Befouled Crown",
         neck = "Erra Pendant",
-        ear1 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
-        ear2 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank)
+        ear1 = "Psystorm Earring", --Regal Earring Ou Omen Boss  -- original: "" (blank) -- LINKTRI: sides swapped so Malignance keeps ear2
+        ear2 = "Malignance Earring", --Digni. Earring Strophadia Reisenjima  -- original: "" (blank)
         body = "Theo. Bliaut +4",
         hands = "Theo. Mitts +4",
         ring1 = "Metamor. Ring +1",
@@ -1152,8 +1141,8 @@ sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"]
         ear2 = "Alabaster Earring", -- LINKTRI MOD 2026-07-02: Ethereal Earring not in inventory
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
-        ring1 = "Defending Ring", -- LINKTRI MOD 2026-07-02: Purity Ring not in inventory
-        ring2 = "Vengeful Ring",
+        ring1 = "Vengeful Ring",        -- LINKTRI: sides swapped so Defending keeps ring2
+        ring2 = "Defending Ring", -- LINKTRI MOD 2026-07-02: Purity Ring not in inventory
         back = "Aurist's Cape +1",
         waist = "Carrier's Sash",
         legs = "Nyame Flanchard",
@@ -1204,7 +1193,7 @@ sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"]
         ammo = "Crepuscular Pebble",
         head = { name="Bunzi's Hat", augments={'Path: A',}},  -- original: "Nyame Helm" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
         neck = "Null Loop",
-        ear1 = "Moonshade Earring",
+        ear1 = "Mache Earring +1",       -- LINKTRI: original: Moonshade Earring (TP Bonus does nothing while meleeing)
         ear2 = "Suppanomimi",
         body = { name="Bunzi's Robe", augments={'Path: A',}},  -- original: "Nyame Mail" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
         hands = { name="Bunzi's Gloves", augments={'Path: A',}},  -- original: "Nyame Gauntlets" (owned, swapped: Bunzi R30 Acc+55/Atk+70 per piece)
@@ -1234,6 +1223,9 @@ sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"]
 
     -- Buff sets: Gear that needs to be worn to actively enhance a current player buff.
     sets.buff["Divine Caress"] = {hands = "Ebers Mitts +3", back = "Mending Cape"}
+
+    -- LINKTRI: Sel equips and locks this while you're asleep (state.WakeUpWeapons), releasing it on wake.
+    sets.WakeUpWeapons = {main = "Lorg Mor"}
 
     -- LINKTRI NOTE 2026-07-02: CURE CHEAT -- DORMANT BY DESIGN, do not delete these sets.
     -- Mechanic: precast in max-HP-down gear (sets.HPDown) clamps current HP down; midcast swap
@@ -1304,26 +1296,9 @@ end
 
 autows_list = {["DualWeapons"] = "Realmrazer", ["MeleeWeapons"] = "Realmrazer"}
 
--- Sleep detection function - add this here
-function user_job_buff_change(buff, gain)
-    if buff == 'sleep' and gain then
-        add_to_chat(123, "Sleep detected! Forcing Lorg Mor equip...")
-        
-        -- Force weapon state change and direct equip
-        state.Weapons:set('MeleeWeapons') -- Temporarily change weapon state
-        disable('main')
-        disable('sub')
-        
-        -- Force equip with multiple attempts
-        equip({main = "Lorg Mor"})
-        windower.send_command('wait 0.5; input /equip main "Lorg Mor"')
-        windower.send_command('wait 1.0; input /equip main "Lorg Mor"')
-        
-        -- Reset after delay
-        windower.send_command('wait 6; gs enable main; gs enable sub; gs c set Weapons None')
-        add_to_chat(123, "Lorg Mor force equipped. Will reset weapon state in 6 seconds.")
-    end
-end
+-- LINKTRI: removed the custom sleep handler (user_job_buff_change). It set Weapons to MeleeWeapons and then
+-- forced it back to None after 6s (dropping DualWeapons). Sleep-proofing now uses Sel's WakeUpWeapons:
+-- sets.WakeUpWeapons below + state.WakeUpWeapons in user_job_setup.
 
 -- ADD THE PORTER MOOGLE FUNCTION HERE:
 function near_porter_moogle()
@@ -1339,8 +1314,10 @@ end
 -- Use with in-game /equipset command to remove gear, this just locks/unlocks slots
 sortie_stripped = false
 
-function job_self_command(cmdParams, eventArgs)
-    if cmdParams[1]:lower() == 'sortie' then
+-- LINKTRI: renamed from job_self_command (replaced WHM.lua's) and made nil-safe; marks the command handled.
+function user_job_self_command(cmdParams, eventArgs)
+    if cmdParams[1] and cmdParams[1]:lower() == 'sortie' then
+        eventArgs.handled = true
         if not sortie_stripped then
             -- Lock all slots to prevent GearSwap from auto-equipping
             disable('main','sub','range','ammo','head','neck','ear1','ear2',
@@ -1364,7 +1341,7 @@ function job_self_command(cmdParams, eventArgs)
 end
 
 -------------------------------------------------------------------------------------------------------------------
--- LINKTRI MODIFICATION START 2026-07-02: job_post_midcast override (Orpheus's Sash logic)
+-- LINKTRI MODIFICATION START 2026-07-02 (revised 2026-10-21): nuke waist overlay (Orpheus/Hachirin)
 -- WHM.lua also defines job_post_midcast (Divine Caress + BarElement handling). This gear file
 -- loads after WHM.lua, so this definition supersedes it -- same mechanism that lets this file's
 -- job_customize_idle_set (Porter Moogle) supersede the WHM.lua version. The base WHM.lua logic
@@ -1376,25 +1353,54 @@ end
 -------------------------------------------------------------------------------------------------------------------
 LINKTRI_DIVINE_NUKES = S{'Holy', 'Holy II', 'Banish', 'Banish II', 'Banish III', 'Banishga', 'Banishga II'}
 
-function job_post_midcast(spell, spellMap, eventArgs)
-    -- Base WHM.lua logic (replicated verbatim -- keep in sync if WHM.lua changes):
-    if spellMap == 'StatusRemoval' then
-        if state.Buff['Divine Caress'] then
-            equip(sets.buff['Divine Caress'])
-        end
-    elseif spellMap == 'BarElement' then
-        if (state.Buff['Light Arts'] or state.Buff['Addendum: White']) and sets.midcast.BarElement and sets.midcast.BarElement.LightArts then
-            equip(sets.midcast.BarElement.LightArts)
-        end
-    end
+-- LINKTRI (2026-10-21): ported from BLM. Orpheus's Sash affinity: +15 at <=1.93 yalms, tapering to +1 at >=13.
+-- Hachirin-no-Obi: +10 day match, +10 single / +25 double weather. Day/weather proc ~1/3 of the time without
+-- the obi, so the obi is credited with ~2/3 of its bonus. Returns nil when neither is worth it (set's Sacro Cord stays).
+local ORPHEUS_MIN_DIST = 1.93
+local ORPHEUS_MAX_DIST = 13.0
+local ORPHEUS_MIN_WORTH = 2
 
-    -- LINKTRI: Orpheus's Sash / Hachirin-no-Obi selection for damaging magic.
+local function nuke_waist_bonus(spell)
+    local el = spell.element
+    if not el or el == 'None' then return nil end
+    local obi = 0
+    if world.day_element == el then obi = obi + 10 end
+    if world.weather_element == el then
+        local intensity = 1
+        if world.weather_id and gearswap and gearswap.res and gearswap.res.weather
+                and gearswap.res.weather[world.weather_id] then
+            intensity = gearswap.res.weather[world.weather_id].intensity or 1
+        end
+        obi = obi + (intensity == 2 and 25 or 10)
+    end
+    local dist = (spell.target and spell.target.distance) or 21
+    local aff
+    if dist <= ORPHEUS_MIN_DIST then
+        aff = 15
+    elseif dist >= ORPHEUS_MAX_DIST then
+        aff = 1
+    else
+        aff = math.floor(15 - ((dist - ORPHEUS_MIN_DIST) * (14 / (ORPHEUS_MAX_DIST - ORPHEUS_MIN_DIST))))
+    end
+    if (obi * 0.67) >= aff and obi > 0 then
+        return "Hachirin-no-Obi"
+    elseif aff >= ORPHEUS_MIN_WORTH then
+        return "Orpheus's Sash"
+    end
+    return nil
+end
+
+-- LINKTRI: renamed from job_post_midcast (which replaced WHM.lua's and copied its Divine Caress/BarElement
+-- logic). WHM.lua's job_post_midcast now runs first, then this waist/back overlay for damaging magic.
+function user_job_post_midcast(spell, spellMap, eventArgs)
     if spell.action_type == 'Magic' and (spell.skill == 'Elemental Magic' or LINKTRI_DIVINE_NUKES:contains(spell.english)) then
-        local double_weather_match = (spell.element == world.weather_element and world.weather_intensity == 2)
-        if not double_weather_match and spell.target.distance and spell.target.distance < 5 then
-            equip({waist = "Orpheus's Sash"})
-        elseif spell.element == world.weather_element or spell.element == world.day_element then
-            equip({waist = "Hachirin-no-Obi"})
+        local waist = nuke_waist_bonus(spell)
+        if waist then
+            equip({waist = waist})
+            -- Twilight Cape: +5% to the day/weather bonus, which Hachirin guarantees.
+            if waist == "Hachirin-no-Obi" then
+                equip({back = "Twilight Cape"})
+            end
         end
     end
 end
