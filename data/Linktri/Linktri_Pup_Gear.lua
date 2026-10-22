@@ -111,7 +111,7 @@ function init_gear_sets()
     -- Fast cast sets for spells
     -- original: Bunzi's Hat/Robe, Loquac./Malignance Earring, Malignance Gloves, Stikini, Isa Belt, Rawhide Trousers
     sets.precast.FC = {
-        ammo = "Impatiens",
+        -- ammo = "Impatiens", -- removed: non-oil ammo unequips the animator
         head = "Null Masque",
         neck = "Voltsurge Torque",
         ear2 = "Etiolation Earring",
@@ -169,7 +169,7 @@ function init_gear_sets()
     -- Default set for any weaponskill that isn't any more specifically defined
     -- original: Sherida Earring, Moonbow Belt +1 (not owned/equippable), Hiza. legs, Epona's ring2
     sets.precast.WS = {
-        ammo = "Voluspa Tathlum",
+        -- ammo = "Voluspa Tathlum", -- removed: non-oil ammo unequips the animator
         head = "Kara. Cappello +3",
         neck = "Shulmanu Collar",
         ear1 = "Moonshade Earring",
@@ -238,7 +238,7 @@ function init_gear_sets()
     -- Melee DD (Valoredge / Harlequin head): Acc/Atk, Store TP, skill, Lv+
     sets.idle.Pet = {} -- the pet-out idle set itself is built in the Idle section below
     sets.idle.Pet.Engaged = {
-        ammo = "Voluspa Tathlum",
+        -- ammo = "Voluspa Tathlum", -- removed: non-oil ammo unequips the animator
         head = "Pitre Taj +3",
         neck = "Shulmanu Collar",
         ear1 = "Crep. Earring",
@@ -262,7 +262,7 @@ function init_gear_sets()
     -- Tank (Valoredge + Soulsoother) / LightTank (Harlequin frame): pet DT, HP, regen, haste
     -- original: Anwig Salade (not owned), Isa Belt, Odnowa ear2
     sets.idle.Pet.Engaged.Tank = {
-        ammo = "Voluspa Tathlum",
+        -- ammo = "Voluspa Tathlum", -- removed: non-oil ammo unequips the animator
         head = "Foire Taj +3",
         neck = "Shulmanu Collar",
         ear1 = "Burana Earring",
@@ -281,7 +281,7 @@ function init_gear_sets()
     -- Support caster (Stormwaker/Sharpshot head): Refresh, MP, MAcc, magic skill
     -- original: full Tali'ah +2
     sets.idle.Pet.Engaged.Magic = {
-        ammo = "Voluspa Tathlum",
+        -- ammo = "Voluspa Tathlum", -- removed: non-oil ammo unequips the animator
         head = "Pitre Taj +3",
         neck = "Adad Amulet",
         ear1 = "Burana Earring",
@@ -306,7 +306,7 @@ function init_gear_sets()
         legs = "Foire Churidars +3", feet = "Karagoz Scarpe +3"}) -- original: legs Tali'ah Sera. +2
     -- original: full Tali'ah +2, Enmerkar/Domesticator's Earring, Stikini x2
     sets.midcast.Pet["Enfeebling Magic"] = {
-        ammo = "Voluspa Tathlum",
+        -- ammo = "Voluspa Tathlum", -- removed: non-oil ammo unequips the animator
         head = "Kara. Cappello +3",
         neck = "Adad Amulet",
         ear1 = "Alabaster Earring",
@@ -322,7 +322,7 @@ function init_gear_sets()
     }
     sets.midcast.Pet["Dark Magic"] = set_combine(sets.midcast.Pet["Enfeebling Magic"], {})
     sets.midcast.Pet["Elemental Magic"] = {
-        ammo = "Voluspa Tathlum",
+        -- ammo = "Voluspa Tathlum", -- removed: non-oil ammo unequips the animator
         head = "Kara. Cappello +3",
         neck = "Adad Amulet",
         ear1 = "Burana Earring",
@@ -345,7 +345,7 @@ function init_gear_sets()
     -- Pet WS: TP Bonus head, automaton WSD gloves, Atk, Lv+
     -- original: main Ohtas, Enmerkar/Domesticator's Earring, Varar Ring +1/C. Palug Ring, full Karagoz (not owned / no WS stats)
     sets.midcast.Pet.PetWSGear = {
-        ammo = "Voluspa Tathlum",
+        -- ammo = "Voluspa Tathlum", -- removed: non-oil ammo unequips the animator
         head = "Kara. Cappello +3",
         neck = "Shulmanu Collar",
         ear1 = "Burana Earring",
@@ -387,7 +387,7 @@ function init_gear_sets()
     local pet_engaged = sets.idle.Pet.Engaged
     -- original: Nyame Helm/Gauntlets, Loricate, Alabaster/Etiolation, Stikini, Incarnation Sash
     sets.idle = {
-        ammo = "Staunch Tathlum +1",
+        -- ammo = "Staunch Tathlum +1", -- removed: non-oil ammo unequips the animator
         head = "Null Masque",
         neck = "Bathy Choker +1",
         ear1 = "Alabaster Earring",
@@ -410,7 +410,7 @@ function init_gear_sets()
     -- Set for idle while pet is out but not engaged (pet regen/refresh, keep player DT)
     -- original: Kara head/feet, Enmerkar Earring, Stikini, Isa Belt
     sets.idle.Pet = set_combine(sets.idle, {
-        ammo = "Voluspa Tathlum",
+        -- ammo = "Voluspa Tathlum", -- removed: non-oil ammo unequips the animator
         ear1 = "Burana Earring",
         ear2 = "Kara. Earring +1",
         back = "Contriver's Cape",
@@ -437,7 +437,7 @@ function init_gear_sets()
     -- Defense sets
     -- original: Nyame Helm/Mail/Gauntlets/Flanchard, Etiolation ear1, Stikini, Isa Belt
     sets.defense.PDT = {
-        ammo = "Staunch Tathlum +1",
+        -- ammo = "Staunch Tathlum +1", -- removed: non-oil ammo unequips the animator
         head = "Null Masque",
         neck = "Loricate Torque +1",
         ear1 = "Alabaster Earring",
@@ -468,7 +468,7 @@ function init_gear_sets()
     -- Normal: player DD (Martial Arts from Kara legs + Mache, H2H skill from Kara head/ear)
     -- original: full Mpaca's, Sherida/Telos, Moonbow Belt +1, Overbearing/Epona
     sets.engaged = {
-        ammo = "Voluspa Tathlum",
+        -- ammo = "Voluspa Tathlum", -- removed: non-oil ammo unequips the animator
         head = "Kara. Cappello +3",
         neck = "Shulmanu Collar",
         ear1 = "Mache Earring +1",
@@ -496,7 +496,7 @@ function init_gear_sets()
     -- Pet: fight alongside the automaton, gear shared toward its stats
     -- original: full Mpaca's, Sherida/Telos, Klouskap Sash (not owned), Epona's
     sets.engaged.Pet = {
-        ammo = "Voluspa Tathlum",
+        -- ammo = "Voluspa Tathlum", -- removed: non-oil ammo unequips the animator
         head = "Kara. Cappello +3",
         neck = "Shulmanu Collar",
         ear1 = "Crep. Earring",
