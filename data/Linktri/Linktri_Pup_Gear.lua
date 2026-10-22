@@ -525,6 +525,19 @@ end
 
 -- Renamed from job_customize_idle_set: that name replaced PUP.lua's version and disabled
 -- all pet-engaged idle swaps, PetWS gear, and Overdrive gear.
+-- Non-oil ammo knocks the animator out of the range slot, which blocks maneuvers.
+-- Keep the ammo slot empty in idle/engaged gear (Repair/Maintenance still put the oil on).
+function no_ammo(set)
+    if set and set.ammo == nil then
+        return set_combine(set, {ammo = empty})
+    end
+    return set
+end
+
+function user_job_customize_melee_set(meleeSet)
+    return no_ammo(meleeSet)
+end
+
 function user_job_customize_idle_set(idleSet)
     local currently_near_porter = near_porter_moogle()
 
@@ -533,7 +546,7 @@ function user_job_customize_idle_set(idleSet)
             windower.add_to_chat(160, "Near Porter Moogle - Using packing gear")
             near_porter = true
         end
-        return sets.packing
+        return no_ammo(sets.packing)
     else
         if near_porter then
             windower.add_to_chat(160, "Left Porter Moogle area - Returning to normal gear")
@@ -541,7 +554,7 @@ function user_job_customize_idle_set(idleSet)
         end
     end
 
-    return idleSet
+    return no_ammo(idleSet)
 end
 
 function near_porter_moogle()
