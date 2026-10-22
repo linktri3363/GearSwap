@@ -135,8 +135,8 @@ function init_gear_sets()
         ammo = "Impatiens",
         head = {name = "Sakpata's Helm", augments = {"Path: A"}},
         neck = "Voltsurge Torque",
-        ear1 = "Etiolation Earring",
-        ear2 = {name = "Alabaster Earring", augments = {"Path: A"}},
+        ear1 = {name = "Alabaster Earring", augments = {"Path: A"}}, -- LINKTRI: sides swapped so Alabaster keeps ear1
+        ear2 = "Etiolation Earring",
         body = {name = "Sakpata's Plate", augments = {"Path: A"}},
         hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
         ring1 = "Lebeche Ring",
@@ -179,7 +179,7 @@ function init_gear_sets()
         ammo = "Knobkierrie",
         head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Ishvara Earring",
+        ear1 = "Hoxne Earring",          -- LINKTRI: original: Ishvara Earring (WSD+2%). All stats +15 (Mastery Rank 7)
         ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
         body = {name = "Nyame Mail", augments = {"Path: B"}},
         hands = "Boii Mufflers +3",
@@ -204,7 +204,7 @@ function init_gear_sets()
         ammo = "Knobkierrie",
         head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Ishvara Earring",
+        ear1 = "Hoxne Earring",          -- LINKTRI: original: Ishvara Earring (WSD+2%). All stats +15 (Mastery Rank 7)
         ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
         body = {name = "Nyame Mail", augments = {"Path: B"}}, -- LINKTRI: WSD+12% and more MND than Sakpata's Plate (no WSD)
         hands = "Boii Mufflers +3",
@@ -221,7 +221,7 @@ function init_gear_sets()
         ammo = "Knobkierrie",
         head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Ishvara Earring",
+        ear1 = "Hoxne Earring",          -- LINKTRI: original: Ishvara Earring (WSD+2%). All stats +15 (Mastery Rank 7)
         ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
         body = {name = "Nyame Mail", augments = {"Path: B"}},
         hands = "Boii Mufflers +3",
@@ -238,7 +238,7 @@ function init_gear_sets()
         ammo = {name = "Coiste Bodhar", augments = {"Path: A"}},
         head = {name = "Agoge Mask +4", augments = {'Enhances "Savagery" effect'}},
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = {name = "Schere Earring", augments = {"Path: A"}}, -- LINKTRI: Brutal Earring not owned
+        ear1 = "Hoxne Earring",          -- LINKTRI: original: Schere Earring (DA only helps the first hit). All stats +15 (Mastery Rank 7)
         ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
         body = "Agoge Lorica +4",
         hands = "Agoge Mufflers +4",
@@ -255,7 +255,7 @@ function init_gear_sets()
         ammo = {name = "Coiste Bodhar", augments = {"Path: A"}},
         head = {name = "Agoge Mask +4", augments = {'Enhances "Savagery" effect'}},
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = {name = "Schere Earring", augments = {"Path: A"}}, -- LINKTRI: Brutal Earring not owned
+        ear1 = "Hoxne Earring",          -- LINKTRI: original: Schere Earring (DA only helps the first hit). All stats +15 (Mastery Rank 7)
         ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}, -- LINKTRI: DA+9% (right ear only)
         body = "Agoge Lorica +4",
         hands = "Agoge Mufflers +4",
@@ -294,7 +294,7 @@ function init_gear_sets()
         ammo = "Knobkierrie",
         head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Ishvara Earring",
+        ear1 = "Hoxne Earring",          -- LINKTRI: original: Ishvara Earring (WSD+2%). All stats +15 (Mastery Rank 7)
         ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
         body = {name = "Nyame Mail", augments = {"Path: B"}},
         hands = "Boii Mufflers +3",
@@ -312,7 +312,7 @@ function init_gear_sets()
         ammo = "Knobkierrie",
         head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Ishvara Earring",
+        ear1 = "Hoxne Earring",          -- LINKTRI: original: Ishvara Earring (WSD+2%). All stats +15 (Mastery Rank 7)
         ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
         body = {name = "Nyame Mail", augments = {"Path: B"}},
         hands = "Boii Mufflers +3",
@@ -345,10 +345,11 @@ function init_gear_sets()
     -- Swap to these on Moonshade using WS if at 3000 TP
     -- LINKTRI: Brutal/Cessance earrings not owned. WAR.lua reads ear1 and ear2 of the base sets, so both
     -- are always defined. Per-WS versions keep each WS's own non-Moonshade ear.
-    sets.MaxTP = {ear1 = "Ishvara Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}}
+    -- LINKTRI: ear1 Hoxne (was Ishvara) so capped-TP swaps keep the WS sets' Hoxne Earring.
+    sets.MaxTP = {ear1 = "Hoxne Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}}
     sets.AccMaxTP = {ear1 = "Telos Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}}
-    sets.MaxTP["Resolution"] = {ear1 = {name = "Schere Earring", augments = {"Path: A"}}, ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}}
-    sets.MaxTP["Rampage"] = {ear1 = "Telos Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}}
+    sets.MaxTP["Resolution"] = {ear1 = "Hoxne Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}} -- LINKTRI: was Schere
+    sets.MaxTP["Rampage"] = {ear1 = "Hoxne Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}} -- LINKTRI: was Telos; Hoxne DEX+15 also adds crit rate
     sets.MaxTP["Ukko's Fury"] = sets.MaxTP["Rampage"]
 
     -- Sets to return to when not performing an action.
@@ -530,7 +531,7 @@ function init_gear_sets()
         head = "Boii Mask +3",
         body = {name = "Sakpata's Plate", augments = {"Path: A"}},
         hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
-        ring1 = "Defending Ring",
+        ring2 = "Defending Ring",      -- LINKTRI: was ring1; ring2 matches idle/defense (replaces a Chirich either way)
         back = gear.da_jse_back,
         legs = {name = "Sakpata's Cuisses", augments = {"Path: A"}},
     }
@@ -559,7 +560,7 @@ function init_gear_sets()
     sets.buff.Retaliation = {}
     sets.buff.Restraint = {}
     sets.TreasureHunter = {}
-    sets.Capacity = {back = {name = "Mecisto. Mantle", augments = {'Cap. Point+49%','MP+17','DEF+9'}}}
+    sets.Capacity = {back = "Mecisto. Mantle"} -- LINKTRI: augments didn't match the owned cape (only one owned)
 
     -- Custom melee group sets
     sets.engaged.Adoulin = {body = "Councilor's Garb"}
@@ -661,7 +662,8 @@ windower.register_event('prerender', function()
         local current_hp = player.hpp or 100
         if current_hp ~= last_hp then
             last_hp = current_hp
-            if player.status == 'Engaged' then
+            -- LINKTRI: skip while casting/weaponskilling so the CR set can't replace WS/precast gear mid-action
+            if player.status == 'Engaged' and not midaction() then
                 handle_melee_gear()
             end
         end
