@@ -219,7 +219,8 @@ function init_gear_sets()
 
     sets.midcast.FastRecast = set_combine(sets.precast.FC, {})
 
-    sets.TreasureHunter = set_combine(sets.TreasureHunter, {waist = "Chaac Belt"})
+    -- original: set_combine(sets.TreasureHunter, {waist = "Chaac Belt"}) (pulled in the global Wh. Rarab Cap +1)
+    sets.TreasureHunter = {waist = "Chaac Belt"}
     sets.midcast.Dia = set_combine(sets.midcast.FastRecast, sets.TreasureHunter)
     sets.midcast.Diaga = set_combine(sets.midcast.FastRecast, sets.TreasureHunter)
     sets.midcast["Dia II"] = set_combine(sets.midcast.FastRecast, sets.TreasureHunter)
