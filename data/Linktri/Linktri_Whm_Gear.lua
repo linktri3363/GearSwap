@@ -20,7 +20,7 @@ function user_job_setup()
     send_command('bind ^` input /ma "Arise" <t>')
     send_command('bind !` input /ja "Penury" <me>')
     send_command("bind @` gs c cycle MagicBurstMode")
-    send_command("bind ^@!` gs c toggle AutoCaress")
+    send_command("bind ^@!` gs c cycle AutoDivineCaress") -- LINKTRI: was "toggle AutoCaress" (WHM.lua's always-on Caress, now replaced below)
     send_command('bind ^backspace input /ja "Sacrosanctity" <me>')
     send_command('bind @backspace input /ma "Aurora Storm" <me>')
     send_command("bind !pause gs c toggle AutoSubMode") --Automatically uses sublimation.
@@ -46,6 +46,17 @@ function user_job_setup()
     --   Always - use Divine Seal on every status removal while it's ready
     --   Off    - never
     state.AutoDivineSeal = M{['description'] = 'Auto Divine Seal', 'Smart', 'Always', 'Off'}
+
+    -- LINKTRI (2026-10-22): Divine Caress (immunity to the ailment you remove, for everyone it was removed from).
+    -- Replaces WHM.lua's Auto Caress, which fired before every -na spell. Modes (Ctrl+Alt+Win+`, or
+    -- //gs c cycle AutoDivineCaress):
+    --   Smart  - only when 3+ party members near the target have an ailment this -na removes AND the removal
+    --            will be AoE (Yagrush in hand, or Divine Seal active/about to be used)
+    --   Always - before every -na spell while it's ready (the old WHM.lua behavior)
+    --   Off    - never
+    -- Never used on Erase, Esuna or Sacrifice (Divine Caress doesn't apply to them).
+    state.AutoDivineCaress = M{['description'] = 'Auto Divine Caress', 'Smart', 'Always', 'Off'}
+    state.AutoCaress:set(false) -- WHM.lua's unconditional version; the logic in user_job_precast replaces it
 
     select_default_macro_book()
 end
@@ -1400,24 +1411,49 @@ local function yagrush_at_cast(spell, spellMap)
     return main == 'Yagrush'
 end
 
+-- LINKTRI (2026-10-22): Divine Caress + Divine Seal sequencing for status removal. Each ability cancels the spell,
+-- fires, and recasts the spell 1.1s later, so with both wanted you get Divine Caress -> Divine Seal -> spell.
+local CARESS_EXCLUDED = S{'Erase', 'Esuna', 'Sacrifice'}
+
 function user_job_precast(spell, spellMap, eventArgs)
-    if spell.action_type == 'Magic' and spellMap == 'StatusRemoval'
-            and spell.english ~= 'Sacrifice' and spell.english ~= 'Esuna'
-            and state.AutoDivineSeal.value ~= 'Off' and not yagrush_at_cast(spell, spellMap)
-            and not buffactive['Divine Seal'] and not silent_check_amnesia() then
-        local abil_recasts = windower.ffxi.get_ability_recasts()
-        if abil_recasts[26] and abil_recasts[26] < latency then
-            if state.AutoDivineSeal.value == 'Smart' then
-                local count = divine_veil_count(spell)
-                if not count or count < 2 then return end
-                add_to_chat(122, '[GearSwap] '..count..' party members need '..spell.english..' - using Divine Seal')
-            end
-            eventArgs.cancel = true
-            windower.chat.input('/ja "Divine Seal" <me>')
-            windower.chat.input:schedule(1.1, '/ma "'..spell.english..'" '..spell.target.raw)
-            add_tick_delay(1.1)
-            return
+    if not (spell.action_type == 'Magic' and spellMap == 'StatusRemoval') then return end
+    if spell.english == 'Sacrifice' or spell.english == 'Esuna' or silent_check_amnesia() then return end
+
+    local abil_recasts = windower.ffxi.get_ability_recasts()
+    local yagrush = yagrush_at_cast(spell, spellMap)
+    local count = divine_veil_count(spell)   -- nil when the target isn't in your party
+
+    -- Divine Seal: needed for AoE only when Yagrush won't be in hand.
+    local seal_active = buffactive['Divine Seal']
+    local want_seal = not yagrush and not seal_active and state.AutoDivineSeal.value ~= 'Off'
+        and abil_recasts[26] and abil_recasts[26] < latency
+        and (state.AutoDivineSeal.value == 'Always' or (count and count >= 2))
+
+    -- Divine Caress: only worth it when several people get the immunity, i.e. the removal is AoE.
+    local aoe = yagrush or seal_active or want_seal
+    local want_caress = not CARESS_EXCLUDED:contains(spell.english) and not buffactive['Divine Caress']
+        and state.AutoDivineCaress.value ~= 'Off'
+        and abil_recasts[32] and abil_recasts[32] < latency
+        and (state.AutoDivineCaress.value == 'Always' or (count and count >= 3 and aoe))
+
+    local ability
+    if want_caress then
+        ability = 'Divine Caress'
+        if state.AutoDivineCaress.value == 'Smart' then
+            add_to_chat(122, '[GearSwap] '..count..' party members need '..spell.english..' - using Divine Caress')
         end
+    elseif want_seal then
+        ability = 'Divine Seal'
+        if state.AutoDivineSeal.value == 'Smart' then
+            add_to_chat(122, '[GearSwap] '..count..' party members need '..spell.english..' - using Divine Seal')
+        end
+    end
+
+    if ability then
+        eventArgs.cancel = true
+        windower.chat.input('/ja "'..ability..'" <me>')
+        windower.chat.input:schedule(1.1, '/ma "'..spell.english..'" '..spell.target.raw)
+        add_tick_delay(1.1)
     end
 end
 
