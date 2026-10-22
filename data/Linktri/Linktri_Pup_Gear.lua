@@ -118,7 +118,7 @@ function init_gear_sets()
     sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {neck = "Magoraga Beads"})
 
     -- Precast sets to enhance JAs
-    sets.precast.JA["Tactical Switch"] = {feet = "Pitre Babouches +2"}
+    sets.precast.JA["Tactical Switch"] = {feet = "Pitre Babouches +3"}
     sets.precast.JA["Repair"] = {ammo = "Automat. Oil +3", feet = "Foire Bab. +2", hands = "Foire Dastanas +2"}
     sets.precast.JA["Maintenance"] = {ammo = "Automat. Oil +3", head = "Foire Taj +2"}
 
@@ -128,8 +128,8 @@ function init_gear_sets()
     sets.precast.JA["Optimization"] = {head = "Pitre Taj +2"}
     sets.precast.JA["Overdrive"] = {body = "Pitre Tobe +2"}
     sets.precast.JA["Fine-Tuning"] = {hands = "Pitre Dastanas +2"}
-    sets.precast.JA["Ventriloquy"] = {legs = "Pitre Churidars +2"}
-    sets.precast.JA["Role Reversal"] = {feet = "Pitre Babouches +2"}
+    sets.precast.JA["Ventriloquy"] = {legs = "Pitre Churidars +3"}
+    sets.precast.JA["Role Reversal"] = {feet = "Pitre Babouches +3"}
 
     -- Waltz set (chr and vit)
     sets.precast.Waltz = {
