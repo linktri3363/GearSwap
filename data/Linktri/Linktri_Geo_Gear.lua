@@ -54,6 +54,10 @@ function user_job_setup()
     send_command('bind ^delete input /ma "Aspir III" <t>')
     send_command('bind @delete input /ma "Sleep" <t>')
     send_command('bind ^F7 gs c toggle AutoMBMode')
+
+    -- LINKTRI (2026-10-22): /WHM Divine Veil. When on, a status-removal spell (Erase or a -na) with Divine Seal
+    -- ready uses Divine Seal first, making that removal AoE for the target's party. Toggle: //gs c toggle AutoDivineSeal
+    state.AutoDivineSeal = M(true, 'Auto Divine Seal')
     
     indi_duration = 340
     
@@ -1062,6 +1066,25 @@ function init_gear_sets()
 end
 
 -- Select default macro book on initial load or subjob change.
+-- LINKTRI (2026-10-22): /WHM Divine Veil. Divine Seal before a status-removal spell makes it a small-radius AoE
+-- that removes the ailment from everyone in the target's party (Divine Veil trait, WHM 50; Sacrifice excluded).
+-- Same pattern as WHM.lua's Auto Divine Caress: cancel the spell, use Divine Seal, recast the spell 1.1s later.
+-- Divine Seal recast is 10 minutes (recast id 26); when it's down the spell just casts single-target.
+function user_job_precast(spell, spellMap, eventArgs)
+    if spell.action_type == 'Magic' and spellMap == 'StatusRemoval' and spell.english ~= 'Sacrifice'
+            and player.sub_job == 'WHM' and state.AutoDivineSeal.value
+            and not buffactive['Divine Seal'] and not buffactive['SJ Restriction'] and not silent_check_amnesia() then
+        local abil_recasts = windower.ffxi.get_ability_recasts()
+        if abil_recasts[26] and abil_recasts[26] < latency then
+            eventArgs.cancel = true
+            windower.chat.input('/ja "Divine Seal" <me>')
+            windower.chat.input:schedule(1.1, '/ma "'..spell.english..'" '..spell.target.raw)
+            add_tick_delay(1.1)
+            return
+        end
+    end
+end
+
 function select_default_macro_book()
     set_macro_page(1, 21)
 end
