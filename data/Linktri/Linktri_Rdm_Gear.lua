@@ -774,7 +774,7 @@ function init_gear_sets()
         sub = "Umbra Strap",
         range = empty,
         ammo = "Homiliary",
-        head = "Viti. Chapeau +1",
+        head = "Null Masque",  -- DT-10%, Refresh+1, Regen+3; original: "Viti. Chapeau +1" (2026-10-23)
         neck = "Loricate Torque +1",
         ear1 = "Etiolation Earring",
         ear2 = { name="Alabaster Earring", augments={'Path: A',}},
