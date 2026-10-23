@@ -258,10 +258,11 @@ function init_gear_sets()
     }
     sets.precast.FC.DW = {sub = "Kali"}   -- Kali FC+7 in the off hand (only applied when weapons are unlocked)
 
+    -- original: ear2 Alabaster, ring2 Murky (sides 2026-10-23: Alabaster/Murky are ear1/ring1-side; Fili +1 stays ear2)
     sets.precast.FC.DT = set_combine(sets.precast.FC, {
         neck  = "Null Loop",
-        ear2  = "Alabaster Earring",
-        ring2 = "Murky Ring"
+        ear1  = "Alabaster Earring",
+        ring1 = "Murky Ring"
     })
 
     sets.precast.FC.Cure = set_combine(sets.precast.FC, {feet = gear.chironic_cure_feet or "Kaykaus Boots +1"})  -- Cure cast time -7%
@@ -307,22 +308,22 @@ function init_gear_sets()
         head  = "Nyame Helm",
         neck  = "Rep. Plat. Medal",
         ear1  = "Moonshade Earring",
-        ear2  = "Ishvara Earring",
+        ear2  = "Mache Earring +1",  -- original: "Ishvara Earring" (ear1-side now)
         body  = "Bihu Just. +4",
         hands = "Nyame Gauntlets",
-        ring1 = "Ephramad's Ring",   -- was Epona's Ring, which BRD can't equip (so ring1 was never swapping)
-        ring2 = "Ilabrat Ring",
+        ring1 = "Ilabrat Ring",
+        ring2 = "Ephramad's Ring",   -- was Epona's Ring, which BRD can't equip; ring1 -> ring2 -- sides 2026-10-23
         back  = gear.melee_back,
         waist = "Sailfi Belt +1",
         legs  = "Nyame Flanchard",
         feet  = "Nyame Sollerets"
     }
-    sets.precast.WS.Acc = set_combine(sets.precast.WS, {neck = "Null Loop", ear2 = "Mache Earring +1", ring1 = "Chirich Ring +1"})
+    sets.precast.WS.Acc = set_combine(sets.precast.WS, {neck = "Null Loop", ear2 = "Telos Earring", ring1 = "Chirich Ring +1"})  -- original ear2: Mache (now base)
 
     sets.precast.WS["Savage Blade"] = set_combine(sets.precast.WS, {ring1 = "Metamor. Ring +1"})
     sets.precast.WS["Rudra's Storm"] = sets.precast.WS
     sets.precast.WS["Ruthless Stroke"] = sets.precast.WS
-    sets.precast.WS["Evisceration"] = set_combine(sets.precast.WS, {ear2 = "Mache Earring +1"})
+    sets.precast.WS["Evisceration"] = set_combine(sets.precast.WS, {})  -- Mache ear2 is in the base set now
 
     -- Mordant Rime: 70% CHR / 30% DEX, no TP scaling (no Moonshade). Two hits, fTP 5.0 on the first.
     -- Armor stays Nyame (Path B WSD on every piece) + Bihu Just. +4 (WSD+12): Bihu/Fili/Brioso +4 have more CHR
@@ -336,15 +337,16 @@ function init_gear_sets()
 
     sets.precast.WS["Aeolian Edge"] = set_combine(sets.precast.WS, {
         neck  = "Baetyl Pendant",
-        ear2  = "Crematio Earring",
+        ear2  = "Hecate's Earring",  -- original: "Crematio Earring" (ear1-side, used by nukes)
         body  = "Nyame Mail",
         ring1 = "Metamor. Ring +1",
         waist = "Orpheus's Sash"
     })
 
     -- Swap to these on Moonshade using WS if at 3000 TP
-    sets.MaxTP = {ear1 = "Ishvara Earring", ear2 = "Telos Earring"}
-    sets.AccMaxTP = {ear1 = "Mache Earring +1", ear2 = "Telos Earring"}
+    -- original: MaxTP {ear1 Ishvara, ear2 Telos}, AccMaxTP {ear1 Mache, ear2 Telos} (sides 2026-10-23)
+    sets.MaxTP = {ear1 = "Ishvara Earring"}
+    sets.AccMaxTP = {ear1 = "Crep. Earring"}
 
     ---------------------------------------------------------------------------------------------------------------
     -- Midcast Sets
@@ -499,16 +501,16 @@ function init_gear_sets()
     sets.midcast.StatusRemoval = set_combine(sets.midcast.FastRecast, {
         head = "Vanya Hood",
         body = "Vanya Robe",
-        ear2 = "Meili Earring",
-        ring2 = "Menelaus's Ring"
+        ear1 = "Meili Earring",      -- original: ear2 -- sides 2026-10-23
+        ring1 = "Menelaus's Ring"   -- original: ring2 -- sides 2026-10-23
     })
 
     sets.midcast["Enhancing Magic"] = {
         range = gear.idle_instrument,
         head  = gear.telchine_enh_head or "Telchine Cap",
         neck  = "Voltsurge Torque",
-        ear1  = "Andoaa Earring",
-        ear2  = "Etiolation Earring",
+        ear1  = "Etiolation Earring",
+        ear2  = "Andoaa Earring", -- sides 2026-10-23
         body  = gear.telchine_enh_body or "Telchine Chas.",
         hands = gear.telchine_enh_hands or "Telchine Gloves",
         ring1 = "Stikini Ring",
@@ -608,8 +610,8 @@ function init_gear_sets()
         ear2  = "Dedition Earring",
         body  = "Ashera Harness",
         hands = "Regal Gloves",
-        ring1 = "Roller's Ring",
-        ring2 = "Chirich Ring +1",
+        ring1 = "Chirich Ring +1",
+        ring2 = "Roller's Ring", -- sides 2026-10-23
         back  = gear.melee_back,
         waist = "Sailfi Belt +1",
         legs  = "Nyame Flanchard",
@@ -622,7 +624,8 @@ function init_gear_sets()
     sets.Kiting = {feet = "Fili Cothurnes +3"}    -- ring slot stays free for whatever you rotate in
     sets.KitingNormal = sets.Kiting               -- saved copy; sets.Kiting is blanked while next to a Porter Moogle
     sets.latent_refresh = {waist = "Fucho-no-Obi"}
-    -- sets.TreasureHunter comes from Linktri-Items.lua (Wh. Rarab Cap +1 + Chaac Belt).
+    -- original: sets.TreasureHunter from Linktri-Items.lua (Wh. Rarab Cap +1 [packed] + Chaac Belt).
+    sets.TreasureHunter = {legs = "Volte Hose", waist = "Chaac Belt"}  -- TH+1 each
 
     ---------------------------------------------------------------------------------------------------------------
     -- Engaged sets (instrument stays on; Gjallarhorn instead of Coiste Bodhar so songs don't zero your TP)
@@ -670,7 +673,7 @@ function init_gear_sets()
         ear2  = "Sanare Earring",
         body  = "Nyame Mail",
         hands = "Nyame Gauntlets",
-        ring1 = "Stikini Ring",
+        ring1 = "Murky Ring",        -- original: "Stikini Ring" (single Stikini is ring2-side)
         ring2 = "Defending Ring",
         back  = "Null Shawl",
         waist = "Fucho-no-Obi",
