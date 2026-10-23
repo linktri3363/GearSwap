@@ -305,8 +305,9 @@ function init_gear_sets()
         body = "Udug Jacket", legs = "Pitre Churidars +3", feet = "Pitre Babouches +3"})
 
     -- Midcast sets for pet actions (equipped when the automaton starts casting)
+    -- Refraction Cape: automaton INT/MND+8, MAcc+3 (Visucius augments are physical only)
     sets.midcast.Pet.Cure = set_combine(sets.idle.Pet.Engaged.Heal, {
-        legs = "Foire Churidars +3", feet = "Karagoz Scarpe +3"}) -- original: legs Tali'ah Sera. +2
+        legs = "Foire Churidars +3", feet = "Karagoz Scarpe +3", back = "Refraction Cape"}) -- original: legs Tali'ah Sera. +2
     -- original: full Tali'ah +2, Enmerkar/Domesticator's Earring, Stikini x2
     sets.midcast.Pet["Enfeebling Magic"] = {
         -- ammo = "Voluspa Tathlum", -- removed: non-oil ammo unequips the animator
@@ -318,7 +319,7 @@ function init_gear_sets()
         hands = "Karagoz Guanti +3",
         ring1 = "Overbearing Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back = "Visucius's Mantle",
+        back = "Refraction Cape", -- original: Visucius's Mantle
         waist = "Incarnation Sash",
         legs = "Kara. Pantaloni +3",
         feet = "Karagoz Scarpe +3"
@@ -334,7 +335,7 @@ function init_gear_sets()
         hands = "Karagoz Guanti +3",
         ring1 = "Overbearing Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
-        back = "Visucius's Mantle",
+        back = "Refraction Cape", -- original: Visucius's Mantle
         waist = "Incarnation Sash",
         legs = "Pitre Churidars +3",
         feet = "Pitre Babouches +3"
@@ -540,10 +541,11 @@ end
 -- Renamed from job_customize_idle_set: that name replaced PUP.lua's version and disabled
 -- all pet-engaged idle swaps, PetWS gear, and Overdrive gear.
 -- Non-oil ammo knocks the animator out of the range slot, which blocks maneuvers.
--- Keep the ammo slot empty in idle/engaged gear (Repair/Maintenance still put the oil on).
+-- Keep Automat. Oil +3 (safe with animators) in the ammo slot in idle/engaged gear, so nothing else
+-- can sit there and Repair/Maintenance always have their oil. (previously: ammo = empty)
 function no_ammo(set)
     if set and set.ammo == nil then
-        return set_combine(set, {ammo = empty})
+        return set_combine(set, {ammo = "Automat. Oil +3"})
     end
     return set
 end
