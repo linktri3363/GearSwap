@@ -199,7 +199,8 @@ function init_gear_sets()
         neck = "Light Gorget", waist = "Light Belt", feet = "Mpaca's Boots"})
     sets.precast.WS["Asuran Fists"] = set_combine(sets.precast.WS, {waist = "Shadow Belt"})
     -- WSD / fTP-transfer WS
-    sets.precast.WS["Howling Fist"] = set_combine(sets.precast.WS, {waist = "Thunder Belt"})
+    -- Single-hit WS: Foire Tobe +4 WSD+12% (original body: Mpaca's Doublet from the base set)
+    sets.precast.WS["Howling Fist"] = set_combine(sets.precast.WS, {body = "Foire Tobe +4", waist = "Thunder Belt"})
     sets.precast.WS["Raging Fists"] = set_combine(sets.precast.WS, {waist = "Thunder Belt"})
     sets.precast.WS["Dragon Kick"] = set_combine(sets.precast.WS, {waist = "Thunder Belt"})
     sets.precast.WS["Tornado Kick"] = set_combine(sets.precast.WS, {waist = "Thunder Belt"})
@@ -268,7 +269,7 @@ function init_gear_sets()
         neck = "Shulmanu Collar",
         ear1 = "Burana Earring",
         ear2 = "Kara. Earring +1",
-        body = "Foire Tobe +3",
+        body = "Foire Tobe +4", -- original: Foire Tobe +3
         hands = "Pitre Dastanas +3",
         ring1 = "Overbearing Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
@@ -287,7 +288,7 @@ function init_gear_sets()
         neck = "Adad Amulet",
         ear1 = "Burana Earring",
         ear2 = "Kara. Earring +1",
-        body = "Foire Tobe +3",
+        body = "Foire Tobe +4", -- original: Foire Tobe +3
         hands = "Karagoz Guanti +3",
         ring1 = "Overbearing Ring",
         ring2 = { name="Murky Ring", augments={'Path: A',}},
