@@ -9,7 +9,7 @@ function user_job_setup()
     state.MagicalDefenseMode:options("MDT")
     state.ResistDefenseMode:options("MEVA")
     state.IdleMode:options("Normal")
-    state.Weapons:options("Dojikiri", "Masamune", "ShiningOne", "Bow")  -- original: "Dojikiri", "ProcWeapon", "Bow"
+    state.Weapons:options("Dojikiri", "Masamune", "ShiningOne", "ProcWeapon", "Bow")  -- original: "Dojikiri", "ProcWeapon", "Bow"
 
     gear.ws_jse_back = "Null Shawl"
     gear.stp_jse_back = "Null Shawl"
@@ -19,8 +19,9 @@ function user_job_setup()
     send_command('bind !backspace input /ja "Third Eye" <me>')
     send_command("bind @` gs c cycle SkillchainMode")
     send_command("bind !@^` gs c cycle Stance")
-    -- original !r: ProcWeapon (Hachimonji not owned) -> now Masamune
-    send_command("bind !r gs c weapons Masamune;gs c set WeaponskillMode Normal;gs c update")
+    send_command(
+        "bind !r gs c set skipprocweapons false;gs c weapons ProcWeapon;gs c set WeaponskillMode Proc;gs c update"
+    )
     send_command(
         "bind ^r gs c set skipprocweapons true;gs c weapons Default;gs c set WeaponskillMode Normal;gs c update"
     )
@@ -120,20 +121,20 @@ function init_gear_sets()
     sets.precast.WS.Fodder = set_combine(sets.precast.WS, {})
 
     -- Proc: no proc weapon owned (Hachimonji); keep a low-damage set for the WeaponskillMode option
-    sets.precast.WS.Proc = {
-        ammo = "Staunch Tathlum +1",
-        head = "Wakido Kabuto +1",
-        neck = "Loricate Torque +1",
-        ear1 = "Etiolation Earring",
-        ear2 = "Sanare Earring",
+    sets.precast.WS.Proc = {  -- Flamma +2 (packed); original ammo "Hasty Pinion +1", waist "Ioskeha Belt" (not owned)
+        ammo = { name="Coiste Bodhar", augments={'Path: A',}},
+        head = "Flam. Zucchetto +2",
+        neck = "Asperity Necklace",
+        ear1 = "Ishvara Earring",
+        ear2 = "Kasuga Earring +1",
         body = "Tartarus Platemail",
-        hands = "Wakido Kote +1",
-        ring1 = { name="Murky Ring", augments={'Path: A',}},
-        ring2 = "Defending Ring",
+        hands = "Flam. Manopolas +2",
+        ring1 = "Chirich Ring +1",
+        ring2 = "Chirich Ring +1",
         back = "Null Shawl",
-        waist = "Carrier's Sash",
-        legs = "Wakido Haidate +1",
-        feet = "Waki. Sune-Ate +1"
+        waist = "Null Belt",
+        legs = {name = "Nyame Flanchard", augments = {"Path: B"}},
+        feet = "Flam. Gambieras +2"
     }
 
     -- Elemental belt / gorget per WS skillchain property (Light Gorget only where Light/Fusion/Distortion applies)
@@ -348,7 +349,7 @@ function init_gear_sets()
 
     ---------------------------------------------------------------------------------------------
     -- Engaged: Kasuga head/body/legs (Store TP +37, DT -35) + Kasuga Earring +1 for 5-hit builds.
-    -- original base: Flam. Gambieras +2, Cessance Earring, Petrov Ring, Mpaca's Hose
+    -- original base: Cessance Earring (not owned), Petrov Ring, Mpaca's Hose
     ---------------------------------------------------------------------------------------------
     sets.engaged = {
         ammo = { name="Coiste Bodhar", augments={'Path: A',}},
@@ -363,7 +364,7 @@ function init_gear_sets()
         back = "Null Shawl",
         waist = "Reiki Yotai",
         legs = "Kasuga Haidate +3",
-        feet = {name = "Mpaca's Boots", augments = {"Path: A"}}
+        feet = "Flam. Gambieras +2"  -- DA+6%, Store TP+6 (packed Flamma +2)
     }
     sets.engaged.SomeAcc = set_combine(sets.engaged, {neck = "Null Loop"})
     sets.engaged.Acc = set_combine(sets.engaged.SomeAcc, {ring2 = "Chirich Ring +1", waist = "Null Belt"})
@@ -396,10 +397,10 @@ function init_gear_sets()
     sets.weapons.Masamune = {main = "Masamune", sub = "Utu Grip"}  -- Path A; augment upgrades still to come
     sets.weapons.ShiningOne = {main = "Shining One", sub = "Utu Grip"}  -- original: sets.weapons.Bow = {main = "Shining One"}
     sets.weapons.Bow = {main = "Dojikiri Yasutsuna", sub = "Utu Grip", range = "Ullr", ammo = "Kabura Arrow"}
-    -- sets.weapons.ProcWeapon = {main = "Hachimonji", sub = "Bloodrain Strap"}  -- Hachimonji not owned
+    sets.weapons.ProcWeapon = {main = "Hachimonji", sub = "Bloodrain Strap"}  -- Hachimonji packed (PorterPacker)
 
     -- Buff sets
-    sets.Cure_Received = {}  -- original: {hands = "Buremte Gloves", waist = "Gishdubar Sash", legs = "Flamma Dirs +2"} (not owned)
+    sets.Cure_Received = {legs = "Flamma Dirs +2"}  -- Cure received +9%; original also hands "Buremte Gloves", waist "Gishdubar Sash" (not owned)
     sets.buff.Doom = set_combine(sets.buff.Doom, {})
     sets.buff.Sleep = {}  -- original: {neck = "Vim Torque +1"} (not owned)
     sets.buff.Hasso = {hands = "Wakido Kote +1"}
