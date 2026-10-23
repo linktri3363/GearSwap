@@ -8,9 +8,9 @@ function user_job_setup()
     state.PhysicalDefenseMode:options("PDT")
     state.IdleMode:options("Normal", "PDT", "Refresh")
     -- NOTE: every weapon set also sets the animator. Swapping animators while the automaton is
-    -- out deactivates it, so only change to/from PrimeMagic before Activate.
+    -- out deactivates it, so only change to/from PrimeP2 before Activate.
     -- Prime first so the animator is equipped on load (original order: "None" first, which equips no weapons/animator)
-    state.Weapons:options("Prime", "Kenkonken", "Godhands", "PetWeapons", "PrimeMagic", "None")
+    state.Weapons:options("Prime", "Kenkonken", "Godhands", "PetWeapons", "PrimeP2", "None")
     state.PetMode =
         M {
         ["description"] = "Pet Mode",
@@ -27,7 +27,7 @@ function user_job_setup()
     }
     -- Automation defaults (original: Repair/Pet/PetWS all false, AutoPuppet off)
     state.AutoRepairMode = M(true, "Auto Repair Mode")      -- Repair w/ Automat. Oil +3 under 45% pet HP
-    state.AutoDeployMode = M(true, "Auto Deploy Mode")      -- Deploy when you engage
+    state.AutoDeployMode = M(false, "Auto Deploy Mode")     -- off: also blocks Auto Puppet's Deploy (see check_auto_pet below)
     state.AutoPetMode = M(true, "Auto Pet Mode")            -- PetMode follows the head/frame you equip
     state.PetWSGear = M(true, "Pet WS Gear")                -- swap to pet WS gear when pet TP >= 1000
     -- No automaton enmity gear owned; leave off until sets.midcast.Pet.PetEnmityGear is defined.
@@ -80,17 +80,18 @@ function user_job_setup()
             {Name = "Dark Maneuver", Amount = 1},
             {Name = "Earth Maneuver", Amount = 0}
         },
+        -- String Theory base sets (original: Heal Light 2 / Dark 1, Nuke Ice 2 / Dark 1)
         Heal = {
-            {Name = "Light Maneuver", Amount = 2},
+            {Name = "Light Maneuver", Amount = 1},
             {Name = "Dark Maneuver", Amount = 1},
-            {Name = "Water Maneuver", Amount = 0},
-            {Name = "Earth Maneuver", Amount = 0}
+            {Name = "Ice Maneuver", Amount = 1},
+            {Name = "Water Maneuver", Amount = 0}
         },
         Nuke = {
-            {Name = "Ice Maneuver", Amount = 2},
-            {Name = "Dark Maneuver", Amount = 1},
-            {Name = "Water Maneuver", Amount = 0},
-            {Name = "Earth Maneuver", Amount = 0}
+            {Name = "Ice Maneuver", Amount = 3},
+            {Name = "Dark Maneuver", Amount = 0},
+            {Name = "Light Maneuver", Amount = 0},
+            {Name = "Water Maneuver", Amount = 0}
         }
     }
 
@@ -374,7 +375,17 @@ function init_gear_sets()
     sets.midcast.Pet.PetWSGear.Nuke = set_combine(sets.idle.Pet.Engaged.Nuke, {})
 
     -- Overlaid while Overdrive is active
-    sets.buff.Overdrive = {head = "Kara. Cappello +3", hands = "Mpaca's Gloves"}
+    -- Overdrive: full automaton WS set for the current PetMode is applied in user_job_customize_idle_set
+    -- (original: sets.buff.Overdrive = {head = "Kara. Cappello +3", hands = "Mpaca's Gloves"})
+
+    -- Your DT while the automaton fights and IdleMode is PDT (pieces keep automaton Acc). ~55% DT with Murky.
+    sets.PetEngagedPDT = {
+        body = "Kara. Farsetto +3",
+        hands = "Karagoz Guanti +3",
+        legs = "Kara. Pantaloni +3",
+        ring1 = "Defending Ring",
+        ring2 = { name="Murky Ring", augments={'Path: A',}}
+    }
 
     -- Currently broken, preserved in case of future functionality.
     --sets.midcast.Pet.WeaponSkill = {}
@@ -521,8 +532,9 @@ function init_gear_sets()
     sets.weapons.Godhands = {main = "Godhands", range = "Neo Animator"}
     sets.weapons.Prime = {main = "Varga Purnikawa", range = "Neo Animator"}
     sets.weapons.Kenkonken = {main = "Kenkonken", range = "Neo Animator"}
-    -- Animator P II +1 (automaton all stats +20) for Heal/Nuke/Magic frames. Pick before Activate.
-    sets.weapons.PrimeMagic = {main = "Varga Purnikawa", range = "Animator P II +1"}
+    -- Animator P II +1 (automaton all stats +20): caster frames, and Ranger (keeps the automaton at range).
+    -- Pick before Activate. (original name: PrimeMagic)
+    sets.weapons.PrimeP2 = {main = "Varga Purnikawa", range = "Animator P II +1"}
 end
 
 -- Renamed from job_customize_idle_set: that name replaced PUP.lua's version and disabled
@@ -536,7 +548,17 @@ function no_ammo(set)
     return set
 end
 
+local tank_modes = S{"Tank", "LightTank"}
+
+local function overdrive_set()
+    local ws = sets.midcast.Pet.PetWSGear
+    return ws[state.PetMode.value] or ws
+end
+
 function user_job_customize_melee_set(meleeSet)
+    if buffactive["Overdrive"] and state.HybridMode.value == "Pet" and pet.isvalid then
+        meleeSet = set_combine(meleeSet, overdrive_set())
+    end
     return no_ammo(meleeSet)
 end
 
@@ -556,7 +578,51 @@ function user_job_customize_idle_set(idleSet)
         end
     end
 
+    if pet.isvalid and pet.status == "Engaged" then
+        if buffactive["Overdrive"] then
+            idleSet = set_combine(idleSet, overdrive_set())
+        elseif state.IdleMode.value == "PDT" then
+            local dt = sets.PetEngagedPDT
+            if tank_modes:contains(state.PetMode.value) then
+                dt = set_combine(dt, {legs = "Foire Churidars +3"}) -- keep the automaton's DT legs
+            end
+            idleSet = set_combine(idleSet, dt)
+        end
+    end
+
     return no_ammo(idleSet)
+end
+
+-- Same as PUP.lua's check_auto_pet, except Deploy only happens when AutoDeployMode is on.
+-- Auto Puppet still handles Activate / Deus Ex Automata / MP-refill Deactivate.
+function check_auto_pet()
+    if not state.AutoPuppetMode.value or in_town then return false end
+
+    local abil_recasts = windower.ffxi.get_ability_recasts()
+
+    if not pet.isvalid then
+        if abil_recasts[205] < latency then
+            windower.chat.input('/ja "Activate" <me>')
+            add_tick_delay()
+            return true
+        elseif abil_recasts[115] < latency then
+            windower.chat.input('/ja "Deus Ex Automata" <me>')
+            add_tick_delay()
+            return true
+        end
+    elseif pet.status == "Idle" then
+        if pet.max_mp > 50 and pet.mpp < 10 and pet.hpp >= deactivatehpp and abil_recasts[208] < latency then
+            windower.chat.input('/pet "Deactivate" <me>')
+            add_tick_delay()
+            return true
+        elseif state.AutoDeployMode.value and player.target.type == "MONSTER" and abil_recasts[207] < latency then
+            windower.chat.input('/pet "Deploy" <t>')
+            add_tick_delay()
+            return true
+        end
+    end
+
+    return false
 end
 
 function near_porter_moogle()
