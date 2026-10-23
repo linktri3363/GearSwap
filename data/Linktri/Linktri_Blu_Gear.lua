@@ -8,42 +8,27 @@ function user_job_setup()
     state.PhysicalDefenseMode:options("PDT")
     state.MagicalDefenseMode:options("MDT")
     state.ResistDefenseMode:options("MEVA")
-    state.Weapons:options(
-        "Tizbron",
-        "Tizalmace", 
-        "None",
-        "Almace",
-        "MeleeClubs",
-        "HybridWeapons",
-        "Naegbron",
-        "Naegmace"
-    )
+    -- original: "Tizbron","Tizalmace","None","Almace","MeleeClubs","HybridWeapons","Naegbron","Naegmace"
+    -- (Tizona/Almace/Sequence not owned; Tizbron was a duplicate of Naegbron)
+    state.Weapons:options("Naegbron", "Sakbron", "MeleeClubs", "None")
 
     state.ExtraMeleeMode = M {["description"] = "Extra Melee Mode", "None", "MP", "SuppaBrutal", "DWEarrings", "DWMax"}
 
     -- JSE Capes (keep original naming for compatibility)
-    gear.da_jse_back = {
-        name = "Rosmerta's Cape",
-        augments = {"DEX+20", "Accuracy+20 Attack+20", "Accuracy+10", '"Dbl.Atk."+10'}
-    }
-    gear.stp_jse_back = {
-        name = "Rosmerta's Cape",
-        augments = {"DEX+20", "Accuracy+20 Attack+20", "Accuracy+10", '"Store TP"+10'}
-    }
-    gear.crit_jse_back = {
-        name = "Rosmerta's Cape",
-        augments = {"DEX+20", "Accuracy+20 Attack+20", "DEX+10", "Crit.hit rate+10"}
-    }
-    gear.wsd_jse_back = {
-        name = "Rosmerta's Cape",
-        augments = {"STR+20", "Accuracy+20 Attack+20", "STR+10", "Weapon skill damage +10%"}
-    }
+    -- original: Rosmerta's Cape (Dbl.Atk.+10) - not owned; your only Rosmerta's is the INT/MAB nuke cape
+    gear.da_jse_back = "Null Shawl"
+    -- original: Rosmerta's Cape (Store TP+10) - not owned; your only Rosmerta's is the INT/MAB nuke cape
+    gear.stp_jse_back = "Null Shawl"
+    -- original: Rosmerta's Cape (Crit.hit rate+10) - not owned; your only Rosmerta's is the INT/MAB nuke cape
+    gear.crit_jse_back = "Null Shawl"
+    -- original: Rosmerta's Cape (WSD+10%) - not owned; your only Rosmerta's is the INT/MAB nuke cape
+    gear.wsd_jse_back = "Null Shawl"
     gear.nuke_jse_back = {
         name = "Rosmerta's Cape",
         augments = {'INT+20','Mag. Acc+20 /Mag. Dmg.+20','"Mag.Atk.Bns."+10','Spell interruption rate down-10%',}
     }
 
-    autows = "Expiacion"
+    autows = "Savage Blade"  -- original: "Expiacion" (needs Tizona)
 
     -- Additional local binds
     send_command('bind ^` input /ja "Chain Affinity" <me>')
@@ -62,9 +47,9 @@ function user_job_setup()
     send_command("bind @f8 gs c toggle AutoNukeMode")
     send_command("bind !@^f7 gs c toggle AutoWSMode")
     send_command("bind !r gs c weapons None;gs c update")
-    send_command("bind @q gs c weapons MaccWeapons;gs c update")
-    send_command("bind ^q gs c weapons Almace;gs c update")
-    send_command("bind !q gs c weapons HybridWeapons;gs c update")
+    -- send_command("bind @q gs c weapons MaccWeapons;gs c update")  -- removed: no MaccWeapons set
+    send_command("bind ^q gs c weapons Naegbron;gs c update")  -- original: Almace (not owned)
+    send_command("bind !q gs c weapons MeleeClubs;gs c update")  -- original: HybridWeapons (Sequence/Almace not owned)
 
     select_default_macro_book()
 end
@@ -72,19 +57,11 @@ end
 function init_gear_sets()
 sets.weapons = {}
 
-sets.weapons.Tizbron = {
-    main="Naegling",
+-- Removed (not owned): Tizbron (= Naegbron), Tizalmace (Tizona/Almace), Almace (Almace/"Brongniart"),
+-- HybridWeapons (Sequence/Almace), Naegmace (Naegling/Almace).
+sets.weapons.Sakbron = {      -- for when Naegling is packed: Sakpata's Sword (FC+10, DT-10) + Thibron (TP Bonus +1000)
+    main={ name="Sakpata's Sword", augments={'Path: A',}},
     sub="Thibron"
-}
-
-sets.weapons.Tizalmace = {
-    main="Tizona",
-    sub="Almace"
-}
-
-sets.weapons.Almace = {
-    main="Almace",
-    sub="Brongniart"
 }
 
 sets.weapons.MeleeClubs = {
@@ -92,20 +69,12 @@ sets.weapons.MeleeClubs = {
     sub="Bunzi's Rod"
 }
 
-sets.weapons.HybridWeapons = {
-    main="Sequence",
-    sub="Almace"
-}
 
 sets.weapons.Naegbron = {
     main="Naegling",
     sub="Thibron"
 }
 
-sets.weapons.Naegmace = {
-    main="Naegling",
-    sub="Almace"
-	 }
 
 
     --------------------------------------
@@ -119,45 +88,45 @@ sets.weapons.Naegmace = {
         main="Vampirism",
         sub="Sakpata's Sword",
         ammo="Impatiens",
-        head="Carmine Mask +1",
+        head="Malignance Chapeau", -- original: "Carmine Mask +1" (not owned)
         neck="Voltsurge Torque",
-        ear1="Enchntr. Earring +1",
+        ear1="Etiolation Earring", -- original: "Enchntr. Earring +1" (not owned)
         ear2="Loquac. Earring",
         body="Luhlaza Jubbah +1",
-        hands="Leyline Gloves",
+        hands="Sombra Mittens", -- original: "Leyline Gloves" (not owned)
         ring1="Kishar Ring",
         ring2="Lebeche Ring",
         back="Perimede Cape",
         waist="Witful Belt",
         legs="Aya. Cosciales +2",
-        feet="Carmine Greaves +1"
+        feet="Malignance Boots" -- original: "Carmine Greaves +1" (not owned)
     }
 
     sets.precast.FC['Blue Magic'] = set_combine(sets.precast.FC, {body="Hashishin Mintan +3"})
 
-    sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {body="Passion Jacket"})
+    sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {})  -- original: {body="Passion Jacket"} (not owned)
 
     -- Weaponskill sets
     sets.precast.WS = {
-        ammo="Aurgelmir Orb +1",
+        ammo="Coiste Bodhar", -- original: "Aurgelmir Orb +1" (not owned)
         head="Lilitu Headpiece",
-        neck="Mirage Stole +2",
-        ear1="Cessance Earring",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
+        ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Brutal Earring",
-        body="Adhemar Jacket +1",
+        body={ name="Gleti's Cuirass", augments={'Path: A',}}, -- original: "Adhemar Jacket +1" (not owned)
         hands="Jhakri Cuffs +2",
         ring1="Epona's Ring",
         ring2="Apate Ring",
         back=gear.da_jse_back,
-        waist="Kentarch Belt +1",
+        waist={ name="Sailfi Belt +1", augments={'Path: A',}}, -- original: "Kentarch Belt +1" (not owned)
         legs="Samnuha Tights",
         feet="Malignance Boots"
     }
 
     sets.precast.WS.Acc = {
-        ammo="Falcon Eye",
-        head="Carmine Mask +1",
-        neck="Mirage Stole +2",
+        ammo="Mantoptera Eye", -- original: "Falcon Eye" (not owned)
+        head="Malignance Chapeau", -- original: "Carmine Mask +1" (not owned)
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Mache Earring +1",
         ear2="Telos Earring",
         body="Assim. Jubbah +2",
@@ -165,15 +134,15 @@ sets.weapons.Naegmace = {
         ring1="Epona's Ring",
         ring2="Ilabrat Ring",
         back=gear.da_jse_back,
-        waist="Kentarch Belt +1",
-        legs="Carmine Cuisses +1",
+        waist="Null Belt", -- original: "Kentarch Belt +1" (not owned)
+        legs="Malignance Tights", -- original: "Carmine Cuisses +1" (not owned)
         feet="Malignance Boots"
     }
 
     sets.precast.WS.FullAcc = {
-        ammo="Falcon Eye",
-        head="Carmine Mask +1",
-        neck="Mirage Stole +2",
+        ammo="Mantoptera Eye", -- original: "Falcon Eye" (not owned)
+        head="Malignance Chapeau", -- original: "Carmine Mask +1" (not owned)
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Mache Earring +1",
         ear2="Odr Earring",
         body="Assim. Jubbah +2",
@@ -181,39 +150,39 @@ sets.weapons.Naegmace = {
         ring1="Stikini Ring",
         ring2="Stikini Ring",
         back=gear.da_jse_back,
-        waist="Olseni Belt",
-        legs="Carmine Cuisses +1",
+        waist="Null Belt", -- original: "Olseni Belt" (not owned)
+        legs="Malignance Tights", -- original: "Carmine Cuisses +1" (not owned)
         feet="Malignance Boots"
     }
 
     sets.precast.WS.DT = {
-        ammo="Aurgelmir Orb +1",
+        ammo="Coiste Bodhar", -- original: "Aurgelmir Orb +1" (not owned)
         head="Malignance Chapeau",
         neck="Loricate Torque +1",
-        ear1="Cessance Earring",
+        ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Brutal Earring",
         body="Malignance Tabard",
         hands="Malignance Gloves",
         ring1={ name="Murky Ring", augments={'Path: A',}},
         ring2="Defending Ring",
         back=gear.da_jse_back,
-        waist="Kentarch Belt +1",
+        waist={ name="Sailfi Belt +1", augments={'Path: A',}}, -- original: "Kentarch Belt +1" (not owned)
         legs="Malignance Tights",
         feet="Malignance Boots"
     }
 
     sets.precast.WS.Fodder = {
-        ammo="Aurgelmir Orb +1",
+        ammo="Coiste Bodhar", -- original: "Aurgelmir Orb +1" (not owned)
         head="Lilitu Headpiece",
-        neck="Mirage Stole +2",
-        ear1="Cessance Earring",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
+        ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Brutal Earring",
-        body="Adhemar Jacket +1",
+        body={ name="Gleti's Cuirass", augments={'Path: A',}}, -- original: "Adhemar Jacket +1" (not owned)
         hands="Jhakri Cuffs +2",
         ring1="Epona's Ring",
         ring2="Apate Ring",
         back=gear.da_jse_back,
-        waist="Kentarch Belt +1",
+        waist={ name="Sailfi Belt +1", augments={'Path: A',}}, -- original: "Kentarch Belt +1" (not owned)
         legs="Samnuha Tights",
         feet="Malignance Boots"
     }
@@ -221,16 +190,16 @@ sets.weapons.Naegmace = {
     -- Specific weaponskill sets
     sets.precast.WS["Requiescat"] = set_combine(sets.precast.WS, {
         head="Jhakri Coronal +2",
-        ear1="Regal Earring",
+        ear1="Moonshade Earring", -- original: "Regal Earring" (not owned)
         body="Jhakri Robe +2",
-        ring2={ name="Metamor. Ring +1", augments={'Path: A',}},
+        ring1={ name="Metamor. Ring +1", augments={'Path: A',}}, -- original: ring2 (sides 2026-10-23)
         legs="Jhakri Slops +2",
         feet="Jhakri Pigaches +2"
     })
 
     sets.precast.WS["Requiescat"].Acc = set_combine(sets.precast.WS.Acc, {
         head="Jhakri Coronal +2",
-        ear1="Regal Earring",
+        ear1="Moonshade Earring", -- original: "Regal Earring" (not owned)
         body="Jhakri Robe +2",
         legs="Jhakri Slops +2",
         feet="Jhakri Pigaches +2"
@@ -239,13 +208,13 @@ sets.weapons.Naegmace = {
     sets.precast.WS["Chant du Cygne"] = set_combine(sets.precast.WS, {
         ammo="Coiste Bodhar", -- LINKTRI MODIFICATION: multi-hit crit WS ammo
         head={ name="Gleti's Mask", augments={'Path: A',}},
-        neck="Mirage Stole +2",
+        neck="Light Gorget", -- original: "Mirage Stole +2" (not owned)
         ear1="Mache Earring +1",
         ear2="Odr Earring",
         body={ name="Gleti's Cuirass", augments={'Path: A',}},
         hands={ name="Gleti's Gauntlets", augments={'Path: A',}},
         ring1="Epona's Ring",
-        ring2="Begrudging Ring",
+        ring2="Ilabrat Ring", -- original: "Begrudging Ring" (not owned)
         back=gear.crit_jse_back,
         waist="Reiki Yotai",
         legs={ name="Gleti's Breeches", augments={'Path: A',}},
@@ -258,7 +227,7 @@ sets.weapons.Naegmace = {
         ear2="Odr Earring",
         body={ name="Gleti's Cuirass", augments={'Path: A',}},
         hands={ name="Gleti's Gauntlets", augments={'Path: A',}},
-        ring2="Begrudging Ring",
+        ring2="Ilabrat Ring", -- original: "Begrudging Ring" (not owned)
         back=gear.crit_jse_back,
         waist="Reiki Yotai",
         legs={ name="Gleti's Breeches", augments={'Path: A',}},
@@ -268,12 +237,12 @@ sets.weapons.Naegmace = {
     sets.precast.WS["Savage Blade"] = set_combine(sets.precast.WS, {
         ammo="Oshasha's Treatise", -- LINKTRI MODIFICATION: single-hit-style WS damage ammo
         head="Hashishin Kavuk +3",
-        neck="Mirage Stole +2",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Moonshade Earring",
         ear2="Ishvara Earring",
         body={ name="Nyame Mail", augments={'Path: B'} },
         hands={ name="Nyame Gauntlets", augments={'Path: B'} },
-        ring1="Epaminondas's Ring",
+        ring1="Ephramad's Ring", -- original: "Epaminondas's Ring" (not owned)
         ring2="Beithir Ring",
         back=gear.wsd_jse_back,
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
@@ -283,12 +252,12 @@ sets.weapons.Naegmace = {
 
     sets.precast.WS["Savage Blade"].Acc = set_combine(sets.precast.WS.Acc, {
         head="Hashishin Kavuk +3",
-        neck="Mirage Stole +2",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Moonshade Earring",
         ear2="Ishvara Earring",
         body={ name="Nyame Mail", augments={'Path: B'} },
         hands={ name="Nyame Gauntlets", augments={'Path: B'} },
-        ring1="Epaminondas's Ring",
+        ring1="Ephramad's Ring", -- original: "Epaminondas's Ring" (not owned)
         ring2="Beithir Ring",
         back=gear.wsd_jse_back,
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
@@ -301,15 +270,15 @@ sets.weapons.Naegmace = {
     sets.precast.WS["Expiacion"].Acc = set_combine(sets.precast.WS["Savage Blade"].Acc, {})
 
     sets.precast.WS["Sanguine Blade"] = {
-        ammo="Ghastly Tathlum +1",
-        head="Hashishin Kavuk +3",
+        ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
+        head="Pixie Hairpin +1", -- Dark MAB+28; original: "Hashishin Kavuk +3"
         neck="Sibyl Scarf",
-        ear1="Regal Earring",
-        ear2="Friomisi Earring",
+        ear1="Crematio Earring", -- original: "Regal Earring" (not owned)
+        ear2="Hecate's Earring", -- original: "Friomisi Earring" (not owned)
         body={ name="Nyame Mail", augments={'Path: B'} },
         hands="Jhakri Cuffs +2",
-        ring1="Epaminondas's Ring",
-        ring2="Archon Ring",
+        ring1={ name="Metamor. Ring +1", augments={'Path: A',}}, -- original: "Epaminondas's Ring" (not owned)
+        ring2="Stikini Ring", -- MND+5; original: "Archon Ring" (not owned)
         back=gear.nuke_jse_back,
         waist="Orpheus's Sash",
         legs={ name="Luhlaza Shalwar +1", augments={'Enhances "Assimilation" effect',}},
@@ -327,18 +296,18 @@ sets.weapons.Naegmace = {
     -- Midcast Sets
     sets.midcast.FastRecast = {
         ammo="Impatiens",
-        head="Carmine Mask +1",
+        head="Malignance Chapeau", -- original: "Carmine Mask +1" (not owned)
         neck="Voltsurge Torque",
-        ear1="Enchntr. Earring +1",
+        ear1="Etiolation Earring", -- original: "Enchntr. Earring +1" (not owned)
         ear2="Loquac. Earring",
         body="Luhlaza Jubbah +1",
-        hands="Leyline Gloves",
+        hands="Sombra Mittens", -- original: "Leyline Gloves" (not owned)
         ring1="Kishar Ring",
         ring2="Lebeche Ring",
         back="Perimede Cape",
         waist="Witful Belt",
         legs="Aya. Cosciales +2",
-        feet="Carmine Greaves +1"
+        feet="Malignance Boots" -- original: "Carmine Greaves +1" (not owned)
     }
 
     -- Blue Magic Skill for learning spells
@@ -349,33 +318,33 @@ sets.weapons.Naegmace = {
 
     -- Physical Blue Magic
     sets.midcast['Blue Magic'].Physical = {
-        ammo="Aurgelmir Orb +1",
+        ammo="Coiste Bodhar", -- original: "Aurgelmir Orb +1" (not owned)
         head="Hashishin Kavuk +3",
-        neck="Mirage Stole +2",
-        ear1="Cessance Earring",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
+        ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Brutal Earring",
         body="Hashishin Mintan +3",
         hands="Hashi. Bazu. +3",
         ring1="Epona's Ring",
         ring2="Ilabrat Ring",
         back=gear.da_jse_back,
-        waist="Kentarch Belt +1",
+        waist={ name="Sailfi Belt +1", augments={'Path: A',}}, -- original: "Kentarch Belt +1" (not owned)
         legs="Hashishin Tayt +3",
         feet="Hashi. Basmak +3"
     }
 
     sets.midcast['Blue Magic'].PhysicalAcc = {
-        ammo="Falcon Eye",
+        ammo="Mantoptera Eye", -- original: "Falcon Eye" (not owned)
         head="Hashishin Kavuk +3",
-        neck="Mirage Stole +2",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Mache Earring +1",
         ear2="Hashi. Earring +1", -- LINKTRI MODIFICATION: BLU Sortie earring
         body="Hashishin Mintan +3",
         hands="Hashi. Bazu. +3",
-        ring1="Stikini Ring",
+        ring1="Cacoethic Ring +1", -- Acc+11; original: "Stikini Ring" (magic accuracy only)
         ring2="Ilabrat Ring",
         back=gear.da_jse_back,
-        waist="Kentarch Belt +1",
+        waist="Null Belt", -- original: "Kentarch Belt +1" (not owned)
         legs="Hashishin Tayt +3",
         feet="Hashi. Basmak +3"
     }
@@ -398,11 +367,11 @@ sets.weapons.Naegmace = {
 
     -- Magical Blue Magic
     sets.midcast['Blue Magic'].Magical = {
-        ammo="Ghastly Tathlum +1",
+        ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
         head="Hashishin Kavuk +3",
         neck="Sibyl Scarf",
-        ear1="Regal Earring",
-        ear2="Friomisi Earring",
+        ear1="Crematio Earring", -- original: "Regal Earring" (not owned)
+        ear2="Hecate's Earring", -- original: "Friomisi Earring" (not owned)
         body="Hashishin Mintan +3",
         hands="Hashi. Bazu. +3",
         ring1="Stikini Ring",
@@ -416,9 +385,9 @@ sets.weapons.Naegmace = {
     sets.midcast['Blue Magic'].Magical.Resistant = {
         ammo="Pemphredo Tathlum",
         head="Hashishin Kavuk +3",
-        neck="Mirage Stole +2",
-        ear1="Regal Earring",
-        ear2="Digni. Earring",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
+        ear1="Crep. Earring", -- original: "Regal Earring" (not owned)
+        ear2="Hashi. Earring +1", -- original: "Digni. Earring" (not owned)
         body="Hashishin Mintan +3",
         hands="Hashi. Bazu. +3",
         ring1="Stikini Ring",
@@ -440,9 +409,9 @@ sets.weapons.Naegmace = {
     sets.midcast['Blue Magic'].MagicAccuracy = {
         ammo="Pemphredo Tathlum",
         head="Hashishin Kavuk +3",
-        neck="Mirage Stole +2",
-        ear1="Regal Earring",
-        ear2="Digni. Earring",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
+        ear1="Crep. Earring", -- original: "Regal Earring" (not owned)
+        ear2="Hashi. Earring +1", -- original: "Digni. Earring" (not owned)
         body="Hashishin Mintan +3",
         hands="Hashi. Bazu. +3",
         ring1="Stikini Ring",
@@ -457,7 +426,7 @@ sets.weapons.Naegmace = {
     sets.midcast['Blue Magic'].Breath = {
         ammo="Staunch Tathlum +1",
         head="Hashishin Kavuk +3",
-        neck="Mirage Stole +2",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Etiolation Earring",
         ear2="Sanare Earring",
         body="Hashishin Mintan +3",
@@ -475,7 +444,7 @@ sets.weapons.Naegmace = {
         ammo="Impatiens",
         head="Luh. Keffiyeh +1",
         neck="Voltsurge Torque",
-        ear1="Enchntr. Earring +1",
+        ear1="Etiolation Earring", -- original: "Enchntr. Earring +1" (not owned)
         ear2="Loquac. Earring",
         body="Assim. Jubbah +2",
         hands="Assim. Bazu. +2",
@@ -484,28 +453,28 @@ sets.weapons.Naegmace = {
         back="Perimede Cape",
         waist="Witful Belt",
         legs="Hashishin Tayt +3",
-        feet="Carmine Greaves +1"
+        feet="Malignance Boots" -- original: "Carmine Greaves +1" (not owned)
     }
 
     sets.midcast['Blue Magic']['White Wind'] = {
         ammo="Staunch Tathlum +1",
         head="Jhakri Coronal +2",
-        neck="Phalaina Locket",
+        neck="Null Loop", -- original: "Phalaina Locket" (not owned)
         ear1="Etiolation Earring",
         ear2="Sanare Earring",
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
         ring1={ name="Metamor. Ring +1", augments={'Path: A',}},
         ring2="Stikini Ring",
-        back="Solemnity Cape",
-        waist="Gishdubar Sash",
+        back="Aurist's Cape +1", -- original: "Solemnity Cape" (not owned)
+        waist="Luminary Sash", -- original: "Gishdubar Sash" (not owned)
         legs="Jhakri Slops +2",
         feet="Jhakri Pigaches +2"
     }
 
     sets.midcast['Blue Magic']['Battery Charge'] = set_combine(sets.midcast['Blue Magic'].Buff, {
-        head="Amalric Coif +1",
-        waist="Gishdubar Sash"
+        -- head="Amalric Coif +1", -- removed: not owned
+        -- waist="Gishdubar Sash", -- removed: not owned
     })
 
     sets.midcast['Blue Magic']['Regeneration'] = set_combine(sets.midcast['Blue Magic'].Buff, {})
@@ -515,34 +484,34 @@ sets.weapons.Naegmace = {
     sets.midcast['Blue Magic'].Healing = {
         ammo="Staunch Tathlum +1",
         head="Jhakri Coronal +2",
-        neck="Phalaina Locket",
+        neck="Null Loop", -- original: "Phalaina Locket" (not owned)
         ear1="Etiolation Earring",
-        ear2="Menemeus Earring",
+        ear2="Sanare Earring", -- original: "Menemeus Earring" (not owned)
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
         ring1={ name="Metamor. Ring +1", augments={'Path: A',}},
-        ring2="Stikini Ring",
-        back="Solemnity Cape",
-        waist="Gishdubar Sash",
+        ring2="Menelaus's Ring", -- Cure potency+5%; original: "Stikini Ring" (the "Menemeus Earring" in ear2 was meant to be this ring)
+        back="Aurist's Cape +1", -- original: "Solemnity Cape" (not owned)
+        waist="Luminary Sash", -- original: "Gishdubar Sash" (not owned)
         legs="Jhakri Slops +2",
         feet="Jhakri Pigaches +2"
     }
 
     sets.midcast['Blue Magic'].HealingSelf = set_combine(sets.midcast['Blue Magic'].Healing, {
-        neck="Phalaina Locket",
-        ring2="Kunaji Ring",
-        waist="Gishdubar Sash"
+        -- neck="Phalaina Locket", -- removed: not owned
+        ring2="Menelaus's Ring", -- original: "Kunaji Ring" (not owned)
+        -- waist="Gishdubar Sash", -- removed: not owned
     })
 
     -- Enhancing Magic
     sets.midcast['Enhancing Magic'] = {
         ammo="Impatiens",
-        head="Carmine Mask +1",
+        head={ name="Telchine Cap", augments={'Mag. Acc.+20','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}}, -- original: "Carmine Mask +1" (not owned)
         neck="Voltsurge Torque",
-        ear1="Enchntr. Earring +1",
+        ear1="Etiolation Earring", -- original: "Enchntr. Earring +1" (not owned)
         ear2="Loquac. Earring",
         body="Luhlaza Jubbah +1",
-        hands="Leyline Gloves",
+        hands={ name="Telchine Gloves", augments={'Mag. Acc.+23','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}}, -- original: "Leyline Gloves" (not owned)
         ring1="Kishar Ring",
         ring2="Lebeche Ring",
         back="Perimede Cape",
@@ -552,20 +521,20 @@ sets.weapons.Naegmace = {
     }
 
     sets.midcast.Refresh = set_combine(sets.midcast['Enhancing Magic'], {
-        head="Amalric Coif +1",
-        waist="Gishdubar Sash"
+        -- head="Amalric Coif +1", -- removed: not owned
+        -- waist="Gishdubar Sash", -- removed: not owned
     })
 
     sets.midcast.Stoneskin = set_combine(sets.midcast['Enhancing Magic'], {
-        ear1="Earthcry Earring",
+        -- ear1="Earthcry Earring", -- removed: not owned
         waist="Siegel Sash",
         legs="Shedir Seraweels"
     })
 
     sets.midcast.Aquaveil = set_combine(sets.midcast['Enhancing Magic'], {
-        head="Amalric Coif +1",
-        hands="Regal Cuffs",
-        waist="Emphatikos Rope"
+        -- head="Amalric Coif +1", -- removed: not owned
+        -- hands="Regal Cuffs", -- removed: not owned
+        waist="Rumination Sash" -- original: "Emphatikos Rope" (not owned)
     })
 
     sets.midcast.Protect = set_combine(sets.midcast['Enhancing Magic'], {ring2="Sheltered Ring"})
@@ -575,11 +544,11 @@ sets.weapons.Naegmace = {
 
     -- Enfeebling Magic
     sets.midcast['Enfeebling Magic'] = {
-        ammo="Ghastly Tathlum +1",
+        ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
         head="Jhakri Coronal +2",
-        neck="Mirage Stole +2",
-        ear1="Regal Earring",
-        ear2="Digni. Earring",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
+        ear1="Crep. Earring", -- original: "Regal Earring" (not owned)
+        ear2="Hashi. Earring +1", -- original: "Digni. Earring" (not owned)
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
         ring1="Stikini Ring",
@@ -591,11 +560,11 @@ sets.weapons.Naegmace = {
     }
 
     sets.midcast['Enfeebling Magic'].Resistant = {
-        ammo="Ghastly Tathlum +1",
+        ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
         head="Jhakri Coronal +2",
-        neck="Mirage Stole +2",
-        ear1="Regal Earring",
-        ear2="Digni. Earring",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
+        ear1="Crep. Earring", -- original: "Regal Earring" (not owned)
+        ear2="Hashi. Earring +1", -- original: "Digni. Earring" (not owned)
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
         ring1="Stikini Ring",
@@ -607,11 +576,11 @@ sets.weapons.Naegmace = {
     }
 
     sets.midcast['Dark Magic'] = {
-        ammo="Ghastly Tathlum +1",
+        ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
         head="Jhakri Coronal +2",
-        neck="Mirage Stole +2",
-        ear1="Regal Earring",
-        ear2="Digni. Earring",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
+        ear1="Crep. Earring", -- original: "Regal Earring" (not owned)
+        ear2="Hashi. Earring +1", -- original: "Digni. Earring" (not owned)
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
         ring1="Stikini Ring",
@@ -623,11 +592,11 @@ sets.weapons.Naegmace = {
     }
 
     sets.midcast.Stun = {
-        ammo="Ghastly Tathlum +1",
+        ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
         head="Jhakri Coronal +2",
-        neck="Mirage Stole +2",
-        ear1="Regal Earring",
-        ear2="Digni. Earring",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
+        ear1="Crep. Earring", -- original: "Regal Earring" (not owned)
+        ear2="Hashi. Earring +1", -- original: "Digni. Earring" (not owned)
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
         ring1="Stikini Ring",
@@ -639,8 +608,8 @@ sets.weapons.Naegmace = {
     }
 
     sets.midcast.Drain = set_combine(sets.midcast['Dark Magic'], {
-        ring1="Evanescence Ring",
-        ring2="Archon Ring",
+        -- ring1="Evanescence Ring", -- removed: not owned
+        -- ring2="Archon Ring", -- removed: not owned
         waist="Fucho-no-Obi"
     })
 
@@ -648,11 +617,11 @@ sets.weapons.Naegmace = {
 
     -- Elemental Magic
     sets.midcast['Elemental Magic'] = {
-        ammo="Ghastly Tathlum +1",
+        ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
         head="Jhakri Coronal +2",
         neck="Sibyl Scarf",
-        ear1="Regal Earring",
-        ear2="Friomisi Earring",
+        ear1="Crematio Earring", -- original: "Regal Earring" (not owned)
+        ear2="Hecate's Earring", -- original: "Friomisi Earring" (not owned)
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
         ring1="Stikini Ring",
@@ -664,11 +633,11 @@ sets.weapons.Naegmace = {
     }
 
     sets.midcast['Elemental Magic'].Resistant = {
-        ammo="Ghastly Tathlum +1",
+        ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
         head="Jhakri Coronal +2",
-        neck="Mirage Stole +2",
-        ear1="Regal Earring",
-        ear2="Digni. Earring",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
+        ear1="Crep. Earring", -- original: "Regal Earring" (not owned)
+        ear2="Hashi. Earring +1", -- original: "Digni. Earring" (not owned)
         body="Jhakri Robe +2",
         hands="Jhakri Cuffs +2",
         ring1="Stikini Ring",
@@ -690,9 +659,9 @@ sets.weapons.Naegmace = {
         hands="Malignance Gloves",
         ring1={ name="Murky Ring", augments={'Path: A',}},
         ring2="Stikini Ring",
-        back="Solemnity Cape",
+        back="Null Shawl", -- original: "Solemnity Cape" (not owned)
         waist="Fucho-no-Obi",
-        legs="Carmine Cuisses +1",
+        legs="Malignance Tights", -- original: "Carmine Cuisses +1" (not owned)
         feet="Malignance Boots"
     }
 
@@ -706,14 +675,14 @@ sets.weapons.Naegmace = {
         hands="Malignance Gloves",
         ring1={ name="Murky Ring", augments={'Path: A',}},
         ring2="Stikini Ring",
-        back="Solemnity Cape",
+        back="Null Shawl", -- original: "Solemnity Cape" (not owned)
         waist="Fucho-no-Obi",
         legs="Malignance Tights",
         feet="Malignance Boots"
     }
 
     sets.idle.Sphere = set_combine(sets.idle, {
-        body="Mekosu. Harness"
+        -- body="Mekosu. Harness", -- removed: not owned
     })
 
     -- LINKTRI MODIFICATION: fills the pre-existing 'DTHippo' IdleMode option, which was in
@@ -749,9 +718,9 @@ sets.weapons.Naegmace = {
         hands="Malignance Gloves",
         ring1={ name="Murky Ring", augments={'Path: A',}},
         ring2="Stikini Ring",
-        back="Solemnity Cape",
+        back="Null Shawl", -- original: "Solemnity Cape" (not owned)
         waist="Fucho-no-Obi",
-        legs="Carmine Cuisses +1",
+        legs="Malignance Tights", -- original: "Carmine Cuisses +1" (not owned)
         feet="Malignance Boots"
     }
 
@@ -766,7 +735,7 @@ sets.weapons.Naegmace = {
         hands={ name="Nyame Gauntlets", augments={'Path: B'} },
         ring1={ name="Murky Ring", augments={'Path: A',}},
         ring2="Defending Ring",
-        back="Umbra Cape",
+        back="Null Shawl", -- original: "Umbra Cape" (not owned)
         waist="Fucho-no-Obi",
         legs={ name="Nyame Flanchard", augments={'Path: B'} },
         feet={ name="Nyame Sollerets", augments={'Path: B'} }
@@ -775,14 +744,14 @@ sets.weapons.Naegmace = {
     sets.defense.MDT = {
         ammo="Staunch Tathlum +1",
         head="Malignance Chapeau",
-        neck="Warder's Charm +1",
+        neck="Loricate Torque +1", -- original: "Warder's Charm +1" (not owned)
         ear1="Etiolation Earring",
         ear2="Sanare Earring",
         body="Malignance Tabard",
         hands="Malignance Gloves",
         ring1={ name="Murky Ring", augments={'Path: A',}},
         ring2="Defending Ring",
-        back="Umbra Cape",
+        back="Null Shawl", -- original: "Umbra Cape" (not owned)
         waist="Carrier's Sash",
         legs="Malignance Tights",
         feet="Malignance Boots"
@@ -791,13 +760,13 @@ sets.weapons.Naegmace = {
     sets.defense.MEVA = {
         ammo="Staunch Tathlum +1",
         head="Malignance Chapeau",
-        neck="Warder's Charm +1",
+        neck="Loricate Torque +1", -- original: "Warder's Charm +1" (not owned)
         ear1="Etiolation Earring",
         ear2="Sanare Earring",
         body="Malignance Tabard",
-        hands="Leyline Gloves",
+        hands="Malignance Gloves", -- original: "Leyline Gloves" (not owned)
         ring1="Vengeful Ring",
-        ring2="Purity Ring",
+        ring2="Defending Ring", -- original: "Purity Ring" (not owned)
         back=gear.nuke_jse_back,
         waist="Carrier's Sash",
         legs={ name="Telchine Braconi", augments={'Mag. Acc.+15','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
@@ -808,15 +777,15 @@ sets.weapons.Naegmace = {
 
     -- Variations for TP build
     sets.engaged = {
-        ammo="Aurgelmir Orb +1",
+        ammo="Coiste Bodhar", -- original: "Aurgelmir Orb +1" (not owned)
         head={ name="Gleti's Mask", augments={'Path: A',}}, -- LINKTRI MODIFICATION: full Gleti's balanced TP base
-        neck="Mirage Stole +2",
-        ear1="Cessance Earring",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
+        ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Brutal Earring",
         body={ name="Gleti's Cuirass", augments={'Path: A',}},
         hands={ name="Gleti's Gauntlets", augments={'Path: A',}},
-        ring1="Petrov Ring",
-        ring2="Epona's Ring",
+        ring1="Epona's Ring",
+        ring2="Petrov Ring", -- sides swapped 2026-10-23
         back=gear.stp_jse_back,
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
         legs={ name="Gleti's Breeches", augments={'Path: A',}},
@@ -825,15 +794,15 @@ sets.weapons.Naegmace = {
 
     -- LINKTRI MODIFICATION: pure-offense Adhemar TP variant (OffenseMode Fodder / overpowered content)
     sets.engaged.Fodder = {
-        ammo="Aurgelmir Orb +1",
+        ammo="Coiste Bodhar", -- original: "Aurgelmir Orb +1" (not owned)
         head="Hashishin Kavuk +3",
-        neck="Mirage Stole +2",
-        ear1="Cessance Earring",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
+        ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Brutal Earring",
-        body="Adhemar Jacket +1",
+        body="Ayanmo Corazza +2", -- original: "Adhemar Jacket +1" (not owned)
         hands="Adhemar Wrist. +1",
-        ring1="Petrov Ring",
-        ring2="Epona's Ring",
+        ring1="Epona's Ring",
+        ring2="Petrov Ring", -- sides swapped 2026-10-23
         back=gear.stp_jse_back,
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
         legs={ name="Gleti's Breeches", augments={'Path: A',}},
@@ -841,25 +810,25 @@ sets.weapons.Naegmace = {
     }
 
     sets.engaged.Acc = {
-        ammo="Falcon Eye",
+        ammo="Mantoptera Eye", -- original: "Falcon Eye" (not owned)
         head="Hashishin Kavuk +3",
-        neck="Mirage Stole +2",
-        ear1="Cessance Earring",
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
+        ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Telos Earring",
         body="Malignance Tabard",
         hands="Malignance Gloves",
-        ring1="Petrov Ring",
+        ring1="Cacoethic Ring +1", -- Acc+11; original: "Petrov Ring" (ring2-side, Ilabrat already there)
         ring2="Ilabrat Ring",
         back=gear.stp_jse_back,
-        waist="Grunfeld Rope",
-        legs="Carmine Cuisses +1",
+        waist="Null Belt", -- original: "Grunfeld Rope" (not owned)
+        legs="Malignance Tights", -- original: "Carmine Cuisses +1" (not owned)
         feet="Malignance Boots"
     }
 
     sets.engaged.FullAcc = {
-        ammo="Falcon Eye",
-        head="Carmine Mask +1",
-        neck="Mirage Stole +2",
+        ammo="Mantoptera Eye", -- original: "Falcon Eye" (not owned)
+        head="Malignance Chapeau", -- original: "Carmine Mask +1" (not owned)
+        neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Mache Earring +1",
         ear2="Telos Earring",
         body="Assim. Jubbah +2",
@@ -867,16 +836,17 @@ sets.weapons.Naegmace = {
         ring1="Stikini Ring",
         ring2="Stikini Ring",
         back=gear.stp_jse_back,
-        waist="Olseni Belt",
-        legs="Carmine Cuisses +1",
+        waist="Null Belt", -- original: "Olseni Belt" (not owned)
+        legs="Malignance Tights", -- original: "Carmine Cuisses +1" (not owned)
         feet="Malignance Boots"
     }
 
-    sets.engaged.PDT = {
-        ammo="Aurgelmir Orb +1",
+    -- original name: sets.engaged.PDT (HybridMode is Normal/DT, so it was never used)
+    sets.engaged.DT = {
+        ammo="Coiste Bodhar", -- original: "Aurgelmir Orb +1" (not owned)
         head="Malignance Chapeau",
         neck="Loricate Torque +1",
-        ear1="Cessance Earring",
+        ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Brutal Earring",
         body="Malignance Tabard",
         hands="Malignance Gloves",
@@ -888,11 +858,15 @@ sets.weapons.Naegmace = {
         feet="Malignance Boots"
     }
 
+    sets.engaged.Acc.DT = sets.engaged.DT
+    sets.engaged.FullAcc.DT = sets.engaged.DT
+    sets.engaged.Fodder.DT = sets.engaged.DT
+
     sets.engaged.MDT = {
-        ammo="Aurgelmir Orb +1",
+        ammo="Coiste Bodhar", -- original: "Aurgelmir Orb +1" (not owned)
         head="Malignance Chapeau",
-        neck="Warder's Charm +1",
-        ear1="Cessance Earring",
+        neck="Loricate Torque +1", -- original: "Warder's Charm +1" (not owned)
+        ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Brutal Earring",
         body="Malignance Tabard",
         hands="Malignance Gloves",
@@ -907,10 +881,10 @@ sets.weapons.Naegmace = {
     -- Special sets
 
     sets.buff['Burst Affinity'] = {legs="Assim. Shalwar +2", feet="Hashi. Basmak +3"}
-    sets.buff['Chain Affinity'] = {feet="Assim. Charuqs +1"}
+    sets.buff['Chain Affinity'] = {feet="Assim. Charuqs +2"}  -- original: +1 (you own the +2)
     sets.buff.Convergence = {head="Luh. Keffiyeh +1"}
     sets.buff.Diffusion = {feet="Luhlaza Charuqs +1"}
-    sets.buff.Efflux = {back=gear.stp_jse_back, legs="Hashishin Tayt +3"}
+    sets.buff.Efflux = {back=gear.nuke_jse_back, legs="Hashishin Tayt +3"}  -- any Rosmerta's Cape has Efflux TP Bonus +250; original back: gear.stp_jse_back
 
     -- Learning Mode set
     sets.Learning = {hands="Assim. Bazu. +2"}
@@ -918,32 +892,32 @@ sets.weapons.Naegmace = {
     -- Magic Burst set
     sets.MagicBurst = {
         body="Samnuha Coat",
-        hands="Amalric Gages +1",
+        -- hands="Amalric Gages +1", -- removed: not owned
         legs="Assim. Shalwar +2",
-        ring1="Mujin Band",
-        ring2="Locus Ring"
+        ring1="Jhakri Ring", -- original: "Mujin Band" (not owned)
+        -- ring2="Locus Ring", -- removed: not owned
     }
 
     -- Element-based gear
     sets.element = {}
-    sets.element.Dark = {head="Pixie Hairpin +1", ring2="Archon Ring"}
+    sets.element.Dark = {head="Pixie Hairpin +1"}  -- original: + ring2="Archon Ring" (not owned)
     sets.element.Light = {} -- Add light-based gear if available
 
     -- Utility sets
     sets.Cure_Received = {
-        neck="Phalaina Locket",
-        hands="Buremte Gloves",
-        ring2="Kunaji Ring",
-        waist="Gishdubar Sash"
+        -- neck="Phalaina Locket", -- removed: not owned
+        -- hands="Buremte Gloves", -- removed: not owned
+        ring2="Menelaus's Ring", -- original: "Kunaji Ring" (not owned)
+        -- waist="Gishdubar Sash", -- removed: not owned
     }
 
     sets.Self_Refresh = {
-        back="Grapevine Cape",
-        waist="Gishdubar Sash"
+        -- back="Grapevine Cape", -- removed: not owned
+        -- waist="Gishdubar Sash", -- removed: not owned
     }
 
     sets.TreasureHunter = {
-        head="Wh. Rarab Cap +1",
+        legs="Volte Hose", -- TH+1; original: head="Wh. Rarab Cap +1" (not owned)
         waist="Chaac Belt"
     }
 	
@@ -954,18 +928,18 @@ sets.weapons.Naegmace = {
 	
 	-- Packing set for Porter Moogle
 sets.packing = {
-    main="Sequence",
+    main="Vampirism", -- original: "Sequence" (not owned)
     sub="Sakpata's Sword",
     ammo="Staunch Tathlum +1",
     head="Rawhide Mask",
     neck="Loricate Torque +1",
     ear1="Etiolation Earring",
-    ear2="Ethereal Earring",
+    ear2="Sanare Earring", -- original: "Ethereal Earring" (not owned)
     body="Nyame Mail",
     hands={ name="Nyame Gauntlets", augments={'Path: B'} },
     ring1={ name="Murky Ring", augments={'Path: A',}},
     ring2="Stikini Ring",
-    back="Umbra Cape",
+    back="Null Shawl", -- original: "Umbra Cape" (not owned)
     waist="Fucho-no-Obi",
     legs={ name="Nyame Flanchard", augments={'Path: B'} },
     feet={ name="Nyame Sollerets", augments={'Path: B'} }
@@ -973,11 +947,11 @@ sets.packing = {
     -- LINKTRI MODIFICATION: Bunzi's Rod (R30) + Culminus nuke/magic-burst loadout,
     -- auto-equipped by job_post_midcast() below only while state.Weapons == 'None'
     sets.BunziNuke = {
-        main={ name="Bunzi's Rod", augments={'DMG:+11','"Mag.Atk.Bns."+30','Accuracy+15 Mag. Acc.+15','Enmity-5',}},
+        main="Bunzi's Rod",  -- original: { name="Bunzi's Rod", augments={'DMG:+11',...}} never matched (yours is Path: A)
         sub="Culminus"
     }
 
-    sets.Kiting = {ring1="Shneddick Ring +1"}
+    sets.Kiting = {ring2="Shneddick Ring +1"}  -- original: ring1 (replaced Murky Ring in idle)
 end
 
 -- LINKTRI MODIFICATION: Blue Magic spellMaps that should use the Bunzi's Rod / Culminus
@@ -1039,7 +1013,8 @@ blu_nuke_spellmaps = S{
 }
 
 -- Function to customize idle sets based on current modes and conditions
-function job_customize_idle_set(idleSet)
+-- Renamed from job_customize_idle_set (that name replaced BLU.lua's latent-refresh/Learning version)
+function user_job_customize_idle_set(idleSet)
     -- Check if near Porter Moogle first
     local currently_near_porter = near_porter_moogle()
     
@@ -1070,93 +1045,27 @@ function job_customize_idle_set(idleSet)
     return idleSet
 end
 
--- LINKTRI MODIFICATION: job_post_precast override.
--- Reproduces BLU.lua's original job_post_precast in full (Moonshade Earring TP-cap swap,
--- LearningMode gear), with one addition: confirmed elemental weaponskills get the same
--- Orpheus's Sash / Hachirin-no-Obi distance overlay used for magical nukes above.
-function job_post_precast(spell, spellMap, eventArgs)
-
-    if spell.type == 'WeaponSkill' then
-        local WSset = standardize_set(get_precast_set(spell, spellMap))
-        local wsacc = check_ws_acc()
-
-        if (WSset.ear1 == "Moonshade Earring" or WSset.ear2 == "Moonshade Earring") then
-            -- Replace Moonshade Earring if we're at cap TP
-            if get_effective_player_tp(spell, WSset) > 3200 then
-                if wsacc:contains('Acc') and not buffactive['Sneak Attack'] and sets.AccMaxTP then
-                    equip(sets.AccMaxTP[spell.english] or sets.AccMaxTP)
-                elseif sets.MaxTP then
-                    equip(sets.MaxTP[spell.english] or sets.MaxTP)
-                else
-                end
-            end
-        end
-
-        -- LINKTRI MODIFICATION: Orpheus's Sash / Hachirin-no-Obi elemental affinity overlay
-        if blu_elemental_ws:contains(spell.english) then
-            local waist_bonus = nuke_waist_bonus(spell)
-            if waist_bonus then
-                equip({waist=waist_bonus})
-            end
-        end
-
-    end
-
-    -- If in learning mode, keep on gear intended to help with that, regardless of action.
-    if state.LearningMode.value then
-        equip(sets.Learning)
+-- LINKTRI MODIFICATION: additions to BLU.lua's job_post_precast / job_post_midcast.
+-- These run AFTER BLU.lua's own versions (Moonshade TP-cap swap, Chain Affinity etc., Learning gear),
+-- so only the additions live here. (Previously full copies of BLU.lua's functions.)
+function user_job_post_precast(spell, spellMap, eventArgs)
+    if state.LearningMode.value then return end
+    -- Orpheus's Sash / Hachirin-no-Obi for confirmed elemental weaponskills
+    if spell.type == 'WeaponSkill' and blu_elemental_ws:contains(spell.english) then
+        local waist_bonus = nuke_waist_bonus(spell)
+        if waist_bonus then equip({waist=waist_bonus}) end
     end
 end
 
--- LINKTRI MODIFICATION: job_post_midcast override.
--- This fully replaces BLU.lua's job_post_midcast (GearSwap does not chain same-named
--- job functions -- the last-loaded definition wins). Every line of the original function
--- is reproduced below unchanged, with one addition: while state.Weapons == 'None', magical
--- Blue Magic spells equip sets.BunziNuke (Bunzi's Rod R30 + Culminus) for MAB/Magic Damage/
--- Magic Accuracy. Physical Blue Magic spells are untouched, so meleeing/TP weapon sets are safe.
-function job_post_midcast(spell, spellMap, eventArgs)
-    -- Add enhancement gear for Chain Affinity, etc.
-    if not eventArgs.handled and spell.skill == 'Blue Magic' then
-        if spellMap == 'Healing' then
-            if (state.Weapons.value == 'None' or state.UnlockWeapons.value) and sets.midcast['Blue Magic'].UnlockedHealing then
-                equip(sets.midcast['Blue Magic'].UnlockedHealing)
-            end
-
-            if spell.target.type == 'SELF' then
-                if aoe_blue_magic_healing:contains(spell.english) then
-                    if (state.Weapons.value == 'None' or state.UnlockWeapons.value) and sets.midcast['Blue Magic'].UnlockedAoEHealing then
-                        equip(sets.midcast['Blue Magic'].UnlockedAoEHealing)
-                    elseif sets.midcast['Blue Magic'].AoEHealing then
-                        equip(sets.midcast['Blue Magic'].AoEHealing)
-                    end
-                elseif sets.Self_Healing then
-                    equip(sets.Self_Healing)
-                end
-            end
-        end
-
-        for buff,active in pairs(state.Buff) do
-            if active and sets.buff[buff] then
-                equip(sets.buff[buff])
-            end
-        end
-
-        -- LINKTRI MODIFICATION: Bunzi's Rod + Culminus nuke swap (unweaponed / 'None' mode only)
-        if state.Weapons.value == 'None' and blu_nuke_spellmaps:contains(spellMap) then
-            equip(sets.BunziNuke)
-        end
-
-        -- LINKTRI MODIFICATION: Orpheus's Sash / Hachirin-no-Obi elemental affinity overlay
-        local waist_bonus = nuke_waist_bonus(spell)
-        if waist_bonus then
-            equip({waist=waist_bonus})
-        end
+function user_job_post_midcast(spell, spellMap, eventArgs)
+    if eventArgs.handled or state.LearningMode.value or spell.skill ~= 'Blue Magic' then return end
+    -- Bunzi's Rod + Culminus nuke swap (unweaponed / 'None' mode only)
+    if state.Weapons.value == 'None' and blu_nuke_spellmaps:contains(spellMap) then
+        equip(sets.BunziNuke)
     end
-
-    -- If in learning mode, keep on gear intended to help with that, regardless of action.
-    if state.LearningMode.value == true then
-        equip(sets.Learning)
-    end
+    -- Orpheus's Sash / Hachirin-no-Obi elemental affinity overlay
+    local waist_bonus = nuke_waist_bonus(spell)
+    if waist_bonus then equip({waist=waist_bonus}) end
 end
 
 -- Select default macro book on initial load or subjob change.
