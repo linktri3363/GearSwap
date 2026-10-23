@@ -129,8 +129,8 @@ function init_gear_sets()
         ammo = "Voluspa Tathlum",
         head = "Viti. Chapeau +1",
         neck = "Asperity Necklace",
-        ear1 = "Telos Earring",  -- original: "Cessance Earring" (not owned)
-        ear2 = "Sherida Earring",
+        ear1 = "Sherida Earring",
+        ear2 = "Moonshade Earring",  -- original: ear1 Telos (Cessance not owned), ear2 Sherida  -- sides 2026-10-23
         body = "Ayanmo Corazza +2",
         hands = "Aya. Manopolas +2",
         ring1 = "Petrov Ring",
@@ -147,11 +147,11 @@ function init_gear_sets()
         head = "Malignance Chapeau",
         neck = "Combatant's Torque",
         ear1 = "Mache Earring +1",
-        ear2 = "Telos Earring",
+        ear2 = "Leth. Earring +1",  -- original: "Telos Earring" (ear1-side)
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
-        ring1 = "Cacoethic Ring +1",  -- original: "Ramuh Ring +1" (not owned)
-        ring2 = "Chirich Ring +1",  -- original: "Ramuh Ring +1" (not owned)
+        ring1 = "Chirich Ring +1",  -- original: "Ramuh Ring +1" (not owned)
+        ring2 = "Cacoethic Ring +1",  -- original: "Ramuh Ring +1" (not owned); sides 2026-10-23
         back = gear.wsd_jse_back,
         waist = "Eschan Stone",  -- original: "Olseni Belt" (not owned)
         legs = "Malignance Tights",
@@ -164,12 +164,12 @@ function init_gear_sets()
         ammo = "Regal Gem",
         head = "Jhakri Coronal +2",
         neck = "Null Loop",  -- original: "Fotia Gorget" (not owned)
-        ear1 = "Moonshade Earring",
-        ear2 = "Sherida Earring",
+        ear1 = "Sherida Earring",
+        ear2 = "Moonshade Earring",  -- sides 2026-10-23
         body = "Jhakri Robe +2",
         hands = "Atrophy Gloves +3",
-        ring1 = "Ephramad's Ring",  -- original: "Ifrit Ring +1" (not owned)
-        ring2 = "Metamor. Ring +1",  -- original: "Rufescent Ring" (not owned)
+        ring1 = "Metamor. Ring +1",  -- original: "Rufescent Ring" (not owned)
+        ring2 = "Persis Ring",  -- MND+6; original: "Ifrit Ring +1" (not owned), then Ephramad's (no MND)  -- sides 2026-10-23
         back = gear.wsd_jse_back,
         waist = "Sailfi Belt +1",  -- original: "Fotia Belt" (not owned)
         legs = "Jhakri Slops +2",
@@ -181,8 +181,8 @@ function init_gear_sets()
         ammo = "Voluspa Tathlum",
         head = "Malignance Chapeau",
         neck = "Anu Torque",  -- original: "Fotia Gorget" (not owned)
-        ear1 = "Moonshade Earring",
-        ear2 = "Sherida Earring",
+        ear1 = "Sherida Earring",
+        ear2 = "Moonshade Earring",  -- sides 2026-10-23
         body = "Ayanmo Corazza +2",
         hands = "Atrophy Gloves +3",
         ring1 = "Ephramad's Ring",  -- original: "Begrudging Ring" (not owned)
@@ -200,8 +200,8 @@ function init_gear_sets()
         ammo = "Sroda Tathlum",
         head = { name="Nyame Helm", augments={'Path: B',}},
         neck = "Anu Torque",  -- original: "Caro Necklace" (not owned)
-        ear1 = "Moonshade Earring",
-        ear2 = "Ishvara Earring",
+        ear1 = "Ishvara Earring",
+        ear2 = "Moonshade Earring",  -- sides 2026-10-23
         body = { name="Nyame Mail", augments={'Path: B',}},
         hands = "Atrophy Gloves +3",
         ring1 = "Metamor. Ring +1",
@@ -314,7 +314,7 @@ function init_gear_sets()
         ear2 = { name="Alabaster Earring", augments={'Path: A',}},  -- original: "Mendi. Earring" (not owned)
         body = { name="Kaykaus Bliaut +1", augments={'MP+80','"Cure" potency +6%','"Conserve MP"+7',}},
         hands = { name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-        ring1 = "Stikini Ring",
+        ring1 = "Metamor. Ring +1",  -- MND+6; original: "Stikini Ring", (single Stikini is ring2-side)
         ring2 = "Menelaus's Ring",
         back = { name="Ghostfyre Cape", augments={'Enfb.mag. skill +3','Enha.mag. skill +2','Enh. Mag. eff. dur. +17',}},  -- original: "Tempered Cape +1" (not owned)
         waist = "Luminary Sash",
@@ -333,7 +333,7 @@ function init_gear_sets()
         ear2 = { name="Alabaster Earring", augments={'Path: A',}},  -- original: "Mendi. Earring" (not owned)
         body = { name="Kaykaus Bliaut +1", augments={'MP+80','"Cure" potency +6%','"Conserve MP"+7',}},
         hands = { name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-        ring1 = "Stikini Ring",
+        ring1 = "Metamor. Ring +1",  -- MND+6; original: "Stikini Ring" (single Stikini is ring2-side)
         ring2 = "Menelaus's Ring",
         back = "Twilight Cape",
         waist = "Hachirin-no-Obi",
@@ -353,7 +353,7 @@ function init_gear_sets()
         ear2 = { name="Alabaster Earring", augments={'Path: A',}},  -- original: "Mendi. Earring" (not owned)
         body = { name="Kaykaus Bliaut +1", augments={'MP+80','"Cure" potency +6%','"Conserve MP"+7',}},
         hands = { name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},
-        ring1 = "Stikini Ring",
+        ring1 = "Metamor. Ring +1",  -- MND+6; original: "Stikini Ring" (single Stikini is ring2-side)
         ring2 = "Menelaus's Ring",
         back = "Twilight Cape",
         waist = "Hachirin-no-Obi",
@@ -372,7 +372,7 @@ function init_gear_sets()
         ear2 = { name="Alabaster Earring", augments={'Path: A',}},  -- original: "Mendi. Earring" (not owned)
         body = "Viti. Tabard +1",
         hands = { name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},  -- original: "Hieros Mittens" (not owned)
-        ring1 = "Stikini Ring",  -- original: "Haoma's Ring" (not owned)
+        ring1 = "Metamor. Ring +1",  -- original: "Haoma's Ring" (not owned), then Stikini (ring2-side)
         ring2 = "Menelaus's Ring",
         back = "Vates Cape +1",  -- original: "Oretan. Cape +1" (not owned) -- Vates Healing skill +6
         waist = "Witful Belt",
@@ -732,12 +732,12 @@ function init_gear_sets()
         ammo = "Staunch Tathlum +1",  -- original: "Hasty Pinion +1" (not owned)
         head = { name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},  -- original: "Gende. Caubeen +1" (not owned)
         neck = "Unmoving Collar",  -- original: "Unmoving Collar +1" (owned Unmoving Collar non-+1)
-        ear1 = { name="Odnowa Earring +1", augments={'Path: A',}},  -- original: "Gifted Earring" (not owned)
-        ear2 = "Meili Earring",  -- original: "Mendi. Earring" (not owned)
+        ear1 = "Meili Earring",  -- original: "Mendi. Earring" (not owned)
+        ear2 = { name="Odnowa Earring +1", augments={'Path: A',}},  -- original: "Gifted Earring" (not owned)  -- sides 2026-10-23
         body = "Viti. Tabard +1",
         hands = { name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},  -- original: "Kaykaus Cuffs" (unaugmented name; you own the +1)
-        ring1 = "Menelaus's Ring",  -- original: "Gelatinous Ring +1" (not owned)
-        ring2 = "Lebeche Ring",  -- original: "Meridian Ring" (not owned)
+        ring1 = "Defending Ring",  -- original: "Meridian Ring" (not owned); Lebeche is ring2-side
+        ring2 = "Menelaus's Ring",  -- original: "Gelatinous Ring +1" (not owned)  -- sides 2026-10-23
         back = { name="Ghostfyre Cape", augments={'Enfb.mag. skill +3','Enha.mag. skill +2','Enh. Mag. eff. dur. +17',}},  -- original: "Moonlight Cape" (not owned)
         waist = "Luminary Sash",
         legs = { name="Kaykaus Tights +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}},  -- original: "Carmine Cuisses +1" (not owned)
@@ -930,7 +930,7 @@ function init_gear_sets()
         feet = "Malignance Boots"
     }
 
-    sets.Kiting = {ring1 = "Shneddick Ring +1"}
+    sets.Kiting = {ring2 = "Shneddick Ring +1"}  -- original: ring1
     sets.latent_refresh = {waist = "Fucho-no-obi"}
     sets.latent_refresh_grip = {}  -- original: {sub = "Oneiros Grip"} (not owned)
     sets.TPEat = {}  -- original: {neck = "Chrys. Torque"} (not RDM-equippable)
@@ -991,7 +991,7 @@ function init_gear_sets()
         ear2 = "Crep. Earring",  -- original: "Digni. Earring" (not owned)
         body = "Ayanmo Corazza +2",
         hands = "Aya. Manopolas +2",
-        ring1 = "Metamor. Ring +1",
+        ring1 = "Chirich Ring +1",  -- original: "Metamor. Ring +1" (both Chirich; Acc/STP for enspell hits)
         ring2 = "Chirich Ring +1",  -- original: "Ramuh Ring +1" (not owned)
         back = "Ghostfyre Cape",
         waist = "Sailfi Belt +1",  -- original: "Windbuffet Belt +1" (not owned)
@@ -1115,7 +1115,7 @@ function init_gear_sets()
         head = "Malignance Chapeau",
         neck = "Anu Torque",
         ear1 = "Suppanomimi",
-        ear2 = "Telos Earring",
+        ear2 = "Leth. Earring +1",  -- original: "Telos Earring" (ear1-side, Suppanomimi already there)
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Chirich Ring +1",
@@ -1163,7 +1163,7 @@ function init_gear_sets()
         head = "Malignance Chapeau",
         neck = "Loricate Torque +1",
         ear1 = "Suppanomimi",
-        ear2 = "Telos Earring",
+        ear2 = "Leth. Earring +1",  -- original: "Telos Earring" (ear1-side, Suppanomimi already there)
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
@@ -1225,7 +1225,7 @@ function check_trust()
     if not moving then
         if
             state.AutoTrustMode.value and not data.areas.cities:contains(world.area) and
-                (buffactive["Elvorseal"] or buffactive["Reive Mark"] or not player.in_combat)
+                (buffactive["Elvorseal"] or buffactive["Reive Mark"] or not in_combat)  -- was player.in_combat (always nil, so trusts were summoned mid-fight)
          then
             local party = windower.ffxi.get_party()
             if party.p5 == nil then
@@ -1266,57 +1266,10 @@ function user_job_buff_change(buff, gain)
     end
 end
 
+-- LINKTRI 2026-10-23: every branch already chose set 005 (RDM's job ID); the per-call res.items scans
+-- (item_name_to_id over every item) are no longer needed. Lockstyle runs through the global DressUp hook.
 function user_job_lockstyle()
-    if player.sub_job == "NIN" or player.sub_job == "DNC" then
-        local main_skill = get_weapon_skill(player.equipment.main)
-        local sub_skill = get_weapon_skill(player.equipment.sub)
-        
-        -- If no main weapon or can't determine skill, use default
-        if not main_skill then
-            windower.chat.input("/lockstyleset 005")
-            return
-        end
-        
-        if main_skill == 3 then -- Sword in main hand
-            if sub_skill == 3 then -- Sword/Sword
-                windower.chat.input("/lockstyleset 005")
-            elseif sub_skill == 2 then -- Sword/Dagger
-                windower.chat.input("/lockstyleset 005")
-            elseif sub_skill == 11 then -- Sword/Club
-                windower.chat.input("/lockstyleset 005")
-            else
-                windower.chat.input("/lockstyleset 005") -- Catchall
-            end
-        elseif main_skill == 2 then -- Dagger in main hand
-            if sub_skill == 3 then -- Dagger/Sword
-                windower.chat.input("/lockstyleset 005")
-            elseif sub_skill == 2 then -- Dagger/Dagger
-                windower.chat.input("/lockstyleset 005")
-            elseif sub_skill == 11 then -- Dagger/Club
-                windower.chat.input("/lockstyleset 005")
-            else
-                windower.chat.input("/lockstyleset 005") -- Catchall
-            end
-        elseif main_skill == 11 then -- Club in main hand
-            if sub_skill == 3 then -- Club/Sword
-                windower.chat.input("/lockstyleset 005")
-            elseif sub_skill == 2 then -- Club/Dagger
-                windower.chat.input("/lockstyleset 005")
-            elseif sub_skill == 11 then -- Club/Club
-                windower.chat.input("/lockstyleset 005")
-            else
-                windower.chat.input("/lockstyleset 005") -- Catchall
-            end
-        else
-            windower.chat.input("/lockstyleset 005") -- Unknown weapon type catchall
-        end
-    elseif player.sub_job == "WHM" or state.Buff["Light Arts"] or state.Buff["Addendum: White"] then
-        windower.chat.input("/lockstyleset 005")
-    elseif player.sub_job == "BLM" or state.Buff["Dark Arts"] or state.Buff["Addendum: Black"] then
-        windower.chat.input("/lockstyleset 005")
-    else
-        windower.chat.input("/lockstyleset 005")
-    end
+    windower.chat.input("/lockstyleset 005")
 end
 
 autows_list = {
