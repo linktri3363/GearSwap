@@ -80,7 +80,7 @@ function init_gear_sets()
         ring2 = "Defending Ring",
         back = "Null Shawl",
         waist = "Reiki Yotai",
-        legs = "Wakido Haidate +1",
+        legs = "Wakido Haidate +2",  -- LINKTRI 2026-10-24: was +1 (upgraded)
         feet = "Kas. Sune-Ate +3"
     }
     sets.precast.Waltz["Healing Waltz"] = {}
@@ -254,8 +254,8 @@ function init_gear_sets()
         ring2 = "Ilabrat Ring",
         back = "Null Shawl",
         waist = "Reiki Yotai",
-        legs = "Wakido Haidate +1",
-        feet = "Waki. Sune-Ate +1"  -- original name "Wakido Sune. +1" never matched
+        legs = "Wakido Haidate +2",  -- LINKTRI 2026-10-24: was +1 (upgraded); WSD+5%, Acc+39
+        feet = "Wakido Sune. +2"     -- LINKTRI 2026-10-24: was "Waki. Sune-Ate +1" (upgraded; note the +2 is spelled "Wakido Sune.")
     }
     sets.midcast.RA.Acc = set_combine(sets.midcast.RA, {neck = "Null Loop", waist = "Null Belt"})
 
@@ -404,7 +404,7 @@ function init_gear_sets()
     sets.Cure_Received = {legs = "Flamma Dirs +2"}  -- Cure received +9%; original also hands "Buremte Gloves", waist "Gishdubar Sash" (not owned)
     sets.buff.Doom = set_combine(sets.buff.Doom, {})
     sets.buff.Sleep = {}  -- original: {neck = "Vim Torque +1"} (not owned)
-    sets.buff.Hasso = {hands = "Wakido Kote +1"}
+    sets.buff.Hasso = {hands = "Wakido Kote +2"}  -- LINKTRI 2026-10-24: was +1 (upgraded); Hasso+3
     sets.buff["Third Eye"] = {} --legs="Sakonji Haidate +3"
     sets.buff.Sekkanoki = {hands = "Kasuga Kote +3"}
     sets.buff.Sengikori = {feet = "Kas. Sune-Ate +3"}
