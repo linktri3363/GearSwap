@@ -14,7 +14,7 @@ function user_job_setup()
 
 	-- Set up Jug Pet cycling and keybind Ctrl+F7
 	-- INPUT PREFERRED JUG PETS HERE
-	state.JugMode = M{['description']='Jug Mode','FatsoFargann','ScissorlegXerin','BlackbeardRandy','AttentiveIbuki','DroopyDortwin','WarlikePatrick','AcuexFamiliar'}
+	state.JugMode = M{['description']='Jug Mode','FatsoFargann','ScissorlegXerin','BlackbeardRandy','AttentiveIbuki','DroopyDortwin','WarlikePatrick','AcuexFamiliar','GenerousArthur','PonderingPeter','SlimeFamiliar'}
 	send_command('bind ^f7 gs c cycle JugMode')
 
 	-- Set up Monster Correlation Modes and keybind Alt+F7
@@ -60,6 +60,7 @@ function init_gear_sets()
 		head="Null Masque",neck="Loricate Torque +1",ear1="Alabaster Earring",ear2="Odnowa Earring +1",
 		body="Tot. Jackcoat +1",hands="Malignance Gloves",ring1="Metamor. Ring +1",ring2="Stikini Ring",
 		back="Pastoralist's Mantle",waist="Null Belt",legs="Tot. Trousers +1",feet="Tot. Gaiters +1"}
+	sets.precast.JA.Reward.ear2 = "Hoxne Earring" -- MR7 all stats +15 (MND for Reward potency); original: ear2="Odnowa Earring +1"
 
 	sets.precast.JA.Reward.Theta = set_combine(sets.precast.JA.Reward, {ammo="Pet Food Theta"})
 	sets.precast.JA.Reward.Zeta = set_combine(sets.precast.JA.Reward, {ammo="Pet Food Zeta"})
@@ -87,7 +88,7 @@ function init_gear_sets()
 
 	-- VIOLENT FLOURISH (magic accuracy)
 	sets.precast.Flourish1 = {}
-	sets.precast.Flourish1['Violent Flourish'] = set_combine(sets.precast.Step, {ear1="Gwati Earring",ear2="Crep. Earring"})
+	sets.precast.Flourish1['Violent Flourish'] = set_combine(sets.precast.Step, {ear1="Crep. Earring",ear2="Gwati Earring"}) -- original: ear1="Gwati Earring",ear2="Crep. Earring"
 
 	-- FAST CAST (owned FC: Voltsurge 4, Sombra Mittens 3, Limbo Trousers 3, Etiolation 1; DT elsewhere)
 	sets.precast.FC = {ammo="Impatiens",
@@ -140,13 +141,13 @@ function init_gear_sets()
 	-- WEAPONSKILLS
 	-- Nukumi Gausape +3 matches Nyame Mail's WSD+12% with more STR/Attack/Accuracy for physical WS.
 	sets.precast.WS = {ammo="Voluspa Tathlum",
-		head="Nyame Helm",neck="Shulmanu Collar",ear1="Moonshade Earring",ear2="Sherida Earring",
+		head="Nyame Helm",neck="Shulmanu Collar",ear1="Sherida Earring",ear2="Moonshade Earring", -- original: ear1 Moonshade, ear2 Sherida
 		body="Nukumi Gausape +3",hands="Nyame Gauntlets",ring1="Ephramad's Ring",ring2="Gere Ring",
 		back="Sacro Mantle",waist="Sailfi Belt +1",legs="Nyame Flanchard",feet="Nyame Sollerets"}
 
 	sets.precast.WS.SomeAcc = set_combine(sets.precast.WS, {neck="Null Loop"})
 	sets.precast.WS.Acc = set_combine(sets.precast.WS.SomeAcc, {head="Nuk. Cabasset +3",waist="Null Belt"})
-	sets.precast.WS.FullAcc = set_combine(sets.precast.WS.Acc, {ear2="Telos Earring",ring2="Cacoethic Ring +1",back="Null Shawl"})
+	sets.precast.WS.FullAcc = set_combine(sets.precast.WS.Acc, {ear1="Mache Earring +1",ring2="Chirich Ring +1",back="Null Shawl"}) -- original: ear2="Telos Earring",ring2="Cacoethic Ring +1"
 	sets.precast.WS.Fodder = set_combine(sets.precast.WS, {ammo="Paeapua"})
 
 	-- Specific weaponskill sets
@@ -161,15 +162,20 @@ function init_gear_sets()
 
 	-- Magical axe WS
 	sets.precast.WS['Primal Rend'] = {ammo="Pemphredo Tathlum",
-		head="Nyame Helm",neck="Baetyl Pendant",ear1="Moonshade Earring",ear2="Crematio Earring",
+		head="Nyame Helm",neck="Baetyl Pendant",ear1="Crematio Earring",ear2="Moonshade Earring", -- original: ear1 Moonshade, ear2 Crematio
 		body="Nyame Mail",hands="Nyame Gauntlets",ring1="Metamor. Ring +1",ring2="Beithir Ring",
 		back="Sacro Mantle",waist="Orpheus's Sash",legs="Nyame Flanchard",feet="Nyame Sollerets"}
 
 	sets.precast.WS['Cloudsplitter'] = set_combine(sets.precast.WS['Primal Rend'], {})
 
 	-- Swap to these on Moonshade using WS if at 3000 TP (BST.lua reads ear1 AND ear2, so both are set)
-	sets.MaxTP = {ear1="Ishvara Earring",ear2="Sherida Earring"}
+	sets.MaxTP = {ear1="Sherida Earring",ear2="Ishvara Earring"} -- original: ear1="Ishvara Earring",ear2="Sherida Earring"
 	sets.AccMaxTP = {ear1="Mache Earring +1",ear2="Telos Earring"}
+	-- Magic WS keep magic earrings at 3000 TP (BST.lua looks up sets.MaxTP[spell.english] first)
+	sets.MaxTP['Primal Rend'] = {ear1="Crematio Earring",ear2="Hecate's Earring"}
+	sets.MaxTP['Cloudsplitter'] = sets.MaxTP['Primal Rend']
+	sets.AccMaxTP['Primal Rend'] = sets.MaxTP['Primal Rend']
+	sets.AccMaxTP['Cloudsplitter'] = sets.MaxTP['Primal Rend']
 
 	-- PET SIC & READY MOVES
 	-- Nukumi +3 carries Pet Acc/MAcc +60~64 per piece; Nukumi Manoplas +3 also has "Ready" TP Bonus +700
@@ -186,8 +192,10 @@ function init_gear_sets()
 	sets.midcast.Pet.MultiHitReady = set_combine(sets.midcast.Pet.WS, {})
 
 	-- Magic Ready: Adad Amulet is the only owned pet "Magic Atk. Bonus" piece; Nukumi head adds pet MAcc+61.
-	sets.midcast.Pet.MagicReady = set_combine(sets.midcast.Pet.WS, {head="Nuk. Cabasset +3",neck="Adad Amulet"})
-	sets.midcast.Pet.DebuffReady = set_combine(sets.midcast.Pet.MagicReady, {})
+	-- Udug Jacket: Pet Magic Acc.+45 "Magic Atk. Bonus"+45, DT-10%. original body: Nukumi Gausape +3 (from Pet.WS)
+	sets.midcast.Pet.MagicReady = set_combine(sets.midcast.Pet.WS, {head="Nuk. Cabasset +3",neck="Adad Amulet",body="Udug Jacket"})
+	-- Debuff Ready: pure magic accuracy, so the Gausape (Pet MAcc+64) stays
+	sets.midcast.Pet.DebuffReady = set_combine(sets.midcast.Pet.MagicReady, {body="Nukumi Gausape +3"})
 	sets.midcast.Pet.PhysicalDebuffReady = set_combine(sets.midcast.Pet.WS, {head="Nuk. Cabasset +3"})
 
 	sets.midcast.Pet.ReadyRecast = {legs="Gleti's Breeches"}   -- "Sic" and "Ready" ability delay -5
@@ -223,6 +231,9 @@ function init_gear_sets()
 		back="Pastoralist's Mantle",waist="Incarnation Sash",legs="Despair Cuisses",feet="Tali'ah Crackows +2"}
 
 	sets.idle.Pet.Engaged.DW = set_combine(sets.idle.Pet.Engaged, {})
+	-- Pet Mode "Tank" (Win+F7): keep the pet DT pieces on while the pet fights (BST.lua adds PetMode as an idle group)
+	sets.idle.Pet.Engaged.Tank = set_combine(sets.idle.Pet.Engaged, {hands="Gleti's Gauntlets",legs="Tali'ah Sera. +2",waist="Isa Belt"})
+	sets.idle.Pet.Engaged.DW.Tank = sets.idle.Pet.Engaged.Tank
 
 	-- LINKTRI: PorterPacker packing-safe set (same approach as the WHM file). Equipped while a Porter Moogle
 	-- is close so none of your slip-storable gear (Nukumi/Totemic artifact pieces etc.) is being worn when
@@ -264,7 +275,7 @@ function init_gear_sets()
 	-- MELEE (SINGLE-WIELD)
 	sets.engaged = {ammo="Coiste Bodhar",
 		head="Malignance Chapeau",neck="Anu Torque",ear1="Sherida Earring",ear2="Telos Earring",
-		body="Gleti's Cuirass",hands="Malignance Gloves",ring1="Gere Ring",ring2="Hetairoi Ring",
+		body="Gleti's Cuirass",hands="Malignance Gloves",ring1="Hetairoi Ring",ring2="Gere Ring", -- original: ring1 Gere, ring2 Hetairoi
 		back="Null Shawl",waist="Sailfi Belt +1",legs="Gleti's Breeches",feet="Malignance Boots"}
 
 	sets.engaged.SomeAcc = set_combine(sets.engaged, {neck="Shulmanu Collar"})
@@ -277,16 +288,16 @@ function init_gear_sets()
 	sets.engaged.Fodder = set_combine(sets.engaged, {neck="Asperity Necklace",ear1="Trux Earring"})
 
 	-- MELEE (SINGLE-WIELD) HYBRID SETS
-	-- Nukumi head/hands/legs (DT-11/11/13) + Nyame body/feet + Defending Ring = DT-61%, with offensive
+	-- Nukumi head/hands/legs (DT-11/11/13) + Nyame body + Defending Ring = DT-54% (cap 50), with offensive
 	-- neck/ammo/earrings and more Accuracy/Attack than the old all-Nyame build.
 	sets.engaged.PDT = {ammo="Coiste Bodhar",
 		head="Nuk. Cabasset +3",neck="Shulmanu Collar",ear1="Sherida Earring",ear2="Telos Earring",
 		body="Nyame Mail",hands="Nukumi Manoplas +3",ring1="Defending Ring",ring2="Gere Ring",
-		back="Null Shawl",waist="Sailfi Belt +1",legs="Nukumi Quijotes +3",feet="Nyame Sollerets"}
+		back="Null Shawl",waist="Sailfi Belt +1",legs="Nukumi Quijotes +3",feet="Nukumi Ocreae +3"} -- original feet: Nyame Sollerets (DT was 61%)
 
 	sets.engaged.SomeAcc.PDT = set_combine(sets.engaged.PDT, {neck="Null Loop"})
 	sets.engaged.Acc.PDT = set_combine(sets.engaged.SomeAcc.PDT, {ear1="Mache Earring +1",ring2="Chirich Ring +1",waist="Null Belt"})
-	sets.engaged.FullAcc.PDT = set_combine(sets.engaged.Acc.PDT, {ammo="Voluspa Tathlum",ring2="Cacoethic Ring +1"})
+	sets.engaged.FullAcc.PDT = set_combine(sets.engaged.Acc.PDT, {ammo="Voluspa Tathlum"}) -- original: ring2="Cacoethic Ring +1" (keeps Chirich ring2)
 	sets.engaged.Fodder.PDT = set_combine(sets.engaged.PDT, {})
 
 	-- MELEE (DUAL-WIELD): Dudgeon + Heartseeker set bonus and Reiki Yotai for Dual Wield
@@ -333,7 +344,7 @@ function init_gear_sets()
 	sets.buff['Killer Instinct'] = {body="Nukumi Gausape +3"} -- Augments "Killer" effects
 	sets.buff.Doom = set_combine(sets.buff.Doom, {})
 	sets.buff.Sleep = {}
-	sets.TreasureHunter = set_combine(sets.TreasureHunter, {})
+	sets.TreasureHunter = {legs="Volte Hose",waist="Chaac Belt"} -- original: set_combine(sets.TreasureHunter, {}) (global set uses stored Wh. Rarab Cap +1)
 	sets.Knockback = {}
 	sets.SuppaBrutal = {ear1="Sherida Earring",ear2="Telos Earring"}
 	sets.DWEarrings = {ear1="Dudgeon Earring",ear2="Heartseeker Earring"}
@@ -355,7 +366,7 @@ function init_gear_sets()
 	sets.precast.JA['Bestial Loyalty'].PrestoJulio = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="C. Grass. Broth"})
 	sets.precast.JA['Bestial Loyalty'].SwiftSieghard = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="Mlw. Bird Broth"})
 	sets.precast.JA['Bestial Loyalty'].MailbusterCetas = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="Gob. Bug Broth"})
-	sets.precast.JA['Bestial Loyalty'].AudaciousAnna = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="B. Carrion Broth"})
+	sets.precast.JA['Bestial Loyalty'].AudaciousAnna = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="Bub. Carrion Broth"}) -- original: "B. Carrion Broth"
 	sets.precast.JA['Bestial Loyalty'].TurbidToloi = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="Auroral Broth"})
 	sets.precast.JA['Bestial Loyalty'].LuckyLulush = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="L. Carrot Broth"})
 	sets.precast.JA['Bestial Loyalty'].DipperYuly = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="Wool Grease"})
@@ -366,7 +377,7 @@ function init_gear_sets()
 	sets.precast.JA['Bestial Loyalty'].FaithfulFalcorr = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="Lucky Broth"})
 	sets.precast.JA['Bestial Loyalty'].BugeyedBroncha = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="Svg. Mole Broth"})
 	sets.precast.JA['Bestial Loyalty'].BloodclawShasra = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="Rzr. Brain Broth"})
-	sets.precast.JA['Bestial Loyalty'].GorefangHobs = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="B. Carrion Broth"})
+	sets.precast.JA['Bestial Loyalty'].GorefangHobs = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="Bur. Carrion Broth"}) -- original: "B. Carrion Broth"
 	sets.precast.JA['Bestial Loyalty'].GooeyGerard = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="Cl. Wheat Broth"})
 	sets.precast.JA['Bestial Loyalty'].CrudeRaphie = set_combine(sets.precast.JA['Bestial Loyalty'], {ammo="Shadowy Broth"})
 
@@ -472,6 +483,5 @@ function select_default_macro_book()
 	end
 end
 
-state.Weapons:options('None','PetPDTAxe','MasterAxe','DualWeapons')
-
-autows_list = {['PetPDTAxe']='Ruinator',['DualWeapons']='Ruinator'}
+-- original: duplicate state.Weapons:options(...) line removed (already set in user_job_setup)
+autows_list = {['PetPDTAxe']='Ruinator',['MasterAxe']='Ruinator',['DualWeapons']='Ruinator'}
