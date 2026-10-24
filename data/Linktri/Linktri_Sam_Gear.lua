@@ -43,8 +43,8 @@ function init_gear_sets()
     --------------------------------------
 
     -- Precast sets to enhance JAs
-    sets.precast.JA.Meditate = {head = "Wakido Kabuto +1", back = gear.ws_jse_back}  -- original: + hands "Sakonji Kote +1" (not owned)
-    sets.precast.JA["Warding Circle"] = {head = "Wakido Kabuto +1"}
+    sets.precast.JA.Meditate = {head = "Wakido Kabuto +2", back = gear.ws_jse_back}  -- LINKTRI 2026-10-24: was +1 (upgraded); original also hands "Sakonji Kote +1" (not owned)
+    sets.precast.JA["Warding Circle"] = {head = "Wakido Kabuto +2"}  -- LINKTRI 2026-10-24: was +1 (upgraded)
     -- sets.precast.JA["Blade Bash"] = {hands = "Sakonji Kote +1"}  -- not owned
     sets.precast.JA["Sekkanoki"] = {hands = "Kasuga Kote +3"}
     sets.precast.JA["Sengikori"] = {feet = "Kas. Sune-Ate +3"}
@@ -285,7 +285,8 @@ function init_gear_sets()
     sets.TreasureHunter = set_combine(sets.TreasureHunter, {})
     sets.Skillchain = {}
 
-    -- Null Masque (DT-10, Regen+3, Regain+2), Kasuga body (DT-14), Nyame hands/legs/feet, Murky + Defending
+    -- Null Masque (DT-10, Regen+3, Regain+2), Kasuga body/legs (DT-14/-11), Nyame hands/feet, Murky + Defending
+    -- LINKTRI 2026-10-24: legs Nyame Flanchard (DT-8) -> Kasuga Haidate +3 (DT-11). Idle DT is over the -50% cap either way.
     sets.idle = {
         ammo = "Staunch Tathlum +1",
         head = "Null Masque",
@@ -298,7 +299,7 @@ function init_gear_sets()
         ring2 = "Defending Ring",
         back = "Null Shawl",
         waist = "Null Belt",
-        legs = {name = "Nyame Flanchard", augments = {"Path: B"}},
+        legs = "Kasuga Haidate +3",
         feet = {name = "Nyame Sollerets", augments = {"Path: B"}}
     }
 
