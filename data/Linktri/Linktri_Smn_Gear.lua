@@ -321,9 +321,10 @@ function init_gear_sets()
     -- Assid. Pants +1 1. DT: Beck. Horn 10, Loricate 6, Beck. Earring +1 5, Bunzi's Gloves 8, Defending 10, Murky 10, Regal Belt 3, Bunzi's Sabots 6
     -- original: Beckoner's Horn +1 / Beck. Pigaches +1 (not owned), Ethereal Earring (not owned), Chironic Gloves (SMN can't
     --   equip), Stikini x2
+    -- LINKTRI 2026-10-24: Shomonjijoe +1 referenced by name only - the augment upgrade changed its augment text, so the old Path: A filter stopped matching
     sets.idle = {main={name="Mpaca's Staff", augments={'Path: A'}},sub="Umbra Strap",ammo="Impatiens",
         head="Beckoner's Horn +3",neck={name="Loricate Torque +1", augments={'Path: A'}},ear1="C. Palug Earring",ear2="Beck. Earring +1",
-        body={name="Shomonjijoe +1", augments={'Path: A'}},hands={name="Bunzi's Gloves", augments={'Path: A'}},ring1="Defending Ring",ring2={name="Murky Ring", augments={'Path: A',}},
+        body="Shomonjijoe +1",hands={name="Bunzi's Gloves", augments={'Path: A'}},ring1="Defending Ring",ring2={name="Murky Ring", augments={'Path: A',}},
         back="Conveyance Cape",waist="Regal Belt",legs="Assid. Pants +1",feet={name="Bunzi's Sabots", augments={'Path: A'}}}
 
     sets.resting = set_combine(sets.idle, {})
@@ -446,7 +447,7 @@ function init_gear_sets()
         neck  = {name="Loricate Torque +1", augments={'Path: A'}},
         ear1  = "C. Palug Earring",
         ear2  = "Beck. Earring +1",         -- original: Ethereal Earring (not owned)
-        body  = {name="Shomonjijoe +1", augments={'Path: A'}},
+        body  = "Shomonjijoe +1",  -- LINKTRI 2026-10-24: augment filter dropped (only one owned; upgrade changed its augments)
         hands = "Nyame Gauntlets",
         ring1 = "Defending Ring",
         ring2 = "Stikini Ring",
