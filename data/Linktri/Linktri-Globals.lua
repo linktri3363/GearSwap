@@ -203,3 +203,89 @@ windower.register_event('prerender', function()
 		end
 	end
 end)
+
+-------------------------------------------------------------------------------------------------------------------
+-- LINKTRI MODIFICATION (2026-10-24): full inventory rebuild whenever the job file loads.
+-- //gs reload only reloads the job files; GearSwap's own copy of your bags is read once when the GearSwap addon
+-- loads and then patched from item packets. If one of those is missed - e.g. after an NPC augment upgrade, when
+-- the item keeps its ID so the 5s check above can't see the change - a piece can be silently skipped until you
+-- move it by hand. This re-reads every bag from the game client on each job-file load (//gs reload, job change,
+-- login) and on demand with //gs c resyncinventory, then says how many slots were out of date (silent if none).
+-- Same safeguards as above: read-only towards the server, skipped mid-action or while bags are still loading,
+-- errors caught. REVERT: delete this block.
+-------------------------------------------------------------------------------------------------------------------
+local INV_REBUILD_BAGS = {'inventory','wardrobe','wardrobe2','wardrobe3','wardrobe4','wardrobe5','wardrobe6','wardrobe7','wardrobe8'}
+
+local function inv_entry_key(entry)
+	-- Empty slots all compare equal: GearSwap zeroes the ID of an emptied slot but leaves its old extdata behind.
+	if type(entry) ~= 'table' or not entry.id or entry.id == 0 then return '0' end
+	return tostring(entry.id or 0)..'|'..tostring(entry.status or 0)..'|'..tostring(entry.extdata or '')
+end
+
+-- Returns number of out-of-date slots fixed, or nil plus a reason when it skipped.
+local function inv_full_rebuild()
+	local gs = gearswap
+	if type(gs) ~= 'table' or type(gs.items) ~= 'table' or type(gs.default_slot_map) ~= 'table' then
+		return nil, 'GearSwap item list unavailable'
+	end
+	if midaction() then return nil, 'mid-action' end
+	local fresh = windower.ffxi.get_items()
+	if type(fresh) ~= 'table' or type(fresh.equipment) ~= 'table' or type(fresh.inventory) ~= 'table' then
+		return nil, 'game client inventory not ready'
+	end
+	-- An inventory the client reports as completely empty is most likely still loading: don't trust it.
+	local loaded = false
+	for slot = 1, (tonumber(fresh.inventory.max) or 80) do
+		if inv_slot_id(fresh.inventory[slot]) ~= 0 then loaded = true break end
+	end
+	if not loaded then return nil, 'inventory still loading' end
+
+	local changed = 0
+	for _, bag in ipairs(INV_REBUILD_BAGS) do
+		local cb, gb = fresh[bag], gs.items[bag]
+		if type(cb) == 'table' and type(gb) == 'table' then
+			for slot = 1, (tonumber(cb.max) or 80) do
+				if inv_entry_key(cb[slot]) ~= inv_entry_key(gb[slot]) then changed = changed + 1 end
+			end
+		end
+	end
+
+	-- Equipment into GearSwap's internal {slot, bag_id} form, exactly as statics.lua builds it at load.
+	local eq = {}
+	for _, name in pairs(gs.default_slot_map) do
+		local slot = fresh.equipment[name]
+		eq[name] = {slot = (slot == nil or slot == 0) and gs.empty or slot, bag_id = fresh.equipment[name..'_bag'] or 0}
+	end
+	fresh.equipment = eq
+
+	gs.items = fresh
+	gs.refresh_globals()
+	inv_resync_pending = {}
+	return changed
+end
+
+local function inv_full_rebuild_report(manual)
+	local ok, fixed, reason = pcall(inv_full_rebuild)
+	if not ok then
+		add_to_chat(123, '[GearSwap] Inventory rebuild skipped: '..tostring(fixed))
+	elseif fixed == nil then
+		if manual then add_to_chat(123, '[GearSwap] Inventory rebuild skipped: '..tostring(reason)..'. Try again in a moment.') end
+	elseif fixed > 0 then
+		add_to_chat(122, '[GearSwap] Inventory rebuilt from the game client: '..fixed..' bag slot(s) were out of date.')
+		send_command('gs c update')
+	elseif manual then
+		add_to_chat(122, '[GearSwap] Inventory rebuilt from the game client: already up to date.')
+	end
+end
+
+-- On every job-file load. Delayed 1s so it runs after Sel finishes loading the job (and clears any zone-in lag).
+coroutine.schedule(function() inv_full_rebuild_report(false) end, 1)
+
+-- //gs c resyncinventory (or //gs c resync): rebuild now, no reload needed.
+function user_self_command(commandArgs, eventArgs)
+	local cmd = commandArgs[1] and commandArgs[1]:lower()
+	if cmd == 'resyncinventory' or cmd == 'resync' then
+		inv_full_rebuild_report(true)
+		eventArgs.handled = true
+	end
+end
