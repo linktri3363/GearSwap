@@ -253,7 +253,7 @@ function init_gear_sets()
 
     -- Ranged (Ullr) - original: Flamma head, Clearview/Neritic Earrings, Kyujutsugi, Buremte, Regal Ring
     sets.midcast.RA = {
-        head = {name = "Nyame Helm", augments = {"Path: B"}},
+        head = "Sakonji Kabuto +2",  -- LINKTRI 2026-10-25: Ranged Attack+64, Store TP+7 (Nyame Helm: Ranged Attack+30)
         neck = "Combatant's Torque",
         ear1 = "Telos Earring",
         ear2 = "Kasuga Earring +1",
