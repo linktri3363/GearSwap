@@ -34,7 +34,8 @@ end
 function init_gear_sets()
     --------------------------------------
     -- LINKTRI 2026-10-23: full rebuild around owned gear (Kasuga +3, Mpaca's, Nyame B, Kasuga Earring +1).
-    -- Unowned originals (Flamma +2, Sakonji, Moonlight Cape, Patricius Ring, Ioskeha Belt, Cessance/Digni.,
+    -- LINKTRI 2026-10-25: Sakonji Kabuto/Domaru +2, Haidate, Sune-Ate now owned; Kote +1 being crafted.
+    -- Unowned originals (Moonlight Cape, Patricius Ring, Ioskeha Belt, Cessance/Digni.,
     -- Aurgelmir Orb +1, Danzo, Dark Ring, Flume Belt +1, Kyujutsugi, Buremte, etc.) are noted per set below.
     -- Sides: ear2 = Kasuga Earring +1 (Sortie, ear2 only) / Sanare / Ishvara-free; ear1 = Moonshade/Telos/Ishvara/
     --        Etiolation/Dedition/Schere. ring1 = Murky/Ephramad's/Chirich (single); ring2 = Ilabrat/Defending/
@@ -43,9 +44,17 @@ function init_gear_sets()
     --------------------------------------
 
     -- Precast sets to enhance JAs
-    sets.precast.JA.Meditate = {head = "Wakido Kabuto +2", back = gear.ws_jse_back}  -- LINKTRI 2026-10-24: was +1 (upgraded); original also hands "Sakonji Kote +1" (not owned)
+    -- LINKTRI 2026-10-25: Sakonji Kote +1 is being crafted. Nothing else owned adds Meditate duration in the
+    -- hands slot, so Meditate runs without hands until it's ready. Uncomment the two Kote lines below then.
+    sets.precast.JA.Meditate = {head = "Wakido Kabuto +2", back = gear.ws_jse_back}  -- Meditate duration +4
+    -- sets.precast.JA.Meditate = {head = "Wakido Kabuto +2", hands = "Sakonji Kote +1", back = gear.ws_jse_back}  -- +4 head, +2 hands
     sets.precast.JA["Warding Circle"] = {head = "Wakido Kabuto +2"}  -- LINKTRI 2026-10-24: was +1 (upgraded)
-    -- sets.precast.JA["Blade Bash"] = {hands = "Sakonji Kote +1"}  -- not owned
+    -- sets.precast.JA["Blade Bash"] = {hands = "Sakonji Kote +1"}  -- Enhances Blade Bash (Kote +1 being crafted)
+
+    -- LINKTRI 2026-10-25: Sakonji (relic) merit-ability enhancements, worn when the ability is used
+    sets.precast.JA["Ikishoten"] = {head = "Sakonji Kabuto +2"}   -- Enhances Ikishoten
+    sets.precast.JA["Shikikoyo"] = {legs = "Sakonji Haidate"}     -- Enhances Shikikoyo (keeps 10% of gifted TP per merit)
+    sets.precast.JA["Meikyo Shisui"] = {feet = "Sakonji Sune-Ate"} -- Enhances Meikyo Shisui (see sets.buff note at bottom)
     sets.precast.JA["Sekkanoki"] = {hands = "Kasuga Kote +3"}
     sets.precast.JA["Sengikori"] = {feet = "Kas. Sune-Ate +3"}
 
@@ -94,7 +103,7 @@ function init_gear_sets()
         ring2 = "Lebeche Ring"
     }
 
-    sets.precast.RA = {}
+    sets.precast.RA = {head = "Sakonji Kabuto +2"}  -- LINKTRI 2026-10-25: Snapshot +3 (Ullr)
 
     ---------------------------------------------------------------------------------------------
     -- Weaponskill sets: Nyame B (WSD) + Kasuga Kote +3 (WSD+12) + Kas. Sune-Ate +3 (PDL+10) + Knobkierrie
@@ -405,10 +414,14 @@ function init_gear_sets()
     sets.buff.Doom = set_combine(sets.buff.Doom, {})
     sets.buff.Sleep = {}  -- original: {neck = "Vim Torque +1"} (not owned)
     sets.buff.Hasso = {hands = "Wakido Kote +2"}  -- LINKTRI 2026-10-24: was +1 (upgraded); Hasso+3
-    sets.buff["Third Eye"] = {} --legs="Sakonji Haidate +3"
+    sets.buff["Third Eye"] = {legs = "Sakonji Haidate"}  -- LINKTRI 2026-10-25: Third Eye Counter rate +35, Counter dmg +16 (SAM.lua applies it under Seigan + Third Eye, non-Acc modes)
     sets.buff.Sekkanoki = {hands = "Kasuga Kote +3"}
     sets.buff.Sengikori = {feet = "Kas. Sune-Ate +3"}
-    sets.buff["Meikyo Shisui"] = {}  -- original: {feet = "Sak. Sune-Ate +1"} (not owned)
+    -- LINKTRI 2026-10-25: SAM.lua LOCKS this set on for the whole Meikyo Shisui duration, which would keep
+    -- Kas. Sune-Ate +3 (PDL+10) off every WS in the Meikyo chain. Sune-Ate is in the Meikyo JA precast for now;
+    -- swap to the commented line if you'd rather hold the feet through the chain (Selindrile's original choice).
+    sets.buff["Meikyo Shisui"] = {}
+    -- sets.buff["Meikyo Shisui"] = {feet = "Sakonji Sune-Ate"}
 end
 
 -- Porter Moogle proximity detection function
