@@ -146,23 +146,29 @@ function init_gear_sets()
         feet={ name="Regal Pumps +1", augments={'Path: A',}}, --+4 FC base, +8 FC capped with unity augment
     }
 
+    -- LINKTRI MODIFICATION 2026-10-25: DT/SIRD precast. Used by Alt+F11 DT and SIRD casting modes (SIRD reuses these:
+    -- interruption only happens during the cast, i.e. in midcast gear) and by the F10 PDT lock, which overlays FC[...].DT.
+    -- Every FC .DT set below is FC 80 (fast cast + Healing/Cure/Enhancing casting time, which share the 80% cap)
+    -- AND PDT/MDT 50+. Generic (Divine/Enfeebling/Elemental): FC 80, PDT 50 / MDT 58 - the most owned gear allows at FC 80.
+    -- Ring/ear sides fixed: Kishar/Murky ring1, Defending ring2, Alabaster ear1, Malignance/Ebers ear2.
     sets.precast.FC.DT = {
-        main = gear.grioavolr_fc_staff, --+7 FC
-        sub = "Clerisy Strap +1",
-        ammo = "Impatiens", --+2 QM
-        head= "Ebers Cap +3", --+13 FC
-        neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- LINKTRI: Fast Cast +10% (augment, confirmed in game) vs Baetyl +4%; neither has DT
-        ear1 = "Etiolation Earring", --+1 FC
-        ear2 = "Malignance Earring", --+4 FC
-        body = "Inyanga Jubbah +2", --+14 FC
-        hands= "Ebers Mitts +3", --+11 DT
-        ring1 = "Kishar Ring", --+4 FC
-        ring2 = "Lebeche Ring", --+2 QM
-        back={ name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}},
-        waist = "Witful Belt", --+3 FC
-        legs = "Ebers Pant. +3", --+ 13 DT
-        feet = "Ebers Duckbills +3", --+4 FC base, +8 FC capped with unity augment
+        main = gear.grioavolr_fc_staff, -- FC+11
+        sub = "Clerisy Strap +1", -- FC+3
+        ammo = "Staunch Tathlum +1", -- DT-3
+        head = "Ebers Cap +3", -- FC+13
+        neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- FC+10 (Path A augment, confirmed in game)
+        ear1 = "Alabaster Earring", -- DT-5
+        ear2 = "Malignance Earring", -- FC+4
+        body = "Inyanga Jubbah +2", -- FC+14, MDT-8
+        hands = "Ebers Mitts +3", -- DT-11
+        ring1 = "Kishar Ring", -- FC+4
+        ring2 = "Defending Ring", -- DT-10
+        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- FC+10, DT-5
+        waist = "Embla Sash", -- FC+5
+        legs = "Aya. Cosciales +2", -- FC+6, DT-5
+        feet = "Ebers Duckbills +3", -- DT-11
     }
+    sets.precast.FC.SIRD = sets.precast.FC.DT
 
     sets.precast.FC["Enhancing Magic"] = set_combine(sets.precast.FC, {waist = "Siegel Sash"})
 
@@ -181,6 +187,83 @@ function init_gear_sets()
     sets.precast.FC.Impact = set_combine(sets.precast.FC, {head = empty, body = "Twilight Cloak"})  -- Twilight Cloak needed
 
     sets.precast.FC.Dispelga = set_combine(sets.precast.FC, {main = "Daybreak", sub = "Genmei Shield"})
+
+    -- LINKTRI MODIFICATION START 2026-10-25: DT/SIRD variants of every specific precast set.
+    -- set_combine copies gear slots only, so a .DT never carries over to a set built from another one: each needs its own.
+    -- Raise/Reraise had no precast set of their own (Sel skips the skill table for them), so they now use the Healing set
+    -- to get Ebers Pant. +3's Healing magic casting time -15%.
+    sets.precast.FC.Raise = sets.precast.FC["Healing Magic"]
+    sets.precast.FC.Reraise = sets.precast.FC["Healing Magic"]
+
+    -- Healing (-na, Erase, Raise, Reraise): FC 65 + Healing casting time 15 = 80; PDT 75 / MDT 83.
+    sets.precast.FC["Healing Magic"].DT = {
+        main = gear.grioavolr_fc_staff, -- FC+11
+        sub = "Clerisy Strap +1", -- FC+3
+        ammo = "Staunch Tathlum +1", -- DT-3
+        head = { name="Bunzi's Hat", augments={'Path: A',}}, -- FC+10, DT-7
+        neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- FC+10
+        ear1 = "Alabaster Earring", -- DT-5
+        ear2 = "Malignance Earring", -- FC+4
+        body = "Inyanga Jubbah +2", -- FC+14, MDT-8
+        hands = "Ebers Mitts +3", -- DT-11
+        ring1 = { name="Murky Ring", augments={'Path: A',}}, -- DT-10
+        ring2 = "Defending Ring", -- DT-10
+        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- FC+10, DT-5
+        waist = "Witful Belt", -- FC+3
+        legs = "Ebers Pant. +3", -- Healing magic casting time -15%, DT-13
+        feet = "Ebers Duckbills +3", -- DT-11
+    }
+    sets.precast.FC["Healing Magic"].SIRD = sets.precast.FC["Healing Magic"].DT
+
+    -- Cures: FC 51 + Healing casting time 15 + Cure casting time 15 = 81; PDT 73 / MDT 81.
+    sets.precast.FC.Cure.DT = {
+        main = gear.grioavolr_fc_staff, -- FC+11
+        sub = "Clerisy Strap +1", -- FC+3
+        ammo = "Staunch Tathlum +1", -- DT-3
+        head = "Piety Cap +4", -- "Cure" casting time -15%
+        neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- FC+10
+        ear1 = "Alabaster Earring", -- DT-5
+        ear2 = "Ebers Earring +1", -- DT-5
+        body = "Inyanga Jubbah +2", -- FC+14, MDT-8
+        hands = "Ebers Mitts +3", -- DT-11
+        ring1 = { name="Murky Ring", augments={'Path: A',}}, -- DT-10
+        ring2 = "Defending Ring", -- DT-10
+        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- FC+10, DT-5
+        waist = "Witful Belt", -- FC+3
+        legs = "Ebers Pant. +3", -- Healing magic casting time -15%, DT-13
+        feet = "Ebers Duckbills +3", -- DT-11
+    }
+    sets.precast.FC.Cure.SIRD = sets.precast.FC.Cure.DT  -- Curaga and CureSolace share this table
+
+    -- Enhancing: FC 72 + Siegel Sash enhancing casting time 8 = 80; PDT 57 / MDT 65.
+    sets.precast.FC["Enhancing Magic"].DT = {
+        main = gear.grioavolr_fc_staff, -- FC+11
+        sub = "Clerisy Strap +1", -- FC+3
+        ammo = "Staunch Tathlum +1", -- DT-3
+        head = { name="Bunzi's Hat", augments={'Path: A',}}, -- FC+10, DT-7
+        neck = { name="Clr. Torque +2", augments={'Path: A',}}, -- FC+10
+        ear1 = "Alabaster Earring", -- DT-5
+        ear2 = "Malignance Earring", -- FC+4
+        body = "Inyanga Jubbah +2", -- FC+14, MDT-8
+        hands = "Ebers Mitts +3", -- DT-11
+        ring1 = "Kishar Ring", -- FC+4
+        ring2 = "Defending Ring", -- DT-10
+        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- FC+10, DT-5
+        waist = "Siegel Sash", -- Enhancing magic casting time -8%
+        legs = "Aya. Cosciales +2", -- FC+6, DT-5
+        feet = "Ebers Duckbills +3", -- DT-11
+    }
+    sets.precast.FC["Enhancing Magic"].SIRD = sets.precast.FC["Enhancing Magic"].DT
+    sets.precast.FC.Stoneskin.DT = sets.precast.FC["Enhancing Magic"].DT
+    sets.precast.FC.Stoneskin.SIRD = sets.precast.FC["Enhancing Magic"].DT
+
+    -- Impact must wear Twilight Cloak (no head) and Dispelga must hold Daybreak, so these give up fast cast
+    -- (FC 53 / 66) to keep DT capped (PDT 50 / MDT 50, PDT 60 / MDT 58).
+    sets.precast.FC.Impact.DT = set_combine(sets.precast.FC.DT, {head = empty, body = "Twilight Cloak"})
+    sets.precast.FC.Impact.SIRD = sets.precast.FC.Impact.DT
+    sets.precast.FC.Dispelga.DT = set_combine(sets.precast.FC.DT, {main = "Daybreak", sub = "Genmei Shield"})
+    sets.precast.FC.Dispelga.SIRD = sets.precast.FC.Dispelga.DT
+    -- LINKTRI MODIFICATION END
 
     -- Precast sets to enhance JAs
     sets.precast.JA.Benediction = {body = "Piety Bliaut +4"}
@@ -283,7 +366,7 @@ function init_gear_sets()
     sets.ConserveMP = {
         main = gear.grioavolr_fc_staff,
         sub = "Thrace Strap",  -- original: "Umbra Strap" (owned, swapped) Conserve MP+3
-        ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
+        ammo = "Pemphredo Tathlum", -- LINKTRI 2026-10-25: Conserve MP+4 (was "" - a blank leaves the precast ammo on)
         head = "Vanya Hood",
         neck = "Deviant Necklace", -- Incanter's Torque Synergy from Melic, Henic, and Deceivers Torques obtained in Escha Ru'Aun  -- original: "" (blank: Incanter's Torque not owned) Conserve MP+2
         ear1 = "Calamitous Earring",  -- original: "Gifted Earring" (not owned) Conserve MP+4
@@ -314,7 +397,7 @@ function init_gear_sets()
     sets.midcast.FastRecast = {
         main = gear.grioavolr_fc_staff,
         sub = "Clerisy Strap +1",
-        ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
+        ammo = "Staunch Tathlum +1", -- LINKTRI 2026-10-25: DT-3, SIRD+11 (was "": kept precast Impatiens). Hasty Pinion +1 still worth evaluating
         head={ name="Bunzi's Hat", augments={'Path: A',}},
         neck = "Voltsurge Torque",
         ear1 = "Etiolation Earring", -- Enchntr. Earring +1 needed - Surged  10th walk, AH 15m gil +2 FC  -- original: "" (blank)
@@ -526,7 +609,7 @@ function init_gear_sets()
     sets.midcast.Cursna = {
         main = "Yagrush",
         sub = "Sors Shield",
-        ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
+        ammo = "Staunch Tathlum +1", -- LINKTRI 2026-10-25: was "" (kept precast Impatiens)
         head = "Ebers Cap +3",
         neck = "Loricate Torque +1", -- LINKTRI: blank neck was skipped by GearSwap (neck never swapped). No owned Cursna neck (Debilis Medallion unowned); DT-6% while casting
         ear1 = "Meili Earring",
@@ -544,7 +627,7 @@ function init_gear_sets()
     sets.midcast.StatusRemoval = {
         main = "Yagrush",
         sub = "Sors Shield",
-        ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
+        ammo = "Staunch Tathlum +1", -- LINKTRI 2026-10-25: was "" (kept precast Impatiens)
         head = "Ebers Cap +3",
         neck = "Voltsurge Torque", -- LINKTRI MOD 2026-07-02: owned (was empty; revert: neck = "")
         ear1 = "Etiolation Earring", -- Enchntr. Earring +1 needed - Surged  10th walk, AH 15m gil +2 FC  -- original: "" (blank)
@@ -565,11 +648,11 @@ function init_gear_sets()
     sets.midcast["Enhancing Magic"] = {
         main = gear.gada_enhancing_club,
         sub = "Ammurapi Shield",
-        ammo = "", --Hasty Pinion +1 needs to be evalated for appropriateness
+        ammo = "Staunch Tathlum +1", -- LINKTRI 2026-10-25: was "" (kept precast Impatiens)
         head={ name="Telchine Cap", augments={'Mag. Acc.+20','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
         neck = "Loricate Torque +1", -- LINKTRI: blank neck was skipped by GearSwap; no owned enhancing neck (Incanter's Torque unowned), so DT-6%/SIRD while casting
         ear1 = "Andoaa Earring",
-        ear2 = "", --Gifted Earring evaluate for appropriateness Conserve MP+3 Blood Boon +3
+        ear2 = "Ebers Earring +1", -- LINKTRI 2026-10-25: DT-5 (was "": kept precast Malignance). Gifted Earring still worth evaluating
         body={ name="Telchine Chas.", augments={'Mag. Acc.+24','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
         hands={ name="Telchine Gloves", augments={'Mag. Acc.+23','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}},
         ring1 = "Stikini Ring", -- +1 variant 40m on AH
@@ -594,11 +677,11 @@ function init_gear_sets()
         set_combine(
         sets.midcast["Enhancing Magic"],
         {
-            main = "", -- Vadose Rod Leviathan HTMB
+            -- LINKTRI 2026-10-25: the four "" slots below left precast gear on (Grioavolr, Fanatic Gloves, Siegel Sash,
+            -- Kaykaus Tights). Until the Aquaveil pieces are owned, the base enhancing gear stays in those slots.
+            -- main: Vadose Rod (Leviathan HTMB)   hands: Regal Cuffs (Ou Omen)
+            -- waist: Emphatikos Rope (SIRD+12, Aquaveil+1; Xan, Abyssea - Vunkerl)   legs: Shedir Seraweels
             sub = "Ammurapi Shield",
-            hands = "", -- Regal Cuffs Ou Omen
-            waist = "", --Emphatikos Rope SIRD +12 Aquaveil +1 Xan Abyssea - Vunkerl 
-            legs = "" -- Shedir Seraweels noted above
         }
     )
 
@@ -633,7 +716,7 @@ function init_gear_sets()
         head = "Ebers Cap +3",
         neck = "Loricate Torque +1", -- LINKTRI: blank neck was skipped by GearSwap; no owned enhancing neck, so DT-6%/SIRD while casting
         ear1 = "Andoaa Earring",
-        ear2 = "", --Gifted Earring evaluate for appropriateness Conserve MP+3 Blood Boon +3
+        ear2 = "Ebers Earring +1", -- LINKTRI 2026-10-25: DT-5 (was "": kept precast Malignance). Gifted Earring still worth evaluating
         body = "Ebers Bliaut +3",
         hands = "Ebers Mitts +3",
         ring1 = "Stikini Ring", -- +1 variant 40m on AH
@@ -910,9 +993,8 @@ function init_gear_sets()
     }
 	-- LINKTRI MODIFICATION START 2026-07-02: Combined SIRD/DT cure system
 	-- Design (agreed 2026-07-02):
-	--   SIRD mode (Alt+F11): Rosette Jaseran +1 combined set -> SIRD 103% AND DT 57%, BOTH capped.
-	--   DT mode  (Alt+F11): Adamantite Armor "beefy" set -> DT ~77% (huge over-cap buffer), MDB+20,
-	--     max M.Eva, HP+100; sacrifices SIRD (~23 residual) for when survival outranks everything.
+	--   SIRD mode (Alt+F11): Rosette Jaseran +1 combined set -> SIRD and DT BOTH capped (totals below).
+	--   DT mode  (Alt+F11): Adamantite Armor set -> DT well over cap with Cure potency capped (totals below).
 	-- Ebers Pant. +3 is CRITICAL in BOTH sets: "Converts 8% of Cure amount to MP" only works while
 	-- equipped at spell completion, i.e. it must be in the midcast set.
 	-- Weather/day/Solace variants deliberately share these sets unchanged: swapping to
@@ -924,50 +1006,63 @@ function init_gear_sets()
 	-- (see git history / prior file version).
 
 	-- Armor-only (no main/sub), shared by Melee* variants.
+	-- LINKTRI 2026-10-25: rebuilt after checking every piece against the game's item data. The 2026-07-02 totals
+	-- were off: Loricate Torque +1 has no SIRD and Ros. Jaseran +1 has no DT, so the old SIRD set was really SIRD 98.
+	-- Totals below are from item data plus your augments.
+	-- Armor-only (no main/sub) for the Melee* cure maps, so TP weapons are never swapped.
 	sets.SIRDCureArmor = {
-	    ammo = "Staunch Tathlum +1", -- SIRD +11, DT -3
-	    head = { name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}}, -- SIRD +12, Cure pot. +11
-	    neck = "Loricate Torque +1", -- SIRD +5, DT -6
-	    ear1 = "Magnetic Earring", -- SIRD +8
-	    ear2 = "Ebers Earring +1", -- DT -5 (plain string per file convention; item augs are System ID, not Path)
-	    body = { name="Ros. Jaseran +1", augments={'Path: A',}}, -- SIRD +25, DT -5, Enmity -13
-	    hands = "Theo. Mitts +4", -- Cure pot. II +4
-	    ring1 = { name="Murky Ring", augments={'Path: A',}}, -- SIRD +3, DT -10
-	    ring2 = "Defending Ring", -- DT -10
-	    back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- DT -5
-	    waist = "Rumination Sash", -- SIRD +10
-	    legs = "Ebers Pant. +3", -- DT -13, Cure->MP 8% (must stay in midcast)
-	    feet = "Theo. Duckbills +4" -- SIRD +29
+	    ammo = "Staunch Tathlum +1", -- SIRD+11, DT-3
+	    head = { name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}}, -- SIRD+12, Cure pot.+11, MDT-3
+	    neck = "Loricate Torque +1", -- DT-6
+	    ear1 = "Alabaster Earring", -- DT-5
+	    ear2 = { name="Nourish. Earring +1", augments={'Path: A',}}, -- Cure pot.+6
+	    body = { name="Ros. Jaseran +1", augments={'Path: A',}}, -- SIRD+25
+	    hands = gear.chironic_enfeeble_hands, -- SIRD+20 (Chironic Gloves base stat)
+	    ring1 = { name="Murky Ring", augments={'Path: A',}}, -- SIRD+3, DT-10
+	    ring2 = "Defending Ring", -- DT-10
+	    back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- DT-5
+	    waist = "Rumination Sash", -- SIRD+10
+	    legs = "Ebers Pant. +3", -- DT-13, converts 8% of Cure to MP (must be on at spell completion)
+	    feet = "Theo. Duckbills +4" -- SIRD+29
 	}
-	-- Totals: SIRD 103 / DT 57. With Raetic Rod +1: Cure pot. I 34, pot. II 14, flat Cure+50.
+	-- Totals: SIRD 110 / PDT 52 / MDT 55; Cure pot. 17 + your melee weapon.
 
 	sets.DTCureArmor = {
-	    ammo = "Staunch Tathlum +1", -- SIRD +11, DT -3
-	    head = { name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}}, -- Cure pot. +11
-	    neck = "Loricate Torque +1", -- DT -6
-	    ear1 = "Alabaster Earring", -- DT -5, HP+100, Haste +5
-	    ear2 = "Ebers Earring +1", -- DT -5 (plain string per file convention; item augs are System ID, not Path)
-	    body = "Adamantite Armor", -- DT -20, MDB +20, M.Eva +107, HP+182
-	    hands = "Theo. Mitts +4", -- Cure pot. II +4
-	    ring1 = { name="Murky Ring", augments={'Path: A',}}, -- DT -10
-	    ring2 = "Defending Ring", -- DT -10
-	    back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- DT -5
-	    waist = "Carrier's Sash", -- elemental resistance +15
-	    legs = "Ebers Pant. +3", -- DT -13, Cure->MP 8% (must stay in midcast)
-	    feet = "Theo. Duckbills +4" -- M.Eva +152
+	    ammo = "Staunch Tathlum +1", -- DT-3
+	    head = "Ebers Cap +3", -- Cure pot.+22
+	    neck = "Loricate Torque +1", -- DT-6
+	    ear1 = "Alabaster Earring", -- DT-5, HP+100
+	    ear2 = "Ebers Earring +1", -- DT-5
+	    body = "Adamantite Armor", -- DT-20, MDB+20, M.Eva+107
+	    hands = "Theo. Mitts +4", -- Cure pot. II+4
+	    ring1 = { name="Murky Ring", augments={'Path: A',}}, -- DT-10
+	    ring2 = "Defending Ring", -- DT-10
+	    back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- DT-5
+	    waist = "Luminary Sash", -- Conserve MP+4
+	    legs = "Ebers Pant. +3", -- DT-13, converts 8% of Cure to MP
+	    feet = { name="Kaykaus Boots +1", augments={'Mag. Acc.+20','"Cure" potency +6%','"Fast Cast"+4',}} -- Cure pot.+17, Conserve MP+7
 	}
-	-- Totals: DT ~77 (capped at 50 with buffer), residual SIRD ~23, MDB+20.
+	-- Totals: PDT 77 / MDT 77; Cure pot. 39 + your melee weapon; Conserve MP 11.
 
-	sets.midcast.Cure.SIRD = set_combine(sets.SIRDCureArmor, {main = "Raetic Rod +1", sub = "Sors Shield"})
-	sets.midcast.Cure.DT = set_combine(sets.DTCureArmor, {main = "Raetic Rod +1", sub = "Sors Shield"})
+	-- SIRD 108 / PDT 52 / MDT 52; Cure pot. 51 (cap 50), pot. II 10, Ebers Pant. +3 on.
+	sets.midcast.Cure.SIRD = set_combine(sets.SIRDCureArmor, {main = "Raetic Rod +1", sub = "Culminus", head = "Ebers Cap +3"})
+	-- PDT 87 / MDT 77; Cure pot. 62 (cap 50), pot. II 14, Conserve MP 11, Ebers Pant. +3 on.
+	sets.midcast.Cure.DT = set_combine(sets.DTCureArmor, {main = "Raetic Rod +1", sub = "Genmei Shield"})
 
+	-- LINKTRI 2026-10-25: was SIRD 54 / DT 9 (Regal Pumps +1 has no SIRD and replaced Theo. Duckbills +4's 29).
+	-- Keeps Gada, Ammurapi, Telchine Cap, Embla Sash and Theo. Duckbills for duration. SIRD 108 / PDT 53 / MDT 53.
 	sets.midcast["Enhancing Magic"].SIRD = set_combine(sets.midcast["Enhancing Magic"], {
-	    ammo = "Staunch Tathlum +1", -- SIRD +11
-	    neck = "Loricate Torque +1", -- SIRD +5
-	    ear1 = "Magnetic Earring", -- SIRD +8
-	    body = { name="Ros. Jaseran +1", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: SIRD +25
-	    waist = "Rumination Sash", -- LINKTRI MOD 2026-07-02: SIRD +10 (Emphatikos Rope not in inventory)
-	    feet = "Regal Pumps +1", -- SIRD +4-8
+	    ammo = "Staunch Tathlum +1", -- SIRD+11, DT-3
+	    neck = "Loricate Torque +1", -- DT-6
+	    ear1 = "Alabaster Earring", -- DT-5
+	    ear2 = "Ebers Earring +1", -- DT-5
+	    body = { name="Ros. Jaseran +1", augments={'Path: A',}}, -- SIRD+25
+	    hands = gear.chironic_enfeeble_hands, -- SIRD+20
+	    ring1 = { name="Murky Ring", augments={'Path: A',}}, -- SIRD+3, DT-10
+	    ring2 = "Defending Ring", -- DT-10
+	    back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- DT-5
+	    legs = { name="Bunzi's Pants", augments={'Path: A',}}, -- SIRD+20, DT-9
+	    feet = "Theo. Duckbills +4", -- SIRD+29, Enhancing duration +10%
 	})
 
 	-- All cure variants -> combined sets (see design note above).
@@ -1008,16 +1103,125 @@ function init_gear_sets()
 	sets.midcast.MeleeLightDayCuraga.DT = sets.DTCureArmor
 	-- LINKTRI MODIFICATION END
 
-sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"], {
-    ammo = "Staunch Tathlum +1",
-    head = "Nyame Helm",
-    neck = "Loricate Torque +1",
-    body = "Nyame Mail",
-    hands = "Nyame Gauntlets", 
-    ring1 = { name="Murky Ring", augments={'Path: A',}},
-    legs = "Nyame Flanchard",
-    feet = "Nyame Sollerets",
-})
+    -- LINKTRI 2026-10-25: keeps Gada, Ammurapi, three Telchine pieces, Embla Sash and Theo. Duckbills for duration
+    -- (was a Nyame set that dropped all of it). PDT 57 / MDT 57.
+    sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"], {
+        ammo = "Staunch Tathlum +1", -- DT-3
+        neck = "Loricate Torque +1", -- DT-6
+        ear1 = "Alabaster Earring", -- DT-5
+        ear2 = "Ebers Earring +1", -- DT-5
+        ring1 = { name="Murky Ring", augments={'Path: A',}}, -- DT-10
+        ring2 = "Defending Ring", -- DT-10
+        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- DT-5
+        legs = "Ebers Pant. +3", -- DT-13 (replaces Telchine Braconi)
+    })
+
+    -- LINKTRI MODIFICATION START 2026-10-25: DT and SIRD variants for every other casting set.
+    -- Sel picks <set>.DT / <set>.SIRD in those casting modes, and with F10 on it overlays the first .DT it finds for the
+    -- spell name, then the map, then the skill, then FastRecast.DT. Without these, those spells fell back to their
+    -- plain sets (PDT 0-36) in DT/SIRD mode, and under F10 most fell to the whole defense set (no fast recast, no potency).
+    -- Every set here is PDT/MDT 50+; every .SIRD is also SIRD 102+.
+
+    -- Generic DT / SIRD: Raise, Reraise, Full Cure and anything without a set of its own.
+    sets.midcast.FastRecast.DT = {
+        main = gear.grioavolr_fc_staff,
+        sub = "Clerisy Strap +1",
+        ammo = "Staunch Tathlum +1",
+        head = { name="Bunzi's Hat", augments={'Path: A',}},
+        neck = "Loricate Torque +1",
+        ear1 = "Alabaster Earring",
+        ear2 = "Malignance Earring",
+        body = "Inyanga Jubbah +2",
+        hands = "Ebers Mitts +3",
+        ring1 = { name="Murky Ring", augments={'Path: A',}},
+        ring2 = "Defending Ring",
+        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}},
+        waist = "Witful Belt",
+        legs = "Ebers Pant. +3",
+        feet = "Ebers Duckbills +3",
+    }  -- PDT 81 / MDT 89, FC 55 (recast)
+    sets.midcast.FastRecast.SIRD = {
+        main = gear.grioavolr_fc_staff, -- SIRD+6
+        sub = "Clerisy Strap +1",
+        ammo = "Staunch Tathlum +1", -- SIRD+11, DT-3
+        head = { name="Kaykaus Mitra +1", augments={'MP+80','Spell interruption rate down +12%','"Cure" spellcasting time -7%',}}, -- SIRD+12, MDT-3
+        neck = "Loricate Torque +1", -- DT-6
+        ear1 = "Alabaster Earring", -- DT-5
+        ear2 = "Ebers Earring +1", -- DT-5
+        body = { name="Ros. Jaseran +1", augments={'Path: A',}}, -- SIRD+25
+        hands = "Ebers Mitts +3", -- DT-11
+        ring1 = { name="Murky Ring", augments={'Path: A',}}, -- SIRD+3, DT-10
+        ring2 = "Defending Ring", -- DT-10
+        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- DT-5
+        waist = "Rumination Sash", -- SIRD+10
+        legs = { name="Bunzi's Pants", augments={'Path: A',}}, -- SIRD+20, DT-9
+        feet = "Theo. Duckbills +4", -- SIRD+29
+    }  -- SIRD 116 / PDT 64 / MDT 67
+    -- Spells with no set at all (Raise, Reraise: Sel skips the skill table for them) use sets.midcast[CastingMode].
+    sets.midcast.DT = sets.midcast.FastRecast.DT
+    sets.midcast.SIRD = sets.midcast.FastRecast.SIRD
+
+    -- -na spells / Esuna / Erase / Cursna
+    sets.midcast.StatusRemoval.DT = set_combine(sets.midcast.FastRecast.DT, {main = { name="Yagrush", augments={'Path: A',}}, sub = "Genmei Shield"})  -- PDT 87 / MDT 77
+    sets.midcast.StatusRemoval.SIRD = set_combine(sets.midcast.FastRecast.SIRD, {main = { name="Yagrush", augments={'Path: A',}}, sub = "Genmei Shield"})  -- SIRD 110 / PDT 74 / MDT 64
+    sets.midcast.Erase.DT = set_combine(sets.midcast.StatusRemoval.DT, {neck = { name="Clr. Torque +2", augments={'Path: A',}}})  -- "Erase"+1; PDT 81 / MDT 71
+    sets.midcast.Erase.SIRD = set_combine(sets.midcast.StatusRemoval.SIRD, {neck = { name="Clr. Torque +2", augments={'Path: A',}}})  -- SIRD 110 / PDT 68 / MDT 58
+    -- Cursna keeps Meili Earring, Alaunus's Cape (Cursna+25), Theo. Pant. +4 (Cursna+21) and Gende. Galoshes (Cursna+10).
+    sets.midcast.Cursna.DT = set_combine(sets.midcast.Cursna, {
+        sub = "Genmei Shield", ammo = "Staunch Tathlum +1", head = { name="Bunzi's Hat", augments={'Path: A',}}, neck = "Loricate Torque +1",
+        ear2 = "Ebers Earring +1", hands = "Ebers Mitts +3", ring1 = { name="Murky Ring", augments={'Path: A',}}, ring2 = "Defending Ring",
+    })  -- PDT 67 / MDT 57
+    sets.midcast.Cursna.SIRD = set_combine(sets.midcast.StatusRemoval.SIRD, {})  -- Alaunus's Cape stays; SIRD 110
+
+    -- Enhancing families (each was built with set_combine, so each needs its own entry)
+    sets.midcast.Stoneskin.DT = set_combine(sets.midcast["Enhancing Magic"].DT, {neck = "Nodens Gorget", waist = "Siegel Sash", hands = "Ebers Mitts +3"})  -- PDT 62
+    sets.midcast.Stoneskin.SIRD = set_combine(sets.midcast["Enhancing Magic"].SIRD, {waist = "Siegel Sash"})  -- SIRD 108 / DT 53
+    sets.midcast.Auspice.DT = set_combine(sets.midcast["Enhancing Magic"].DT, {feet = "Ebers Duckbills +3"})  -- PDT 68
+    sets.midcast.Auspice.SIRD = sets.midcast["Enhancing Magic"].SIRD
+    sets.midcast.Aquaveil.DT = sets.midcast["Enhancing Magic"].DT
+    sets.midcast.Aquaveil.SIRD = sets.midcast["Enhancing Magic"].SIRD
+    sets.midcast.Regen.DT = set_combine(sets.midcast["Enhancing Magic"].DT, {hands = "Ebers Mitts +3", legs = "Theo. Pant. +4", feet = { name="Bunzi's Sabots", augments={'Path: A',}}})  -- PDT 61
+    sets.midcast.Regen.SIRD = sets.midcast["Enhancing Magic"].SIRD
+    for _, name in ipairs({"Protect", "Protectra", "Shell", "Shellra", "Teleport"}) do
+        sets.midcast[name].DT = sets.midcast["Enhancing Magic"].DT
+        sets.midcast[name].SIRD = sets.midcast["Enhancing Magic"].SIRD
+    end
+    sets.midcast.BarElement.DT = set_combine(sets.midcast.BarElement, {ring1 = { name="Murky Ring", augments={'Path: A',}}, ring2 = "Defending Ring"})  -- PDT 61; keeps the bar potency pieces
+    sets.midcast.BarElement.SIRD = set_combine(sets.midcast["Enhancing Magic"].SIRD, {main = "Beneficus"})  -- SIRD 108 / DT 53
+    for _, name in ipairs({"Barparalyzra", "Barblindra", "Barsilencera", "Barpetra", "Barpoisonra", "Baramnesra", "Barvira", "Barsleepra"}) do
+        sets.midcast[name].DT = set_combine(sets.midcast["Enhancing Magic"].DT, {neck = "Sroda Necklace", hands = "Ebers Mitts +3"})  -- PDT 62
+        sets.midcast[name].SIRD = sets.midcast["Enhancing Magic"].SIRD  -- Sroda would drop DT below 50
+    end
+
+    -- Magic accuracy / nukes. DT overlay keeps each set's accuracy pieces where it can.
+    local macc_dt = {body = { name="Bunzi's Robe", augments={'Path: A',}}, hands = { name="Bunzi's Gloves", augments={'Path: A',}}, ear1 = "Alabaster Earring", ring2 = "Defending Ring"}
+    sets.midcast["Divine Magic"].DT = set_combine(sets.midcast["Divine Magic"], macc_dt)  -- PDT 60
+    sets.midcast["Dark Magic"].DT = set_combine(sets.midcast["Dark Magic"], macc_dt)  -- PDT 55
+    sets.midcast.Dispel.DT = set_combine(sets.midcast.Dispel, macc_dt)  -- PDT 55
+    sets.midcast.Dispelga.DT = sets.midcast.Dispel.DT  -- Dispel's main is already Daybreak
+    sets.midcast.Stun.DT = sets.midcast["Dark Magic"].DT
+    sets.midcast.Drain.DT = set_combine(sets.midcast.Drain, macc_dt, {ring1 = { name="Murky Ring", augments={'Path: A',}}})  -- PDT 58; keeps Pixie Hairpin +1 (Aspir shares this table)
+    sets.midcast["Elemental Magic"].DT = set_combine(sets.midcast["Elemental Magic"], {ear1 = "Alabaster Earring", ring2 = "Defending Ring"})  -- full Bunzi; PDT 55
+    sets.midcast.Holy.DT = set_combine(sets.midcast.Holy, {ear1 = "Alabaster Earring", ring2 = "Defending Ring"})  -- full Bunzi; PDT 55
+    sets.midcast.Impact.DT = set_combine(sets.midcast.Impact, {
+        ammo = "Staunch Tathlum +1", neck = "Loricate Torque +1", ear1 = "Alabaster Earring", hands = { name="Bunzi's Gloves", augments={'Path: A',}},
+        ring1 = { name="Murky Ring", augments={'Path: A',}}, ring2 = "Defending Ring", feet = { name="Bunzi's Sabots", augments={'Path: A',}},
+    })  -- Twilight Cloak stays; PDT 57
+    sets.midcast["Enfeebling Magic"].DT = set_combine(sets.midcast["Enfeebling Magic"], {
+        head = { name="Bunzi's Hat", augments={'Path: A',}}, neck = "Null Loop", body = { name="Bunzi's Robe", augments={'Path: A',}}, ring1 = { name="Murky Ring", augments={'Path: A',}}, ring2 = "Defending Ring",
+        legs = { name="Bunzi's Pants", augments={'Path: A',}}, feet = { name="Bunzi's Sabots", augments={'Path: A',}},
+    })  -- keeps Daybreak, Psystorm, Piety Mitts +4, Aurist's Cape +1; PDT 57 ("Dia II"/"Bio II" share this table)
+
+    -- SIRD for accuracy spells: the generic SIRD set holding Daybreak (M.Acc+40, Light affinity). SIRD 110 / PDT 64.
+    local macc_sird = set_combine(sets.midcast.FastRecast.SIRD, {main = "Daybreak", sub = "Ammurapi Shield"})
+    for _, name in ipairs({"Divine Magic", "Holy", "Dark Magic", "Dispel", "Dispelga", "Stun", "Drain", "Elemental Magic", "Enfeebling Magic"}) do
+        sets.midcast[name].SIRD = macc_sird
+    end
+    -- Impact must wear Twilight Cloak with no head, which costs Ros. Jaseran (25) and Kaykaus Mitra (12): SIRD 93 is the
+    -- best owned gear allows (DT stays capped at 53).
+    sets.midcast.Impact.SIRD = set_combine(macc_sird, {head = empty, body = "Twilight Cloak", hands = gear.chironic_enfeeble_hands})
+
+    -- LINKTRI MODIFICATION END
 
     sets.midcast.Dia = set_combine(sets.midcast["Enfeebling Magic"], sets.TreasureHunter)
     sets.midcast.Diaga = set_combine(sets.midcast["Enfeebling Magic"], sets.TreasureHunter)
@@ -1037,6 +1241,12 @@ sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"]
     sets.midcast.MndEnfeebles.Resistant =
         set_combine(sets.midcast["Enfeebling Magic"].Resistant, {back = "Alaunus's Cape"})
 
+    -- LINKTRI 2026-10-25: DT/SIRD for the enfeeble copies above (set_combine doesn't carry .DT/.SIRD over)
+    for _, name in ipairs({"Dia", "Diaga", "Bio", "ElementalEnfeeble", "IntEnfeebles", "MndEnfeebles"}) do
+        sets.midcast[name].DT = sets.midcast["Enfeebling Magic"].DT
+        sets.midcast[name].SIRD = sets.midcast["Enfeebling Magic"].SIRD
+    end
+
     -- Sets to return to when not performing an action.
 
     -- Resting sets
@@ -1047,7 +1257,7 @@ sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"]
         head = "Null Masque",
         neck = "Sibyl Scarf",  -- original: "Chrys. Torque" (not owned) Sibyl Refresh+1
         ear1 = "Etiolation Earring",
-        ear2 = "Alabaster Earring",  -- original: "Ethereal Earring" (not owned)
+        ear2 = "Ebers Earring +1",  -- original: "Ethereal Earring" (not owned). LINKTRI 2026-10-25: Alabaster now always ear1
         body = "Ebers Bliaut +3",
         hands = "Inyan. Dastanas +2",  -- original: gear.chironic_refresh_hands (not owned)
         ring1 = { name="Murky Ring", augments={'Path: A',}},
@@ -1083,8 +1293,8 @@ sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"]
         ammo = "Homiliary",
         head = "Null Masque",
         neck = "Loricate Torque +1",
-        ear1 = "Etiolation Earring",
-        ear2 = "Alabaster Earring", -- LINKTRI MOD 2026-07-02: DT-5, HP+100, Haste+5 (Ethereal Earring not in inventory)
+        ear1 = "Alabaster Earring", -- LINKTRI MOD 2026-07-02: DT-5, HP+100, Haste+5 (Ethereal Earring not in inventory)
+        ear2 = "Ebers Earring +1", -- LINKTRI 2026-10-25: DT-5 (Alabaster moved to ear1, its side in every casting set; was Etiolation MDT-3)
         body = "Adamantite Armor", -- LINKTRI MOD 2026-07-02: DT-20, MDB+20 (was Ebers Bliaut +3; swap back if idle Refresh+4 preferred)
         hands = "Ebers Mitts +3",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
@@ -1101,8 +1311,8 @@ sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"]
         ammo = "Homiliary",
         head = "Null Masque",
         neck = "Loricate Torque +1", -- LINKTRI MOD 2026-07-02: Warder's Charm +1 not in inventory (Dynamis-D wanted)
-        ear1 = "Etiolation Earring",
-        ear2 = "Alabaster Earring", -- LINKTRI MOD 2026-07-02: DT-5, HP+100 (Ethereal Earring not in inventory)
+        ear1 = "Alabaster Earring", -- LINKTRI MOD 2026-07-02: DT-5, HP+100 (Ethereal Earring not in inventory)
+        ear2 = "Ebers Earring +1", -- LINKTRI 2026-10-25: DT-5 (Alabaster moved to ear1, its side in every casting set; was Etiolation MDT-3)
         body = "Adamantite Armor", -- LINKTRI MOD 2026-07-02: DT-20, MDB+20, M.Eva+107 (was Nyame Mail)
         hands = "Nyame Gauntlets",
         ring1 = { name="Murky Ring", augments={'Path: A',}},
@@ -1115,22 +1325,26 @@ sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"]
 
     -- Defense sets
 
+    -- LINKTRI MODIFICATION 2026-10-25: F10 PDT lock. Was PDT 114 / MDT 107 - about 60 points of damage taken
+    -- past the 50 cap doing nothing. Now DT capped with a buffer and the rest spent on defense stats and Refresh:
+    -- PDT 76 / MDT 68 (cap 50), DEF 816, EVA 532, M.Eva 745, MDB 45, Refresh 8 (was DEF 838 / EVA 477 / M.Eva 628 /
+    -- MDB 54 / Refresh 1). Adamantite Armor for Ebers Bliaut +3 would add MDB+9 and DT but cost Refresh 4.
     sets.defense.PDT = {
-        main = "Bunzi's Rod",
-        sub = "Genmei Shield",
-        ammo = "Staunch Tathlum +1",
-        head = "Null Masque",
-        neck = "Loricate Torque +1",
-        ear1 = "Etiolation Earring",
-        ear2 = "Alabaster Earring", -- LINKTRI MOD 2026-07-02: DT-5, HP+100 (Ethereal Earring not in inventory)
-        body = "Adamantite Armor", -- LINKTRI MOD 2026-07-02: DT-20 (was Ebers Bliaut +3, which has no DT on the +3)
-        hands = "Ebers Mitts +3",
-        ring1 = { name="Murky Ring", augments={'Path: A',}},
-        ring2 = "Defending Ring", -- LINKTRI MOD 2026-07-02: DT-10 (Gelatinous Ring +1 not in inventory)
-        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- LINKTRI MOD 2026-07-02: DT-5 (Shadow Mantle not in inventory)
-        waist = "Carrier's Sash",
-        legs = "Ebers Pant. +3",
-        feet = "Ebers Duckbills +3"
+        main = "Daybreak", -- Refresh+1, M.Eva+30
+        sub = "Genmei Shield", -- PDT-10
+        ammo = "Homiliary", -- Refresh+1
+        head = "Null Masque", -- DT-10, Refresh+1, EVA/M.Eva+100
+        neck = "Sibyl Scarf", -- Refresh+1
+        ear1 = "Alabaster Earring", -- DT-5, HP+100
+        ear2 = "Ebers Earring +1", -- DT-5
+        body = "Ebers Bliaut +3", -- Refresh+4, M.Eva+130, MDB+11
+        hands = "Nyame Gauntlets", -- DT-7, DEF 142, M.Eva+112
+        ring1 = { name="Murky Ring", augments={'Path: A',}}, -- DT-10
+        ring2 = "Inyanga Ring", -- MDT-2, M.Eva+12
+        back = { name="Alaunus's Cape", augments={'MND+20','Eva.+20 /Mag. Eva.+20','MND+10','"Fast Cast"+10','Damage taken-5%',}}, -- DT-5, EVA/M.Eva+20
+        waist = "Null Belt", -- EVA/M.Eva+30, MDB+3
+        legs = "Ebers Pant. +3", -- DT-13, M.Eva+157, MDB+10
+        feet = "Ebers Duckbills +3", -- DT-11, EVA+105, M.Eva+157
     }
 
     sets.defense.MDT = {
@@ -1139,8 +1353,8 @@ sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"]
         ammo = "Staunch Tathlum +1",
         head = "Nyame Helm",
         neck = "Loricate Torque +1", -- LINKTRI MOD 2026-07-02: Warder's Charm +1 not in inventory (Dynamis-D wanted)
-        ear1 = "Etiolation Earring",
-        ear2 = "Alabaster Earring", -- LINKTRI MOD 2026-07-02: DT-5, HP+100 (Ethereal Earring not in inventory)
+        ear1 = "Alabaster Earring", -- LINKTRI MOD 2026-07-02: DT-5, HP+100 (Ethereal Earring not in inventory)
+        ear2 = "Ebers Earring +1", -- LINKTRI 2026-10-25: DT-5 (Alabaster moved to ear1, its side in every casting set; was Etiolation MDT-3)
         body = "Adamantite Armor", -- LINKTRI MOD 2026-07-02: DT-20, MDB+20, M.Eva+107 (was Nyame Mail)
         hands = "Nyame Gauntlets",
         ring1 = { name="Murky Ring", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: DT-10 (Shadow Ring not in inventory)
@@ -1157,8 +1371,8 @@ sets.midcast["Enhancing Magic"].DT = set_combine(sets.midcast["Enhancing Magic"]
         ammo = "Staunch Tathlum +1",
         head = "Nyame Helm",
         neck = "Loricate Torque +1", -- LINKTRI MOD 2026-07-02: Warder's Charm +1 not in inventory (Dynamis-D wanted)
-        ear1 = "Etiolation Earring",
-        ear2 = "Alabaster Earring", -- LINKTRI MOD 2026-07-02: Ethereal Earring not in inventory
+        ear1 = "Alabaster Earring", -- LINKTRI MOD 2026-07-02: Ethereal Earring not in inventory
+        ear2 = "Ebers Earring +1", -- LINKTRI 2026-10-25: DT-5 (Alabaster moved to ear1, its side in every casting set; was Etiolation MDT-3)
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
         ring1 = "Vengeful Ring",        -- LINKTRI: sides swapped so Defending keeps ring2
@@ -1481,6 +1695,18 @@ end
 -- LINKTRI: renamed from job_post_midcast (which replaced WHM.lua's and copied its Divine Caress/BarElement
 -- logic). WHM.lua's job_post_midcast now runs first, then this waist/back overlay for damaging magic.
 function user_job_post_midcast(spell, spellMap, eventArgs)
+    -- LINKTRI 2026-10-25: SIRD guarantee. In SIRD mode in combat, put the spell's .SIRD set back on last:
+    --  * Sel's Self_Refresh overlay (Inspirited Boots on a self Refresh) would otherwise replace Theo. Duckbills +4 (SIRD+29),
+    --  * with F10 on, Sel's DefenseMode step would replace the whole SIRD set with the .DT set (handled = true stops that;
+    --    every .SIRD set is DT-capped too), and
+    --  * the Orpheus/Hachirin waist below would replace Rumination Sash.
+    if spell.action_type == 'Magic' and in_combat and state.CastingMode.value == 'SIRD' then
+        equip(get_midcast_set(spell, spellMap))
+        if state.DefenseMode.value ~= 'None' then
+            eventArgs.handled = true
+        end
+        return
+    end
     if spell.action_type == 'Magic' and (spell.skill == 'Elemental Magic' or LINKTRI_DIVINE_NUKES:contains(spell.english)) then
         local waist = nuke_waist_bonus(spell)
         if waist then
