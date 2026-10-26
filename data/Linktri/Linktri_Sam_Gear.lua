@@ -103,19 +103,20 @@ function init_gear_sets()
     sets.precast.RA = {head = "Sakonji Kabuto +3"}  -- LINKTRI 2026-10-26: Snapshot +5 (Ullr; was +3 on the +2)
 
     ---------------------------------------------------------------------------------------------
-    -- Weaponskill sets: Nyame B (WSD) + Kasuga Kote +3 (WSD+12) + Kas. Sune-Ate +3 (PDL+10) + Knobkierrie
+    -- Weaponskill sets: Sakonji Domaru +3 + Nyame B head/legs (WSD) + Kasuga Kote +3 (WSD+12) + Kas. Sune-Ate +3 (PDL+10) + Knobkierrie
     -- (original base: Asperity Necklace, Reiki Yotai, Chirich ring2, Ishvara/Moonshade)
     ---------------------------------------------------------------------------------------------
-    -- LINKTRI 2026-10-26: WS body stays Nyame Mail (Path B). At R30 it's WSD+13, Attack+65, DA+7 vs Sakonji Domaru +3's
-    -- WSD+10, Attack+80 (+ its "Overwhelm" bonus, which only counts if Overwhelm is merited and you face the target).
-    -- To try the Domaru, swap the body line below for: body = "Sakonji Domaru +3",
+    -- LINKTRI 2026-10-26: WS body Sakonji Domaru +3 (WSD+10, Attack+80, STR+42, plus its Overwhelm bonus with 5/5
+    -- Overwhelm merits when facing the target) over Nyame Mail R25 B (WSD+12, Attack+60, DA+5, STR+40).
+    -- Physical WS only: Jinpu (MAB) and Apex Arrow (ranged attack) keep Nyame Mail below.
+    -- Revert: body = {name = "Nyame Mail", augments = {"Path: B"}},
     sets.precast.WS = {
         ammo = "Knobkierrie",
         head = {name = "Nyame Helm", augments = {"Path: B"}},
         neck = "Asperity Necklace",
         ear1 = "Moonshade Earring",
         ear2 = "Kasuga Earring +1",  -- WSD+3%, Acc+14 (original: "Moonshade Earring" ear2 / Ishvara ear1)
-        body = {name = "Nyame Mail", augments = {"Path: B"}},
+        body = "Sakonji Domaru +3",
         hands = "Kasuga Kote +3",
         ring1 = "Ephramad's Ring",
         ring2 = "Ilabrat Ring",
