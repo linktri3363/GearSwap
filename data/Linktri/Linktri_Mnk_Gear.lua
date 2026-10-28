@@ -24,6 +24,10 @@ function user_job_setup()
     send_command('bind ^backspace input /ja "Mantra" <me>')
     send_command("bind @` gs c cycle SkillchainMode")
 
+    -- LINKTRI: Hoxne Ampulla mode (ported from the DNC file). Toggle: //gs c hoxne, or Ctrl+Alt+H.
+    state.HoxneMode = M(false, 'Hoxne Ampulla Mode')
+    send_command('bind ^!h gs c hoxne')
+
     select_default_macro_book()
 end
 
@@ -51,6 +55,103 @@ function user_job_customize_idle_set(idleSet)
     
     -- LINKTRI: Boost/Ask Sash overlay removed here - MNK.lua's job_customize_idle_set applies it.
     return idleSet
+end
+
+-- ======================================================================
+-- LINKTRI MODIFICATION: Hoxne Ampulla mode (ported from the DNC file).
+-- With the ampulla's enchantment active, Double Attack is already +100% from the ampulla alone, so
+-- DA on gear is wasted - and every DA proc costs 1,000 gil. Triple Attack procs are free. While
+-- the mode is on, melee sets swap their DA pieces for the best non-DA piece in the same slot:
+--   ear1 Schere/Sherida Earring (DA+6/+5%) -> Odr Earring (DEX+10, Acc+10, Crit+5%)
+--   ear2 Sherida Earring (DA+5%)           -> Hoxne Earring (all stats +15 at Mastery Rank 7)
+--   ring2 Epona's Ring (DA+3/TA+3%)        -> Ephramad's Ring (STR/DEX+10, Acc/Atk+20, PDL+10%)
+-- Ammo is handled by the toggle (ampulla equipped and the slot locked), so Coiste Bodhar drops off
+-- on its own. None of the swapped pieces carry DT, so PDT/PDTOffense keep their DT totals.
+-- Skipped in the SubtleBlow offense mode (Schere/Sherida carry its Subtle Blow) and in DefenseMode.
+-- Kept on purpose: Segomo's Mantle (its STR+30/Acc/Atk still beat Sacro Mantle; only the DA is wasted).
+-- REVERT: delete this block and the two HoxneMode lines in user_job_setup.
+-- ======================================================================
+local HOXNE_SWAPS = {
+    {{'ear1', 'left_ear'},   {["Schere Earring"] = "Odr Earring", ["Sherida Earring"] = "Odr Earring"}},
+    {{'ear2', 'right_ear'},  {["Sherida Earring"] = "Hoxne Earring"}},
+    {{'ring2', 'right_ring'}, {["Epona's Ring"] = "Ephramad's Ring"}},
+}
+
+local function hoxne_name(item)
+    if type(item) == 'table' then return item.name end
+    return item
+end
+
+function user_job_customize_melee_set(meleeSet)
+    if state.HoxneMode and state.HoxneMode.value and state.DefenseMode.value == 'None'
+            and state.OffenseMode.value ~= 'SubtleBlow' then
+        local swaps = {}
+        for _,entry in ipairs(HOXNE_SWAPS) do
+            local keys, map = entry[1], entry[2]
+            for _,key in ipairs(keys) do
+                local current = hoxne_name(meleeSet[key])
+                if current and map[current] then
+                    swaps[keys[1]] = map[current]
+                end
+            end
+        end
+        if next(swaps) then
+            meleeSet = set_combine(meleeSet, swaps)
+        end
+    end
+    return meleeSet
+end
+
+-- Game item data: the ampulla must be worn 5s before it can be used, with a 60s recast.
+-- Polls the item's own ready flag once a second and uses it the moment it's ready. Deliberately
+-- NOT Sel's useItem system: that moves the item to the satchel and unlocks the slot afterward,
+-- which would drop the buff.
+local HOXNE_MAX_TRIES = 15      -- 5s equip delay + margin for being mid-action
+
+function hoxne_try_use(attempt)
+    attempt = attempt or 1
+    if not (state.HoxneMode and state.HoxneMode.value) then return end
+    if player.equipment.ammo ~= "Hoxne Ampulla" then
+        add_to_chat(123, 'Hoxne: ampulla is not equipped - not using it.')
+        return
+    end
+
+    local item = get_usable_item("Hoxne Ampulla")
+    if item and item.usable and not midaction() then
+        windower.chat.input('/item "Hoxne Ampulla" <me>')
+        add_to_chat(122, 'Hoxne: using Hoxne Ampulla (DA+100%, 1,000g per DA proc).')
+    elseif attempt < HOXNE_MAX_TRIES then
+        coroutine.schedule(function() hoxne_try_use(attempt + 1) end, 1)
+    else
+        add_to_chat(123, 'Hoxne: ampulla still not ready (recast is 60s). Use it manually or toggle Hoxne mode again.')
+    end
+end
+
+-- Zoning drops the enchantment; re-use the ampulla once loaded in if Hoxne mode is still on.
+function user_job_zone_change(new_id, old_id)
+    if state.HoxneMode and state.HoxneMode.value then
+        coroutine.schedule(function() hoxne_try_use(1) end, 8)
+    end
+end
+
+-- //gs c hoxne: toggles the mode. Locks the ammo slot while active so gear swaps can never
+-- unequip the ampulla (which would drop the DA+100% buff).
+function user_job_self_command(commandArgs, eventArgs)
+    if commandArgs[1] and commandArgs[1]:lower() == 'hoxne' then
+        state.HoxneMode:toggle()
+        if state.HoxneMode.value then
+            enable('ammo')
+            equip({ammo = "Hoxne Ampulla"})
+            disable('ammo')
+            add_to_chat(122, 'Hoxne Ampulla mode ON - ammo locked. Ampulla will be used automatically once ready (~5s), and again after zoning.')
+            coroutine.schedule(function() hoxne_try_use(1) end, 1)
+        else
+            enable('ammo')
+            add_to_chat(122, 'Hoxne Ampulla mode OFF - ammo slot unlocked.')
+        end
+        handle_equipping_gear(player.status)
+        eventArgs.handled = true
+    end
 end
 
 -- LINKTRI: removed this file's job_customize_melee_set. It replaced MNK.lua's and copied its logic
