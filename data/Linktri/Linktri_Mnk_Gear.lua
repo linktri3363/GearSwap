@@ -630,7 +630,7 @@ function init_gear_sets()
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
         back = { name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-        waist = "Moonbow Belt", -- LINKTRI: Subtle Blow II+10, TA+6%, DT-5%. original: "Cornelia's Belt"
+        waist = "Moonbow Belt +1", -- LINKTRI: was "Moonbow Belt" (NQ). original: "Cornelia's Belt"
         legs = "Mpaca's Hose",
         feet = "Bhikku Gaiters +3"
     }
