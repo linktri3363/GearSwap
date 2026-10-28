@@ -30,7 +30,7 @@ function init_gear_sets()
 	
 	-- Precast Sets
 	-- Precast sets to enhance JAs
-	sets.precast.JA.Angon = {ammo="Angon"} -- original: hands="Ptero. Fin. G. +1" (not owned); Angon ammo is the consumable, equips if carried
+	sets.precast.JA.Angon = {ammo="Angon",hands="Ptero. Fin. G. +1"} -- LINKTRI: Ptero. hands now owned (enhances Angon). Angon ammo is the consumable, equips if carried
 	sets.precast.JA.Jump = {ammo={ name="Coiste Bodhar", augments={'Path: A',}},
 		head="Peltast's Mezail +3",neck="Anu Torque",ear1="Sherida Earring",ear2={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+14','Mag. Acc.+14','Crit.hit rate+5',}},
 		body="Vishap Mail +1",hands="Vishap F. G. +1",ring1="Hetairoi Ring",ring2="Chirich Ring +1",
@@ -53,16 +53,19 @@ function init_gear_sets()
 		back="Null Shawl",waist={ name="Sailfi Belt +1", augments={'Path: A',}},legs="Pelt. Cuissots +3",feet="Pelt. Schyn. +3"}
 		-- original: head="Peltast's Mezail +2", body/hands=Gleti's (owned, swapped for Jump TP+35/TP+30), ring2="Niqmaddu Ring" (not owned), back="Brigantia's Mantle" (not owned), legs="Pelt. Cuissots +2", feet="Pelt. Schyn. +2"
 	sets.precast.JA['Super Jump'] = {}
-	sets.precast.JA['Spirit Link'] = {head="Vishap Armet +1",hands="Pel. Vambraces +3"} -- original: head="Peltast's Mezail +2" (Armet +1 Spirit Link+12, Vambraces +3 Spirit Link+16%)
+	sets.precast.JA['Spirit Link'] = {head="Vishap Armet +1",hands="Pel. Vambraces +3",feet="Ptero. Greaves +1"} -- LINKTRI: + Ptero. Greaves +1 (enhances Empathy) -- original: head="Peltast's Mezail +2" (Armet +1 Spirit Link+12, Vambraces +3 Spirit Link+16%)
 	sets.precast.JA['Call Wyvern'] = {body="Pelt. Plackart +3"} -- original: body="Pelt. Plackart +2"
-	sets.precast.JA['Deep Breathing'] = {head="Peltast's Mezail +3"} -- original: head="Peltast's Mezail +2"
-	sets.precast.JA['Spirit Surge'] = {body="Pelt. Plackart +3"} -- original: body="Pelt. Plackart +2"
+	sets.precast.JA['Deep Breathing'] = {head="Ptero. Armet +1"} -- LINKTRI: enhances Deep Breathing. original: head="Peltast's Mezail +3" (no Deep Breathing stat)
+	sets.precast.JA['Spirit Surge'] = {body="Ptero. Mail +1"} -- LINKTRI: enhances Spirit Surge. original: body="Pelt. Plackart +3"
 	sets.precast.JA['Steady Wing'] = {}
 	
 	-- Breath sets
-	sets.precast.JA['Restoring Breath'] = {back="Updraft Mantle",head="Peltast's Mezail +3"} -- original: back="Brigantia's Mantle" (not owned), head="Peltast's Mezail +2"
-	sets.precast.JA['Smiting Breath'] = {back="Updraft Mantle",head="Peltast's Mezail +3"} -- original: back="Brigantia's Mantle" (not owned), head="Peltast's Mezail +2"
-	sets.HealingBreath = {back="Updraft Mantle",head="Peltast's Mezail +3"} -- original: back="Brigantia's Mantle" (not owned), head="Peltast's Mezail +2"
+	sets.precast.JA['Restoring Breath'] = {back="Updraft Mantle",head="Ptero. Armet +1",feet="Ptero. Greaves +1"} -- LINKTRI: Ptero. Armet +1 Wyvern Breath+22, Ptero. Greaves +1 Wyvern HP+230 (breath potency scales with wyvern max HP), Updraft Wyvern HP+100. original: head="Peltast's Mezail +3"
+	sets.precast.JA['Smiting Breath'] = {back="Updraft Mantle",head="Ptero. Armet +1",feet="Ptero. Greaves +1"} -- LINKTRI: Ptero. Armet +1 Wyvern Breath+22, Ptero. Greaves +1 Wyvern HP+230 (breath potency scales with wyvern max HP), Updraft Wyvern HP+100. original: head="Peltast's Mezail +3"
+	sets.HealingBreath = {back="Updraft Mantle",head="Ptero. Armet +1",feet="Ptero. Greaves +1"} -- LINKTRI: Ptero. Armet +1 Wyvern Breath+22, Ptero. Greaves +1 Wyvern HP+230 (breath potency scales with wyvern max HP), Updraft Wyvern HP+100. original: head="Peltast's Mezail +3"
+	-- LINKTRI: DRG.lua holds sets.SmitingBreath from aftercast until the breath lands; it was undefined, so the
+	-- breath gear came off before Smiting Breath hit.
+	sets.SmitingBreath = sets.precast.JA['Smiting Breath']
 
 	-- Fast cast sets for spells (sides 2026-10-23: Alabaster ear1 / Etiolation ear2, Defending ring1 / Lebeche ring2)
 	
