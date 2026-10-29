@@ -109,15 +109,15 @@ function init_gear_sets()
         ear2 = "Etiolation Earring",     -- original: "Sanare Earring"; MDT-3%
         body = "Chasseur's Frac +3",     -- original: "Lanun Frac +3" (not owned); DT-13%, enhances Tactician's Roll
         hands = "Chasseur's Gants +3",
-        ring1 = "Defending Ring",
-        ring2 = "Barataria Ring",        -- original: "Dark Ring" (not owned); Phantom Roll+5
+        ring1 = "Barataria Ring",        -- original: "Defending Ring"; Phantom Roll+5 (ring1 so Luzaf's Ring can take ring2)
+        ring2 = "Defending Ring",        -- original: "Dark Ring" (not owned); COR.lua swaps Luzaf's Ring in here when owned
         back = gear.tp_jse_back,
         waist = "Null Belt",             -- original: "Flume Belt +1" (not owned)
         legs = "Desultor Tassets",       -- "Phantom Roll" ability delay -5
         feet = "Nyame Sollerets"         -- original: "Malignance Boots"; DT-7%
     }
 
-    sets.precast.LuzafRing = {ring2 = "Luzaf's Ring"} -- not owned; COR.lua only equips it if you have it
+    sets.precast.LuzafRing = {ring2 = "Luzaf's Ring"} -- COR.lua equips it on rolls/Double-Up when it's in your inventory
 
     sets.precast.CorsairRoll["Caster's Roll"] = set_combine(sets.precast.CorsairRoll, {legs = "Chas. Culottes +3"})
     sets.precast.CorsairRoll["Courser's Roll"] = set_combine(sets.precast.CorsairRoll, {feet = "Chass. Bottes +3"}) -- original: "Chass. Bottes +2"
