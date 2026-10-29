@@ -90,8 +90,8 @@ function init_gear_sets()
 
     sets.precast.JA["Triple Shot"] = {body = "Chasseur's Frac +3"}
     sets.precast.JA["Snake Eye"] = {legs = "Lanun Trews +1"}
-    sets.precast.JA["Wild Card"] = {feet = "Lanun Bottes +3"}
-    sets.precast.JA["Random Deal"] = {body = "Lanun Frac +3"}
+    sets.precast.JA["Wild Card"] = {feet = "Lanun Bottes +1"} -- LINKTRI: original: "Lanun Bottes +3" (not owned); +1 enhances Wild Card
+    sets.precast.JA["Random Deal"] = {body = "Lanun Frac +1"} -- LINKTRI: original: "Lanun Frac +3" (not owned)
     sets.precast.FoldDoubleBust = {hands = "Lanun Gants +1"}
 
     sets.precast.CorsairRoll = {
@@ -101,7 +101,7 @@ function init_gear_sets()
         neck = "Regal Necklace",
         ear1 = "Etiolation Earring",
         ear2 = "Sanare Earring",
-        body = "Lanun Frac +3",
+        body = "Lanun Frac +1",          -- LINKTRI: original: "Lanun Frac +3" (not owned); PDT-4%
         hands = "Chasseur's Gants +3",
         ring1 = "Defending Ring",
         ring2 = "Dark Ring",
@@ -419,7 +419,7 @@ function init_gear_sets()
         back = gear.magic_wsd_jse_back,
         waist = "Eschan Stone",
         legs = "Nyame Flanchard",
-        feet = "Lanun Bottes +3"
+        feet = "Lanun Bottes +1" -- LINKTRI: original: "Lanun Bottes +3" (not owned); +1 MAB+15
     }
 
     sets.precast.WS["Leaden Salute"].Acc = {
@@ -435,7 +435,7 @@ function init_gear_sets()
         back = gear.magic_wsd_jse_back,
         waist = "Eschan Stone",
         legs = "Nyame Flanchard",
-        feet = "Lanun Bottes +3"
+        feet = "Lanun Bottes +1" -- LINKTRI: original: "Lanun Bottes +3" (not owned); +1 MAB+15
     }
 
     sets.precast.WS["Aeolian Edge"] = {
@@ -451,7 +451,7 @@ function init_gear_sets()
         back = gear.magic_wsd_jse_back,
         waist = "Eschan Stone",
         legs = "Nyame Flanchard",
-        feet = "Lanun Bottes +3"
+        feet = "Lanun Bottes +1" -- LINKTRI: original: "Lanun Bottes +3" (not owned); +1 MAB+15
     }
 
     sets.precast.WS["Wildfire"] = {
@@ -467,7 +467,7 @@ function init_gear_sets()
         back = gear.magic_wsd_jse_back,
         waist = "Eschan Stone",
         legs = "Nyame Flanchard",
-        feet = "Lanun Bottes +3"
+        feet = "Lanun Bottes +1" -- LINKTRI: original: "Lanun Bottes +3" (not owned); +1 MAB+15
     }
 
     sets.precast.WS["Wildfire"].Acc = {
@@ -483,7 +483,7 @@ function init_gear_sets()
         back = gear.magic_wsd_jse_back,
         waist = "Eschan Stone",
         legs = "Nyame Flanchard",
-        feet = "Lanun Bottes +3"
+        feet = "Lanun Bottes +1" -- LINKTRI: original: "Lanun Bottes +3" (not owned); +1 MAB+15
     }
 
     sets.precast.WS["Hot Shot"] = sets.precast.WS["Wildfire"]
