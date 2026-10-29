@@ -169,7 +169,7 @@ function init_gear_sets()
         head = "Chass. Tricorne +3",     -- original: "Carmine Mask +1" (not owned)
         neck = "Null Loop",              -- original: "Sanctity Necklace" (not owned); M.Acc+50
         ear1 = "Crep. Earring",          -- original: "Digni. Earring" (not owned)
-        ear2 = "Gwati Earring",          -- original: "Telos Earring"; M.Acc+8
+        ear2 = "Chas. Earring +2",       -- original: "Telos Earring"; Sortie earring (ear2 only): M.Acc+19
         body = "Chasseur's Frac +3",     -- original: "Mummu Jacket +2"
         hands = "Chasseur's Gants +3",   -- original: "Leyline Gloves" (not owned)
         ring1 = "Crepuscular Ring",      -- original: "Metamor. Ring +1"; M.Acc+10
