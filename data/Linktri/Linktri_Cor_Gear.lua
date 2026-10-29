@@ -110,7 +110,7 @@ function init_gear_sets()
         body = "Chasseur's Frac +3",     -- original: "Lanun Frac +3" (not owned); DT-13%, enhances Tactician's Roll
         hands = "Chasseur's Gants +3",
         ring1 = "Barataria Ring",        -- original: "Defending Ring"; Phantom Roll+5 (ring1 so Luzaf's Ring can take ring2)
-        ring2 = "Defending Ring",        -- original: "Dark Ring" (not owned); COR.lua swaps Luzaf's Ring in here when owned
+        ring2 = "Murky Ring",            -- original: "Dark Ring" (not owned); DT-10%. COR.lua swaps Luzaf's Ring in here when owned
         back = gear.tp_jse_back,
         waist = "Null Belt",             -- original: "Flume Belt +1" (not owned)
         legs = "Desultor Tassets",       -- "Phantom Roll" ability delay -5
