@@ -1,5 +1,17 @@
 near_porter = false
 
+-- ======================================================================================================
+-- LINKTRI REBUILD 2026-10-29: every set below rebuilt from the Oct 29 COR inventory export (plus Lanun
+-- Gants +1, which is owned but missing from the export). The previous version was Selindrile's template
+-- and referenced ~80 unowned items (Rostam, Fomalhaut, Ataktos, every Camulus's Mantle, Luzaf's Ring,
+-- Comm. Charm +2, Regal gear, Fotia, Laksa. +3, Meghanada, Carmine, Adhemar Jacket, ...). Each changed
+-- line keeps its original in a comment.
+-- Roles: Phantom Roll support (Compensator + Lanun/Chasseur's), ranged damage (Vanir Gun) and Savage Blade
+-- melee (Naegling). Death Penalty is in progress - add it to the weapon sets once it's finished.
+-- Snapshot available from gear: Ikenga's Hat 6 + Vest 9 + Clogs 5, Lanun Gants +1 9, Chas. Culottes +3 9,
+-- Crepuscular Ring 3 = 41% (cap 70% including Flurry).
+-- ======================================================================================================
+
 -- Setup vars that are user-dependent.  Can override this function in a sidecar file.
 function user_job_setup()
     state.OffenseMode:options("Normal", "Acc")
@@ -9,52 +21,43 @@ function user_job_setup()
     state.IdleMode:options("Normal", "PDT", "Refresh")
     state.HybridMode:options("Normal", "DT")
     state.ExtraMeleeMode = M {["description"] = "Extra Melee Mode", "None", "DWMax"}
+    -- LINKTRI: weapon list rebuilt around owned weapons (Naegling, Tauret, Gleti's Knife, Nusku Shield, Vanir Gun).
+    -- original: "Default","Ranged","Savage","Evisceration","DualWeapons","DualSavageWeapons","DualEvisceration",
+    --           "DualLeadenRanged","DualLeadenMelee","DualAeolian","DualLeadenMeleeAcc","DualRanged","DualProcWeapons","None"
     state.Weapons:options(
-        "Default",
-        "Ranged",
         "Savage",
-        "Evisceration",
-        "DualWeapons",
-        "DualSavageWeapons",
-        "DualEvisceration",
-        "DualLeadenRanged",
-        "DualLeadenMelee",
-        "DualAeolian",
-        "DualLeadenMeleeAcc",
-        "DualRanged",
-        "DualProcWeapons",
+        "DualSavage",
+        "Ranged",
+        "Leaden",
+        "DualLeaden",
         "None"
     )
     state.CompensatorMode:options("Always", "300", "1000", "Never")
 
     gear.RAbullet = "Eminent Bullet"
     gear.WSbullet = "Eminent Bullet"
-    gear.MAbullet = "Orichalc. Bullet" --For MAB WS, do not put single-use bullets here.
-    gear.QDbullet = "Animikii Bullet"
+    gear.MAbullet = "Eminent Bullet" -- LINKTRI: original: "Orichalc. Bullet" (not owned; no MAB bullet owned)
+    gear.QDbullet = "Eminent Bullet" -- LINKTRI: original: "Animikii Bullet" (not owned). Quick Draw uses up one of these.
     options.ammo_warning_limit = 15
     --Ikenga_vest_bonus = 190  -- It is 190 at R20. Uncomment if you need to manually adjust because you are using below R20
 
-    gear.tp_ranger_jse_back = {
-        name = "Camulus's Mantle",
-        augments = {"AGI+20", "Rng.Acc.+20 Rng.Atk.+20", "Rng.Acc.+10", '"Store TP"+10'}
-    }
-    gear.snapshot_jse_back = {name = "Camulus's Mantle", augments = {'"Snapshot"+10'}}
-    gear.tp_jse_back = {
-        name = "Camulus's Mantle",
-        augments = {"DEX+20", "Accuracy+20 Attack+20", "Accuracy+10", '"Store TP"+10'}
-    }
-    gear.ranger_wsd_jse_back = {
-        name = "Camulus's Mantle",
-        augments = {"AGI+20", "Rng.Acc.+20 Rng.Atk.+20", "AGI+10", "Weapon skill damage +10%"}
-    }
-    gear.magic_wsd_jse_back = {
-        name = "Camulus's Mantle",
-        augments = {"AGI+20", "Mag. Acc+20 /Mag. Dmg.+20", "AGI+10", "Weapon skill damage +10%"}
-    }
-    gear.str_wsd_jse_back = {
-        name = "Camulus's Mantle",
-        augments = {"STR+20", "Accuracy+20 Attack+20", "STR+10", "Weapon skill damage +10%"}
-    }
+    -- LINKTRI: no Camulus's Mantle is owned. Every cape variable points at Null Shawl (Acc/R.Acc/M.Acc+50,
+    -- DA+7%, Store TP+7) so the sets still equip a back piece. Swap each one back when you make the capes.
+    -- original: gear.tp_ranger_jse_back = {name = "Camulus's Mantle", augments = {"AGI+20", "Rng.Acc.+20 Rng.Atk.+20", "Rng.Acc.+10", '"Store TP"+10'}}
+    -- original: gear.snapshot_jse_back = {name = "Camulus's Mantle", augments = {'"Snapshot"+10'}}
+    -- original: gear.tp_jse_back = {name = "Camulus's Mantle", augments = {"DEX+20", "Accuracy+20 Attack+20", "Accuracy+10", '"Store TP"+10'}}
+    -- original: gear.ranger_wsd_jse_back = {name = "Camulus's Mantle", augments = {"AGI+20", "Rng.Acc.+20 Rng.Atk.+20", "AGI+10", "Weapon skill damage +10%"}}
+    -- original: gear.magic_wsd_jse_back = {name = "Camulus's Mantle", augments = {"AGI+20", "Mag. Acc+20 /Mag. Dmg.+20", "AGI+10", "Weapon skill damage +10%"}}
+    -- original: gear.str_wsd_jse_back = {name = "Camulus's Mantle", augments = {"STR+20", "Accuracy+20 Attack+20", "STR+10", "Weapon skill damage +10%"}}
+    gear.tp_ranger_jse_back = "Null Shawl"
+    gear.snapshot_jse_back = "Null Shawl"
+    gear.tp_jse_back = "Null Shawl"
+    gear.ranger_wsd_jse_back = "Null Shawl"
+    gear.magic_wsd_jse_back = "Null Shawl"
+    gear.str_wsd_jse_back = "Null Shawl"
+
+    -- LINKTRI: the two owned Herculean Gloves, by augment.
+    gear.herculean_cor_nuke_hands = {name = "Herculean Gloves", augments = {'Magic Damage +16', 'Crit.hit rate+1', 'Accuracy+18 Attack+18', 'Mag. Acc.+19 "Mag.Atk.Bns."+19'}}
 
     -- Additional local binds
     send_command("bind ^` gs c cycle ElementalMode")
@@ -70,9 +73,10 @@ function user_job_setup()
     send_command("bind ^@!\\\\ gs c toggle LuzafRing")
     send_command("bind @f7 gs c toggle RngHelper")
 
-    send_command("bind !r gs c weapons DualSavageWeapons;gs c update")
-    send_command("bind ^q gs c weapons DualAeolian;gs c update")
-    send_command("bind !q gs c weapons DualLeadenRanged;gs c update")
+    -- LINKTRI: weapon keybinds point at the rebuilt weapon sets.
+    send_command("bind !r gs c weapons DualSavage;gs c update")  -- original: DualSavageWeapons
+    send_command("bind ^q gs c weapons DualLeaden;gs c update")  -- original: DualAeolian (same weapons as DualLeaden now)
+    send_command("bind !q gs c weapons Leaden;gs c update")      -- original: DualLeadenRanged
     send_command("bind @pause roller roll")
 
     select_default_macro_book()
@@ -94,306 +98,238 @@ function init_gear_sets()
     sets.precast.JA["Random Deal"] = {body = "Lanun Frac +1"} -- LINKTRI: original: "Lanun Frac +3" (not owned)
     sets.precast.FoldDoubleBust = {hands = "Lanun Gants +1"}
 
+    -- LINKTRI: Phantom Roll. No main-hand swap (Rostam isn't owned, and a main swap would wipe your TP);
+    -- Compensator goes on through CompensatorMode. Barataria Ring = Phantom Roll+5.
     sets.precast.CorsairRoll = {
-        main = "Rostam",
+        -- original: main = "Rostam" (not owned)
         range = "Compensator",
         head = "Lanun Tricorne +1",
-        neck = "Regal Necklace",
-        ear1 = "Etiolation Earring",
-        ear2 = "Sanare Earring",
-        body = "Lanun Frac +1",          -- LINKTRI: original: "Lanun Frac +3" (not owned); PDT-4%
+        neck = "Loricate Torque +1",     -- original: "Regal Necklace" (not owned); DT-6%
+        ear1 = "Alabaster Earring",      -- original: "Etiolation Earring"; DT-5%
+        ear2 = "Etiolation Earring",     -- original: "Sanare Earring"; MDT-3%
+        body = "Chasseur's Frac +3",     -- original: "Lanun Frac +3" (not owned); DT-13%, enhances Tactician's Roll
         hands = "Chasseur's Gants +3",
         ring1 = "Defending Ring",
-        ring2 = "Dark Ring",
+        ring2 = "Barataria Ring",        -- original: "Dark Ring" (not owned); Phantom Roll+5
         back = gear.tp_jse_back,
-        waist = "Flume Belt +1",
-        legs = "Desultor Tassets",
-        feet = "Malignance Boots"
+        waist = "Null Belt",             -- original: "Flume Belt +1" (not owned)
+        legs = "Desultor Tassets",       -- "Phantom Roll" ability delay -5
+        feet = "Nyame Sollerets"         -- original: "Malignance Boots"; DT-7%
     }
 
-    sets.precast.LuzafRing = {ring2 = "Luzaf's Ring"}
+    sets.precast.LuzafRing = {ring2 = "Luzaf's Ring"} -- not owned; COR.lua only equips it if you have it
 
     sets.precast.CorsairRoll["Caster's Roll"] = set_combine(sets.precast.CorsairRoll, {legs = "Chas. Culottes +3"})
-    sets.precast.CorsairRoll["Courser's Roll"] = set_combine(sets.precast.CorsairRoll, {feet = "Chass. Bottes +2"})
+    sets.precast.CorsairRoll["Courser's Roll"] = set_combine(sets.precast.CorsairRoll, {feet = "Chass. Bottes +3"}) -- original: "Chass. Bottes +2"
     sets.precast.CorsairRoll["Blitzer's Roll"] = set_combine(sets.precast.CorsairRoll, {head = "Chass. Tricorne +3"})
     sets.precast.CorsairRoll["Tactician's Roll"] = set_combine(sets.precast.CorsairRoll, {body = "Chasseur's Frac +3"})
     sets.precast.CorsairRoll["Allies' Roll"] = set_combine(sets.precast.CorsairRoll, {hands = "Chasseur's Gants +3"})
 
+    -- LINKTRI: Quick Draw damage. Nyame (MAB+30 each), Chass. Bottes +3 (MAB+50, Quick Draw+31).
     sets.precast.CorsairShot = {
         ammo = gear.QDbullet,
-        head = gear.herculean_nuke_head,
-        neck = "Iskur Gorget",
-        ear1 = "Dedition Earring",
-        ear2 = "Telos Earring",
-        body = "Mummu Jacket +2",
-        hands = "Adhemar Wristbands +1",
+        head = "Nyame Helm",             -- original: gear.herculean_nuke_head (not owned)
+        neck = "Baetyl Pendant",         -- original: "Iskur Gorget" (not owned); MAB+13
+        ear1 = "Crematio Earring",       -- original: "Dedition Earring"; MAB+6, Magic Damage+6
+        ear2 = "Hecate's Earring",       -- original: "Telos Earring"; MAB+6
+        body = "Nyame Mail",             -- original: "Mummu Jacket +2"
+        hands = "Nyame Gauntlets",       -- original: "Adhemar Wristbands +1"
         ring1 = "Crepuscular Ring",
         ring2 = "Dingir Ring",
         back = gear.tp_ranger_jse_back,
-        waist = "Goading Belt",
-        legs = "Chas. Culottes +3",
-        feet = "Carmine Greaves +1"
+        waist = "Orpheus's Sash",        -- original: "Goading Belt" (not owned)
+        legs = "Nyame Flanchard",        -- original: "Chas. Culottes +3"
+        feet = "Chass. Bottes +3"        -- original: "Carmine Greaves +1" (not owned)
     }
 
-    sets.precast.CorsairShot.Damage = {
-        ammo = gear.QDbullet,
-        head = gear.herculean_nuke_head,
-        neck = "Sanctity Necklace",
-        ear1 = "Crematio Earring",
-        ear2 = "Friomisi Earring",
-        body = "Samnuha Coat",
-        hands = "Leyline Gloves",
-        ring1 = "Shiva Ring +1",
-        ring2 = "Dingir Ring",
-        back = gear.ranger_wsd_jse_back,
-        waist = "Eschan Stone",
-        legs = "Malignance Tights",
-        feet = "Chass. Bottes +2"
-    }
+    sets.precast.CorsairShot.Damage = set_combine(sets.precast.CorsairShot, {})
+    -- original: Sanctity Necklace, Friomisi Earring, Samnuha Coat, Leyline Gloves, Shiva Ring +1, Eschan Stone,
+    --           Chass. Bottes +2 - most not owned; now the same as the base Quick Draw set
 
+    -- Treasure Hunter procs on a Quick Draw (WeaponskillMode/CastingMode "Proc"): DT gear plus TH pieces.
     sets.precast.CorsairShot.Proc = {
         ammo = gear.RAbullet,
-        head = "Wh. Rarab Cap +1",
+        head = "Nyame Helm",             -- original: "Wh. Rarab Cap +1" (stored)
         neck = "Loricate Torque +1",
-        ear1 = "Genmei Earring",
-        ear2 = "Sanare Earring",
-        body = "Emet Harness +1",
+        ear1 = "Alabaster Earring",      -- original: "Genmei Earring"
+        ear2 = "Etiolation Earring",     -- original: "Sanare Earring"
+        body = "Nyame Mail",             -- original: "Emet Harness +1" (not owned)
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
-        ring2 = "Dark Ring",
-        back = "Moonlight Cape",
-        waist = "Flume Belt +1",
-        legs = "Carmine Cuisses +1",
-        feet = "Chass. Bottes +2"
+        ring2 = "Murky Ring",            -- original: "Dark Ring" (not owned)
+        back = gear.tp_jse_back,         -- original: "Moonlight Cape" (not owned)
+        waist = "Chaac Belt",            -- original: "Flume Belt +1" (not owned); Treasure Hunter+1
+        legs = "Volte Hose",             -- original: "Carmine Cuisses +1" (not owned); Treasure Hunter+1
+        feet = "Nyame Sollerets"         -- original: "Chass. Bottes +2"
     }
 
+    -- Light/Dark Shot land on magic accuracy: the full Chasseur's +3 set (Mag. Acc.+60~64 each, set bonus).
     sets.precast.CorsairShot["Light Shot"] = {
         ammo = gear.QDbullet,
-        head = "Carmine Mask +1",
-        neck = "Sanctity Necklace",
-        ear1 = "Digni. Earring",
-        ear2 = "Telos Earring",
-        body = "Mummu Jacket +2",
-        hands = "Leyline Gloves",
-        ring1 = "Metamor. Ring +1",
-        ring2 = "Stikini Ring +1",
+        head = "Chass. Tricorne +3",     -- original: "Carmine Mask +1" (not owned)
+        neck = "Null Loop",              -- original: "Sanctity Necklace" (not owned); M.Acc+50
+        ear1 = "Crep. Earring",          -- original: "Digni. Earring" (not owned)
+        ear2 = "Gwati Earring",          -- original: "Telos Earring"; M.Acc+8
+        body = "Chasseur's Frac +3",     -- original: "Mummu Jacket +2"
+        hands = "Chasseur's Gants +3",   -- original: "Leyline Gloves" (not owned)
+        ring1 = "Crepuscular Ring",      -- original: "Metamor. Ring +1"; M.Acc+10
+        ring2 = "Stikini Ring",          -- original: "Stikini Ring +1" (you own the NQ)
         back = gear.ranger_wsd_jse_back,
-        waist = "Eschan Stone",
-        legs = "Malignance Tights",
-        feet = "Mummu Gamash. +2"
+        waist = "Null Belt",             -- original: "Eschan Stone"; M.Acc+30
+        legs = "Chas. Culottes +3",      -- original: "Malignance Tights"
+        feet = "Chass. Bottes +3"        -- original: "Mummu Gamash. +2"
     }
 
-    sets.precast.CorsairShot["Dark Shot"] =
-        set_combine(sets.precast.CorsairShot["Light Shot"], {feet = "Chass. Bottes +2"})
+    sets.precast.CorsairShot["Dark Shot"] = set_combine(sets.precast.CorsairShot["Light Shot"], {}) -- original: feet = "Chass. Bottes +2"
 
-    -- Waltz set (chr and vit)
+    -- Waltz set (Waltz potency: Herculean Vest +8%, Herculean Gloves +9%, Dashing Subligar +10%)
     sets.precast.Waltz = {
-        head = "Carmine Mask +1",
+        head = "Nyame Helm",             -- original: "Carmine Mask +1" (not owned)
         neck = "Loricate Torque +1",
-        ear1 = "Etiolation Earring",
-        ear2 = "Sanare Earring",
+        ear1 = "Alabaster Earring",      -- original: "Etiolation Earring"
+        ear2 = "Odnowa Earring +1",      -- original: "Sanare Earring"
         body = gear.herculean_waltz_body,
         hands = gear.herculean_waltz_hands,
         ring1 = "Defending Ring",
-        ring2 = "Valseur's Ring",
-        back = "Moonlight Cape",
-        waist = "Flume Belt +1",
+        ring2 = "Murky Ring",            -- original: "Valseur's Ring" (not owned)
+        back = gear.tp_jse_back,         -- original: "Moonlight Cape" (not owned)
+        waist = "Null Belt",             -- original: "Flume Belt +1" (not owned)
         legs = "Dashing Subligar",
-        feet = gear.herculean_waltz_feet
+        feet = "Nyame Sollerets"         -- original: gear.herculean_waltz_feet (not owned)
     }
 
-    sets.Self_Waltz = {head = "Mummu Bonnet +2", body = "Passion Jacket", ring1 = "Asklepian Ring"}
+    sets.Self_Waltz = {head = "Mummu Bonnet +2"} -- original: + body = "Passion Jacket", ring1 = "Asklepian Ring" (not owned)
 
     -- Don't need any special gear for Healing Waltz.
     sets.precast.Waltz["Healing Waltz"] = {}
 
-    -- Fast cast sets for spells
-
+    -- Fast cast sets for spells (Baetyl 4, Etiolation 1, Dread Jupon 7, Sombra Mittens 3, Kishar 4, Rawhide Trousers 5)
     sets.precast.FC = {
-        head = "Carmine Mask +1",
+        head = "Nyame Helm",             -- original: "Carmine Mask +1" (not owned)
         neck = "Baetyl Pendant",
-        ear1 = "Enchntr. Earring +1",
-        ear2 = "Loquac. Earring",
+        ear1 = "Alabaster Earring",      -- original: "Enchntr. Earring +1" (not owned)
+        ear2 = "Etiolation Earring",     -- original: "Loquac. Earring" (not owned)
         body = "Dread Jupon",
-        hands = "Leyline Gloves",
+        hands = "Sombra Mittens",        -- original: "Leyline Gloves" (not owned)
         ring1 = "Kishar Ring",
         ring2 = "Lebeche Ring",
-        back = "Moonlight Cape",
-        waist = "Flume Belt +1",
+        back = gear.tp_jse_back,         -- original: "Moonlight Cape" (not owned)
+        waist = "Null Belt",             -- original: "Flume Belt +1" (not owned)
         legs = "Rawhide Trousers",
-        feet = "Carmine Greaves +1"
+        feet = "Nyame Sollerets"         -- original: "Carmine Greaves +1" (not owned)
     }
 
-    sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {neck = "Magoraga Beads", body = "Passion Jacket"})
+    sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {neck = "Magoraga Beads"}) -- original: + body = "Passion Jacket" (not owned)
 
-    sets.precast.FC.Cure = set_combine(sets.precast.FC, {ear2 = "Mendi. Earring"})
+    sets.precast.FC.Cure = set_combine(sets.precast.FC, {}) -- original: ear2 = "Mendi. Earring" (not owned)
 
+    -- LINKTRI: Snapshot when you fire. 41% from gear (see the header); Flurry II adds 30%, so it trades
+    -- Ikenga's Hat (Snapshot+6) for Chass. Tricorne +3 (Rapid Shot+18) and still sits at ~65%.
     sets.precast.RA = {
         ammo = gear.RAbullet,
-        head = "Chass. Tricorne +3",
-        neck = "Comm. Charm +2",
-        body = "Laksa. Frac +3",
-        hands = "Carmine Fin. Ga. +1",
-        ring1 = "Crepuscular Ring",
+        head = "Ikenga's Hat",           -- original: "Chass. Tricorne +3"; Snapshot+6
+        neck = "Null Loop",              -- original: "Comm. Charm +2" (not owned)
+        body = "Ikenga's Vest",          -- original: "Laksa. Frac +3" (not owned); Snapshot+9
+        hands = "Lanun Gants +1",        -- original: "Carmine Fin. Ga. +1" (not owned); Snapshot+9
+        ring1 = "Crepuscular Ring",      -- Snapshot+3
         back = gear.snapshot_jse_back,
-        waist = "Impulse Belt",
-        legs = "Laksa. Trews +3",
-        feet = "Meg. Jam. +2"
+        waist = "Null Belt",             -- original: "Impulse Belt" (not owned)
+        legs = "Chas. Culottes +3",      -- original: "Laksa. Trews +3" (not owned); Snapshot+9
+        feet = "Ikenga's Clogs"          -- original: "Meg. Jam. +2" (not owned); Snapshot+5
     }
 
-    sets.precast.RA.Flurry = set_combine(sets.precast.RA, {waist = "Yemaya Belt", legs = "Adhemar Kecks +1"})
-    sets.precast.RA.Flurry2 = set_combine(sets.precast.RA, {waist = "Yemaya Belt", legs = "Adhemar Kecks +1"})
+    sets.precast.RA.Flurry = set_combine(sets.precast.RA, {}) -- original: waist = "Yemaya Belt", legs = "Adhemar Kecks +1" (not owned)
+    sets.precast.RA.Flurry2 = set_combine(sets.precast.RA, {head = "Chass. Tricorne +3"}) -- original: waist = "Yemaya Belt", legs = "Adhemar Kecks +1" (not owned)
 
     -- Weaponskill sets
+    -- LINKTRI: physical WS core = Nyame (R25 Path B) + Chasseur's Gants +3 (WSD+12%) + Ephramad's Ring (PDL+10%).
     -- Default set for any weaponskill that isn't any more specifically defined
     sets.precast.WS = {
-        head = "Meghanada Visor +2",
-        neck = "Fotia Gorget",
+        ammo = gear.WSbullet,
+        head = "Nyame Helm",             -- original: "Meghanada Visor +2" (not owned)
+        neck = "Null Loop",              -- original: "Fotia Gorget" (not owned)
         ear1 = "Moonshade Earring",
-        ear2 = "Telos Earring",
-        body = "Laksa. Frac +3",
-        hands = "Meg. Gloves +2",
-        ring1 = "Regal Ring",
-        ring2 = "Ifrit Ring +1",
+        ear2 = "Chas. Earring +2",       -- original: "Telos Earring"; Sortie earring (ear2 only): STR/AGI+13, Acc+19
+        body = "Nyame Mail",             -- original: "Laksa. Frac +3" (not owned)
+        hands = "Chasseur's Gants +3",   -- original: "Meg. Gloves +2" (not owned); WSD+12%
+        ring1 = "Ephramad's Ring",       -- original: "Regal Ring" (not owned)
+        ring2 = "Ilabrat Ring",          -- original: "Ifrit Ring +1" (not owned)
         back = gear.str_wsd_jse_back,
-        waist = "Fotia Belt",
-        legs = "Meg. Chausses +2",
-        feet = "Lanun Bottes +3"
+        waist = "Sailfi Belt +1",        -- original: "Fotia Belt" (not owned)
+        legs = "Nyame Flanchard",        -- original: "Meg. Chausses +2" (not owned)
+        feet = "Nyame Sollerets"         -- original: "Lanun Bottes +3" (not owned)
     }
 
-    sets.precast.WS.Acc = {
-        head = "Carmine Mask +1",
-        neck = "Combatant's Torque",
-        ear1 = "Digni. Earring",
-        ear2 = "Telos Earring",
-        body = "Meg. Cuirie +2",
-        hands = "Meg. Gloves +2",
-        ring1 = "Regal Ring",
-        ring2 = "Ilabrat Ring",
-        back = gear.str_wsd_jse_back,
-        waist = "Grunfeld Rope",
-        legs = "Carmine Cuisses +1",
-        feet = "Lanun Bottes +3"
-    }
+    sets.precast.WS.Acc = set_combine(sets.precast.WS, {ring2 = "Chirich Ring +1", waist = "Null Belt"})
+    -- original WS.Acc: Carmine Mask +1, Combatant's Torque, Digni. Earring, Telos, Meg. Cuirie +2, Meg. Gloves +2,
+    --                  Regal Ring, Ilabrat Ring, Grunfeld Rope, Carmine Cuisses +1, Lanun Bottes +3
 
-    sets.precast.WS.Proc = {
-        head = "Carmine Mask +1",
-        neck = "Combatant's Torque",
-        ear1 = "Digni. Earring",
-        ear2 = "Mache Earring +1",
-        body = "Mummu Jacket +2",
-        hands = "Floral Gauntlets",
-        ring1 = "Ramuh Ring +1",
-        ring2 = "Ramuh Ring +1",
-        back = gear.tp_jse_back,
-        waist = "Olseni Belt",
-        legs = "Carmine Cuisses +1",
-        feet = "Malignance Boots"
-    }
+    sets.precast.WS.Proc = set_combine(sets.precast.CorsairShot.Proc, {ammo = gear.WSbullet})
+    -- original WS.Proc: Carmine Mask +1, Combatant's Torque, Digni. Earring, Mache +1, Mummu Jacket +2, Floral Gauntlets,
+    --                   Ramuh Ring +1 x2, Olseni Belt, Carmine Cuisses +1, Malignance Boots
 
     -- Specific weaponskill sets.  Uses the base set if an appropriate WSMod version isn't found.
 
-    sets.precast.WS["Requiescat"] =
-        set_combine(
-        sets.precast.WS,
-        {head = "Carmine Mask +1", ring2 = "Rufescent Ring", legs = "Carmine Cuisses +1", feet = "Carmine Greaves +1"}
-    )
+    sets.precast.WS["Requiescat"] = set_combine(sets.precast.WS, {ring1 = "Metamor. Ring +1"})
+    -- original: head = "Carmine Mask +1", ring2 = "Rufescent Ring", legs = "Carmine Cuisses +1", feet = "Carmine Greaves +1" (not owned)
 
     sets.precast.WS["Evisceration"] = {
         ammo = gear.WSbullet,
         head = "Mummu Bonnet +2",
-        neck = "Fotia Gorget",
-        ear1 = "Odr Earring",
-        ear2 = "Moonshade Earring",
+        neck = "Null Loop",              -- original: "Fotia Gorget" (not owned)
+        ear1 = "Moonshade Earring",      -- original: "Odr Earring" (Moonshade moved to ear1 to match every other set)
+        ear2 = "Chas. Earring +2",       -- original: "Moonshade Earring"; Crit+7
         body = "Mummu Jacket +2",
         hands = "Mummu Wrists +2",
-        ring1 = "Mummu Ring",
-        ring2 = "Begrudging Ring",
+        ring1 = "Ephramad's Ring",       -- original: "Mummu Ring" (not owned)
+        ring2 = "Ilabrat Ring",          -- original: "Begrudging Ring" (not owned)
         back = gear.tp_jse_back,
-        waist = "Fotia Belt",
+        waist = "Shadow Belt",           -- original: "Fotia Belt" (not owned); Gravitation latent
         legs = "Mummu Kecks +2",
         feet = "Mummu Gamash. +2"
     }
 
-    sets.precast.WS["Evisceration"].Acc = {
-        ammo = gear.WSbullet,
-        head = "Mummu Bonnet +2",
-        neck = "Fotia Gorget",
-        ear1 = "Odr Earring",
-        ear2 = "Moonshade Earring",
-        body = "Mummu Jacket +2",
-        hands = "Mummu Wrists +2",
-        ring1 = "Regal Ring",
-        ring2 = "Begrudging Ring",
-        back = gear.tp_jse_back,
-        waist = "Fotia Belt",
-        legs = "Mummu Kecks +2",
-        feet = "Mummu Gamash. +2"
-    }
+    sets.precast.WS["Evisceration"].Acc = set_combine(sets.precast.WS["Evisceration"], {ring2 = "Chirich Ring +1"})
+    -- original: same pieces with Regal Ring (not owned)
 
     sets.precast.WS["Savage Blade"] = {
         ammo = gear.WSbullet,
-        head = "Lilitu Headpiece",
-        neck = "Comm. Charm +2",
+        head = "Nyame Helm",             -- original: "Lilitu Headpiece"
+        neck = "Null Loop",              -- original: "Comm. Charm +2" (not owned)
         ear1 = "Moonshade Earring",
-        ear2 = "Ishvara Earring",
-        body = "Laksa. Frac +3",
-        hands = "Meg. Gloves +2",
-        ring1 = "Regal Ring",
-        ring2 = "Rufescent Ring",
+        ear2 = "Chas. Earring +2",       -- original: "Ishvara Earring"; STR+13
+        body = "Nyame Mail",             -- original: "Laksa. Frac +3" (not owned)
+        hands = "Chasseur's Gants +3",   -- original: "Meg. Gloves +2" (not owned); WSD+12%
+        ring1 = "Ephramad's Ring",       -- original: "Regal Ring" (not owned); STR+10, PDL+10%
+        ring2 = "Ilabrat Ring",          -- original: "Rufescent Ring" (not owned)
         back = gear.str_wsd_jse_back,
         waist = "Sailfi Belt +1",
-        legs = gear.herculean_wsd_legs,
-        feet = "Lanun Bottes +3"
+        legs = "Nyame Flanchard",        -- original: gear.herculean_wsd_legs (not owned)
+        feet = "Nyame Sollerets"         -- original: "Lanun Bottes +3" (not owned)
     }
 
-    sets.precast.WS["Savage Blade"].Acc = {
-        ammo = gear.WSbullet,
-        head = "Carmine Mask +1",
-        neck = "Combatant's Torque",
-        ear1 = "Moonshade Earring",
-        ear2 = "Telos Earring",
-        body = "Meg. Cuirie +2",
-        hands = "Meg. Gloves +2",
-        ring1 = "Regal Ring",
-        ring2 = "Rufescent Ring",
-        back = gear.str_wsd_jse_back,
-        waist = "Grunfeld Rope",
-        legs = "Carmine Cuisses +1",
-        feet = "Lanun Bottes +3"
-    }
+    sets.precast.WS["Savage Blade"].Acc = set_combine(sets.precast.WS["Savage Blade"], {ring2 = "Chirich Ring +1", waist = "Null Belt"})
+    -- original: Carmine Mask +1, Combatant's Torque, Telos, Meg. Cuirie/Gloves +2, Regal/Rufescent, Grunfeld Rope,
+    --           Carmine Cuisses +1, Lanun Bottes +3
 
     sets.precast.WS["Last Stand"] = {
         ammo = gear.WSbullet,
-        head = "Meghanada Visor +2",
-        neck = "Fotia Gorget",
+        head = "Nyame Helm",             -- original: "Meghanada Visor +2" (not owned)
+        neck = "Light Gorget",           -- original: "Fotia Gorget" (not owned); Fusion latent
         ear1 = "Moonshade Earring",
-        ear2 = "Telos Earring",
-        body = "Laksa. Frac +3",
-        hands = "Meg. Gloves +2",
-        ring1 = "Regal Ring",
+        ear2 = "Chas. Earring +2",       -- original: "Telos Earring"; AGI+13
+        body = "Nyame Mail",             -- original: "Laksa. Frac +3" (not owned)
+        hands = "Chasseur's Gants +3",   -- original: "Meg. Gloves +2" (not owned); WSD+12%
+        ring1 = "Ephramad's Ring",       -- original: "Regal Ring" (not owned); AGI+10, R.Acc/R.Atk+20, PDL+10%
         ring2 = "Dingir Ring",
         back = gear.ranger_wsd_jse_back,
-        waist = "Fotia Belt",
-        legs = "Meg. Chausses +2",
-        feet = "Lanun Bottes +3"
+        waist = "Light Belt",            -- original: "Fotia Belt" (not owned); Fusion latent
+        legs = "Nyame Flanchard",        -- original: "Meg. Chausses +2" (not owned)
+        feet = "Nyame Sollerets"         -- original: "Lanun Bottes +3" (not owned)
     }
 
-    sets.precast.WS["Last Stand"].Acc = {
-        ammo = gear.WSbullet,
-        head = "Meghanada Visor +2",
-        neck = "Iskur Gorget",
-        ear1 = "Moonshade Earring",
-        ear2 = "Telos Earring",
-        body = "Laksa. Frac +3",
-        hands = "Meg. Gloves +2",
-        ring1 = "Regal Ring",
-        ring2 = "Dingir Ring",
-        back = gear.ranger_wsd_jse_back,
-        waist = "Fotia Belt",
-        legs = "Meg. Chausses +2",
-        feet = "Lanun Bottes +3"
-    }
+    sets.precast.WS["Last Stand"].Acc = set_combine(sets.precast.WS["Last Stand"], {neck = "Null Loop", waist = "Null Belt"})
+    -- original: neck = "Iskur Gorget" (not owned), otherwise the Last Stand set
 
     sets.precast.WS["Detonator"] = sets.precast.WS["Last Stand"]
     sets.precast.WS["Detonator"].Acc = sets.precast.WS["Last Stand"].Acc
@@ -406,85 +342,60 @@ function init_gear_sets()
     sets.precast.WS["Split Shot"] = sets.precast.WS["Last Stand"]
     sets.precast.WS["Split Shot"].Acc = sets.precast.WS["Last Stand"].Acc
 
+    -- Magical WS: Nyame (MAB+30 each), Chass. Bottes +3 (MAB+50), Orpheus's Sash.
     sets.precast.WS["Leaden Salute"] = {
         ammo = gear.MAbullet,
         head = "Pixie Hairpin +1",
-        neck = "Comm. Charm +2",
+        neck = "Baetyl Pendant",         -- original: "Comm. Charm +2" (not owned); MAB+13
         ear1 = "Moonshade Earring",
-        ear2 = "Friomisi Earring",
-        body = "Laksa. Frac +3",
-        hands = "Carmine Fin. Ga. +1",
-        ring1 = "Archon Ring",
+        ear2 = "Chas. Earring +2",       -- original: "Friomisi Earring" (not owned); AGI+13, M.Acc+19
+        body = "Nyame Mail",             -- original: "Laksa. Frac +3" (not owned)
+        hands = "Nyame Gauntlets",       -- original: "Carmine Fin. Ga. +1" (not owned)
+        ring1 = "Ephramad's Ring",       -- original: "Archon Ring" (not owned); AGI+10
         ring2 = "Dingir Ring",
         back = gear.magic_wsd_jse_back,
-        waist = "Eschan Stone",
+        waist = "Orpheus's Sash",        -- original: "Eschan Stone"
         legs = "Nyame Flanchard",
-        feet = "Lanun Bottes +1" -- LINKTRI: original: "Lanun Bottes +3" (not owned); +1 MAB+15
+        feet = "Chass. Bottes +3"        -- original: "Lanun Bottes +3" (not owned); MAB+50
     }
 
-    sets.precast.WS["Leaden Salute"].Acc = {
-        ammo = gear.MAbullet,
-        head = "Pixie Hairpin +1",
-        neck = "Comm. Charm +2",
-        ear1 = "Moonshade Earring",
-        ear2 = "Friomisi Earring",
-        body = "Laksa. Frac +3",
-        hands = "Carmine Fin. Ga. +1",
-        ring1 = "Archon Ring",
-        ring2 = "Dingir Ring",
-        back = gear.magic_wsd_jse_back,
-        waist = "Eschan Stone",
-        legs = "Nyame Flanchard",
-        feet = "Lanun Bottes +1" -- LINKTRI: original: "Lanun Bottes +3" (not owned); +1 MAB+15
-    }
+    sets.precast.WS["Leaden Salute"].Acc = set_combine(sets.precast.WS["Leaden Salute"], {head = "Nyame Helm", ring1 = "Crepuscular Ring"})
+    -- original: same as the original Leaden Salute set
 
     sets.precast.WS["Aeolian Edge"] = {
-        ammo = "Animikii Bullet",
-        head = gear.herculean_nuke_head,
+        head = "Nyame Helm",             -- original: gear.herculean_nuke_head (not owned)
         neck = "Baetyl Pendant",
         ear1 = "Moonshade Earring",
-        ear2 = "Friomisi Earring",
-        body = "Laksa. Frac +3",
-        hands = "Carmine Fin. Ga. +1",
+        ear2 = "Hecate's Earring",       -- original: "Friomisi Earring" (not owned)
+        body = "Nyame Mail",             -- original: "Laksa. Frac +3" (not owned)
+        hands = "Nyame Gauntlets",       -- original: "Carmine Fin. Ga. +1" (not owned)
         ring1 = "Metamor. Ring +1",
         ring2 = "Dingir Ring",
         back = gear.magic_wsd_jse_back,
-        waist = "Eschan Stone",
+        waist = "Orpheus's Sash",        -- original: "Eschan Stone"
         legs = "Nyame Flanchard",
-        feet = "Lanun Bottes +1" -- LINKTRI: original: "Lanun Bottes +3" (not owned); +1 MAB+15
+        feet = "Chass. Bottes +3"        -- original: "Lanun Bottes +3" (not owned)
+        -- original: ammo = "Animikii Bullet" (not owned; a dagger WS doesn't need a bullet)
     }
 
     sets.precast.WS["Wildfire"] = {
         ammo = gear.MAbullet,
-        head = gear.herculean_nuke_head,
-        neck = "Comm. Charm +2",
+        head = "Nyame Helm",             -- original: gear.herculean_nuke_head (not owned)
+        neck = "Baetyl Pendant",         -- original: "Comm. Charm +2" (not owned)
         ear1 = "Crematio Earring",
-        ear2 = "Friomisi Earring",
-        body = "Laksa. Frac +3",
-        hands = "Carmine Fin. Ga. +1",
-        ring1 = "Regal Ring",
+        ear2 = "Hecate's Earring",       -- original: "Friomisi Earring" (not owned)
+        body = "Nyame Mail",             -- original: "Laksa. Frac +3" (not owned)
+        hands = "Nyame Gauntlets",       -- original: "Carmine Fin. Ga. +1" (not owned)
+        ring1 = "Ephramad's Ring",       -- original: "Regal Ring" (not owned); AGI+10
         ring2 = "Dingir Ring",
         back = gear.magic_wsd_jse_back,
-        waist = "Eschan Stone",
+        waist = "Orpheus's Sash",        -- original: "Eschan Stone"
         legs = "Nyame Flanchard",
-        feet = "Lanun Bottes +1" -- LINKTRI: original: "Lanun Bottes +3" (not owned); +1 MAB+15
+        feet = "Chass. Bottes +3"        -- original: "Lanun Bottes +3" (not owned)
     }
 
-    sets.precast.WS["Wildfire"].Acc = {
-        ammo = gear.MAbullet,
-        head = gear.herculean_nuke_head,
-        neck = "Comm. Charm +2",
-        ear1 = "Crematio Earring",
-        ear2 = "Friomisi Earring",
-        body = "Laksa. Frac +3",
-        hands = "Leyline Gloves",
-        ring1 = "Regal Ring",
-        ring2 = "Dingir Ring",
-        back = gear.magic_wsd_jse_back,
-        waist = "Eschan Stone",
-        legs = "Nyame Flanchard",
-        feet = "Lanun Bottes +1" -- LINKTRI: original: "Lanun Bottes +3" (not owned); +1 MAB+15
-    }
+    sets.precast.WS["Wildfire"].Acc = set_combine(sets.precast.WS["Wildfire"], {ring1 = "Crepuscular Ring"})
+    -- original: hands = "Leyline Gloves" (not owned), otherwise the original Wildfire set
 
     sets.precast.WS["Hot Shot"] = sets.precast.WS["Wildfire"]
     sets.precast.WS["Hot Shot"].Acc = sets.precast.WS["Wildfire"].Acc
@@ -492,107 +403,76 @@ function init_gear_sets()
     --Because omen skillchains.
     sets.precast.WS["Burning Blade"] = {
         ammo = gear.RAbullet,
-        head = "Meghanada Visor +2",
+        head = "Nyame Helm",             -- original: "Meghanada Visor +2" (not owned)
         neck = "Loricate Torque +1",
-        ear1 = "Genmei Earring",
-        ear2 = "Sanare Earring",
-        body = "Meg. Cuirie +2",
+        ear1 = "Alabaster Earring",      -- original: "Genmei Earring"
+        ear2 = "Etiolation Earring",     -- original: "Sanare Earring"
+        body = "Nyame Mail",             -- original: "Meg. Cuirie +2" (not owned)
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
-        ring2 = "Dark Ring",
-        back = "Moonlight Cape",
-        waist = "Flume Belt +1",
-        legs = "Meg. Chausses +2",
-        feet = "Meg. Jam. +2"
+        ring2 = "Murky Ring",            -- original: "Dark Ring" (not owned)
+        back = gear.tp_jse_back,         -- original: "Moonlight Cape" (not owned)
+        waist = "Null Belt",             -- original: "Flume Belt +1" (not owned)
+        legs = "Nyame Flanchard",        -- original: "Meg. Chausses +2" (not owned)
+        feet = "Nyame Sollerets"         -- original: "Meg. Jam. +2" (not owned)
     }
 
-    -- Swap to these on Moonshade using WS if at 3000 TP
-    sets.MaxTP = {}
-    sets.AccMaxTP = {}
+    -- Swap to these on Moonshade using WS if at 3000 TP (Moonshade is always in ear1)
+    sets.MaxTP = {ear1 = "Ishvara Earring"}              -- original: {}
+    sets.AccMaxTP = {ear1 = "Crep. Earring"}             -- original: {}
+    sets.MagicalMaxTP = {ear1 = "Crematio Earring"}      -- LINKTRI: COR.lua uses these for magical WS
+    sets.MagicalAccMaxTP = {ear1 = "Crematio Earring"}
+    sets.RangedMaxTP = {ear1 = "Ishvara Earring"}        -- LINKTRI: COR.lua uses these for ranged WS
+    sets.RangedAccMaxTP = {ear1 = "Crep. Earring"}
 
     -- Midcast Sets
-    sets.midcast.FastRecast = {
-        head = "Carmine Mask +1",
-        neck = "Baetyl Pendant",
-        ear1 = "Enchntr. Earring +1",
-        ear2 = "Loquac. Earring",
-        body = "Dread Jupon",
-        hands = "Leyline Gloves",
-        ring1 = "Kishar Ring",
-        ring2 = "Lebeche Ring",
-        back = "Moonlight Cape",
-        waist = "Flume Belt +1",
-        legs = "Rawhide Trousers",
-        feet = "Carmine Greaves +1"
-    }
+    sets.midcast.FastRecast = set_combine(sets.precast.FC, {})
+    -- original: Carmine Mask +1, Enchntr. Earring +1, Loquac. Earring, Leyline Gloves, Moonlight Cape, Flume Belt +1,
+    --           Carmine Greaves +1 (not owned); otherwise the FC pieces
 
     -- Specific spells
 
-    sets.midcast.Cure = {
-        head = "Carmine Mask +1",
-        neck = "Phalaina Locket",
-        ear1 = "Enchntr. Earring +1",
-        ear2 = "Mendi. Earring",
-        body = "Dread Jupon",
-        hands = "Leyline Gloves",
-        ring1 = "Janniston Ring",
-        ring2 = "Lebeche Ring",
-        back = "Solemnity Cape",
-        waist = "Flume Belt +1",
-        legs = "Carmine Cuisses +1",
-        feet = "Carmine Greaves +1"
-    }
+    sets.midcast.Cure = set_combine(sets.precast.FC, {ring2 = "Menelaus's Ring"}) -- Cure potency+5%
+    -- original: Carmine Mask +1, Phalaina Locket, Enchntr. +1, Mendi., Leyline Gloves, Janniston Ring, Solemnity Cape,
+    --           Flume Belt +1, Carmine Cuisses/Greaves +1 (not owned)
 
-    sets.Self_Healing = {
-        neck = "Phalaina Locket",
-        hands = "Buremte Gloves",
-        ring2 = "Kunaji Ring",
-        waist = "Gishdubar Sash"
-    }
-    sets.Cure_Received = {
-        neck = "Phalaina Locket",
-        hands = "Buremte Gloves",
-        ring2 = "Kunaji Ring",
-        waist = "Gishdubar Sash"
-    }
-    sets.Self_Refresh = {waist = "Gishdubar Sash"}
+    -- LINKTRI: no cure-received / refresh-received gear owned for COR.
+    -- original: Self_Healing / Cure_Received = Phalaina Locket, Buremte Gloves, Kunaji Ring, Gishdubar Sash; Self_Refresh = Gishdubar Sash
+    sets.Self_Healing = {}
+    sets.Cure_Received = {}
+    sets.Self_Refresh = {}
 
     sets.midcast.Utsusemi = sets.midcast.FastRecast
 
-    -- Ranged gear
+    -- Ranged gear: Ikenga's (R.Acc/R.Atk+40, Store TP, PDL) + Chas. Culottes +3 (R.Acc/R.Atk+63, Store TP+12, DT-12%).
     sets.midcast.RA = {
         ammo = gear.RAbullet,
-        head = "Malignance Chapeau",
-        neck = "Iskur Gorget",
-        ear1 = "Enervating Earring",
+        head = "Ikenga's Hat",           -- original: "Malignance Chapeau"
+        neck = "Null Loop",              -- original: "Iskur Gorget" (not owned); R.Acc+50
+        ear1 = "Crep. Earring",          -- original: "Enervating Earring"; R.Acc+10, Store TP+5
         ear2 = "Telos Earring",
-        body = "Malignance Tabard",
-        hands = "Malignance Gloves",
+        body = "Ikenga's Vest",          -- original: "Malignance Tabard"
+        hands = "Ikenga's Gloves",       -- original: "Malignance Gloves"
         ring1 = "Crepuscular Ring",
-        ring2 = "Ilabrat Ring",
+        ring2 = "Dingir Ring",           -- original: "Ilabrat Ring"; AGI+10, R.Atk+25
         back = gear.tp_ranger_jse_back,
-        waist = "Yemaya Belt",
-        legs = "Malignance Tights",
-        feet = "Malignance Boots"
+        waist = "Eschan Stone",          -- original: "Yemaya Belt" (not owned)
+        legs = "Chas. Culottes +3",      -- original: "Malignance Tights"
+        feet = "Ikenga's Clogs"          -- original: "Malignance Boots"
     }
 
-    sets.midcast.RA.Acc = {
-        ammo = gear.RAbullet,
-        head = "Malignance Chapeau",
-        neck = "Iskur Gorget",
-        ear1 = "Enervating Earring",
-        ear2 = "Telos Earring",
-        body = "Laksa. Frac +3",
-        hands = "Malignance Gloves",
-        ring1 = "Regal Ring",
-        ring2 = "Ilabrat Ring",
-        back = gear.tp_ranger_jse_back,
-        waist = "Yemaya Belt",
-        legs = "Laksa. Trews +3",
-        feet = "Malignance Boots"
-    }
+    sets.midcast.RA.Acc = set_combine(sets.midcast.RA, {
+        head = "Chass. Tricorne +3",     -- R.Acc+61
+        body = "Chasseur's Frac +3",     -- R.Acc+64
+        hands = "Chasseur's Gants +3",   -- R.Acc+62
+        ring1 = "Cacoethic Ring +1",     -- R.Acc+16
+        waist = "Null Belt",             -- R.Acc+30
+        feet = "Chass. Bottes +3"        -- R.Acc+60
+    })
+    -- original RA.Acc: Malignance Chapeau, Iskur Gorget, Enervating, Telos, Laksa. Frac +3, Malignance Gloves, Regal Ring,
+    --                  Ilabrat Ring, Yemaya Belt, Laksa. Trews +3, Malignance Boots
 
-    sets.buff["Triple Shot"] = {body = "Chasseur's Frac +3"}
+    sets.buff["Triple Shot"] = {body = "Chasseur's Frac +3"} -- Triple Shot+14%
 
     -- Sets to return to when not performing an action.
 
@@ -603,22 +483,22 @@ function init_gear_sets()
 
     -- Resting sets
     sets.resting = {}
-    sets.BulletPouch = {waist = "Chr. Bul. Pouch"}
+    -- sets.BulletPouch = {waist = "Chr. Bul. Pouch"} -- LINKTRI: not owned
 
     -- Idle sets
     sets.idle = {
         ammo = gear.RAbullet,
-        head = "Nyame Helm",
-        neck = "Loricate Torque +1",
-        ear1 = "Genmei Earring",
-        ear2 = "Sanare Earring",
-        body = "Nyame Mail",
+        head = "Null Masque",            -- original: "Nyame Helm"; DT-10%, Regen+3, Refresh+1
+        neck = "Bathy Choker +1",        -- original: "Loricate Torque +1"; Regen+3
+        ear1 = "Alabaster Earring",      -- original: "Genmei Earring"; DT-5%
+        ear2 = "Odnowa Earring +1",      -- original: "Sanare Earring"
+        body = "Adamantite Armor",       -- original: "Nyame Mail"; DT-20%
         hands = "Nyame Gauntlets",
         ring1 = "Defending Ring",
-        ring2 = "Shadow Ring",
-        back = "Moonlight Cape",
-        waist = "Carrier's Sash",
-        legs = "Carmine Cuisses +1",
+        ring2 = "Chirich Ring +1",       -- original: "Shadow Ring" (not owned); Regen+2
+        back = gear.tp_jse_back,         -- original: "Moonlight Cape" (not owned)
+        waist = "Null Belt",             -- original: "Carrier's Sash"; Regen+3
+        legs = "Nyame Flanchard",        -- original: "Carmine Cuisses +1" (not owned)
         feet = "Nyame Sollerets"
     }
 
@@ -626,106 +506,90 @@ function init_gear_sets()
         ammo = gear.RAbullet,
         head = "Nyame Helm",
         neck = "Loricate Torque +1",
-        ear1 = "Etiolation Earring",
-        ear2 = "Sanare Earring",
-        body = "Nyame Mail",
+        ear1 = "Alabaster Earring",      -- original: "Etiolation Earring"
+        ear2 = "Etiolation Earring",     -- original: "Sanare Earring"
+        body = "Adamantite Armor",       -- original: "Nyame Mail"
         hands = "Nyame Gauntlets",
         ring1 = "Defending Ring",
-        ring2 = "Dark Ring",
-        back = "Shadow Mantle",
-        waist = "Flume Belt +1",
+        ring2 = "Murky Ring",            -- original: "Dark Ring" (not owned)
+        back = gear.tp_jse_back,         -- original: "Shadow Mantle" (not owned)
+        waist = "Null Belt",             -- original: "Flume Belt +1" (not owned)
         legs = "Nyame Flanchard",
-        feet = "Malignance Boots"
+        feet = "Nyame Sollerets"         -- original: "Malignance Boots"
     }
 
-    sets.idle.Refresh = {
-        ammo = gear.RAbullet,
-        head = "Rawhide Mask",
-        neck = "Loricate Torque +1",
-        ear1 = "Genmei Earring",
-        ear2 = "Ethereal Earring",
-        body = "Mekosu. Harness",
-        hands = gear.herculean_refresh_hands,
-        ring1 = "Defending Ring",
-        ring2 = "Dark Ring",
-        back = "Moonlight Cape",
-        waist = "Flume Belt +1",
-        legs = "Rawhide Trousers",
-        feet = "Malignance Boots"
-    }
+    sets.idle.Refresh = set_combine(sets.idle, {legs = "Rawhide Trousers"}) -- Refresh+1 (plus Null Masque Refresh+1)
+    -- original: Rawhide Mask, Genmei, Ethereal Earring, Mekosu. Harness, Herculean refresh hands, Dark Ring,
+    --           Moonlight Cape, Flume Belt +1, Rawhide Trousers, Malignance Boots (several not owned)
 
     -- Defense sets
     sets.defense.PDT = {
         ammo = gear.RAbullet,
         head = "Nyame Helm",
         neck = "Loricate Torque +1",
-        ear1 = "Genmei Earring",
-        ear2 = "Tuisto Earring",
-        body = "Nyame Mail",
+        ear1 = "Alabaster Earring",      -- original: "Genmei Earring"
+        ear2 = "Odnowa Earring +1",      -- original: "Tuisto Earring"
+        body = "Adamantite Armor",       -- original: "Nyame Mail"; DT-20%
         hands = "Nyame Gauntlets",
         ring1 = "Defending Ring",
-        ring2 = "Warden's Ring",
-        back = "Shadow Mantle",
-        waist = "Flume Belt +1",
+        ring2 = "Murky Ring",            -- original: "Warden's Ring"
+        back = gear.tp_jse_back,         -- original: "Shadow Mantle" (not owned)
+        waist = "Null Belt",             -- original: "Flume Belt +1" (not owned)
         legs = "Nyame Flanchard",
         feet = "Nyame Sollerets"
     }
 
-    sets.defense.MDT = {
-        ammo = gear.RAbullet,
-        head = "Nyame Helm",
-        neck = "Warder's Charm +1",
-        ear1 = "Etiolation Earring",
-        ear2 = "Sanare Earring",
-        body = "Nyame Mail",
-        hands = "Nyame Gauntlets",
-        ring1 = "Defending Ring",
-        ring2 = "Shadow Ring",
-        back = "Moonlight Cape",
-        waist = "Carrier's Sash",
-        legs = "Nyame Flanchard",
-        feet = "Nyame Sollerets"
-    }
+    sets.defense.MDT = set_combine(sets.defense.PDT, {ear2 = "Etiolation Earring"})
+    -- original: Warder's Charm +1, Etiolation, Sanare, Shadow Ring, Moonlight Cape, Carrier's Sash (several not owned)
 
     sets.defense.MEVA = {
         ammo = gear.RAbullet,
         head = "Nyame Helm",
-        neck = "Warder's Charm +1",
-        ear1 = "Etiolation Earring",
-        ear2 = "Sanare Earring",
+        neck = "Null Loop",              -- original: "Warder's Charm +1" (not owned)
+        ear1 = "Alabaster Earring",      -- original: "Etiolation Earring"
+        ear2 = "Etiolation Earring",     -- original: "Sanare Earring"
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
         ring1 = "Defending Ring",
-        ring2 = "Shadow Ring",
-        back = "Moonlight Cape",
-        waist = "Carrier's Sash",
+        ring2 = "Murky Ring",            -- original: "Shadow Ring" (not owned)
+        back = gear.tp_jse_back,         -- original: "Moonlight Cape" (not owned); M.Eva+50
+        waist = "Null Belt",             -- original: "Carrier's Sash"; M.Eva+30
         legs = "Nyame Flanchard",
         feet = "Nyame Sollerets"
     }
 
-    sets.Kiting = {legs = "Carmine Cuisses +1"}
-    sets.TreasureHunter = set_combine(sets.TreasureHunter, {})
+    sets.Kiting = {ring2 = "Shneddick Ring +1"} -- original: legs = "Carmine Cuisses +1" (not owned)
+    sets.TreasureHunter = {waist = "Chaac Belt", legs = "Volte Hose"} -- original: set_combine(sets.TreasureHunter, {}) (global set uses stored Wh. Rarab Cap +1)
     sets.DWMax = {
         ear1 = "Dudgeon Earring",
         ear2 = "Heartseeker Earring",
-        body = "Adhemar Jacket +1",
+        body = "Samnuha Coat",           -- original: "Adhemar Jacket +1" (not owned); Dual Wield+2
         hands = "Floral Gauntlets",
-        waist = "Reiki Yotai"
+        waist = "Reiki Yotai",
+        legs = "Sombra Tights"           -- LINKTRI: Dual Wield+3
     }
 
     -- Weapons sets
-    sets.weapons.Default = {main = "Naegling", sub = "Nusku Shield", range = "Fomalhaut"}
-    sets.weapons.Ranged = {main = "Rostam", sub = "Nusku Shield", range = "Fomalhaut"}
-    sets.weapons.Evisceration = {main = "Tauret", sub = "Nusku Shield", range = "Ataktos"}
-    sets.weapons.DualWeapons = {main = "Naegling", sub = "Gleti's Knife", range = "Fomalhaut"}
-    sets.weapons.DualSavageWeapons = {main = "Naegling", sub = "Blurred Knife +1", range = "Ataktos"}
-    sets.weapons.DualEvisceration = {main = "Tauret", sub = "Blurred Knife +1", range = "Ataktos"}
-    sets.weapons.Savage = {main = "Naegling", sub = "Nusku Shield", range = "Ataktos"}
-    sets.weapons.DualLeadenRanged = {main = "Rostam", sub = "Tauret", range = "Fomalhaut"}
-    sets.weapons.DualLeadenMelee = {main = "Naegling", sub = "Atoyac", range = "Fomalhaut"}
-    sets.weapons.DualAeolian = {main = "Rostam", sub = "Tauret", range = "Ataktos"}
-    sets.weapons.DualLeadenMeleeAcc = {main = "Naegling", sub = "Blurred Knife +1", range = "Fomalhaut"}
-    sets.weapons.DualRanged = {main = "Rostam", sub = "Kustawi +1", range = "Fomalhaut"}
+    -- LINKTRI: rebuilt around owned weapons. Naegling and Tauret ride in PorterPacker's COR list.
+    -- Vanir Gun is the shooting gun (Compensator comes in for rolls through CompensatorMode).
+    sets.weapons.Savage = {main = "Naegling", sub = "Nusku Shield", range = "Vanir Gun"}
+    sets.weapons.DualSavage = {main = "Naegling", sub = "Gleti's Knife", range = "Vanir Gun"}
+    sets.weapons.Ranged = {main = "Gleti's Knife", sub = "Nusku Shield", range = "Vanir Gun"} -- Nusku Shield: R.Acc/R.Atk+20
+    sets.weapons.Leaden = {main = "Tauret", sub = "Nusku Shield", range = "Vanir Gun"}        -- Tauret: MAB+16, Magic Damage+217
+    sets.weapons.DualLeaden = {main = "Tauret", sub = "Gleti's Knife", range = "Vanir Gun"}
+    -- original weapon sets (Rostam, Fomalhaut, Ataktos, Blurred Knife +1, Atoyac, Kustawi +1 are not owned):
+    -- sets.weapons.Default = {main = "Naegling", sub = "Nusku Shield", range = "Fomalhaut"}
+    -- sets.weapons.Ranged = {main = "Rostam", sub = "Nusku Shield", range = "Fomalhaut"}
+    -- sets.weapons.Evisceration = {main = "Tauret", sub = "Nusku Shield", range = "Ataktos"}
+    -- sets.weapons.DualWeapons = {main = "Naegling", sub = "Gleti's Knife", range = "Fomalhaut"}
+    -- sets.weapons.DualSavageWeapons = {main = "Naegling", sub = "Blurred Knife +1", range = "Ataktos"}
+    -- sets.weapons.DualEvisceration = {main = "Tauret", sub = "Blurred Knife +1", range = "Ataktos"}
+    -- sets.weapons.Savage = {main = "Naegling", sub = "Nusku Shield", range = "Ataktos"}
+    -- sets.weapons.DualLeadenRanged = {main = "Rostam", sub = "Tauret", range = "Fomalhaut"}
+    -- sets.weapons.DualLeadenMelee = {main = "Naegling", sub = "Atoyac", range = "Fomalhaut"}
+    -- sets.weapons.DualAeolian = {main = "Rostam", sub = "Tauret", range = "Ataktos"}
+    -- sets.weapons.DualLeadenMeleeAcc = {main = "Naegling", sub = "Blurred Knife +1", range = "Fomalhaut"}
+    -- sets.weapons.DualRanged = {main = "Rostam", sub = "Kustawi +1", range = "Fomalhaut"}
 
     -- Engaged sets
 
@@ -736,143 +600,80 @@ function init_gear_sets()
 
     -- Normal melee group
     sets.engaged = {
-        head = "Dampening Tam",
-        neck = "Iskur Gorget",
-        ear1 = "Cessance Earring",
-        ear2 = "Brutal Earring",
-        body = "Meg. Cuirie +2",
+        ammo = gear.RAbullet,
+        head = "Dampening Tam",          -- Quadruple Attack+3
+        neck = "Null Loop",              -- original: "Iskur Gorget" (not owned)
+        ear1 = "Crep. Earring",          -- original: "Cessance Earring" (not owned)
+        ear2 = "Telos Earring",          -- original: "Brutal Earring" (stored)
+        body = "Malignance Tabard",      -- original: "Meg. Cuirie +2" (not owned)
         hands = "Adhemar Wrist. +1",
-        ring1 = "Petrov Ring",
-        ring2 = "Epona's Ring",
+        ring1 = "Epona's Ring",          -- original: "Petrov Ring"
+        ring2 = "Chirich Ring +1",       -- original: "Epona's Ring"
         back = gear.tp_jse_back,
-        waist = "Windbuffet Belt +1",
-        legs = "Samnuha Tights",
-        feet = gear.herculean_ta_feet
+        waist = "Sailfi Belt +1",        -- original: "Windbuffet Belt +1" (not owned)
+        legs = "Chas. Culottes +3",      -- original: "Samnuha Tights"; Store TP+12, Acc+63, DT-12%
+        feet = "Malignance Boots"        -- original: gear.herculean_ta_feet (not owned)
     }
 
-    sets.engaged.Acc = {
-        head = "Carmine Mask +1",
-        neck = "Combatant's Torque",
-        ear1 = "Cessance Earring",
-        ear2 = "Telos Earring",
-        body = "Meg. Cuirie +2",
-        hands = "Adhemar Wrist. +1",
-        ring1 = "Ramuh Ring +1",
-        ring2 = "Epona's Ring",
-        back = gear.tp_jse_back,
-        waist = "Olseni Belt",
-        legs = "Carmine Cuisses +1",
-        feet = "Malignance Boots"
-    }
+    sets.engaged.Acc = set_combine(sets.engaged, {head = "Malignance Chapeau", ring1 = "Cacoethic Ring +1", waist = "Null Belt"})
+    -- original: Carmine Mask +1, Combatant's Torque, Cessance, Telos, Meg. Cuirie +2, Ramuh Ring +1, Olseni Belt,
+    --           Carmine Cuisses +1, Malignance Boots
 
+    -- DT-51%: Malignance head/body/hands/feet (6+9+5+4) + Null Loop 5 + Defending 10 + Chas. Culottes +3 12
     sets.engaged.DT = {
+        ammo = gear.RAbullet,
         head = "Malignance Chapeau",
-        neck = "Loricate Torque +1",
-        ear1 = "Cessance Earring",
-        ear2 = "Brutal Earring",
+        neck = "Null Loop",              -- original: "Loricate Torque +1"
+        ear1 = "Crep. Earring",          -- original: "Cessance Earring" (not owned)
+        ear2 = "Telos Earring",          -- original: "Brutal Earring" (stored)
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
         ring1 = "Defending Ring",
-        ring2 = "Petrov Ring",
+        ring2 = "Chirich Ring +1",       -- original: "Petrov Ring"
         back = gear.tp_jse_back,
-        waist = "Windbuffet Belt +1",
-        legs = "Malignance Tights",
+        waist = "Sailfi Belt +1",        -- original: "Windbuffet Belt +1" (not owned)
+        legs = "Chas. Culottes +3",      -- original: "Malignance Tights"
         feet = "Malignance Boots"
     }
 
-    sets.engaged.Acc.DT = {
-        head = "Malignance Chapeau",
-        neck = "Loricate Torque +1",
-        ear1 = "Cessance Earring",
-        ear2 = "Telos Earring",
-        body = "Malignance Tabard",
-        hands = "Malignance Gloves",
-        ring1 = "Defending Ring",
-        ring2 = "Ramuh Ring +1",
-        back = gear.tp_jse_back,
-        waist = "Olseni Belt",
-        legs = "Malignance Tights",
-        feet = "Malignance Boots"
-    }
+    sets.engaged.Acc.DT = set_combine(sets.engaged.DT, {waist = "Null Belt"})
+    -- original: Loricate Torque +1, Cessance, Ramuh Ring +1, Olseni Belt, Malignance Tights
 
-    sets.engaged.DW = {
-        head = "Dampening Tam",
-        neck = "Iskur Gorget",
-        ear1 = "Suppanomimi",
-        ear2 = "Brutal Earring",
-        body = "Adhemar Jacket +1",
-        hands = "Adhemar Wrist. +1",
-        ring1 = "Petrov Ring",
-        ring2 = "Epona's Ring",
-        back = gear.tp_jse_back,
-        waist = "Windbuffet Belt +1",
-        legs = "Samnuha Tights",
-        feet = gear.herculean_ta_feet
-    }
+    -- Dual wield (/NIN or /DNC): Suppanomimi DW+5, Reiki Yotai DW+7
+    sets.engaged.DW = set_combine(sets.engaged, {ear1 = "Suppanomimi", waist = "Reiki Yotai"})
+    -- original: Dampening Tam, Iskur, Suppanomimi, Brutal, Adhemar Jacket +1, Adhemar Wrist. +1, Petrov, Epona's,
+    --           Windbuffet Belt +1, Samnuha Tights, Herculean TA feet
 
-    sets.engaged.DW.Acc = {
-        head = "Carmine Mask +1",
-        neck = "Combatant's Torque",
-        ear1 = "Odr Earring",
-        ear2 = "Telos Earring",
-        body = "Malignance Tabard",
-        hands = "Floral Gauntlets",
-        ring1 = "Ramuh Ring +1",
-        ring2 = "Ramuh Ring +1",
-        back = gear.tp_jse_back,
-        waist = "Olseni Belt",
-        legs = "Carmine Cuisses +1",
-        feet = "Malignance Boots"
-    }
+    sets.engaged.DW.Acc = set_combine(sets.engaged.Acc, {ear1 = "Suppanomimi", waist = "Reiki Yotai"})
+    -- original: Carmine Mask +1, Combatant's Torque, Odr, Telos, Malignance Tabard, Floral Gauntlets, Ramuh Ring +1 x2,
+    --           Olseni Belt, Carmine Cuisses +1, Malignance Boots
 
-    sets.engaged.DW.DT = {
-        head = "Malignance Chapeau",
-        neck = "Loricate Torque +1",
-        ear1 = "Suppanomimi",
-        ear2 = "Brutal Earring",
-        body = "Malignance Tabard",
-        hands = "Malignance Gloves",
-        ring1 = "Defending Ring",
-        ring2 = "Epona's Ring",
-        back = gear.tp_jse_back,
-        waist = "Reiki Yotai",
-        legs = "Malignance Tights",
-        feet = "Malignance Boots"
-    }
+    sets.engaged.DW.DT = set_combine(sets.engaged.DT, {ear1 = "Suppanomimi", waist = "Reiki Yotai"})
+    -- original: Malignance + Loricate, Suppanomimi, Brutal, Defending, Epona's, Reiki Yotai
 
-    sets.engaged.DW.Acc.DT = {
-        head = "Malignance Chapeau",
-        neck = "Loricate Torque +1",
-        ear1 = "Suppanomimi",
-        ear2 = "Telos Earring",
-        body = "Malignance Tabard",
-        hands = "Malignance Gloves",
-        ring1 = "Defending Ring",
-        ring2 = "Ramuh Ring +1",
-        back = gear.tp_jse_back,
-        waist = "Reiki Yotai",
-        legs = "Malignance Tights",
-        feet = "Malignance Boots"
-    }
+    sets.engaged.DW.Acc.DT = set_combine(sets.engaged.DT, {ear1 = "Suppanomimi", waist = "Reiki Yotai"})
+    -- original: Malignance + Loricate, Suppanomimi, Telos, Defending, Ramuh Ring +1, Reiki Yotai
 
     sets.packing = {
         ammo  = gear.RAbullet,
         head  = "Nyame Helm",
         neck  = "Loricate Torque +1",
-        ear1  = "Etiolation Earring",
-        ear2  = "Sanare Earring",
+        ear1  = "Alabaster Earring",     -- original: "Etiolation Earring"
+        ear2  = "Etiolation Earring",    -- original: "Sanare Earring"
         body  = "Nyame Mail",
         hands = "Nyame Gauntlets",
         ring1 = "Defending Ring",
-        ring2 = "Shadow Ring",
-        back  = "Moonlight Cape",
-        waist = "Fucho-no-obi",
+        ring2 = "Murky Ring",            -- original: "Shadow Ring" (not owned)
+        back  = gear.tp_jse_back,        -- original: "Moonlight Cape" (not owned)
+        waist = "Null Belt",             -- original: "Fucho-no-obi" (not COR-equippable)
         legs  = "Nyame Flanchard",
         feet  = "Nyame Sollerets"
     }
 end
 
-function job_customize_idle_set(idleSet)
+-- LINKTRI: renamed from job_customize_idle_set (COR.lua doesn't define one, but this keeps the PorterPacker
+-- logic in the user hook like every other job).
+function user_job_customize_idle_set(idleSet)
     local currently_near_porter = near_porter_moogle()
 
     if currently_near_porter then
@@ -922,16 +723,13 @@ function user_job_lockstyle()
     windower.chat.input("/lockstyleset 017")
 end
 
+-- LINKTRI: matches the rebuilt weapon sets.
+-- original: Default/Savage/DualWeapons/DualSavageWeapons = Savage Blade, Evisceration/DualEvisceration = Evisceration,
+--           Ranged/DualRanged = Last Stand, DualLeadenRanged/DualLeadenMelee = Leaden Salute, DualAeolian = Aeolian Edge
 autows_list = {
-    ["Default"] = "Savage Blade",
-    ["Evisceration"] = "Evisceration",
     ["Savage"] = "Savage Blade",
+    ["DualSavage"] = "Savage Blade",
     ["Ranged"] = "Last Stand",
-    ["DualWeapons"] = "Savage Blade",
-    ["DualSavageWeapons"] = "Savage Blade",
-    ["DualEvisceration"] = "Evisceration",
-    ["DualLeadenRanged"] = "Leaden Salute",
-    ["DualLeadenMelee"] = "Leaden Salute",
-    ["DualAeolian"] = "Aeolian Edge",
-    ["DualRanged"] = "Last Stand"
+    ["Leaden"] = "Leaden Salute",
+    ["DualLeaden"] = "Leaden Salute"
 }
