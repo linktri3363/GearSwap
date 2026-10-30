@@ -277,17 +277,22 @@ function init_gear_sets()
 	sets.NightIdle = {}
 
 	-- MELEE (SINGLE-WIELD)
+	-- LINKTRI 2026-10-29: R30 Gleti's (Attack+70 / Accuracy+55 per piece, PDL, crit, Regain+10 total) + Nukumi
+	-- Ocreae +3 (DA+6%, PDL+10%) + Ephramad's Ring. Gear haste 29% (cap 25%). Telos kept for Store TP.
+	-- The Nukumi set bonus needs a pet out, so for no-pet melee the Nukumi pieces only count for their own stats.
 	sets.engaged = {ammo="Coiste Bodhar",
-		head="Malignance Chapeau",neck="Anu Torque",ear1="Sherida Earring",ear2="Telos Earring",
-		body="Gleti's Cuirass",hands="Malignance Gloves",ring1="Hetairoi Ring",ring2="Gere Ring", -- original: ring1 Gere, ring2 Hetairoi
-		back="Null Shawl",waist="Sailfi Belt +1",legs="Gleti's Breeches",feet="Malignance Boots"}
+		head="Gleti's Mask",neck="Anu Torque",ear1="Sherida Earring",ear2="Telos Earring", -- original head: Malignance Chapeau
+		body="Gleti's Cuirass",hands="Gleti's Gauntlets",ring1="Ephramad's Ring",ring2="Gere Ring", -- original: hands Malignance Gloves, ring1 Hetairoi Ring
+		back="Null Shawl",waist="Sailfi Belt +1",legs="Gleti's Breeches",feet="Nukumi Ocreae +3"} -- original feet: Malignance Boots
 
 	sets.engaged.SomeAcc = set_combine(sets.engaged, {neck="Shulmanu Collar"})
 
-	sets.engaged.Acc = set_combine(sets.engaged.SomeAcc, {neck="Null Loop",ear1="Mache Earring +1",body="Malignance Tabard",
-		ring1="Cacoethic Ring +1",ring2="Chirich Ring +1",waist="Null Belt",legs="Malignance Tights"})
+	-- original Acc: SomeAcc + Null Loop, Mache Earring +1, Malignance Tabard, Cacoethic Ring +1, Chirich Ring +1, Null Belt, Malignance Tights
+	sets.engaged.Acc = set_combine(sets.engaged.SomeAcc, {neck="Null Loop",ring2="Chirich Ring +1"})
 
-	sets.engaged.FullAcc = set_combine(sets.engaged.Acc, {ammo="Voluspa Tathlum",head="Nuk. Cabasset +3"})
+	-- original FullAcc: Acc + Voluspa Tathlum, Nuk. Cabasset +3. Nukumi head/hands/legs Acc+61~63; haste 26% without Sailfi.
+	sets.engaged.FullAcc = set_combine(sets.engaged.Acc, {ammo="Voluspa Tathlum",head="Nuk. Cabasset +3",ear1="Mache Earring +1",
+		hands="Nukumi Manoplas +3",waist="Null Belt",legs="Nukumi Quijotes +3"})
 
 	sets.engaged.Fodder = set_combine(sets.engaged, {neck="Asperity Necklace",ear1="Trux Earring"})
 
