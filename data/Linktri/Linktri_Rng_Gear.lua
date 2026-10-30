@@ -81,6 +81,10 @@ function init_gear_sets()
 	sets.precast.JA['Shadowbind'] = {hands="Orion Bracers +1"}
 	sets.precast.JA['Sharpshot'] = {legs="Orion Braccae +3"}
 	sets.precast.JA['Double Shot'] = {back=gear.tp_ranger_jse_back}
+	-- LINKTRI: Arcadian +1 (relic) job ability pieces.
+	sets.precast.JA['Eagle Eye Shot'] = {legs="Arc. Braccae +1"}  -- enhances Eagle Eye Shot
+	sets.precast.JA['Flashy Shot'] = {hands="Arc. Bracers +1"}    -- enhances Flashy Shot
+	sets.precast.JA['Stealth Shot'] = {feet="Arcadian Socks +1"}  -- enhances Stealth Shot
 
 
 	-- Fast cast sets for spells
@@ -95,13 +99,19 @@ function init_gear_sets()
 
 	-- Ranged sets (snapshot)
 	
+	-- LINKTRI: Snapshot from owned gear: Ikenga's Hat 6 + Vest 9 + Gloves 7 + Trousers 8 + Clogs 5 + Crepuscular Ring 3
+	-- = 38% (Ikenga's beats Arc. Bracers +1 4% / Arc. Braccae +1 5% for Snapshot). Cap is 70% including Flurry.
+	-- Under Flurry II (+30%) the Vest swaps for Arc. Jerkin +1 (Rapid Shot+12%) and stays under the cap.
+	-- original: head="Amini Gapette +3", body="Amini Caban +3", hands="Carmine Fin. Ga. +1", waist="Impulse Belt",
+	--           legs="Orion Braccae +3", feet="Meg. Jam. +2" (not owned)
 	sets.precast.RA = {
-		head="Amini Gapette +3", --7
-		body="Amini Caban +3",hands="Carmine Fin. Ga. +1",ring1="Crepuscular Ring", --11
-		back=gear.snapshot_jse_back,waist="Impulse Belt",legs="Orion Braccae +3",feet="Meg. Jam. +2"} --38
-		
+		head="Ikenga's Hat",
+		body="Ikenga's Vest",hands="Ikenga's Gloves",ring1="Crepuscular Ring",
+		back=gear.snapshot_jse_back,legs="Ikenga's Trousers",feet="Ikenga's Clogs"}
+
 	sets.precast.RA.Flurry = set_combine(sets.precast.RA, {})
-	sets.precast.RA.Flurry2 = set_combine(sets.precast.RA, {head="Orion Beret +3",waist="Yemaya Belt",legs="Adhemar Kecks +1"})
+	-- original Flurry2: head="Orion Beret +3", waist="Yemaya Belt", legs="Adhemar Kecks +1" (not owned)
+	sets.precast.RA.Flurry2 = set_combine(sets.precast.RA, {body="Arc. Jerkin +1"})
 
 
 	-- Weaponskill sets
