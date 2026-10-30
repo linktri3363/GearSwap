@@ -79,7 +79,7 @@ function init_gear_sets()
 	sets.precast.JA['Camouflage'] = {body="Orion Jerkin +1"}
 	sets.precast.JA['Scavenge'] = {feet="Orion Socks +1"}
 	sets.precast.JA['Shadowbind'] = {hands="Orion Bracers +1"}
-	sets.precast.JA['Sharpshot'] = {legs="Orion Braccae +3"}
+	sets.precast.JA['Sharpshot'] = {legs="Orion Braccae +1"} -- original: "Orion Braccae +3" (you own the +1: Sharpshot+12)
 	sets.precast.JA['Double Shot'] = {back=gear.tp_ranger_jse_back}
 	-- LINKTRI: Arcadian +1 (relic) job ability pieces.
 	sets.precast.JA['Eagle Eye Shot'] = {legs="Arc. Braccae +1"}  -- enhances Eagle Eye Shot
@@ -99,15 +99,15 @@ function init_gear_sets()
 
 	-- Ranged sets (snapshot)
 	
-	-- LINKTRI: Snapshot from owned gear: Ikenga's Hat 6 + Vest 9 + Gloves 7 + Trousers 8 + Clogs 5 + Crepuscular Ring 3
-	-- = 38% (Ikenga's beats Arc. Bracers +1 4% / Arc. Braccae +1 5% for Snapshot). Cap is 70% including Flurry.
-	-- Under Flurry II (+30%) the Vest swaps for Arc. Jerkin +1 (Rapid Shot+12%) and stays under the cap.
-	-- original: head="Amini Gapette +3", body="Amini Caban +3", hands="Carmine Fin. Ga. +1", waist="Impulse Belt",
-	--           legs="Orion Braccae +3", feet="Meg. Jam. +2" (not owned)
+	-- LINKTRI: Snapshot: Amini Gapette +3 9 + Ikenga's Vest 9 + Ikenga's Gloves 7 + Ikenga's Trousers 8 + Meg. Jam. +2 10
+	-- + Crepuscular Ring 3 = 46% (cap 70% including Flurry). Arc. Bracers +1 (4%) / Arc. Braccae +1 (5%) are lower.
+	-- Under Flurry II (+30%) the Vest swaps for Arc. Jerkin +1 (Rapid Shot+12%): 67%, under the cap.
+	-- original: body="Amini Caban +3" (no Snapshot), hands="Carmine Fin. Ga. +1", waist="Impulse Belt" (not owned),
+	--           legs="Orion Braccae +3" (you own the +1, no Snapshot)
 	sets.precast.RA = {
-		head="Ikenga's Hat",
+		head="Amini Gapette +3",
 		body="Ikenga's Vest",hands="Ikenga's Gloves",ring1="Crepuscular Ring",
-		back=gear.snapshot_jse_back,legs="Ikenga's Trousers",feet="Ikenga's Clogs"}
+		back=gear.snapshot_jse_back,legs="Ikenga's Trousers",feet="Meg. Jam. +2"}
 
 	sets.precast.RA.Flurry = set_combine(sets.precast.RA, {})
 	-- original Flurry2: head="Orion Beret +3", waist="Yemaya Belt", legs="Adhemar Kecks +1" (not owned)
