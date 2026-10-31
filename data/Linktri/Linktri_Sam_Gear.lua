@@ -44,8 +44,8 @@ function init_gear_sets()
     --------------------------------------
 
     -- Precast sets to enhance JAs
-    sets.precast.JA.Meditate = {head = "Wakido Kabuto +2", hands = "Sakonji Kote +3", back = gear.ws_jse_back}  -- Meditate duration +4 head, +12 hands
-    sets.precast.JA["Warding Circle"] = {head = "Wakido Kabuto +2"}  -- LINKTRI 2026-10-24: was +1 (upgraded)
+    sets.precast.JA.Meditate = {head = "Wakido Kabuto +3", hands = "Sakonji Kote +3", back = gear.ws_jse_back}  -- Meditate duration +8 head (+3; original: "Wakido Kabuto +2"), +12 hands
+    sets.precast.JA["Warding Circle"] = {head = "Wakido Kabuto +3"}  -- LINKTRI 2026-10-30: +3 (original: "Wakido Kabuto +2", before that +1)
     sets.precast.JA["Blade Bash"] = {hands = "Sakonji Kote +3"}  -- Enhances Blade Bash
 
     -- LINKTRI 2026-10-25: Sakonji (relic) merit-ability enhancements, worn when the ability is used
