@@ -414,7 +414,7 @@ function init_gear_sets()
     sets.Cure_Received = {legs = "Flamma Dirs +2"}  -- Cure received +9%; original also hands "Buremte Gloves", waist "Gishdubar Sash" (not owned)
     sets.buff.Doom = set_combine(sets.buff.Doom, {})
     sets.buff.Sleep = {}  -- original: {neck = "Vim Torque +1"} (not owned)
-    sets.buff.Hasso = {hands = "Wakido Kote +2"}  -- LINKTRI 2026-10-24: was +1 (upgraded); Hasso+3
+    sets.buff.Hasso = {hands = "Wakido Kote +3"}  -- LINKTRI 2026-10-31: +3, Hasso+4 (original: "Wakido Kote +2", Hasso+3)
     sets.buff["Third Eye"] = {legs = "Sakonji Haidate +3"}  -- LINKTRI 2026-10-26: Third Eye Counter rate +35, Counter dmg +25, MDT-7% (SAM.lua applies it under Seigan + Third Eye, non-Acc modes)
     sets.buff.Sekkanoki = {hands = "Kasuga Kote +3"}
     sets.buff.Sengikori = {feet = "Kas. Sune-Ate +3"}
