@@ -31,36 +31,35 @@ function user_job_setup()
 	               ['Ullr'] = "Bow",
 	               }
 
--- LINKTRI: ammo you own. Bows only have Kabura Arrow (Silence effect, DMG 38) and crossbows have no bolts yet;
--- swap the names in once you buy better ammo (Chrono Arrow, Quelling / Achiyal. Bolt, Chrono Bullet).
+-- LINKTRI 2026-10-31: Voluspa Arrow / Bolt / Bullet (all R.Acc/R.Atk+20; DMG 105 / 132 / 270).
 -- Hauksbok "Unlimited" entries only equip if you own them.
 DefaultAmmo = {
     ['Bow'] = {
-        ['Default'] = "Kabura Arrow",   -- original: "Chapuli Arrow" (not owned)
-        ['WS'] = "Kabura Arrow",        -- original: "Chapuli Arrow" (not owned)
-        ['Acc'] = "Kabura Arrow",       -- original: "Scorpion Arrow" (not owned)
-        ['Magic'] = "Kabura Arrow",     -- original: "Chapuli Arrow" (not owned)
-        ['MagicAcc'] = "Kabura Arrow",  -- original: "Scorpion Arrow" (not owned)
+        ['Default'] = "Voluspa Arrow",   -- was "Kabura Arrow"
+        ['WS'] = "Voluspa Arrow",   -- was "Kabura Arrow"
+        ['Acc'] = "Voluspa Arrow",   -- was "Kabura Arrow"
+        ['Magic'] = "Voluspa Arrow",   -- was "Kabura Arrow"
+        ['MagicAcc'] = "Voluspa Arrow",   -- was "Kabura Arrow"
         ['Unlimited'] = "Hauksbok Arrow",
         ['MagicUnlimited'] = "Hauksbok Arrow",
         ['MagicAccUnlimited'] = "Hauksbok Arrow"
     },
     ['Gun'] = {
-        ['Default'] = "Eminent Bullet",   -- original: "Chrono Bullet" (not owned)
-        ['WS'] = "Eminent Bullet",        -- original: "Chrono Bullet" (not owned)
-        ['Acc'] = "Eminent Bullet",       -- original: "Chrono Bullet" (not owned)
-        ['Magic'] = "Eminent Bullet",     -- original: "Orichalc. Bullet" (not owned)
-        ['MagicAcc'] = "Eminent Bullet",  -- original: "Orichalc. Bullet" (not owned)
+        ['Default'] = "Voluspa Bullet",  -- was "Eminent Bullet"
+        ['WS'] = "Voluspa Bullet",  -- was "Eminent Bullet"
+        ['Acc'] = "Voluspa Bullet",  -- was "Eminent Bullet"
+        ['Magic'] = "Voluspa Bullet",  -- was "Eminent Bullet"
+        ['MagicAcc'] = "Voluspa Bullet",  -- was "Eminent Bullet"
         ['Unlimited'] = "Hauksbok Bullet",
         ['MagicUnlimited'] = "Hauksbok Bullet",
         ['MagicAccUnlimited'] = "Hauksbok Bullet" -- original: "Animikii Bullet" (not owned)
     },
     ['Crossbow'] = {
-        ['Default'] = "Quelling Bolt",   -- original: "Eminent Bolt". No bolts owned yet - buy Quelling or Achiyal. Bolts
-        ['WS'] = "Quelling Bolt",
-        ['Acc'] = "Quelling Bolt",
-        ['Magic'] = "Quelling Bolt",
-        ['MagicAcc'] = "Quelling Bolt",
+        ['Default'] = "Voluspa Bolt",    -- was "Quelling Bolt" (Aeonic-only)
+        ['WS'] = "Voluspa Bolt",    -- was "Quelling Bolt" (Aeonic-only)
+        ['Acc'] = "Voluspa Bolt",    -- was "Quelling Bolt" (Aeonic-only)
+        ['Magic'] = "Voluspa Bolt",    -- was "Quelling Bolt" (Aeonic-only)
+        ['MagicAcc'] = "Voluspa Bolt",    -- was "Quelling Bolt" (Aeonic-only)
         ['Unlimited'] = "Hauksbok Bolt",
         ['MagicUnlimited'] = "Hauksbok Bolt",
         ['MagicAccUnlimited'] = "Hauksbok Bolt"
