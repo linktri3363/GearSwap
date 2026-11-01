@@ -52,6 +52,10 @@ function user_job_setup()
     send_command("bind !r gs c weapons Naegling;gs c update")
     send_command("bind ^r gs c weapons Chango;gs c update")
 
+    -- LINKTRI 2026-11-01: Hoxne Ampulla mode (same as DNC/MNK). Toggle: //gs c hoxne, or Ctrl+Alt+H.
+    state.HoxneMode = M(false, 'Hoxne Ampulla Mode')
+    send_command('bind ^!h gs c hoxne')
+
     select_default_macro_book()
 end
 
@@ -179,8 +183,8 @@ function init_gear_sets()
         ammo = "Knobkierrie",
         head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Hoxne Earring",          -- LINKTRI: original: Ishvara Earring (WSD+2%). All stats +15 (Mastery Rank 7)
-        ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
+        ear1 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}}, -- LINKTRI 2026-11-01: Moonshade ear1 / Hoxne ear2 on every WS (Boii +2 is ear2-only)
+        ear2 = "Hoxne Earring",          -- All stats +15 (Mastery Rank 7). Earlier original: Ishvara Earring
         body = {name = "Nyame Mail", augments = {"Path: B"}},
         hands = "Boii Mufflers +3",
         ring1 = "Ephramad's Ring",
@@ -192,8 +196,8 @@ function init_gear_sets()
     }
 
     -- LINKTRI: Cessance Earring not owned -> Telos Earring; Acc ear2 uses Boii Earring +2 (Acc+17).
-    sets.precast.WS.SomeAcc = set_combine(sets.precast.WS, {ear1 = "Telos Earring"})
-    sets.precast.WS.Acc = set_combine(sets.precast.WS, {head = "Flam. Zucchetto +2", ear1 = "Telos Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}})
+    sets.precast.WS.SomeAcc = set_combine(sets.precast.WS, {ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}}) -- LINKTRI 2026-11-01: Boii +2 (Acc+17) replaces Hoxne; Moonshade stays. original: ear1 = "Telos Earring"
+    sets.precast.WS.Acc = set_combine(sets.precast.WS, {head = "Flam. Zucchetto +2", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}}) -- LINKTRI 2026-11-01: keeps Moonshade (was replaced by Boii +2). original also had ear1 = "Telos Earring"
     sets.precast.WS.FullAcc = set_combine(sets.precast.WS.Acc, {ring1 = "Chirich Ring +1", ring2 = "Chirich Ring +1"})
     sets.precast.WS.Fodder = set_combine(sets.precast.WS, {})
 
@@ -204,8 +208,8 @@ function init_gear_sets()
         ammo = "Knobkierrie",
         head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Hoxne Earring",          -- LINKTRI: original: Ishvara Earring (WSD+2%). All stats +15 (Mastery Rank 7)
-        ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
+        ear1 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}}, -- LINKTRI 2026-11-01: Moonshade ear1 / Hoxne ear2 on every WS (Boii +2 is ear2-only)
+        ear2 = "Hoxne Earring",          -- All stats +15 (Mastery Rank 7). Earlier original: Ishvara Earring
         body = {name = "Nyame Mail", augments = {"Path: B"}}, -- LINKTRI: WSD+12% and more MND than Sakpata's Plate (no WSD)
         hands = "Boii Mufflers +3",
         ring1 = "Ephramad's Ring",
@@ -221,8 +225,8 @@ function init_gear_sets()
         ammo = "Knobkierrie",
         head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Hoxne Earring",          -- LINKTRI: original: Ishvara Earring (WSD+2%). All stats +15 (Mastery Rank 7)
-        ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
+        ear1 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}}, -- LINKTRI 2026-11-01: Moonshade ear1 / Hoxne ear2 on every WS (Boii +2 is ear2-only)
+        ear2 = "Hoxne Earring",          -- All stats +15 (Mastery Rank 7). Earlier original: Ishvara Earring
         body = {name = "Nyame Mail", augments = {"Path: B"}},
         hands = "Boii Mufflers +3",
         ring1 = "Ephramad's Ring",
@@ -238,8 +242,8 @@ function init_gear_sets()
         ammo = {name = "Coiste Bodhar", augments = {"Path: A"}},
         head = {name = "Agoge Mask +4", augments = {'Enhances "Savagery" effect'}},
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Hoxne Earring",          -- LINKTRI: original: Schere Earring (DA only helps the first hit). All stats +15 (Mastery Rank 7)
-        ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
+        ear1 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}}, -- LINKTRI 2026-11-01: sides swapped (was Hoxne ear1 / Moonshade ear2)
+        ear2 = "Hoxne Earring",          -- All stats +15. Earlier original: Schere Earring
         body = "Agoge Lorica +4",
         hands = "Agoge Mufflers +4",
         ring1 = "Ephramad's Ring",
@@ -255,7 +259,7 @@ function init_gear_sets()
         ammo = {name = "Coiste Bodhar", augments = {"Path: A"}},
         head = {name = "Agoge Mask +4", augments = {'Enhances "Savagery" effect'}},
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Hoxne Earring",          -- LINKTRI: original: Schere Earring (DA only helps the first hit). All stats +15 (Mastery Rank 7)
+        ear1 = "Schere Earring",         -- LINKTRI 2026-11-01: back to Schere (Hoxne lives in ear2; Boii +2 holds ear2 here). Was Hoxne Earring
         ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}, -- LINKTRI: DA+9% (right ear only)
         body = "Agoge Lorica +4",
         hands = "Agoge Mufflers +4",
@@ -294,8 +298,8 @@ function init_gear_sets()
         ammo = "Knobkierrie",
         head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Hoxne Earring",          -- LINKTRI: original: Ishvara Earring (WSD+2%). All stats +15 (Mastery Rank 7)
-        ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
+        ear1 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}}, -- LINKTRI 2026-11-01: Moonshade ear1 / Hoxne ear2 on every WS (Boii +2 is ear2-only)
+        ear2 = "Hoxne Earring",          -- All stats +15 (Mastery Rank 7). Earlier original: Ishvara Earring
         body = {name = "Nyame Mail", augments = {"Path: B"}},
         hands = "Boii Mufflers +3",
         ring1 = "Ephramad's Ring",
@@ -312,8 +316,8 @@ function init_gear_sets()
         ammo = "Knobkierrie",
         head = "Agoge Mask +4",
         neck = {name = "War. Beads +2", augments = {"Path: A"}},
-        ear1 = "Hoxne Earring",          -- LINKTRI: original: Ishvara Earring (WSD+2%). All stats +15 (Mastery Rank 7)
-        ear2 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}},
+        ear1 = {name = "Moonshade Earring", augments = {"Attack+4", "TP Bonus +250"}}, -- LINKTRI 2026-11-01: Moonshade ear1 / Hoxne ear2 on every WS (Boii +2 is ear2-only)
+        ear2 = "Hoxne Earring",          -- All stats +15 (Mastery Rank 7). Earlier original: Ishvara Earring
         body = {name = "Nyame Mail", augments = {"Path: B"}},
         hands = "Boii Mufflers +3",
         ring1 = "Ephramad's Ring",
@@ -346,10 +350,12 @@ function init_gear_sets()
     -- LINKTRI: Brutal/Cessance earrings not owned. WAR.lua reads ear1 and ear2 of the base sets, so both
     -- are always defined. Per-WS versions keep each WS's own non-Moonshade ear.
     -- LINKTRI: ear1 Hoxne (was Ishvara) so capped-TP swaps keep the WS sets' Hoxne Earring.
-    sets.MaxTP = {ear1 = "Hoxne Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}}
+    -- LINKTRI 2026-11-01: Moonshade is ear1 now, so capped TP swaps ear1; ear2 stays the WS's own (Hoxne or Boii +2).
+    -- original: MaxTP {ear1 Hoxne, ear2 Boii +2}; AccMaxTP {ear1 Telos, ear2 Boii +2}; Resolution/Rampage {ear1 Hoxne, ear2 Boii +2}
+    sets.MaxTP = {ear1 = "Ishvara Earring", ear2 = "Hoxne Earring"}
     sets.AccMaxTP = {ear1 = "Telos Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}}
-    sets.MaxTP["Resolution"] = {ear1 = "Hoxne Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}} -- LINKTRI: was Schere
-    sets.MaxTP["Rampage"] = {ear1 = "Hoxne Earring", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}} -- LINKTRI: was Telos; Hoxne DEX+15 also adds crit rate
+    sets.MaxTP["Resolution"] = {ear1 = "Schere Earring", ear2 = "Hoxne Earring"}
+    sets.MaxTP["Rampage"] = {ear1 = "Mache Earring +1", ear2 = {name = "Boii Earring +2", augments = {'System: 1 ID: 1676 Val: 0','Accuracy+17','Mag. Acc.+17','Crit.hit rate+6','STR+9 VIT+9'}}} -- DEX+8 for crit rate
     sets.MaxTP["Ukko's Fury"] = sets.MaxTP["Rampage"]
 
     -- Sets to return to when not performing an action.
@@ -360,16 +366,17 @@ function init_gear_sets()
     -- Idle sets
     sets.idle = {
         ammo = "Staunch Tathlum +1",
-        head = "Boii Mask +3",
-        neck = "Null Loop",
+        -- LINKTRI 2026-11-01: idle was DT-89% (cap 50%); trades the surplus for Regen+11 and still sits at DT-73%.
+        head = "Null Masque",            -- original: "Boii Mask +3". DT-10%, Regen+3, Refresh+1, Regain+2
+        neck = "Bathy Choker +1",        -- original: "Null Loop". Regen+3
         ear1 = {name = "Alabaster Earring", augments = {"Path: A"}},
         ear2 = "Odnowa Earring +1",
         body = "Boii Lorica +3",
         hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
-        ring1 = {name = "Murky Ring", augments = {"Path: A"}},
+        ring1 = "Chirich Ring +1",       -- original: Murky Ring. Regen+2
         ring2 = "Defending Ring",
         back = gear.wsd_jse_back,
-        waist = {name = "Sailfi Belt +1", augments = {"Path: A"}},
+        waist = "Null Belt",             -- original: "Sailfi Belt +1". Regen+3
         legs = {name = "Nyame Flanchard", augments = {"Path: B"}},
         feet = "Boii Calligae +3"
     }
@@ -378,6 +385,7 @@ function init_gear_sets()
         ammo = "Staunch Tathlum +1",
         neck = {name = "Loricate Torque +1", augments = {"Path: A"}},
         ear1 = {name = "Alabaster Earring", augments = {"Path: A"}},
+        ring1 = {name = "Murky Ring", augments = {"Path: A"}}, -- LINKTRI 2026-11-01: idle now uses Chirich here
         ring2 = "Defending Ring"
     })
 
@@ -393,7 +401,7 @@ function init_gear_sets()
         ammo  = "Staunch Tathlum +1",
         head  = "Null Masque",
         neck  = "Null Loop",
-        ear1  = "Cryptic Earring",
+        ear1  = {name = "Alabaster Earring", augments = {"Path: A"}}, -- LINKTRI 2026-11-01: original: "Cryptic Earring" (Cryptic stays ear2)
         ear2  = "Odnowa Earring +1",
         body  = {name = "Sakpata's Plate", augments = {"Path: A"}},
         hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
@@ -479,7 +487,7 @@ function init_gear_sets()
         hands = {name = "Sakpata's Gauntlets", augments = {"Path: A"}},
         ring1 = "Chirich Ring +1",
         ring2 = "Chirich Ring +1",
-        back = gear.da_jse_back,
+        back = "Null Shawl",             -- LINKTRI 2026-11-01: DA+7%, Store TP+7, Acc+50. The one Cichol's Mantle (WSD/DT augments) stays on WS + PDT/MDT. original: gear.da_jse_back
         waist = {name = "Sailfi Belt +1", augments = {"Path: A"}},
         legs = "Boii Cuisses +3",
         feet = "Pumm. Calligae +4" -- LINKTRI: DA+9%, Haste+4%, Acc/Atk over Flam. Gambieras +2
@@ -554,12 +562,12 @@ function init_gear_sets()
     sets.weapons.Loxotic = {main = "Loxotic Mace +1", sub = "Blurred Shield +1"}
     sets.weapons.DualWeapons = {main = "Naegling", sub = {name = "Ternion Dagger +1", augments = {'Path: A'}}}
     sets.weapons.Greatsword = {main = "Mes'Yohi Sword", sub = "Utu Grip"}
-    sets.weapons.ProcStaff = {main = "Chatoyant Staff", sub = ""}
+    sets.weapons.ProcStaff = {main = "Chatoyant Staff", sub = empty} -- LINKTRI 2026-11-01: original: sub = "" (doesn't unequip)
 
     -- Special buff sets
     sets.buff.Retaliation = {}
     sets.buff.Restraint = {}
-    sets.TreasureHunter = {}
+    sets.TreasureHunter = {waist = "Chaac Belt", legs = "Volte Hose"} -- LINKTRI 2026-11-01: original: {} (TH mode equipped nothing)
     sets.Capacity = {back = "Mecisto. Mantle"} -- LINKTRI: augments didn't match the owned cape (only one owned)
 
     -- Custom melee group sets
@@ -588,11 +596,121 @@ function user_job_customize_melee_set(meleeSet)
             and (state.OffenseMode.value == 'Normal' or state.OffenseMode.value == 'Fodder') then
         meleeSet = set_combine(meleeSet, sets.engaged.TwoHanded)
     end
+    meleeSet = hoxne_overlay(meleeSet)
     return meleeSet
 end
 
+-- ======================================================================
+-- LINKTRI MODIFICATION 2026-11-01: Hoxne Ampulla mode (ported from the MNK/DNC files).
+-- With the enchantment up, Double Attack is already +100% from the ampulla, so DA on gear is wasted
+-- and every DA proc costs 1,000 gil. Triple Attack procs are free. While the mode is on, melee sets
+-- swap their DA pieces for the best non-DA piece in the same slot:
+--   ear1 Schere (DA+6%)              -> Telos Earring (Acc/Atk+10, Store TP+5)
+--   ear2 Boii Earring +2 (DA+9%)     -> Hoxne Earring (all stats +15 at Mastery Rank 7)
+--   back Null Shawl (DA+7%)          -> Cichol's Mantle ("Double Attack" damage +20 - still pays off on every DA)
+-- and, only in the Normal hybrid mode (PDT/MDT keep their Sakpata's DT core):
+--   body Sakpata's Plate (DA+8%)     -> Hjarrandi Breastplate (Crit+13%, Store TP+10, DT-12%)
+--   hands Sakpata's Gauntlets (DA+6%)-> Flam. Manopolas +2 (Crit+8%, Store TP+6)
+--   legs Pumm. Cuisses +4 (DA+11%)   -> Boii Cuisses +3 (PDL+10%, Acc+63, Atk+73)
+--   feet Pumm. Calligae +4 (DA+9%)   -> Boii Calligae +3 (Acc/Atk+60, DT-10%)
+-- Ammo is handled by the toggle (ampulla equipped and the slot locked). Gear haste stays over the cap.
+-- Skipped in DefenseMode. Weaponskill sets are unchanged.
+-- REVERT: delete this block, the hoxne_overlay call above, and the two HoxneMode lines in user_job_setup.
+-- ======================================================================
+local HOXNE_SWAPS = {
+    {{'ear1', 'left_ear'},   {["Schere Earring"] = "Telos Earring"}, false},
+    {{'ear2', 'right_ear'},  {["Boii Earring +2"] = "Hoxne Earring"}, false},
+    {{'back'},               {["Null Shawl"] = 'CICHOL'}, false},   -- resolved to gear.da_jse_back at swap time
+    {{'body'},               {["Sakpata's Plate"] = "Hjarrandi Breast."}, true},
+    {{'hands'},              {["Sakpata's Gauntlets"] = "Flam. Manopolas +2"}, true},
+    {{'legs'},               {["Pumm. Cuisses +4"] = "Boii Cuisses +3"}, true},
+    {{'feet'},               {["Pumm. Calligae +4"] = "Boii Calligae +3"}, true},
+}
+
+local function hoxne_name(item)
+    if type(item) == 'table' then return item.name end
+    return item
+end
+
+function hoxne_overlay(meleeSet)
+    if not (state.HoxneMode and state.HoxneMode.value) or state.DefenseMode.value ~= 'None' then
+        return meleeSet
+    end
+    local armor_ok = state.HybridMode.value == 'Normal'
+    local swaps = {}
+    for _,entry in ipairs(HOXNE_SWAPS) do
+        local keys, map, armor = entry[1], entry[2], entry[3]
+        if armor_ok or not armor then
+            for _,key in ipairs(keys) do
+                local current = hoxne_name(meleeSet[key])
+                if current and map[current] then
+                    local item = map[current]
+                    if item == 'CICHOL' then item = gear.da_jse_back end
+                    swaps[keys[1]] = item
+                end
+            end
+        end
+    end
+    if next(swaps) then
+        meleeSet = set_combine(meleeSet, swaps)
+    end
+    return meleeSet
+end
+
+-- Game item data: the ampulla must be worn 5s before it can be used, with a 60s recast.
+-- Polls the item's ready flag once a second and uses it the moment it's ready (not Sel's useItem,
+-- which would move it to the satchel and unlock the slot, dropping the buff).
+local HOXNE_MAX_TRIES = 15      -- 5s equip delay + margin for being mid-action
+
+function hoxne_try_use(attempt)
+    attempt = attempt or 1
+    if not (state.HoxneMode and state.HoxneMode.value) then return end
+    if player.equipment.ammo ~= "Hoxne Ampulla" then
+        add_to_chat(123, 'Hoxne: ampulla is not equipped - not using it.')
+        return
+    end
+
+    local item = get_usable_item("Hoxne Ampulla")
+    if item and item.usable and not midaction() then
+        windower.chat.input('/item "Hoxne Ampulla" <me>')
+        add_to_chat(122, 'Hoxne: using Hoxne Ampulla (DA+100%, 1,000g per DA proc).')
+    elseif attempt < HOXNE_MAX_TRIES then
+        coroutine.schedule(function() hoxne_try_use(attempt + 1) end, 1)
+    else
+        add_to_chat(123, 'Hoxne: ampulla still not ready (recast is 60s). Use it manually or toggle Hoxne mode again.')
+    end
+end
+
+-- Zoning drops the enchantment; re-use the ampulla once loaded in if Hoxne mode is still on.
+function user_job_zone_change(new_id, old_id)
+    if state.HoxneMode and state.HoxneMode.value then
+        coroutine.schedule(function() hoxne_try_use(1) end, 8)
+    end
+end
+
+-- //gs c hoxne: toggles the mode. Locks the ammo slot while active so gear swaps can never
+-- unequip the ampulla (which would drop the DA+100% buff).
+function user_job_self_command(commandArgs, eventArgs)
+    if commandArgs[1] and commandArgs[1]:lower() == 'hoxne' then
+        state.HoxneMode:toggle()
+        if state.HoxneMode.value then
+            enable('ammo')
+            equip({ammo = "Hoxne Ampulla"})
+            disable('ammo')
+            add_to_chat(122, 'Hoxne Ampulla mode ON - ammo locked. Ampulla will be used automatically once ready (~5s), and again after zoning.')
+            coroutine.schedule(function() hoxne_try_use(1) end, 1)
+        else
+            enable('ammo')
+            add_to_chat(122, 'Hoxne Ampulla mode OFF - ammo slot unlocked.')
+        end
+        handle_equipping_gear(player.status)
+        eventArgs.handled = true
+    end
+end
+
 -- Function to customize idle sets based on current modes and conditions
-function job_customize_idle_set(idleSet)
+-- LINKTRI 2026-11-01: renamed from job_customize_idle_set (WAR.lua doesn't define one; matches the other jobs)
+function user_job_customize_idle_set(idleSet)
     -- Check if near Porter Moogle first
     local currently_near_porter = near_porter_moogle()
     
