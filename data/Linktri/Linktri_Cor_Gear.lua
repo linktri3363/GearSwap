@@ -34,9 +34,9 @@ function user_job_setup()
     )
     state.CompensatorMode:options("Always", "300", "1000", "Never")
 
-    gear.RAbullet = "Eminent Bullet"
-    gear.WSbullet = "Eminent Bullet"
-    gear.MAbullet = "Eminent Bullet" -- LINKTRI: original: "Orichalc. Bullet" (not owned; no MAB bullet owned)
+    gear.RAbullet = "Voluspa Bullet" -- LINKTRI 2026-10-31: R.Acc/R.Atk+20, DMG 270 (original: "Eminent Bullet")
+    gear.WSbullet = "Voluspa Bullet" -- LINKTRI 2026-10-31 (original: "Eminent Bullet")
+    gear.MAbullet = "Voluspa Bullet" -- LINKTRI 2026-10-31 (was "Eminent Bullet"; original: "Orichalc. Bullet", not owned)
     gear.QDbullet = "Eminent Bullet" -- LINKTRI: original: "Animikii Bullet" (not owned). Quick Draw uses up one of these.
     options.ammo_warning_limit = 15
     --Ikenga_vest_bonus = 190  -- It is 190 at R20. Uncomment if you need to manually adjust because you are using below R20
