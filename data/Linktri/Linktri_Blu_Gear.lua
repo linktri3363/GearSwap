@@ -670,34 +670,34 @@ sets.weapons.Naegbron = {
     -- Idle Sets
     sets.idle = {
         ammo="Staunch Tathlum +1",
-        head="Malignance Chapeau",
-        neck="Loricate Torque +1",
-        ear1="Etiolation Earring",
+        head="Null Masque", -- LINKTRI 2026-11-02: DT-10 Refresh+1 Regen+3 Regain+2; original: "Malignance Chapeau"
+        neck="Sibyl Scarf", -- LINKTRI 2026-11-02: Refresh+1 (Windurst); original: "Loricate Torque +1"
+        ear1={ name="Alabaster Earring", augments={'Path: A',}}, -- LINKTRI 2026-11-02: DT-5 HP+100; original: "Etiolation Earring"
         ear2="Sanare Earring",
         body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: Refresh +4 and DT-13%; original: "Jhakri Robe +2"
-        hands="Malignance Gloves",
+        hands="Hashi. Bazu. +3", -- LINKTRI 2026-11-02: DT-10; original: "Malignance Gloves"
         ring1={ name="Murky Ring", augments={'Path: A',}},
         ring2="Stikini Ring",
         back="Null Shawl", -- original: "Solemnity Cape" (not owned)
         waist="Fucho-no-Obi",
-        legs="Malignance Tights", -- original: "Carmine Cuisses +1" (not owned)
-        feet="Malignance Boots"
+        legs="Hashishin Tayt +3", -- LINKTRI 2026-11-02: DT-12; original: "Malignance Tights"
+        feet={ name="Gleti's Boots", augments={'Path: A',}} -- LINKTRI 2026-11-02: PDT-5 Regain+2; original: "Malignance Boots"
     }
 
     sets.idle.PDT = {
         ammo="Staunch Tathlum +1",
-        head="Malignance Chapeau",
+        head="Null Masque", -- LINKTRI 2026-11-02: DT-10 Refresh+1 Regen+3 Regain+2; original: "Malignance Chapeau"
         neck="Loricate Torque +1",
-        ear1="Etiolation Earring",
+        ear1={ name="Alabaster Earring", augments={'Path: A',}}, -- LINKTRI 2026-11-02: DT-5 HP+100; original: "Etiolation Earring"
         ear2="Sanare Earring",
-        body="Malignance Tabard",
-        hands="Malignance Gloves",
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: DT-13 Refresh+4; original: "Malignance Tabard"
+        hands="Hashi. Bazu. +3", -- LINKTRI 2026-11-02: DT-10; original: "Malignance Gloves"
         ring1={ name="Murky Ring", augments={'Path: A',}},
-        ring2="Stikini Ring",
+        ring2="Defending Ring", -- LINKTRI 2026-11-02: DT-10; original: "Stikini Ring"
         back="Null Shawl", -- original: "Solemnity Cape" (not owned)
         waist="Fucho-no-Obi",
-        legs="Malignance Tights",
-        feet="Malignance Boots"
+        legs="Hashishin Tayt +3", -- LINKTRI 2026-11-02: DT-12; original: "Malignance Tights"
+        feet={ name="Nyame Sollerets", augments={'Path: B'} } -- LINKTRI 2026-11-02: DT-7; original: "Malignance Boots"
     }
 
     sets.idle.Sphere = set_combine(sets.idle, {
