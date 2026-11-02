@@ -114,7 +114,7 @@ sets.weapons.Naegbron = {
         ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Brutal Earring",
         body={ name="Gleti's Cuirass", augments={'Path: A',}}, -- original: "Adhemar Jacket +1" (not owned)
-        hands="Jhakri Cuffs +2",
+        hands={ name="Nyame Gauntlets", augments={'Path: B'} }, -- LINKTRI 2026-11-02: original: "Jhakri Cuffs +2" (R25 B: WSD+10%, Atk+60, DT-7%)
         ring1="Epona's Ring",
         ring2="Apate Ring",
         back=gear.da_jse_back,
@@ -178,7 +178,7 @@ sets.weapons.Naegbron = {
         ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Brutal Earring",
         body={ name="Gleti's Cuirass", augments={'Path: A',}}, -- original: "Adhemar Jacket +1" (not owned)
-        hands="Jhakri Cuffs +2",
+        hands={ name="Nyame Gauntlets", augments={'Path: B'} }, -- LINKTRI 2026-11-02: original: "Jhakri Cuffs +2" (R25 B: WSD+10%, Atk+60, DT-7%)
         ring1="Epona's Ring",
         ring2="Apate Ring",
         back=gear.da_jse_back,
@@ -189,20 +189,20 @@ sets.weapons.Naegbron = {
 
     -- Specific weaponskill sets
     sets.precast.WS["Requiescat"] = set_combine(sets.precast.WS, {
-        head="Jhakri Coronal +2",
+        head="Hashishin Kavuk +3", -- LINKTRI 2026-11-02: original: "Jhakri Coronal +2"
         ear1="Moonshade Earring", -- original: "Regal Earring" (not owned)
-        body="Jhakri Robe +2",
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: original: "Jhakri Robe +2"
         ring1={ name="Metamor. Ring +1", augments={'Path: A',}}, -- original: ring2 (sides 2026-10-23)
-        legs="Jhakri Slops +2",
-        feet="Jhakri Pigaches +2"
+        legs="Hashishin Tayt +3", -- LINKTRI 2026-11-02: original: "Jhakri Slops +2"
+        feet="Hashi. Basmak +3" -- LINKTRI 2026-11-02: original: "Jhakri Pigaches +2"
     })
 
     sets.precast.WS["Requiescat"].Acc = set_combine(sets.precast.WS.Acc, {
-        head="Jhakri Coronal +2",
+        head="Hashishin Kavuk +3", -- LINKTRI 2026-11-02: original: "Jhakri Coronal +2"
         ear1="Moonshade Earring", -- original: "Regal Earring" (not owned)
-        body="Jhakri Robe +2",
-        legs="Jhakri Slops +2",
-        feet="Jhakri Pigaches +2"
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: original: "Jhakri Robe +2"
+        legs="Hashishin Tayt +3", -- LINKTRI 2026-11-02: original: "Jhakri Slops +2"
+        feet="Hashi. Basmak +3" -- LINKTRI 2026-11-02: original: "Jhakri Pigaches +2"
     })
 
     sets.precast.WS["Chant du Cygne"] = set_combine(sets.precast.WS, {
@@ -276,7 +276,7 @@ sets.weapons.Naegbron = {
         ear1="Crematio Earring", -- original: "Regal Earring" (not owned)
         ear2="Hecate's Earring", -- original: "Friomisi Earring" (not owned)
         body={ name="Nyame Mail", augments={'Path: B'} },
-        hands="Jhakri Cuffs +2",
+        hands={ name="Nyame Gauntlets", augments={'Path: B'} }, -- LINKTRI 2026-11-02: original: "Jhakri Cuffs +2" (R25 B: WSD+10%, Atk+60, DT-7%)
         ring1={ name="Metamor. Ring +1", augments={'Path: A',}}, -- original: "Epaminondas's Ring" (not owned)
         ring2="Stikini Ring", -- MND+5; original: "Archon Ring" (not owned)
         back=gear.nuke_jse_back,
@@ -458,18 +458,18 @@ sets.weapons.Naegbron = {
 
     sets.midcast['Blue Magic']['White Wind'] = {
         ammo="Staunch Tathlum +1",
-        head="Jhakri Coronal +2",
+        head="Hashishin Kavuk +3", -- LINKTRI 2026-11-02: original: "Jhakri Coronal +2"
         neck="Null Loop", -- original: "Phalaina Locket" (not owned)
         ear1="Etiolation Earring",
         ear2="Sanare Earring",
-        body="Jhakri Robe +2",
-        hands="Jhakri Cuffs +2",
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: original: "Jhakri Robe +2"
+        hands="Hashi. Bazu. +3", -- LINKTRI 2026-11-02: original: "Jhakri Cuffs +2"
         ring1={ name="Metamor. Ring +1", augments={'Path: A',}},
         ring2="Stikini Ring",
         back="Aurist's Cape +1", -- original: "Solemnity Cape" (not owned)
         waist="Luminary Sash", -- original: "Gishdubar Sash" (not owned)
-        legs="Jhakri Slops +2",
-        feet="Jhakri Pigaches +2"
+        legs="Hashishin Tayt +3", -- LINKTRI 2026-11-02: original: "Jhakri Slops +2"
+        feet="Hashi. Basmak +3" -- LINKTRI 2026-11-02: original: "Jhakri Pigaches +2"
     }
 
     -- LINKTRI 2026-11-01: Diamondhide, Magic Barrier, Occultation, Plasma Charge and Reactor Cool scale with
@@ -498,18 +498,18 @@ sets.weapons.Naegbron = {
 
     sets.midcast['Blue Magic'].Healing = {
         ammo="Staunch Tathlum +1",
-        head="Jhakri Coronal +2",
+        head="Hashishin Kavuk +3", -- LINKTRI 2026-11-02: original: "Jhakri Coronal +2"
         neck="Null Loop", -- original: "Phalaina Locket" (not owned)
         ear1="Etiolation Earring",
         ear2="Sanare Earring", -- original: "Menemeus Earring" (not owned)
-        body="Jhakri Robe +2",
-        hands="Jhakri Cuffs +2",
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: original: "Jhakri Robe +2"
+        hands="Hashi. Bazu. +3", -- LINKTRI 2026-11-02: original: "Jhakri Cuffs +2"
         ring1={ name="Metamor. Ring +1", augments={'Path: A',}},
         ring2="Menelaus's Ring", -- Cure potency+5%; original: "Stikini Ring" (the "Menemeus Earring" in ear2 was meant to be this ring)
         back="Aurist's Cape +1", -- original: "Solemnity Cape" (not owned)
         waist="Luminary Sash", -- original: "Gishdubar Sash" (not owned)
-        legs="Jhakri Slops +2",
-        feet="Jhakri Pigaches +2"
+        legs="Hashishin Tayt +3", -- LINKTRI 2026-11-02: original: "Jhakri Slops +2"
+        feet="Hashi. Basmak +3" -- LINKTRI 2026-11-02: original: "Jhakri Pigaches +2"
     }
 
     sets.midcast['Blue Magic'].HealingSelf = set_combine(sets.midcast['Blue Magic'].Healing, {
@@ -560,66 +560,66 @@ sets.weapons.Naegbron = {
     -- Enfeebling Magic
     sets.midcast['Enfeebling Magic'] = {
         ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
-        head="Jhakri Coronal +2",
+        head="Hashishin Kavuk +3", -- LINKTRI 2026-11-02: original: "Jhakri Coronal +2"
         neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Crep. Earring", -- original: "Regal Earring" (not owned)
         ear2="Hashi. Earring +1", -- original: "Digni. Earring" (not owned)
-        body="Jhakri Robe +2",
-        hands="Jhakri Cuffs +2",
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: original: "Jhakri Robe +2"
+        hands="Hashi. Bazu. +3", -- LINKTRI 2026-11-02: original: "Jhakri Cuffs +2"
         ring1="Stikini Ring",
         ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
-        legs="Jhakri Slops +2",
-        feet="Jhakri Pigaches +2"
+        legs="Hashishin Tayt +3", -- LINKTRI 2026-11-02: original: "Jhakri Slops +2"
+        feet="Hashi. Basmak +3" -- LINKTRI 2026-11-02: original: "Jhakri Pigaches +2"
     }
 
     sets.midcast['Enfeebling Magic'].Resistant = {
         ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
-        head="Jhakri Coronal +2",
+        head="Hashishin Kavuk +3", -- LINKTRI 2026-11-02: original: "Jhakri Coronal +2"
         neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Crep. Earring", -- original: "Regal Earring" (not owned)
         ear2="Hashi. Earring +1", -- original: "Digni. Earring" (not owned)
-        body="Jhakri Robe +2",
-        hands="Jhakri Cuffs +2",
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: original: "Jhakri Robe +2"
+        hands="Hashi. Bazu. +3", -- LINKTRI 2026-11-02: original: "Jhakri Cuffs +2"
         ring1="Stikini Ring",
         ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
-        legs="Jhakri Slops +2",
-        feet="Jhakri Pigaches +2"
+        legs="Hashishin Tayt +3", -- LINKTRI 2026-11-02: original: "Jhakri Slops +2"
+        feet="Hashi. Basmak +3" -- LINKTRI 2026-11-02: original: "Jhakri Pigaches +2"
     }
 
     sets.midcast['Dark Magic'] = {
         ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
-        head="Jhakri Coronal +2",
+        head="Hashishin Kavuk +3", -- LINKTRI 2026-11-02: original: "Jhakri Coronal +2"
         neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Crep. Earring", -- original: "Regal Earring" (not owned)
         ear2="Hashi. Earring +1", -- original: "Digni. Earring" (not owned)
-        body="Jhakri Robe +2",
-        hands="Jhakri Cuffs +2",
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: original: "Jhakri Robe +2"
+        hands="Hashi. Bazu. +3", -- LINKTRI 2026-11-02: original: "Jhakri Cuffs +2"
         ring1="Stikini Ring",
         ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
-        legs="Jhakri Slops +2",
-        feet="Jhakri Pigaches +2"
+        legs="Hashishin Tayt +3", -- LINKTRI 2026-11-02: original: "Jhakri Slops +2"
+        feet="Hashi. Basmak +3" -- LINKTRI 2026-11-02: original: "Jhakri Pigaches +2"
     }
 
     sets.midcast.Stun = {
         ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
-        head="Jhakri Coronal +2",
+        head="Hashishin Kavuk +3", -- LINKTRI 2026-11-02: original: "Jhakri Coronal +2"
         neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Crep. Earring", -- original: "Regal Earring" (not owned)
         ear2="Hashi. Earring +1", -- original: "Digni. Earring" (not owned)
-        body="Jhakri Robe +2",
-        hands="Jhakri Cuffs +2",
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: original: "Jhakri Robe +2"
+        hands="Hashi. Bazu. +3", -- LINKTRI 2026-11-02: original: "Jhakri Cuffs +2"
         ring1="Stikini Ring",
         ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
-        legs="Jhakri Slops +2",
-        feet="Jhakri Pigaches +2"
+        legs="Hashishin Tayt +3", -- LINKTRI 2026-11-02: original: "Jhakri Slops +2"
+        feet="Hashi. Basmak +3" -- LINKTRI 2026-11-02: original: "Jhakri Pigaches +2"
     }
 
     sets.midcast.Drain = set_combine(sets.midcast['Dark Magic'], {
@@ -633,34 +633,34 @@ sets.weapons.Naegbron = {
     -- Elemental Magic
     sets.midcast['Elemental Magic'] = {
         ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
-        head="Jhakri Coronal +2",
+        head="Hashishin Kavuk +3", -- LINKTRI 2026-11-02: original: "Jhakri Coronal +2"
         neck="Sibyl Scarf",
         ear1="Crematio Earring", -- original: "Regal Earring" (not owned)
         ear2="Hecate's Earring", -- original: "Friomisi Earring" (not owned)
-        body="Jhakri Robe +2",
-        hands="Jhakri Cuffs +2",
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: original: "Jhakri Robe +2"
+        hands="Hashi. Bazu. +3", -- LINKTRI 2026-11-02: original: "Jhakri Cuffs +2"
         ring1="Stikini Ring",
         ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
-        legs="Jhakri Slops +2",
-        feet="Jhakri Pigaches +2"
+        legs="Hashishin Tayt +3", -- LINKTRI 2026-11-02: original: "Jhakri Slops +2"
+        feet="Hashi. Basmak +3" -- LINKTRI 2026-11-02: original: "Jhakri Pigaches +2"
     }
 
     sets.midcast['Elemental Magic'].Resistant = {
         ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
-        head="Jhakri Coronal +2",
+        head="Hashishin Kavuk +3", -- LINKTRI 2026-11-02: original: "Jhakri Coronal +2"
         neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Crep. Earring", -- original: "Regal Earring" (not owned)
         ear2="Hashi. Earring +1", -- original: "Digni. Earring" (not owned)
-        body="Jhakri Robe +2",
-        hands="Jhakri Cuffs +2",
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: original: "Jhakri Robe +2"
+        hands="Hashi. Bazu. +3", -- LINKTRI 2026-11-02: original: "Jhakri Cuffs +2"
         ring1="Stikini Ring",
         ring2="Stikini Ring",
         back=gear.nuke_jse_back,
         waist="Eschan Stone",
-        legs="Jhakri Slops +2",
-        feet="Jhakri Pigaches +2"
+        legs="Hashishin Tayt +3", -- LINKTRI 2026-11-02: original: "Jhakri Slops +2"
+        feet="Hashi. Basmak +3" -- LINKTRI 2026-11-02: original: "Jhakri Pigaches +2"
     }
 
     -- Idle Sets
@@ -729,7 +729,7 @@ sets.weapons.Naegbron = {
         neck="Loricate Torque +1",
         ear1="Etiolation Earring",
         ear2="Sanare Earring",
-        body="Jhakri Robe +2",
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: original: "Jhakri Robe +2"
         hands="Malignance Gloves",
         ring1={ name="Murky Ring", augments={'Path: A',}},
         ring2="Stikini Ring",
