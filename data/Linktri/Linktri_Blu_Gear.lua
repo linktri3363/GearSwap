@@ -281,7 +281,7 @@ sets.weapons.Naegbron = {
         ring2="Stikini Ring", -- MND+5; original: "Archon Ring" (not owned)
         back=gear.nuke_jse_back,
         waist="Orpheus's Sash",
-        legs={ name="Luhlaza Shalwar +1", augments={'Enhances "Assimilation" effect',}},
+        legs="Luhlaza Shalwar +3", -- LINKTRI 2026-11-01: MAB+57, WSD+10%, M.Acc+45 (original: Luhlaza Shalwar +1)
         feet="Hashi. Basmak +3"
     }
 
@@ -471,6 +471,21 @@ sets.weapons.Naegbron = {
         legs="Jhakri Slops +2",
         feet="Jhakri Pigaches +2"
     }
+
+    -- LINKTRI 2026-11-01: Diamondhide, Magic Barrier, Occultation, Plasma Charge and Reactor Cool scale with
+    -- Blue Magic skill (BLU.lua maps them to SkillBasedBuff; this set didn't exist, so they fell back to the base set).
+    -- Skill: Luh. Keffiyeh +1 13, Assim. Jubbah +2 22, Hashi. Earring +1 11, Stikini x2 10, Cornflower Cape 5,
+    -- Hashishin Tayt +3 33, Luhlaza Charuqs +3 12 = +106.
+    sets.midcast['Blue Magic'].SkillBasedBuff = set_combine(sets.midcast['Blue Magic'].Buff, {
+        head="Luh. Keffiyeh +1",
+        ear2="Hashi. Earring +1",
+        body="Assim. Jubbah +2",
+        ring1="Stikini Ring",
+        ring2="Stikini Ring",
+        back="Cornflower Cape",
+        legs="Hashishin Tayt +3",
+        feet="Luhlaza Charuqs +3",
+    })
 
     sets.midcast['Blue Magic']['Battery Charge'] = set_combine(sets.midcast['Blue Magic'].Buff, {
         -- head="Amalric Coif +1", -- removed: not owned
@@ -883,9 +898,9 @@ sets.weapons.Naegbron = {
     sets.buff['Burst Affinity'] = {legs="Assim. Shalwar +2", feet="Hashi. Basmak +3"}
     sets.buff['Chain Affinity'] = {feet="Assim. Charuqs +2"}  -- original: +1 (you own the +2)
     sets.buff.Convergence = {head="Luh. Keffiyeh +1"}
-    sets.buff.Diffusion = {feet="Luhlaza Charuqs +1"}
-    -- LINKTRI 2026-11-01: Azure Lore had no set. Luh. Bazubands +1 (owned, "Enhances Azure Lore" augment).
-    sets.precast.JA['Azure Lore'] = {hands="Luh. Bazubands +1"}
+    sets.buff.Diffusion = {feet="Luhlaza Charuqs +3"} -- LINKTRI 2026-11-01: original: "Luhlaza Charuqs +1"
+    -- LINKTRI 2026-11-01: Azure Lore had no set. Luh. Bazubands +3 (enhances Azure Lore).
+    sets.precast.JA['Azure Lore'] = {hands="Luh. Bazubands +3"}
     sets.buff.Efflux = {back=gear.nuke_jse_back, legs="Hashishin Tayt +3"}  -- any Rosmerta's Cape has Efflux TP Bonus +250; original back: gear.stp_jse_back
 
     -- Learning Mode set
