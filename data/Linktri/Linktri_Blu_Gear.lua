@@ -109,7 +109,7 @@ sets.weapons.Naegbron = {
     -- Weaponskill sets
     sets.precast.WS = {
         ammo="Coiste Bodhar", -- original: "Aurgelmir Orb +1" (not owned)
-        head="Lilitu Headpiece",
+        head={ name="Gleti's Mask", augments={'Path: A',}}, -- LINKTRI 2026-11-02: Gleti R30; original: "Lilitu Headpiece"
         neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Brutal Earring",
@@ -119,40 +119,40 @@ sets.weapons.Naegbron = {
         ring2="Apate Ring",
         back=gear.da_jse_back,
         waist={ name="Sailfi Belt +1", augments={'Path: A',}}, -- original: "Kentarch Belt +1" (not owned)
-        legs="Samnuha Tights",
-        feet="Malignance Boots"
+        legs={ name="Gleti's Breeches", augments={'Path: A',}}, -- LINKTRI 2026-11-02: Gleti R30; original: "Samnuha Tights"
+        feet={ name="Gleti's Boots", augments={'Path: A',}} -- LINKTRI 2026-11-02: Gleti R30; original: "Malignance Boots"
     }
 
     sets.precast.WS.Acc = {
         ammo="Mantoptera Eye", -- original: "Falcon Eye" (not owned)
-        head="Malignance Chapeau", -- original: "Carmine Mask +1" (not owned)
+        head={ name="Gleti's Mask", augments={'Path: A',}}, -- LINKTRI 2026-11-02: Gleti R30 Acc+55 Atk+70; original: "Malignance Chapeau"
         neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Mache Earring +1",
         ear2="Telos Earring",
-        body="Assim. Jubbah +2",
-        hands="Assim. Bazu. +2",
+        body={ name="Gleti's Cuirass", augments={'Path: A',}}, -- LINKTRI 2026-11-02: Gleti R30 Acc+55 Atk+70; original: "Assim. Jubbah +2"
+        hands={ name="Gleti's Gauntlets", augments={'Path: A',}}, -- LINKTRI 2026-11-02: Gleti R30 Acc+55 Atk+70; original: "Assim. Bazu. +2"
         ring1="Epona's Ring",
         ring2="Ilabrat Ring",
         back=gear.da_jse_back,
         waist="Null Belt", -- original: "Kentarch Belt +1" (not owned)
-        legs="Malignance Tights", -- original: "Carmine Cuisses +1" (not owned)
-        feet="Malignance Boots"
+        legs={ name="Gleti's Breeches", augments={'Path: A',}}, -- LINKTRI 2026-11-02: Gleti R30 Acc+55 Atk+70; original: "Malignance Tights"
+        feet={ name="Gleti's Boots", augments={'Path: A',}} -- LINKTRI 2026-11-02: Gleti R30 Acc+55 Atk+70; original: "Malignance Boots"
     }
 
     sets.precast.WS.FullAcc = {
         ammo="Mantoptera Eye", -- original: "Falcon Eye" (not owned)
-        head="Malignance Chapeau", -- original: "Carmine Mask +1" (not owned)
+        head="Hashishin Kavuk +3", -- LINKTRI 2026-11-02: Hashishin +3 Acc+60~64; original: "Malignance Chapeau"
         neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Mache Earring +1",
         ear2="Odr Earring",
-        body="Assim. Jubbah +2",
-        hands="Assim. Bazu. +2",
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: Hashishin +3 Acc+60~64; original: "Assim. Jubbah +2"
+        hands="Hashi. Bazu. +3", -- LINKTRI 2026-11-02: Hashishin +3 Acc+60~64; original: "Assim. Bazu. +2"
         ring1="Stikini Ring",
         ring2="Stikini Ring",
         back=gear.da_jse_back,
         waist="Null Belt", -- original: "Olseni Belt" (not owned)
-        legs="Malignance Tights", -- original: "Carmine Cuisses +1" (not owned)
-        feet="Malignance Boots"
+        legs="Hashishin Tayt +3", -- LINKTRI 2026-11-02: Hashishin +3 Acc+60~64; original: "Malignance Tights"
+        feet="Hashi. Basmak +3" -- LINKTRI 2026-11-02: Hashishin +3 Acc+60~64; original: "Malignance Boots"
     }
 
     sets.precast.WS.DT = {
@@ -173,7 +173,7 @@ sets.weapons.Naegbron = {
 
     sets.precast.WS.Fodder = {
         ammo="Coiste Bodhar", -- original: "Aurgelmir Orb +1" (not owned)
-        head="Lilitu Headpiece",
+        head={ name="Gleti's Mask", augments={'Path: A',}}, -- LINKTRI 2026-11-02: Gleti R30; original: "Lilitu Headpiece"
         neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Brutal Earring",
@@ -183,8 +183,8 @@ sets.weapons.Naegbron = {
         ring2="Apate Ring",
         back=gear.da_jse_back,
         waist={ name="Sailfi Belt +1", augments={'Path: A',}}, -- original: "Kentarch Belt +1" (not owned)
-        legs="Samnuha Tights",
-        feet="Malignance Boots"
+        legs={ name="Gleti's Breeches", augments={'Path: A',}}, -- LINKTRI 2026-11-02: Gleti R30; original: "Samnuha Tights"
+        feet={ name="Gleti's Boots", augments={'Path: A',}} -- LINKTRI 2026-11-02: Gleti R30; original: "Malignance Boots"
     }
 
     -- Specific weaponskill sets
@@ -268,6 +268,10 @@ sets.weapons.Naegbron = {
     sets.precast.WS["Expiacion"] = set_combine(sets.precast.WS["Savage Blade"], {})
 
     sets.precast.WS["Expiacion"].Acc = set_combine(sets.precast.WS["Savage Blade"].Acc, {})
+
+    -- LINKTRI 2026-11-02: Black Halo (MeleeClubs/Maxentius) had no set and fell back to the generic multi-hit set.
+    sets.precast.WS["Black Halo"] = set_combine(sets.precast.WS["Savage Blade"], {})
+    sets.precast.WS["Black Halo"].Acc = set_combine(sets.precast.WS["Savage Blade"].Acc, {})
 
     sets.precast.WS["Sanguine Blade"] = {
         ammo="Pemphredo Tathlum", -- original: "Ghastly Tathlum +1" (not owned)
@@ -814,8 +818,8 @@ sets.weapons.Naegbron = {
         neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Brutal Earring",
-        body="Ayanmo Corazza +2", -- original: "Adhemar Jacket +1" (not owned)
-        hands="Adhemar Wrist. +1",
+        body={ name="Gleti's Cuirass", augments={'Path: A',}}, -- LINKTRI 2026-11-02: Gleti R30; original: "Ayanmo Corazza +2"
+        hands={ name="Gleti's Gauntlets", augments={'Path: A',}}, -- LINKTRI 2026-11-02: Gleti R30; original: "Adhemar Wrist. +1"
         ring1="Epona's Ring",
         ring2="Petrov Ring", -- sides swapped 2026-10-23
         back=gear.stp_jse_back,
@@ -830,30 +834,30 @@ sets.weapons.Naegbron = {
         neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Mache Earring +1", -- original: "Cessance Earring" (not owned)
         ear2="Telos Earring",
-        body="Malignance Tabard",
-        hands="Malignance Gloves",
+        body={ name="Gleti's Cuirass", augments={'Path: A',}}, -- LINKTRI 2026-11-02: Gleti R30 Acc+55 Atk+70; original: "Malignance Tabard"
+        hands={ name="Gleti's Gauntlets", augments={'Path: A',}}, -- LINKTRI 2026-11-02: Gleti R30 Acc+55 Atk+70; original: "Malignance Gloves"
         ring1="Cacoethic Ring +1", -- Acc+11; original: "Petrov Ring" (ring2-side, Ilabrat already there)
         ring2="Ilabrat Ring",
         back=gear.stp_jse_back,
         waist="Null Belt", -- original: "Grunfeld Rope" (not owned)
-        legs="Malignance Tights", -- original: "Carmine Cuisses +1" (not owned)
-        feet="Malignance Boots"
+        legs={ name="Gleti's Breeches", augments={'Path: A',}}, -- LINKTRI 2026-11-02: Gleti R30 Acc+55 Atk+70; original: "Malignance Tights"
+        feet={ name="Gleti's Boots", augments={'Path: A',}} -- LINKTRI 2026-11-02: Gleti R30 Acc+55 Atk+70; original: "Malignance Boots"
     }
 
     sets.engaged.FullAcc = {
         ammo="Mantoptera Eye", -- original: "Falcon Eye" (not owned)
-        head="Malignance Chapeau", -- original: "Carmine Mask +1" (not owned)
+        head="Hashishin Kavuk +3", -- LINKTRI 2026-11-02: Hashishin +3 Acc+60~64; original: "Malignance Chapeau"
         neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Mache Earring +1",
         ear2="Telos Earring",
-        body="Assim. Jubbah +2",
-        hands="Assim. Bazu. +2",
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: Hashishin +3 Acc+60~64; original: "Assim. Jubbah +2"
+        hands="Hashi. Bazu. +3", -- LINKTRI 2026-11-02: Hashishin +3 Acc+60~64; original: "Assim. Bazu. +2"
         ring1="Stikini Ring",
         ring2="Stikini Ring",
         back=gear.stp_jse_back,
         waist="Null Belt", -- original: "Olseni Belt" (not owned)
-        legs="Malignance Tights", -- original: "Carmine Cuisses +1" (not owned)
-        feet="Malignance Boots"
+        legs="Hashishin Tayt +3", -- LINKTRI 2026-11-02: Hashishin +3 Acc+60~64; original: "Malignance Tights"
+        feet="Hashi. Basmak +3" -- LINKTRI 2026-11-02: Hashishin +3 Acc+60~64; original: "Malignance Boots"
     }
 
     -- original name: sets.engaged.PDT (HybridMode is Normal/DT, so it was never used)
