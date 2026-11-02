@@ -908,9 +908,9 @@ sets.weapons.Naegbron = {
 
     -- Magic Burst set
     sets.MagicBurst = {
-        body="Samnuha Coat",
+        -- body="Samnuha Coat", -- LINKTRI 2026-11-02: removed; Hashishin Mintan +3 (MAB+54) out-damages its MB II+8
         -- hands="Amalric Gages +1", -- removed: not owned
-        legs="Assim. Shalwar +2",
+        -- legs="Assim. Shalwar +2", -- LINKTRI 2026-11-02: removed; Hashishin Tayt +3 (MAB+53) out-damages its MB+5
         ring1="Jhakri Ring", -- original: "Mujin Band" (not owned)
         -- ring2="Locus Ring", -- removed: not owned
     }
