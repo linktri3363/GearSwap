@@ -92,7 +92,7 @@ sets.weapons.Naegbron = {
         neck="Voltsurge Torque",
         ear1="Etiolation Earring", -- original: "Enchntr. Earring +1" (not owned)
         ear2="Loquac. Earring",
-        body="Luhlaza Jubbah +1",
+        body="Luhlaza Jubbah +3", -- LINKTRI 2026-11-02: original: "Luhlaza Jubbah +1" (FC +9%)
         hands="Sombra Mittens", -- original: "Leyline Gloves" (not owned)
         ring1="Kishar Ring",
         ring2="Lebeche Ring",
@@ -300,7 +300,7 @@ sets.weapons.Naegbron = {
         neck="Voltsurge Torque",
         ear1="Etiolation Earring", -- original: "Enchntr. Earring +1" (not owned)
         ear2="Loquac. Earring",
-        body="Luhlaza Jubbah +1",
+        body="Luhlaza Jubbah +3", -- LINKTRI 2026-11-02: original: "Luhlaza Jubbah +1" (FC +9%)
         hands="Sombra Mittens", -- original: "Leyline Gloves" (not owned)
         ring1="Kishar Ring",
         ring2="Lebeche Ring",
@@ -425,7 +425,7 @@ sets.weapons.Naegbron = {
     -- Breath Spells
     sets.midcast['Blue Magic'].Breath = {
         ammo="Staunch Tathlum +1",
-        head="Hashishin Kavuk +3",
+        head="Luh. Keffiyeh +3", -- LINKTRI 2026-11-02: Breath damage +24%; original: "Hashishin Kavuk +3"
         neck="Null Loop", -- original: "Mirage Stole +2" (not owned)
         ear1="Etiolation Earring",
         ear2="Sanare Earring",
@@ -442,7 +442,7 @@ sets.weapons.Naegbron = {
     -- Buff Blue Magic
     sets.midcast['Blue Magic'].Buff = {
         ammo="Impatiens",
-        head="Luh. Keffiyeh +1",
+        head="Luh. Keffiyeh +3", -- LINKTRI 2026-11-02: original: "Luh. Keffiyeh +1"
         neck="Voltsurge Torque",
         ear1="Etiolation Earring", -- original: "Enchntr. Earring +1" (not owned)
         ear2="Loquac. Earring",
@@ -474,10 +474,10 @@ sets.weapons.Naegbron = {
 
     -- LINKTRI 2026-11-01: Diamondhide, Magic Barrier, Occultation, Plasma Charge and Reactor Cool scale with
     -- Blue Magic skill (BLU.lua maps them to SkillBasedBuff; this set didn't exist, so they fell back to the base set).
-    -- Skill: Luh. Keffiyeh +1 13, Assim. Jubbah +2 22, Hashi. Earring +1 11, Stikini x2 10, Cornflower Cape 5,
-    -- Hashishin Tayt +3 33, Luhlaza Charuqs +3 12 = +106.
+    -- Skill: Luh. Keffiyeh +3 17, Assim. Jubbah +2 22, Hashi. Earring +1 11, Stikini x2 10, Cornflower Cape 5,
+    -- Hashishin Tayt +3 33, Luhlaza Charuqs +3 12 = +110.
     sets.midcast['Blue Magic'].SkillBasedBuff = set_combine(sets.midcast['Blue Magic'].Buff, {
-        head="Luh. Keffiyeh +1",
+        head="Luh. Keffiyeh +3", -- LINKTRI 2026-11-02: original: "Luh. Keffiyeh +1"
         ear2="Hashi. Earring +1",
         body="Assim. Jubbah +2",
         ring1="Stikini Ring",
@@ -525,7 +525,7 @@ sets.weapons.Naegbron = {
         neck="Voltsurge Torque",
         ear1="Etiolation Earring", -- original: "Enchntr. Earring +1" (not owned)
         ear2="Loquac. Earring",
-        body="Luhlaza Jubbah +1",
+        body="Luhlaza Jubbah +3", -- LINKTRI 2026-11-02: original: "Luhlaza Jubbah +1" (FC +9%)
         hands={ name="Telchine Gloves", augments={'Mag. Acc.+23','"Conserve MP"+5','Enh. Mag. eff. dur. +10',}}, -- original: "Leyline Gloves" (not owned)
         ring1="Kishar Ring",
         ring2="Lebeche Ring",
@@ -897,7 +897,7 @@ sets.weapons.Naegbron = {
 
     sets.buff['Burst Affinity'] = {legs="Assim. Shalwar +2", feet="Hashi. Basmak +3"}
     sets.buff['Chain Affinity'] = {feet="Assim. Charuqs +2"}  -- original: +1 (you own the +2)
-    sets.buff.Convergence = {head="Luh. Keffiyeh +1"}
+    sets.buff.Convergence = {head="Luh. Keffiyeh +3"} -- LINKTRI 2026-11-02: original: "Luh. Keffiyeh +1"
     sets.buff.Diffusion = {feet="Luhlaza Charuqs +3"} -- LINKTRI 2026-11-01: original: "Luhlaza Charuqs +1"
     -- LINKTRI 2026-11-01: Azure Lore had no set. Luh. Bazubands +3 (enhances Azure Lore).
     sets.precast.JA['Azure Lore'] = {hands="Luh. Bazubands +3"}
