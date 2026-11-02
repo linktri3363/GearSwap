@@ -884,6 +884,8 @@ sets.weapons.Naegbron = {
     sets.buff['Chain Affinity'] = {feet="Assim. Charuqs +2"}  -- original: +1 (you own the +2)
     sets.buff.Convergence = {head="Luh. Keffiyeh +1"}
     sets.buff.Diffusion = {feet="Luhlaza Charuqs +1"}
+    -- LINKTRI 2026-11-01: Azure Lore had no set. Luh. Bazubands +1 (owned, "Enhances Azure Lore" augment).
+    sets.precast.JA['Azure Lore'] = {hands="Luh. Bazubands +1"}
     sets.buff.Efflux = {back=gear.nuke_jse_back, legs="Hashishin Tayt +3"}  -- any Rosmerta's Cape has Efflux TP Bonus +250; original back: gear.stp_jse_back
 
     -- Learning Mode set
