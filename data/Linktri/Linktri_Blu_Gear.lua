@@ -670,7 +670,7 @@ sets.weapons.Naegbron = {
         neck="Loricate Torque +1",
         ear1="Etiolation Earring",
         ear2="Sanare Earring",
-        body="Jhakri Robe +2",
+        body="Hashishin Mintan +3", -- LINKTRI 2026-11-02: Refresh +4 and DT-13%; original: "Jhakri Robe +2"
         hands="Malignance Gloves",
         ring1={ name="Murky Ring", augments={'Path: A',}},
         ring2="Stikini Ring",
