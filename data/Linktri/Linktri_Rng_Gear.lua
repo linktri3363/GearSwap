@@ -302,15 +302,13 @@ function init_gear_sets()
     -- Normal melee group
 	-- original engaged: Dampening Tam, Iskur, Cessance, Brutal, Malignance Tabard, Adhemar Wrist. +1, Epona's, Petrov,
 	--                   Belenus's cape, Windbuffet Belt +1, Samnuha Tights, Herculean TA feet
-	-- LINKTRI 2026-11-02: full Gleti's R30 (Acc+55 Atk+70 each; DA+10%, Store TP+8, TA+5%, PDL, crit).
-	-- original: head="Dampening Tam", body="Malignance Tabard", hands="Adhemar Wrist. +1", legs="Samnuha Tights", feet="Malignance Boots"
     sets.engaged = {
-		head="Gleti's Mask",neck="Anu Torque",ear1="Sherida Earring",ear2="Telos Earring",
-		body="Gleti's Cuirass",hands="Gleti's Gauntlets",ring1="Epona's Ring",ring2="Chirich Ring +1",
-		back="Null Shawl",waist="Sailfi Belt +1",legs="Gleti's Breeches",feet="Gleti's Boots"}
+		head="Dampening Tam",neck="Anu Torque",ear1="Sherida Earring",ear2="Telos Earring",
+		body="Malignance Tabard",hands="Adhemar Wrist. +1",ring1="Epona's Ring",ring2="Chirich Ring +1",
+		back="Null Shawl",waist="Sailfi Belt +1",legs="Samnuha Tights",feet="Malignance Boots"}
 
 	-- original Acc: Combatant's Torque, Cessance, Telos, Olseni Belt (not owned) on the engaged set
-    sets.engaged.Acc = set_combine(sets.engaged, {neck="Null Loop",ring1="Cacoethic Ring +1"}) -- LINKTRI 2026-11-02: keeps Gleti's Mask (Acc+55); original: + head="Malignance Chapeau"
+    sets.engaged.Acc = set_combine(sets.engaged, {head="Malignance Chapeau",neck="Null Loop",ring1="Cacoethic Ring +1"})
 
 	-- original DTLite: Malignance + Iskur, Cessance, Brutal, Epona's, Petrov, Windbuffet Belt +1
     sets.engaged.DTLite = set_combine(sets.engaged, {head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights"})
