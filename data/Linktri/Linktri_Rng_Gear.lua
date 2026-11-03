@@ -21,7 +21,7 @@ function user_job_setup()
 	-- original: 'Default','DualWeapons','DualSavageWeapons','DualEviscerationWeapons','DualMagicWeapons','DualMalevolence'
 	state.Weapons:options('Gun','Crossbow','Bow','Ullr','MagicGun','DualMagicGun','DualSavage','None')  -- LINKTRI 2026-11-02: + DualSavage
 
-	--Ikenga_vest_bonus = 190  -- It is 190 at R20. Uncomment if you need to manually adjust because you are using below R20
+	Ikenga_vest_bonus = 200  -- LINKTRI 2026-11-02: your Vest is R30 (TP Bonus +200); Sel's default is 190 (R25). original: commented out
 
 	-- original: WeaponType = {['Fail-Not'] = "Bow", ['Fomalhaut'] = "Gun", ['Ataktos'] = "Gun"}
 	-- (RNG.lua reads the weapon type from the game data, so this table is informational.)
@@ -72,7 +72,7 @@ DefaultAmmo = {
 	-- original: gear.wsd_ranger_jse_back = {name="Belenus's Cape",augments={'AGI+20','Rng.Acc.+20 Rng.Atk.+20','Weapon skill damage +10%',}}
 	-- original: gear.snapshot_jse_back = {name="Belenus's Cape",augments={'"Snapshot"+10',}}
 	gear.tp_ranger_jse_back = "Null Shawl"
-	gear.wsd_ranger_jse_back = "Null Shawl"
+	gear.wsd_ranger_jse_back = "Sacro Mantle"  -- LINKTRI 2026-11-02: WSD+6%, AGI+25, R.Acc/R.Atk+20; original: "Null Shawl"
 	gear.snapshot_jse_back = "Null Shawl"
 
 	    -- Additional local binds
@@ -141,8 +141,10 @@ function init_gear_sets()
 	--                       Dingir Ring, Belenus's WSD cape, Fotia Belt, Meg. Chausses +2, Meg. Jam. +2
     sets.precast.WS = {
         head="Nyame Helm",neck="Null Loop",ear1="Moonshade Earring",ear2="Amini Earring +2",
-        body="Nyame Mail",hands="Meg. Gloves +2",ring1="Ephramad's Ring",ring2="Dingir Ring",
+        body="Ikenga's Vest",hands="Nyame Gauntlets",ring1="Ephramad's Ring",ring2="Dingir Ring",
         back=gear.wsd_ranger_jse_back,waist="Eschan Stone",legs="Nyame Flanchard",feet="Amini Bottillons +3"}
+	-- LINKTRI 2026-11-02: body Ikenga's Vest R30 (TP Bonus+200 on every hit, PDL+7%, R.Atk+70), hands Nyame Gauntlets (WSD+10%, R.Atk+60).
+	-- original: body="Nyame Mail", hands="Meg. Gloves +2"
 
     sets.precast.WS.Acc = set_combine(sets.precast.WS, {waist="Null Belt"})
 
@@ -154,7 +156,7 @@ function init_gear_sets()
 	-- original Wildfire/Trueflight/Aeolian: Orion Beret +3, Sanctity Necklace, Friomisi, Samnuha Coat, Carmine/Leyline,
 	--                                      Regal Ring, Gyve Trousers, Herculean nuke feet (most not owned)
     sets.precast.WS['Wildfire'] = {
-        head="Nyame Helm",neck="Baetyl Pendant",ear1="Crematio Earring",ear2="Hecate's Earring",
+        head="Nyame Helm",neck="Baetyl Pendant",ear1="Crematio Earring",ear2="Malignance Earring", -- LINKTRI 2026-11-02: MAB+8 M.Acc+10; original: "Hecate's Earring"
         body="Nyame Mail",hands="Nyame Gauntlets",ring1="Ephramad's Ring",ring2="Dingir Ring",
         back=gear.wsd_ranger_jse_back,waist="Orpheus's Sash",legs="Nyame Flanchard",feet="Nyame Sollerets"}
 
@@ -203,17 +205,19 @@ function init_gear_sets()
 	-- LINKTRI: Amini +3 head/hands/legs (R.Acc+61~63, R.Atk+62~73, Store TP+11/12, DT-11/11/13) + Ikenga's Vest
 	-- (Store TP+11, PDL+7%) + Malignance Boots. DT-44% while shooting. Telos kept for Store TP.
 	-- original RA: Malignance set, Iskur Gorget, Enervating, Telos, Crepuscular, Ilabrat, Belenus's TP cape, Yemaya Belt
+	-- LINKTRI 2026-11-02: Ikenga's R30 Hat (Store TP+8, PDL+4%) and Clogs (R.Atk+70, True Shot+10, Store TP+7, PDL+3%).
+	-- DT while shooting ~29% (Null Loop 5, Amini hands 11, legs 13). original: head="Amini Gapette +3", feet="Malignance Boots"
     sets.midcast.RA = {
-        head="Amini Gapette +3",neck="Null Loop",ear1="Crep. Earring",ear2="Telos Earring",
+        head="Ikenga's Hat",neck="Null Loop",ear1="Crep. Earring",ear2="Telos Earring",
         body="Ikenga's Vest",hands="Amini Glove. +3",ring1="Crepuscular Ring",ring2="Dingir Ring",
-        back=gear.tp_ranger_jse_back,waist="Eschan Stone",legs="Amini Bragues +3",feet="Malignance Boots"}
+        back=gear.tp_ranger_jse_back,waist="Eschan Stone",legs="Amini Bragues +3",feet="Ikenga's Clogs"}
 
 	-- original RA.Acc: Malignance set, Iskur, Enervating, Telos, Regal Ring, Ilabrat, Yemaya Belt
-    sets.midcast.RA.Acc = set_combine(sets.midcast.RA, {body="Amini Caban +3",ring1="Cacoethic Ring +1",waist="Null Belt",feet="Amini Bottillons +3"})
+    sets.midcast.RA.Acc = set_combine(sets.midcast.RA, {head="Amini Gapette +3",body="Amini Caban +3",ring1="Ephramad's Ring",waist="Null Belt",feet="Amini Bottillons +3"}) -- LINKTRI 2026-11-02: + Gapette head; ring1 was "Cacoethic Ring +1"
 
 	-- Fodder (low-defense targets): more PDL. Amini Caban +3 PDL+10%, Amini Earring +2 PDL+9%.
 	-- original RA.Fodder: Malignance set, Iskur, Dedition, Telos, Crepuscular, Ilabrat, Yemaya Belt
-    sets.midcast.RA.Fodder = set_combine(sets.midcast.RA, {body="Amini Caban +3",ear2="Amini Earring +2"})
+    sets.midcast.RA.Fodder = set_combine(sets.midcast.RA, {body="Amini Caban +3",ear2="Amini Earring +2",ring1="Ephramad's Ring"}) -- LINKTRI 2026-11-02: + Ephramad's (PDL+10%)
 
 	--These sets will overlay based on accuracy level, regardless of other options.
 	sets.buff.Camouflage = {body="Orion Jerkin +1"}
@@ -298,13 +302,15 @@ function init_gear_sets()
     -- Normal melee group
 	-- original engaged: Dampening Tam, Iskur, Cessance, Brutal, Malignance Tabard, Adhemar Wrist. +1, Epona's, Petrov,
 	--                   Belenus's cape, Windbuffet Belt +1, Samnuha Tights, Herculean TA feet
+	-- LINKTRI 2026-11-02: full Gleti's R30 (Acc+55 Atk+70 each; DA+10%, Store TP+8, TA+5%, PDL, crit).
+	-- original: head="Dampening Tam", body="Malignance Tabard", hands="Adhemar Wrist. +1", legs="Samnuha Tights", feet="Malignance Boots"
     sets.engaged = {
-		head="Dampening Tam",neck="Anu Torque",ear1="Sherida Earring",ear2="Telos Earring",
-		body="Malignance Tabard",hands="Adhemar Wrist. +1",ring1="Epona's Ring",ring2="Chirich Ring +1",
-		back="Null Shawl",waist="Sailfi Belt +1",legs="Samnuha Tights",feet="Malignance Boots"}
+		head="Gleti's Mask",neck="Anu Torque",ear1="Sherida Earring",ear2="Telos Earring",
+		body="Gleti's Cuirass",hands="Gleti's Gauntlets",ring1="Epona's Ring",ring2="Chirich Ring +1",
+		back="Null Shawl",waist="Sailfi Belt +1",legs="Gleti's Breeches",feet="Gleti's Boots"}
 
 	-- original Acc: Combatant's Torque, Cessance, Telos, Olseni Belt (not owned) on the engaged set
-    sets.engaged.Acc = set_combine(sets.engaged, {head="Malignance Chapeau",neck="Null Loop",ring1="Cacoethic Ring +1"})
+    sets.engaged.Acc = set_combine(sets.engaged, {neck="Null Loop",ring1="Cacoethic Ring +1"}) -- LINKTRI 2026-11-02: keeps Gleti's Mask (Acc+55); original: + head="Malignance Chapeau"
 
 	-- original DTLite: Malignance + Iskur, Cessance, Brutal, Epona's, Petrov, Windbuffet Belt +1
     sets.engaged.DTLite = set_combine(sets.engaged, {head="Malignance Chapeau",hands="Malignance Gloves",legs="Malignance Tights"})
