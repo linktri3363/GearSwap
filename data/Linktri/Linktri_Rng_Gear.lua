@@ -19,7 +19,7 @@ function user_job_setup()
 	state.IdleMode:options('Normal', 'PDT')
 	-- LINKTRI: weapon list rebuilt around owned weapons.
 	-- original: 'Default','DualWeapons','DualSavageWeapons','DualEviscerationWeapons','DualMagicWeapons','DualMalevolence'
-	state.Weapons:options('Gun','Crossbow','Bow','Ullr','MagicGun','DualMagicGun','None')
+	state.Weapons:options('Gun','Crossbow','Bow','Ullr','MagicGun','DualMagicGun','DualSavage','None')  -- LINKTRI 2026-11-02: + DualSavage
 
 	--Ikenga_vest_bonus = 190  -- It is 190 at R20. Uncomment if you need to manually adjust because you are using below R20
 
@@ -179,6 +179,16 @@ function init_gear_sets()
 
 	-- Specific weaponskill sets.  Uses the base set if an appropriate WSMod version isn't found.
 
+	-- LINKTRI 2026-11-02: Savage Blade (STR/MND 50%, melee): Nyame R25 B (WSD+10~12%, Atk+60 each), Sortie ear2
+	-- Amini Earring +2 (PDL+9%), Ephramad's (PDL+10%), Beithir (WSD+2%), Sacro Mantle (WSD+6%), Sailfi Belt +1.
+	-- Ammo stays your bolt/bullet. Moonshade -> Ishvara at 3000 TP via sets.MaxTP.
+    sets.precast.WS['Savage Blade'] = {
+        head="Nyame Helm",neck="Null Loop",ear1="Moonshade Earring",ear2="Amini Earring +2",
+        body="Nyame Mail",hands="Nyame Gauntlets",ring1="Ephramad's Ring",ring2="Beithir Ring",
+        back="Sacro Mantle",waist="Sailfi Belt +1",legs="Nyame Flanchard",feet="Nyame Sollerets"}
+
+    sets.precast.WS['Savage Blade'].Acc = set_combine(sets.precast.WS['Savage Blade'], {waist="Null Belt"})
+
 
 	--------------------------------------
 	-- Midcast sets
@@ -271,6 +281,8 @@ function init_gear_sets()
 	sets.weapons.Ullr = {main="Gleti's Knife",sub="Nusku Shield",range="Ullr"}
 	sets.weapons.MagicGun = {main="Malevolence",sub="Nusku Shield",range="Vanir Gun"}
 	sets.weapons.DualMagicGun = {main="Malevolence",sub="Vampirism",range="Vanir Gun"}
+	-- LINKTRI 2026-11-02: Savage Blade melee (needs /NIN or /DNC; Sel skips "Dual" sets when you can't dual wield)
+	sets.weapons.DualSavage = {main="Naegling",sub="Gleti's Knife",range="Gleti's Crossbow"}
 	-- original weapon sets (Kustawi +1, Kustawi, Fomalhaut, Blurred Knife +1, Naegling, Tauret are not in your RNG inventory):
 	-- sets.weapons.Default = {main="Kustawi +1",sub="Nusku Shield",range="Fomalhaut"}
 	-- sets.weapons.DualWeapons = {main="Kustawi +1",sub="Kustawi",range="Fomalhaut"}
@@ -386,5 +398,6 @@ autows_list = {
 	['Crossbow'] = 'Last Stand',
 	['Ullr'] = 'Empyreal Arrow',
 	['MagicGun'] = 'Trueflight',
-	['DualMagicGun'] = 'Trueflight'
+	['DualMagicGun'] = 'Trueflight',
+	['DualSavage'] = 'Savage Blade'
 }
