@@ -246,23 +246,26 @@ function init_gear_sets()
 
 	-- Idle sets
 	-- original idle: Malignance set, Loricate, Genmei, Sanare, Defending, Dark Ring, Moonlight Cape, Carrier's Sash
+	-- LINKTRI 2026-11-02: Amini Glove. +3 (DT-11) and Amini Bragues +3 (DT-13); original: hands/legs Nyame Gauntlets/Flanchard
     sets.idle = {
         head="Null Masque",neck="Bathy Choker +1",ear1="Alabaster Earring",ear2="Odnowa Earring +1",
-        body="Adamantite Armor",hands="Nyame Gauntlets",ring1="Defending Ring",ring2="Chirich Ring +1",
-        back="Null Shawl",waist="Null Belt",legs="Nyame Flanchard",feet="Nyame Sollerets"}
+        body="Adamantite Armor",hands="Amini Glove. +3",ring1="Defending Ring",ring2="Chirich Ring +1",
+        back="Null Shawl",waist="Null Belt",legs="Amini Bragues +3",feet="Nyame Sollerets"}
 
+	-- LINKTRI 2026-11-02: Amini Gapette/Glove./Bragues +3 (DT-11/11/13); original: head/hands/legs Nyame Helm/Gauntlets/Flanchard
     sets.idle.PDT = {
-        head="Nyame Helm",neck="Loricate Torque +1",ear1="Alabaster Earring",ear2="Etiolation Earring",
-        body="Adamantite Armor",hands="Nyame Gauntlets",ring1="Defending Ring",ring2="Murky Ring",
-        back="Null Shawl",waist="Null Belt",legs="Nyame Flanchard",feet="Nyame Sollerets"}
+        head="Amini Gapette +3",neck="Loricate Torque +1",ear1="Alabaster Earring",ear2="Etiolation Earring",
+        body="Adamantite Armor",hands="Amini Glove. +3",ring1="Defending Ring",ring2="Murky Ring",
+        back="Null Shawl",waist="Null Belt",legs="Amini Bragues +3",feet="Nyame Sollerets"}
 
     -- Defense sets
 	-- original PDT/MDT/MEVA: Malignance set, Loricate / Warder's Charm +1, Genmei, Sanare, Defending, Dark/Shadow/Vengeful Ring,
 	--                        Moonlight Cape, Flume Belt +1 / Carrier's Sash
+	-- LINKTRI 2026-11-02: Amini Gapette/Glove./Bragues +3 (DT-11/11/13); original: head/hands/legs Nyame Helm/Gauntlets/Flanchard
     sets.defense.PDT = {
-        head="Nyame Helm",neck="Loricate Torque +1",ear1="Alabaster Earring",ear2="Odnowa Earring +1",
-        body="Adamantite Armor",hands="Nyame Gauntlets",ring1="Defending Ring",ring2="Murky Ring",
-        back="Null Shawl",waist="Null Belt",legs="Nyame Flanchard",feet="Nyame Sollerets"}
+        head="Amini Gapette +3",neck="Loricate Torque +1",ear1="Alabaster Earring",ear2="Odnowa Earring +1",
+        body="Adamantite Armor",hands="Amini Glove. +3",ring1="Defending Ring",ring2="Murky Ring",
+        back="Null Shawl",waist="Null Belt",legs="Amini Bragues +3",feet="Nyame Sollerets"}
 
     sets.defense.MDT = set_combine(sets.defense.PDT, {ear2="Etiolation Earring"})
 
