@@ -1314,7 +1314,7 @@ function init_gear_sets()
         ear1 = "Alabaster Earring", -- LINKTRI MOD 2026-07-02: DT-5, HP+100 (Ethereal Earring not in inventory)
         ear2 = "Ebers Earring +1", -- LINKTRI 2026-10-25: DT-5 (Alabaster moved to ear1, its side in every casting set; was Etiolation MDT-3)
         body = "Adamantite Armor", -- LINKTRI MOD 2026-07-02: DT-20, MDB+20, M.Eva+107 (was Nyame Mail)
-        hands = "Nyame Gauntlets",
+        hands = { name="Bunzi's Gloves", augments={'Path: A',}}, -- LINKTRI 2026-11-03: R30 DT-8, MDB+7; original: "Nyame Gauntlets"
         ring1 = { name="Murky Ring", augments={'Path: A',}},
         ring2 = "Defending Ring", -- LINKTRI MOD 2026-07-02: DT-10 (Shadow Ring not in inventory)
         back = "Aurist's Cape +1", -- LINKTRI MOD 2026-07-02: M.Eva (Moonlight Cape not in inventory)
@@ -1356,7 +1356,7 @@ function init_gear_sets()
         ear1 = "Alabaster Earring", -- LINKTRI MOD 2026-07-02: DT-5, HP+100 (Ethereal Earring not in inventory)
         ear2 = "Ebers Earring +1", -- LINKTRI 2026-10-25: DT-5 (Alabaster moved to ear1, its side in every casting set; was Etiolation MDT-3)
         body = "Adamantite Armor", -- LINKTRI MOD 2026-07-02: DT-20, MDB+20, M.Eva+107 (was Nyame Mail)
-        hands = "Nyame Gauntlets",
+        hands = { name="Bunzi's Gloves", augments={'Path: A',}}, -- LINKTRI 2026-11-03: R30 DT-8, MDB+7; original: "Nyame Gauntlets"
         ring1 = { name="Murky Ring", augments={'Path: A',}}, -- LINKTRI MOD 2026-07-02: DT-10 (Shadow Ring not in inventory)
         ring2 = "Defending Ring", -- LINKTRI MOD 2026-07-02: DT-10 (Archon Ring not in inventory)
         back = "Aurist's Cape +1", -- LINKTRI MOD 2026-07-02: M.Eva (Moonlight Cape not in inventory)
