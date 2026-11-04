@@ -375,7 +375,18 @@ function init_gear_sets()
 
     --Favor always up and head is best in slot idle so no specific items here at the moment.
     sets.idle.Avatar.Favor = {}
-    sets.idle.Avatar.Engaged = {}
+    sets.idle.Avatar.Engaged = {}  -- LINKTRI 2026-11-04: left empty on purpose; SMN.lua applies this in every IdleMode.
+                                   -- The avatar-engaged gear is sets.AvatarEngaged below, applied in Normal idle only.
+
+    -- LINKTRI 2026-11-04: avatar meleeing while you stand back (you idle, avatar engaged, IdleMode Normal, no F10/F11
+    -- defense mode). Avatar Double Attack +5 (Bracers) +15% (Glyphic Doublet) +4% (Incarnation), crit +20%, Store TP +5.
+    -- Perpetuation stays covered: Glyphic Doublet -6 + Beck. Pigaches +3 -9 = -15. Costs Refresh 1-2 (Assid. Pants)
+    -- and DT 24% (Bunzi's Gloves 8, Beck. Doublet 13, Regal Belt 3): about -35% DT while it's on.
+    sets.AvatarEngaged = {
+        body={name="Glyphic Doublet +3", augments={'Reduces Sp. "Blood Pact" MP cost',}},
+        hands="Convo. Bracers +2",
+        waist="Incarnation Sash",
+        legs="Convo. Spats +2"}
 
     sets.idle.Avatar.Engaged.Carbuncle = {}
     sets.idle.Avatar.Engaged['Cait Sith'] = {}
@@ -475,6 +486,12 @@ function user_job_customize_idle_set(idleSet)
             windower.add_to_chat(160, "Left Porter Moogle area - Returning to normal gear")
             near_porter = false
         end
+    end
+
+    -- LINKTRI 2026-11-04: avatar-engaged overlay only in Normal idle with no defense mode, so PDT idle and F10/F11 stay intact.
+    if sets.AvatarEngaged and pet.isvalid and pet.status == 'Engaged' and avatars and avatars:contains(pet.name)
+        and state.IdleMode.value == 'Normal' and state.DefenseMode.value == 'None' then
+        idleSet = set_combine(idleSet, sets.AvatarEngaged)
     end
 
     return idleSet
