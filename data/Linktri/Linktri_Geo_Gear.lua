@@ -977,8 +977,10 @@ function init_gear_sets()
         main={ name="Bunzi's Rod", augments={'Path: A',}},
         sub="Ammurapi Shield"
     }
+    -- LINKTRI 2026-11-04: Idris (Pet DT-25%) so the luopan stays at its -38% cap with Geo. Mitaines +4.
+    -- original: main={ name="Solstice", augments={'Mag. Acc.+20','Pet: Damage taken -4%','"Fast Cast"+5',}} (Pet DT-4%)
     sets.weapons.PetDT = {
-        main={ name="Solstice", augments={'Mag. Acc.+20','Pet: Damage taken -4%','"Fast Cast"+5',}},
+        main="Idris",
         sub="Genmei Shield"
     }
     sets.weapons.Skill = {
