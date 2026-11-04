@@ -1,7 +1,7 @@
 near_porter = false
 
 -- LINKTRI (2026-10-20) SMN audit notes:
---   * Owned: full Beckoner's +3, Glyphic +3 and Convoker's +1 sets. Every "Beckoner's +1" slot (not owned) was
+--   * Owned: full Beckoner's +3, Glyphic +3 and Convoker's +2 sets (Convoker's +2 since 2026-11-04; was +1). Every "Beckoner's +1" slot (not owned) was
 --     re-evaluated: kept as the +3 piece where that piece is right for the set, otherwise the best owned piece.
 --     Items replaced keep an "original:" comment.
 --   * Fixed sides to avoid "Failed to equip" mirror swaps:
@@ -123,7 +123,7 @@ function init_gear_sets()
         head="Beckoner's Horn +3",          -- MP+154
         neck="Adad Amulet",ear1="C. Palug Earring",
         ear2="Etiolation Earring",          -- MP+50
-        body="Beck. Doublet +3",            -- MP+171
+        body="Con. Doublet +2",             -- MP+201  -- LINKTRI 2026-11-04: original: "Beck. Doublet +3" (MP+171)
         hands="Beck. Bracers +3",           -- MP+114
         ring1="Mephitas's Ring",ring2="Stikini Ring",
         back="Conveyance Cape",waist="Regal Belt",
