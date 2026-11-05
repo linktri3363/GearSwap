@@ -27,14 +27,14 @@ function init_gear_sets()
 	--------------------------------------
 	-- Precast Sets
 	-- Precast sets to enhance JAs
-	sets.precast.JA['Diabolic Eye'] = {}
+	sets.precast.JA['Diabolic Eye'] = {hands="Fall. Fin. Gaunt. +3"} -- LINKTRI 2026-11-05: enhances Diabolic Eye
 	sets.precast.JA['Arcane Circle'] = {}
 	sets.precast.JA['Souleater'] = {}
 	sets.precast.JA['Weapon Bash'] = {}
 	sets.precast.JA['Nether Void'] = {}
 	sets.precast.JA['Blood Weapon'] = {}
 	sets.precast.JA['Dark Seal'] = {}
-	sets.precast.JA['Last Resort'] = {back="Niht Mantle"}
+	sets.precast.JA['Last Resort'] = {back="Niht Mantle",feet="Fall. Sollerets +3"} -- LINKTRI 2026-11-05: Last Resort+1, enhances Desperate Blows
                    
 	-- Waltz set (chr and vit)
 	sets.precast.Waltz = {}
@@ -63,6 +63,7 @@ function init_gear_sets()
 		feet={ name="Sakpata's Leggings", augments={'Path: A',}}
 	}
 
+	sets.precast.FC['Dark Magic'] = set_combine(sets.precast.FC, {head="Fall. Burgeonet +2"}) -- LINKTRI 2026-11-05: Dark magic casting time -11% (Sakpata's Helm is FC+8%)
 	sets.precast.FC.Impact = set_combine(sets.precast.FC, {head=empty,body="Twilight Cloak"})
 		
 	-- Midcast Sets
@@ -90,7 +91,7 @@ function init_gear_sets()
 		ear1="Malignance Earring",
 		ear2="Psystorm Earring",
 		body={ name="Nyame Mail", augments={'Path: B',}},
-		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+		hands="Fall. Fin. Gaunt. +3", -- LINKTRI 2026-11-05: Dark Magic skill+18, Drain/Aspir potency+16, MAB+62; original: Nyame Gauntlets
 		ring1="Stikini Ring +1",
 		ring2="Stikini Ring +1",
 		back="Niht Mantle",
@@ -115,7 +116,7 @@ function init_gear_sets()
 		feet={ name="Nyame Sollerets", augments={'Path: B',}}
 	}
 		   
-	sets.midcast['Dread Spikes'] = set_combine(sets.midcast['Dark Magic'], {})
+	sets.midcast['Dread Spikes'] = set_combine(sets.midcast['Dark Magic'], {hands={ name="Nyame Gauntlets", augments={'Path: B',}}}) -- LINKTRI 2026-11-05: keeps Nyame (HP+91; Dread Spikes scales with max HP)
 	sets.midcast.Absorb = set_combine(sets.midcast['Dark Magic'], {back="Niht Mantle"})
            
 	sets.midcast.Stun = {
@@ -125,7 +126,7 @@ function init_gear_sets()
 		ear1="Malignance Earring",
 		ear2="Psystorm Earring",
 		body={ name="Nyame Mail", augments={'Path: B',}},
-		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+		hands="Fall. Fin. Gaunt. +3", -- LINKTRI 2026-11-05: Dark Magic skill+18, Drain/Aspir potency+16, MAB+62; original: Nyame Gauntlets
 		ring1="Stikini Ring +1",
 		ring2="Stikini Ring +1",
 		back="Niht Mantle",
@@ -351,7 +352,7 @@ function init_gear_sets()
 	sets.passive.Reraise = {head="Twilight Helm",body="Twilight Mail"}
 	sets.buff.Doom = set_combine(sets.buff.Doom, {})
 	sets.buff.Sleep = {head="Frenzy Sallet"}
-	sets.buff['Dark Seal'] = {}
+	sets.buff['Dark Seal'] = {head="Fall. Burgeonet +2"} -- LINKTRI 2026-11-05: enhances Dark Seal (equipped for Absorbs/Drain II-III/Dread Spikes while Dark Seal is up)
      
 	-- Engaged sets
 	sets.engaged = {
