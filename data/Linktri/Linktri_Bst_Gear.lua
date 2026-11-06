@@ -47,8 +47,8 @@ function init_gear_sets()
 	sets.precast.JA['Killer Instinct'] = {head="Ankusa Helm +1"} -- Enhances "Killer Instinct", Killer effects +5
 	-- "Summoned Pet: Lv.+1" pieces worn while calling the jug pet.
 	sets.precast.JA['Bestial Loyalty'] = {ear2="Nukumi Earring +1",feet="Gleti's Boots"}
-	sets.precast.JA['Call Beast'] = set_combine(sets.precast.JA['Bestial Loyalty'], {hands="Ankusa Gloves +1"}) -- "Call Beast"+2
-	sets.precast.JA.Familiar = {legs="Ankusa Trousers +1"} -- Enhances "Familiar"
+	sets.precast.JA['Call Beast'] = set_combine(sets.precast.JA['Bestial Loyalty'], {hands="Ankusa Gloves +3"}) -- "Call Beast"+2
+	sets.precast.JA.Familiar = {legs="Ankusa Trousers +3"} -- Enhances "Familiar"
 	sets.precast.JA.Tame = {head="Totemic Helm +1"}
 	sets.precast.JA.Spur = {feet="Nukumi Ocreae +3"} -- "Spur"+21
 	sets.SpurAxe = {}     -- no Spur axe owned; empty so Spur never swaps your weapon (TP-safe)
@@ -60,7 +60,8 @@ function init_gear_sets()
 	sets.precast.JA.Reward = {
 		head="Null Masque",neck="Loricate Torque +1",ear1="Alabaster Earring",ear2="Odnowa Earring +1",
 		body="Tot. Jackcoat +1",hands="Malignance Gloves",ring1="Metamor. Ring +1",ring2="Stikini Ring",
-		back="Pastoralist's Mantle",waist="Null Belt",legs="Tot. Trousers +1",feet="Ankusa Gaiters +1"}
+		back="Pastoralist's Mantle",waist="Null Belt",legs="Ankusa Trousers +3",feet="Ankusa Gaiters +3"}
+	-- LINKTRI 2026-11-06: Ankusa Trousers +3 ("Reward" recast -21 vs Tot. Trousers +1 -17), Ankusa Gaiters +3 ("Reward"+41 vs +1's +35)
 	-- LINKTRI 2026-10-27: feet Ankusa Gaiters +1 ("Reward"+35) over Tot. Gaiters +1 (+32). Body stays Tot. Jackcoat +1:
 	-- it has "Reward"+22 on top of the same Reward III augment An. Jackcoat +1 has. Ankusa/Totemic legs tie (recast -17).
 	sets.precast.JA.Reward.ear2 = "Hoxne Earring" -- MR7 all stats +15 (MND for Reward potency); original: ear2="Odnowa Earring +1"
@@ -73,7 +74,7 @@ function init_gear_sets()
 	sets.RewardAxesDW = {}
 
 	-- Charm: all five Ankusa pieces ("Charm"+46)
-	sets.precast.JA.Charm = {head="Ankusa Helm +1",body="An. Jackcoat +1",hands="Ankusa Gloves +1",legs="Ankusa Trousers +1",feet="Ankusa Gaiters +1"}
+	sets.precast.JA.Charm = {head="Ankusa Helm +1",body="An. Jackcoat +1",hands="Ankusa Gloves +3",legs="Ankusa Trousers +3",feet="Ankusa Gaiters +3"} -- LINKTRI 2026-11-06: +3 hands/legs/feet
 
 	-- CURING WALTZ (Gleti's Cuirass and Dashing Subligar: "Waltz" potency +10% each)
 	sets.precast.Waltz = {
@@ -236,7 +237,7 @@ function init_gear_sets()
 
 	sets.idle.Pet.Engaged.DW = set_combine(sets.idle.Pet.Engaged, {})
 	-- Pet Mode "Tank" (Win+F7): keep the pet DT pieces on while the pet fights (BST.lua adds PetMode as an idle group)
-	sets.idle.Pet.Engaged.Tank = set_combine(sets.idle.Pet.Engaged, {hands="Gleti's Gauntlets",legs="Tali'ah Sera. +2",waist="Isa Belt"})
+	sets.idle.Pet.Engaged.Tank = set_combine(sets.idle.Pet.Engaged, {hands="Gleti's Gauntlets",legs="Tali'ah Sera. +2",waist="Isa Belt",feet="Ankusa Gaiters +3"}) -- LINKTRI 2026-11-06: + Ankusa Gaiters +3 (pet PDT-5%, pet Evasion+38)
 	sets.idle.Pet.Engaged.DW.Tank = sets.idle.Pet.Engaged.Tank
 
 	-- LINKTRI: PorterPacker packing-safe set (same approach as the WHM file). Equipped while a Porter Moogle
@@ -331,7 +332,7 @@ function init_gear_sets()
 	sets.engaged.BothDD.Fodder = set_combine(sets.engaged.Fodder, both_dd)
 
 	-- MASTER ENGAGED & PET TANKING: pet DT pieces (Gleti's Gauntlets, Tali'ah Seraweels, Isa Belt)
-	local pet_tank = {hands="Gleti's Gauntlets",legs="Tali'ah Sera. +2",waist="Isa Belt"}
+	local pet_tank = {hands="Gleti's Gauntlets",legs="Tali'ah Sera. +2",waist="Isa Belt",feet="Ankusa Gaiters +3"} -- LINKTRI 2026-11-06: + Ankusa Gaiters +3 (pet PDT-5%, pet Evasion+38)
 	sets.engaged.PetTank = set_combine(sets.engaged, pet_tank)
 	sets.engaged.PetTank.SomeAcc = set_combine(sets.engaged.SomeAcc, pet_tank)
 	sets.engaged.PetTank.Acc = set_combine(sets.engaged.Acc, pet_tank)
