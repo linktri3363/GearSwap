@@ -7,10 +7,10 @@ function user_job_setup()
     state.MagicalDefenseMode:options('MDT', 'MDTReraise')
 	state.ResistDefenseMode:options('MEVA')
 	state.IdleMode:options('Normal', 'PDT','Refresh','Reraise')
-	state.Weapons:options('Montante','Anguta','Lycurgos','Scythe','Sword')
+	state.Weapons:options('Zantetsuken','Deathbane','Naegling')  -- LINKTRI 2026-11-06: owned weapons; original: 'Montante','Anguta','Lycurgos','Scythe','Sword'
     state.ExtraMeleeMode = M{['description']='Extra Melee Mode','None'}
 	state.Passive = M{['description'] = 'Passive Mode','None','MP','Twilight'}
-	state.DrainSwapWeaponMode = M{'Always','Never','300','1000'}
+	state.DrainSwapWeaponMode = M{'Never','Always','300','1000'}  -- LINKTRI 2026-11-06: default Never (no Drain weapon owned); original default 'Always'
 
 	-- Additional local binds
 	send_command('bind ^` input /ja "Hasso" <me>')
@@ -92,11 +92,11 @@ function init_gear_sets()
 		ear2="Psystorm Earring",
 		body={ name="Nyame Mail", augments={'Path: B',}},
 		hands="Fall. Fin. Gaunt. +3", -- LINKTRI 2026-11-05: Dark Magic skill+18, Drain/Aspir potency+16, MAB+62; original: Nyame Gauntlets
-		ring1="Stikini Ring +1",
-		ring2="Stikini Ring +1",
+		ring1="Stikini Ring",
+		ring2="Stikini Ring",
 		back="Niht Mantle",
 		waist="Eschan Stone",
-		legs="Fall. Flanchard +3", -- LINKTRI 2026-11-06: Dark Magic skill+18; original: Nyame Flanchard
+		legs="Heath. Flanchard +3", -- LINKTRI 2026-11-06: Dark Magic skill+30, M.Acc+63, Nether Void+45; original: Nyame Flanchard
 		feet={ name="Nyame Sollerets", augments={'Path: B',}}
 	}
            
@@ -108,16 +108,18 @@ function init_gear_sets()
 		ear2="Psystorm Earring",
 		body={ name="Nyame Mail", augments={'Path: B',}},
 		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
-		ring1="Stikini Ring +1",
-		ring2="Stikini Ring +1",
+		ring1="Stikini Ring",
+		ring2="Stikini Ring",
 		back="Niht Mantle",
 		waist="Eschan Stone",
 		legs={ name="Nyame Flanchard", augments={'Path: B',}},
 		feet={ name="Nyame Sollerets", augments={'Path: B',}}
 	}
 		   
-	sets.midcast['Dread Spikes'] = set_combine(sets.midcast['Dark Magic'], {hands={ name="Nyame Gauntlets", augments={'Path: B',}},legs={ name="Nyame Flanchard", augments={'Path: B',}}}) -- LINKTRI 2026-11-05/06: keeps Nyame hands/legs (more HP; Dread Spikes scales with max HP)
+	sets.midcast['Dread Spikes'] = set_combine(sets.midcast['Dark Magic'], {body="Heath. Cuirass +3",hands={ name="Nyame Gauntlets", augments={'Path: B',}},legs={ name="Nyame Flanchard", augments={'Path: B',}}}) -- LINKTRI 2026-11-05/06: keeps Nyame hands/legs (more HP; Dread Spikes scales with max HP)
 	sets.midcast.Absorb = set_combine(sets.midcast['Dark Magic'], {back="Niht Mantle"})
+	sets.midcast['Absorb-TP'] = set_combine(sets.midcast.Absorb, {hands="Heath. Gauntlets +3"}) -- LINKTRI 2026-11-06: Absorb-TP +30%
+	sets.buff['Nether Void'] = {legs="Heath. Flanchard +3"} -- LINKTRI 2026-11-06: Nether Void+45 (already in the Dark Magic set)
            
 	sets.midcast.Stun = {
 		ammo="Pemphredo Tathlum",
@@ -127,22 +129,23 @@ function init_gear_sets()
 		ear2="Psystorm Earring",
 		body={ name="Nyame Mail", augments={'Path: B',}},
 		hands="Fall. Fin. Gaunt. +3", -- LINKTRI 2026-11-05: Dark Magic skill+18, Drain/Aspir potency+16, MAB+62; original: Nyame Gauntlets
-		ring1="Stikini Ring +1",
-		ring2="Stikini Ring +1",
+		ring1="Stikini Ring",
+		ring2="Stikini Ring",
 		back="Niht Mantle",
 		waist="Eschan Stone",
-		legs="Fall. Flanchard +3", -- LINKTRI 2026-11-06: Dark Magic skill+18; original: Nyame Flanchard
+		legs="Heath. Flanchard +3", -- LINKTRI 2026-11-06: Dark Magic skill+30, M.Acc+63, Nether Void+45; original: Nyame Flanchard
 		feet={ name="Nyame Sollerets", augments={'Path: B',}}
 	}
                    
+	-- LINKTRI 2026-11-06: Erra Pendant (Drain/Aspir+5, Dark skill+10); Evanescence/Archon aren't owned, rings come from Dark Magic (Stikini)
 	sets.midcast.Drain = set_combine(sets.midcast['Dark Magic'], {
-		ring1="Evanescence Ring",
-		ring2="Archon Ring",
+		neck="Erra Pendant",
 		back="Niht Mantle",
 		waist="Fucho-no-Obi"
 	})
 	
-	sets.DrainWeapon = {main="Misanthropy",sub="Alber Strap"}
+	-- LINKTRI 2026-11-06: Misanthropy isn't owned; swapping weapons for Drain would only swap the grip and reset TP.
+	-- sets.DrainWeapon = {main="Misanthropy",sub="Alber Strap"}
                    
 	sets.midcast.Aspir = sets.midcast.Drain
 	
@@ -156,190 +159,177 @@ function init_gear_sets()
 						                   
 	-- Weaponskill sets
 	-- Default set for any weaponskill that isn't any more specifically defined
+	-- LINKTRI 2026-11-06: WS sets rebuilt. Removed: Cichol's Mantle (WAR-only), Segomo's Mantle (MNK-only), Niqmaddu Ring (not owned),
+	-- Baetyl Pendant / Sacro Cord (magic gear). Moonshade moves to ear1 so the Sortie Heath. Earring +2 can stay in ear2.
+	-- Single-hit WSD set (Torcleaver, Cross Reaper, Catastrophe, Savage Blade): Nyame WSD+10~12%, Heath. Sollerets +3 WSD+12%,
+	-- Sacro Mantle WSD+6%, Ephramad's (PDL+10%), Beithir (WSD+2%), Heath. Earring +2 (PDL+9%).
     sets.precast.WS = {
 		ammo="Knobkierrie",
 		head={ name="Nyame Helm", augments={'Path: B',}},
-		neck="Baetyl Pendant",
-		ear1="Ishvara Earring",
-		ear2={ name="Moonshade Earring", augments={'Accuracy+4','Latent effect: "Regain"+1',}},
+		neck="Anu Torque",
+		ear1={ name="Moonshade Earring", augments={'Accuracy+4','Latent effect: "Regain"+1',}},
+		ear2="Heath. Earring +2",
 		body={ name="Nyame Mail", augments={'Path: B',}},
 		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
-		ring1="Epona's Ring",
-		ring2="Niqmaddu Ring",
-		back="Niht Mantle",
-		waist="Sacro Cord",
+		ring1="Ephramad's Ring",
+		ring2="Beithir Ring",
+		back="Sacro Mantle",
+		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		legs={ name="Nyame Flanchard", augments={'Path: B',}},
-		feet={ name="Nyame Sollerets", augments={'Path: B',}}
+		feet="Heath. Sollerets +3"
+	}
+	sets.precast.WS.SomeAcc = set_combine(sets.precast.WS, {neck="Null Loop"})
+	sets.precast.WS.Acc = set_combine(sets.precast.WS.SomeAcc, {waist="Null Belt"})
+	sets.precast.WS.FullAcc = set_combine(sets.precast.WS.Acc, {body="Fall. Cuirass +3"}) -- Weapon skill accuracy+27
+	sets.precast.WS.Fodder = set_combine(sets.precast.WS, {head="Heath. Bur. +3"}) -- PDL+10%
+
+	-- Multi-hit set (Resolution, Entropy): Double/Triple Attack and PDL over WSD (WSD only boosts the first hit).
+	sets.precast.WS.MultiHit = {
+		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
+		head="Heath. Bur. +3",
+		neck="Anu Torque",
+		ear1={ name="Moonshade Earring", augments={'Accuracy+4','Latent effect: "Regain"+1',}},
+		ear2="Heath. Earring +2",
+		body={ name="Sakpata's Plate", augments={'Path: A',}},
+		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
+		ring1="Ephramad's Ring",
+		ring2="Gere Ring",
+		back="Null Shawl",
+		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
+		legs={ name="Sakpata's Cuisses", augments={'Path: A',}},
+		feet={ name="Sakpata's Leggings", augments={'Path: A',}}
 	}
 
-	sets.precast.WS.SomeAcc = set_combine(sets.precast.WS, {})
-	sets.precast.WS.Acc = set_combine(sets.precast.WS, {})
-	sets.precast.WS.FullAcc = set_combine(sets.precast.WS, {neck="Combatant's Torque"})
-	sets.precast.WS.Fodder = set_combine(sets.precast.WS, {})
-
-    -- Specific weaponskill sets.  Uses the base set if an appropriate WSMod version isn't found.	
-    sets.precast.WS['Catastrophe'] = set_combine(sets.precast.WS, {})
-    sets.precast.WS['Catastrophe'].SomeAcc = set_combine(sets.precast.WS.SomeAcc, {})
-    sets.precast.WS['Catastrophe'].Acc = set_combine(sets.precast.WS.Acc, {})
-    sets.precast.WS['Catastrophe'].FullAcc = set_combine(sets.precast.WS.FullAcc, {})
-    sets.precast.WS['Catastrophe'].Fodder = set_combine(sets.precast.WS.Fodder, {})
-	
-    sets.precast.WS['Torcleaver'] = set_combine(sets.precast.WS, {
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Damage taken-5%',}}
-	})
+    sets.precast.WS['Torcleaver'] = set_combine(sets.precast.WS, {})
     sets.precast.WS['Torcleaver'].SomeAcc = set_combine(sets.precast.WS.SomeAcc, {})
     sets.precast.WS['Torcleaver'].Acc = set_combine(sets.precast.WS.Acc, {})
     sets.precast.WS['Torcleaver'].FullAcc = set_combine(sets.precast.WS.FullAcc, {})
     sets.precast.WS['Torcleaver'].Fodder = set_combine(sets.precast.WS.Fodder, {})
 
-    sets.precast.WS['Entropy'] = set_combine(sets.precast.WS, {
-		body={ name="Sakpata's Plate", augments={'Path: A',}},
-		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
-		legs={ name="Sakpata's Cuisses", augments={'Path: A',}},
-		feet={ name="Sakpata's Leggings", augments={'Path: A',}},
-		back={ name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}}
-	})
-    sets.precast.WS['Entropy'].SomeAcc = set_combine(sets.precast.WS.SomeAcc, {})
-    sets.precast.WS['Entropy'].Acc = set_combine(sets.precast.WS.Acc, {})
-    sets.precast.WS['Entropy'].FullAcc = set_combine(sets.precast.WS.FullAcc, {})
-    sets.precast.WS['Entropy'].Fodder = set_combine(sets.precast.WS.Fodder, {})
-     
-    sets.precast.WS['Resolution'] = set_combine(sets.precast.WS, {
-		body={ name="Sakpata's Plate", augments={'Path: A',}},
-		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
-		legs={ name="Sakpata's Cuisses", augments={'Path: A',}},
-		feet={ name="Sakpata's Leggings", augments={'Path: A',}}
-	})
-    sets.precast.WS['Resolution'].SomeAcc = set_combine(sets.precast.WS.SomeAcc, {})
-    sets.precast.WS['Resolution'].Acc = set_combine(sets.precast.WS.Acc, {})
-    sets.precast.WS['Resolution'].FullAcc = set_combine(sets.precast.WS.FullAcc, {})
-    sets.precast.WS['Resolution'].Fodder = set_combine(sets.precast.WS.Fodder, {})
+    sets.precast.WS['Catastrophe'] = set_combine(sets.precast.WS, {})
+    sets.precast.WS['Catastrophe'].SomeAcc = set_combine(sets.precast.WS.SomeAcc, {})
+    sets.precast.WS['Catastrophe'].Acc = set_combine(sets.precast.WS.Acc, {})
+    sets.precast.WS['Catastrophe'].FullAcc = set_combine(sets.precast.WS.FullAcc, {})
+    sets.precast.WS['Catastrophe'].Fodder = set_combine(sets.precast.WS.Fodder, {})
 
-	sets.precast.WS['Cross Reaper'] = set_combine(sets.precast.WS, {
-		back={ name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}}
-	})
+	sets.precast.WS['Cross Reaper'] = set_combine(sets.precast.WS, {})
+	sets.precast.WS['Cross Reaper'].SomeAcc = set_combine(sets.precast.WS.SomeAcc, {})
+	sets.precast.WS['Cross Reaper'].Acc = set_combine(sets.precast.WS.Acc, {})
+	sets.precast.WS['Cross Reaper'].FullAcc = set_combine(sets.precast.WS.FullAcc, {})
+	sets.precast.WS['Cross Reaper'].Fodder = set_combine(sets.precast.WS.Fodder, {})
 
-	sets.precast.WS['Savage Blade'] = {
-		ammo="Knobkierrie",
-		head={ name="Nyame Helm", augments={'Path: B',}},
-		neck="Baetyl Pendant",
-		ear1="Ishvara Earring",
-		ear2={ name="Moonshade Earring", augments={'Accuracy+4','Latent effect: "Regain"+1',}},
-		body={ name="Nyame Mail", augments={'Path: B',}},
-		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
-		ring1="Epona's Ring",
-		ring2="Niqmaddu Ring",
-		back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Damage taken-5%',}},
-		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-		legs={ name="Nyame Flanchard", augments={'Path: B',}},
-		feet={ name="Nyame Sollerets", augments={'Path: B',}}
-	}
-           
+    sets.precast.WS['Resolution'] = set_combine(sets.precast.WS.MultiHit, {})
+    sets.precast.WS['Resolution'].SomeAcc = set_combine(sets.precast.WS.MultiHit, {neck="Null Loop"})
+    sets.precast.WS['Resolution'].Acc = set_combine(sets.precast.WS['Resolution'].SomeAcc, {waist="Null Belt"})
+    sets.precast.WS['Resolution'].FullAcc = set_combine(sets.precast.WS['Resolution'].Acc, {ring2="Chirich Ring +1"})
+    sets.precast.WS['Resolution'].Fodder = set_combine(sets.precast.WS.MultiHit, {})
+
+    sets.precast.WS['Entropy'] = set_combine(sets.precast.WS['Resolution'], {})
+    sets.precast.WS['Entropy'].SomeAcc = set_combine(sets.precast.WS['Resolution'].SomeAcc, {})
+    sets.precast.WS['Entropy'].Acc = set_combine(sets.precast.WS['Resolution'].Acc, {})
+    sets.precast.WS['Entropy'].FullAcc = set_combine(sets.precast.WS['Resolution'].FullAcc, {})
+    sets.precast.WS['Entropy'].Fodder = set_combine(sets.precast.WS['Resolution'].Fodder, {})
+
+	sets.precast.WS['Savage Blade'] = set_combine(sets.precast.WS, {})
+	sets.precast.WS['Savage Blade'].Acc = set_combine(sets.precast.WS.Acc, {})
+
      -- Sets to return to when not performing an action.
            
      -- Resting sets
      sets.resting = {}
            
 	-- Swap to these on Moonshade using WS if at 3000 TP
-	sets.MaxTP = {ear1="Lugra Earring +1",ear2="Heath. Earring +2",}
-	sets.AccMaxTP = {ear1="Mache Earring +1",ear2="Telos Earring"}
-	sets.AccDayMaxTPWSEars = {ear1="Mache Earring +1",ear2="Telos Earring"}
-	sets.DayMaxTPWSEars = {ear1="Ishvara Earring",ear2="Brutal Earring",}
-	sets.AccDayWSEars = {ear1="Mache Earring +1",ear2="Telos Earring"}
-	sets.DayWSEars = {ear1="Brutal Earring",ear2="Moonshade Earring",}
+	-- LINKTRI 2026-11-06: Moonshade is ear1 now, so these only swap ear1; Heath. Earring +2 (Sortie) always stays in ear2.
+	-- Lugra Earring (NQ, STR+7 dusk to dawn) at night; Ishvara (WSD+2%) / Mache +1 (Acc) by day. Lugra +1 isn't owned.
+	sets.MaxTP = {ear1="Lugra Earring"}
+	sets.AccMaxTP = {ear1="Mache Earring +1"}
+	sets.AccDayMaxTPWSEars = {ear1="Mache Earring +1"}
+	sets.DayMaxTPWSEars = {ear1="Ishvara Earring"}
+	sets.AccDayWSEars = {ear1={ name="Moonshade Earring", augments={'Accuracy+4','Latent effect: "Regain"+1',}}}
+	sets.DayWSEars = {ear1={ name="Moonshade Earring", augments={'Accuracy+4','Latent effect: "Regain"+1',}}}
      
-            -- Idle sets
+	-- LINKTRI 2026-11-06: idle/defense rebuilt. Removed unowned Dark Ring, Ethereal Earring and Moonlight Cape. Heathen's +3 body/hands/legs
+	-- (DT-13/10/12) replace Nyame (DT-9/7/8). Rings: Defending ring1, Murky ring2 (Shneddick swaps into ring1 when moving).
+	-- Idle (Null Masque): DT about -71%, Regen from Null Masque/Null Belt.
     sets.idle = {
 		ammo="Staunch Tathlum +1",
-		head={ name="Nyame Helm", augments={'Path: B',}},
+		head="Null Masque",
 		neck={ name="Loricate Torque +1", augments={'Path: A',}},
-		ear1="Genmei Earring",
-		ear2="Heath. Earring +2",
-		body={ name="Nyame Mail", augments={'Path: B',}},
-		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
-		ring1 = { name="Murky Ring", augments={'Path: A',}},
-		ring2="Dark Ring",
-		back="Moonlight Cape",
-		waist="Embla Sash",
-		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		ear1={ name="Alabaster Earring", augments={'Path: A',}},
+		ear2={ name="Odnowa Earring +1", augments={'Path: A',}},
+		body="Heath. Cuirass +3",
+		hands="Heath. Gauntlets +3",
+		ring1="Defending Ring",
+		ring2={ name="Murky Ring", augments={'Path: A',}},
+		back="Null Shawl",
+		waist="Null Belt",
+		legs="Heath. Flanchard +3",
 		feet={ name="Nyame Sollerets", augments={'Path: B',}}
 	}
-		
+
+	-- PDT idle: Nyame Helm (DT-7) for more DEF; about -68% DT.
     sets.idle.PDT = {
 		ammo="Staunch Tathlum +1",
 		head={ name="Nyame Helm", augments={'Path: B',}},
 		neck={ name="Loricate Torque +1", augments={'Path: A',}},
-		ear1="Genmei Earring",
-		ear2="Ethereal Earring",
-		body={ name="Nyame Mail", augments={'Path: B',}},
-		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
-		ring1 = { name="Murky Ring", augments={'Path: A',}},
-		ring2="Dark Ring",
-		back="Moonlight Cape",
-		waist="Embla Sash",
-		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		ear1={ name="Alabaster Earring", augments={'Path: A',}},
+		ear2={ name="Odnowa Earring +1", augments={'Path: A',}},
+		body="Heath. Cuirass +3",
+		hands="Heath. Gauntlets +3",
+		ring1="Defending Ring",
+		ring2={ name="Murky Ring", augments={'Path: A',}},
+		back="Null Shawl",
+		waist="Null Belt",
+		legs="Heath. Flanchard +3",
 		feet={ name="Nyame Sollerets", augments={'Path: B',}}
 	}
 
 	-- LINKTRI: Weakness set commented out (2026-10-17). Without it, Sel uses your normal idle set while weakened.
 	-- To restore, uncomment the lines below; Sel-Include equips sets.idle.Weak automatically when it exists.
 	-- sets.idle.Weak = set_combine(sets.idle, {head="Twilight Helm",body="Twilight Mail"})
-		
+
 	sets.idle.Reraise = set_combine(sets.idle, {head="Twilight Helm",body="Twilight Mail"})
-           
+
     -- Defense sets
 	sets.defense.PDT = {
 		ammo="Staunch Tathlum +1",
 		head={ name="Nyame Helm", augments={'Path: B',}},
 		neck={ name="Loricate Torque +1", augments={'Path: A',}},
-		ear1="Genmei Earring",
-		ear2="Ethereal Earring",
-		body={ name="Nyame Mail", augments={'Path: B',}},
-		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
-		ring1 = { name="Murky Ring", augments={'Path: A',}},
-		ring2="Dark Ring",
-		back="Moonlight Cape",
-		waist="Embla Sash",
-		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		ear1={ name="Alabaster Earring", augments={'Path: A',}},
+		ear2={ name="Odnowa Earring +1", augments={'Path: A',}},
+		body="Heath. Cuirass +3",
+		hands="Heath. Gauntlets +3",
+		ring1="Defending Ring",
+		ring2={ name="Murky Ring", augments={'Path: A',}},
+		back="Null Shawl",
+		waist="Null Belt",
+		legs="Heath. Flanchard +3",
 		feet={ name="Nyame Sollerets", augments={'Path: B',}}
 	}
-		
+
 	sets.defense.PDTReraise = set_combine(sets.defense.PDT, {head="Twilight Helm",body="Twilight Mail"})
 
-	sets.defense.MDT = {
-		ammo="Staunch Tathlum +1",
-		head={ name="Nyame Helm", augments={'Path: B',}},
-		neck={ name="Loricate Torque +1", augments={'Path: A',}},
-		ear1="Genmei Earring",
-		ear2="Ethereal Earring",
-		body={ name="Nyame Mail", augments={'Path: B',}},
-		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
-		ring1 = { name="Murky Ring", augments={'Path: A',}},
-		ring2="Dark Ring",
-		back="Moonlight Cape",
-		waist="Embla Sash",
-		legs={ name="Nyame Flanchard", augments={'Path: B',}},
-		feet={ name="Nyame Sollerets", augments={'Path: B',}}
-	}
-		
+	sets.defense.MDT = set_combine(sets.defense.PDT, {})
+
 	sets.defense.MDTReraise = set_combine(sets.defense.MDT, {head="Twilight Helm",body="Twilight Mail"})
-		
+
+	-- MEVA keeps Nyame: more Magic Evasion than Heathen's in every slot.
 	sets.defense.MEVA = {
 		ammo="Staunch Tathlum +1",
 		head={ name="Nyame Helm", augments={'Path: B',}},
 		neck={ name="Loricate Torque +1", augments={'Path: A',}},
-		ear1="Genmei Earring",
-		ear2="Ethereal Earring",
+		ear1={ name="Alabaster Earring", augments={'Path: A',}},
+		ear2={ name="Odnowa Earring +1", augments={'Path: A',}},
 		body={ name="Nyame Mail", augments={'Path: B',}},
 		hands={ name="Nyame Gauntlets", augments={'Path: B',}},
-		ring1 = { name="Murky Ring", augments={'Path: A',}},
-		ring2="Dark Ring",
-		back="Moonlight Cape",
-		waist="Embla Sash",
+		ring1="Defending Ring",
+		ring2={ name="Murky Ring", augments={'Path: A',}},
+		back="Null Shawl",
+		waist="Null Belt",
 		legs={ name="Nyame Flanchard", augments={'Path: B',}},
 		feet={ name="Nyame Sollerets", augments={'Path: B',}}
 	}
-     
+
 	-- LINKTRI: PorterPacker packing-safe set (same approach as WHM/BST/DRG). Equipped while idle within 6 yalms of a
 	-- Porter Moogle so nothing on the PorterPacker DRK list (Heathen's +3, Ignominy +1, Fallen's +1, Sulevia's +2,
 	-- Flamma +2, ...) is being worn when it gets packed. Only non-slip gear here; weapons are left as they are.
@@ -355,18 +345,21 @@ function init_gear_sets()
 	sets.buff['Dark Seal'] = {head="Fall. Burgeonet +3"} -- LINKTRI 2026-11-05: enhances Dark Seal (equipped for Absorbs/Drain II-III/Dread Spikes while Dark Seal is up)
      
 	-- Engaged sets
+	-- LINKTRI 2026-11-06: Sakpata's R30 core kept (DT about -40%). Replaced: Atzintli Necklace (magic neck) -> Anu Torque, Cessance Earring
+	-- (not owned) -> Schere Earring, Niqmaddu/Ramuh +1 (not owned) -> Gere/Chirich +1, Segomo's Mantle (MNK-only) -> Null Shawl
+	-- (DA+7, Store TP+7, Acc+50), Sacro Cord (magic waist) -> Sailfi Belt +1 / Null Belt.
 	sets.engaged = {
 		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
 		head={ name="Sakpata's Helm", augments={'Path: A',}},
-		neck="Atzintli Necklace",
-		ear1="Cessance Earring",
+		neck="Anu Torque",
+		ear1="Schere Earring",
 		ear2="Heath. Earring +2",
 		body={ name="Sakpata's Plate", augments={'Path: A',}},
 		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
 		ring1="Epona's Ring",
-		ring2="Niqmaddu Ring",
-		back={ name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-		waist="Sacro Cord",
+		ring2="Gere Ring",
+		back="Null Shawl",
+		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		legs={ name="Sakpata's Cuisses", augments={'Path: A',}},
 		feet={ name="Sakpata's Leggings", augments={'Path: A',}}
 	}
@@ -374,15 +367,15 @@ function init_gear_sets()
     sets.engaged.SomeAcc = {
 		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
 		head={ name="Sakpata's Helm", augments={'Path: A',}},
-		neck="Combatant's Torque",
-		ear1="Cessance Earring",
+		neck="Null Loop",
+		ear1="Schere Earring",
 		ear2="Heath. Earring +2",
 		body={ name="Sakpata's Plate", augments={'Path: A',}},
 		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
 		ring1="Epona's Ring",
-		ring2="Niqmaddu Ring",
-		back={ name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-		waist="Sacro Cord",
+		ring2="Gere Ring",
+		back="Null Shawl",
+		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		legs={ name="Sakpata's Cuisses", augments={'Path: A',}},
 		feet={ name="Sakpata's Leggings", augments={'Path: A',}}
 	}
@@ -390,15 +383,15 @@ function init_gear_sets()
 	sets.engaged.Acc = {
 		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
 		head={ name="Sakpata's Helm", augments={'Path: A',}},
-		neck="Combatant's Torque",
+		neck="Null Loop",
 		ear1="Mache Earring +1",
 		ear2="Heath. Earring +2",
 		body={ name="Sakpata's Plate", augments={'Path: A',}},
 		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
 		ring1="Chirich Ring +1",
-		ring2="Niqmaddu Ring",
-		back={ name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-		waist="Sacro Cord",
+		ring2="Gere Ring",
+		back="Null Shawl",
+		waist="Null Belt",
 		legs={ name="Sakpata's Cuisses", augments={'Path: A',}},
 		feet={ name="Sakpata's Leggings", augments={'Path: A',}}
 	}
@@ -406,34 +399,21 @@ function init_gear_sets()
     sets.engaged.FullAcc = {
 		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
 		head={ name="Sakpata's Helm", augments={'Path: A',}},
-		neck="Combatant's Torque",
+		neck="Null Loop",
 		ear1="Mache Earring +1",
 		ear2="Heath. Earring +2",
 		body={ name="Sakpata's Plate", augments={'Path: A',}},
 		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
 		ring1="Chirich Ring +1",
-		ring2="Ramuh Ring +1",
-		back={ name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-		waist="Sacro Cord",
+		ring2="Chirich Ring +1",
+		back="Null Shawl",
+		waist="Null Belt",
 		legs={ name="Sakpata's Cuisses", augments={'Path: A',}},
 		feet={ name="Sakpata's Leggings", augments={'Path: A',}}
 	}
 
-    sets.engaged.Fodder = {
-		ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-		head={ name="Sakpata's Helm", augments={'Path: A',}},
-		neck="Atzintli Necklace",
-		ear1="Cessance Earring",
-		ear2="Heath. Earring +2",
-		body={ name="Sakpata's Plate", augments={'Path: A',}},
-		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
-		ring1="Epona's Ring",
-		ring2="Niqmaddu Ring",
-		back={ name="Segomo's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','System: 1 ID: 640 Val: 4',}},
-		waist="Sacro Cord",
-		legs={ name="Sakpata's Cuisses", augments={'Path: A',}},
-		feet={ name="Sakpata's Leggings", augments={'Path: A',}}
-	}
+	-- Fodder: Heath. Bur. +3 (DA+6%, PDL+10%) for easy targets.
+    sets.engaged.Fodder = set_combine(sets.engaged, {head="Heath. Bur. +3"})
 
 	--Extra Special Sets
 	sets.buff.Souleater = {}
@@ -442,11 +422,10 @@ function init_gear_sets()
 	sets.TreasureHunter = set_combine(sets.TreasureHunter, {})
 	
 	-- Weapons sets
-	sets.weapons.Montante = {main="Montante +1",sub="Utu Grip"}
-	sets.weapons.Anguta = {main="Zantetsuken X",sub="Utu Grip"}
-	sets.weapons.Lycurgos = {main="Lycurgos",sub="Utu Grip"}
-	sets.weapons.Scythe = {main="Malignance Pole",sub="Utu Grip"}
-	sets.weapons.Sword = {main="Naegling",sub="Blurred Shield +1"}
+	-- LINKTRI 2026-11-06: rebuilt around owned weapons. Montante +1 and Lycurgos aren't owned; Malignance Pole is a staff (DRK can't equip).
+	sets.weapons.Zantetsuken = {main="Zantetsuken X",sub="Utu Grip"}
+	sets.weapons.Deathbane = {main="Deathbane",sub="Utu Grip"}
+	sets.weapons.Naegling = {main="Naegling",sub="Blurred Shield +1"}
 	
 end
 	
