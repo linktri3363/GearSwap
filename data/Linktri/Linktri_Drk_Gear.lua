@@ -32,7 +32,7 @@ function init_gear_sets()
 	sets.precast.JA['Souleater'] = {}
 	sets.precast.JA['Weapon Bash'] = {}
 	sets.precast.JA['Nether Void'] = {}
-	sets.precast.JA['Blood Weapon'] = {}
+	sets.precast.JA['Blood Weapon'] = {body="Fall. Cuirass +3"} -- LINKTRI 2026-11-06: enhances Blood Weapon
 	sets.precast.JA['Dark Seal'] = {}
 	sets.precast.JA['Last Resort'] = {back="Niht Mantle",feet="Fall. Sollerets +3"} -- LINKTRI 2026-11-05: Last Resort+1, enhances Desperate Blows
                    
@@ -53,7 +53,7 @@ function init_gear_sets()
 		neck="Baetyl Pendant",
 		ear1="Malignance Earring",
 		ear2="Loquac. Earring",
-		body={ name="Sakpata's Plate", augments={'Path: A',}},
+		body="Fall. Cuirass +3", -- LINKTRI 2026-11-06: Fast Cast+10%; original: Sakpata's Plate
 		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
 		ring1="Lebeche Ring",
 		ring2="Kishar Ring",
@@ -63,7 +63,7 @@ function init_gear_sets()
 		feet={ name="Sakpata's Leggings", augments={'Path: A',}}
 	}
 
-	sets.precast.FC['Dark Magic'] = set_combine(sets.precast.FC, {head="Fall. Burgeonet +2"}) -- LINKTRI 2026-11-05: Dark magic casting time -11% (Sakpata's Helm is FC+8%)
+	sets.precast.FC['Dark Magic'] = set_combine(sets.precast.FC, {head="Fall. Burgeonet +3"}) -- LINKTRI 2026-11-05: Dark magic casting time -12% (Sakpata's Helm is FC+8%)
 	sets.precast.FC.Impact = set_combine(sets.precast.FC, {head=empty,body="Twilight Cloak"})
 		
 	-- Midcast Sets
@@ -73,7 +73,7 @@ function init_gear_sets()
 		neck="Baetyl Pendant",
 		ear1="Malignance Earring",
 		ear2="Loquac. Earring",
-		body={ name="Sakpata's Plate", augments={'Path: A',}},
+		body="Fall. Cuirass +3", -- LINKTRI 2026-11-06: Fast Cast+10%; original: Sakpata's Plate
 		hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
 		ring1="Lebeche Ring",
 		ring2="Kishar Ring",
@@ -96,7 +96,7 @@ function init_gear_sets()
 		ring2="Stikini Ring +1",
 		back="Niht Mantle",
 		waist="Eschan Stone",
-		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		legs="Fall. Flanchard +3", -- LINKTRI 2026-11-06: Dark Magic skill+18; original: Nyame Flanchard
 		feet={ name="Nyame Sollerets", augments={'Path: B',}}
 	}
            
@@ -116,7 +116,7 @@ function init_gear_sets()
 		feet={ name="Nyame Sollerets", augments={'Path: B',}}
 	}
 		   
-	sets.midcast['Dread Spikes'] = set_combine(sets.midcast['Dark Magic'], {hands={ name="Nyame Gauntlets", augments={'Path: B',}}}) -- LINKTRI 2026-11-05: keeps Nyame (HP+91; Dread Spikes scales with max HP)
+	sets.midcast['Dread Spikes'] = set_combine(sets.midcast['Dark Magic'], {hands={ name="Nyame Gauntlets", augments={'Path: B',}},legs={ name="Nyame Flanchard", augments={'Path: B',}}}) -- LINKTRI 2026-11-05/06: keeps Nyame hands/legs (more HP; Dread Spikes scales with max HP)
 	sets.midcast.Absorb = set_combine(sets.midcast['Dark Magic'], {back="Niht Mantle"})
            
 	sets.midcast.Stun = {
@@ -131,7 +131,7 @@ function init_gear_sets()
 		ring2="Stikini Ring +1",
 		back="Niht Mantle",
 		waist="Eschan Stone",
-		legs={ name="Nyame Flanchard", augments={'Path: B',}},
+		legs="Fall. Flanchard +3", -- LINKTRI 2026-11-06: Dark Magic skill+18; original: Nyame Flanchard
 		feet={ name="Nyame Sollerets", augments={'Path: B',}}
 	}
                    
@@ -352,7 +352,7 @@ function init_gear_sets()
 	sets.passive.Reraise = {head="Twilight Helm",body="Twilight Mail"}
 	sets.buff.Doom = set_combine(sets.buff.Doom, {})
 	sets.buff.Sleep = {head="Frenzy Sallet"}
-	sets.buff['Dark Seal'] = {head="Fall. Burgeonet +2"} -- LINKTRI 2026-11-05: enhances Dark Seal (equipped for Absorbs/Drain II-III/Dread Spikes while Dark Seal is up)
+	sets.buff['Dark Seal'] = {head="Fall. Burgeonet +3"} -- LINKTRI 2026-11-05: enhances Dark Seal (equipped for Absorbs/Drain II-III/Dread Spikes while Dark Seal is up)
      
 	-- Engaged sets
 	sets.engaged = {
