@@ -230,10 +230,12 @@ function init_gear_sets()
 		back="Pastoralist's Mantle",waist="Isa Belt",legs="Tali'ah Sera. +2",feet="Nyame Sollerets"}
 
 	-- Pet fighting, you idle: pet offense (Store TP, Double Attack, Attack, Haste).
+	-- LINKTRI 2026-11-07: Ankusa +3 head/body/legs: pet Haste +6/+7/+6%, pet Double Attack +5%, pet Store TP +7.
+	-- original: head="Tali'ah Turban +2", body="Nukumi Gausape +3", legs="Despair Cuisses"
 	sets.idle.Pet.Engaged = {ammo="Voluspa Tathlum",
-		head="Tali'ah Turban +2",neck="Shulmanu Collar",ear1="Crep. Earring",ear2="Nukumi Earring +1",
-		body="Nukumi Gausape +3",hands="Gleti's Gauntlets",ring1="Defending Ring",ring2="Murky Ring",
-		back="Pastoralist's Mantle",waist="Incarnation Sash",legs="Despair Cuisses",feet="Tali'ah Crackows +2"}
+		head="Ankusa Helm +3",neck="Shulmanu Collar",ear1="Crep. Earring",ear2="Nukumi Earring +1",
+		body="An. Jackcoat +3",hands="Gleti's Gauntlets",ring1="Defending Ring",ring2="Murky Ring",
+		back="Pastoralist's Mantle",waist="Incarnation Sash",legs="Ankusa Trousers +3",feet="Tali'ah Crackows +2"}
 
 	sets.idle.Pet.Engaged.DW = set_combine(sets.idle.Pet.Engaged, {})
 	-- Pet Mode "Tank" (Win+F7): keep the pet DT pieces on while the pet fights (BST.lua adds PetMode as an idle group)
