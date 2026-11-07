@@ -43,8 +43,8 @@ end
 -- Weapons are never part of JA/Ready sets: a main/sub swap wipes your TP. Pick weapons with the Weapons mode.
 function init_gear_sets()
 	-- PRECAST SETS
-	-- LINKTRI 2026-10-27: Ankusa +1 relic set owned. Each piece goes on for the ability its relic augment enhances.
-	sets.precast.JA['Killer Instinct'] = {head="Ankusa Helm +1"} -- Enhances "Killer Instinct", Killer effects +5
+	-- LINKTRI 2026-10-27: Ankusa relic set owned (full +3 since 2026-11-07). Each piece goes on for the ability its relic augment enhances.
+	sets.precast.JA['Killer Instinct'] = {head="Ankusa Helm +3"} -- Enhances "Killer Instinct", Killer effects +5
 	-- "Summoned Pet: Lv.+1" pieces worn while calling the jug pet.
 	sets.precast.JA['Bestial Loyalty'] = {ear2="Nukumi Earring +1",feet="Gleti's Boots"}
 	sets.precast.JA['Call Beast'] = set_combine(sets.precast.JA['Bestial Loyalty'], {hands="Ankusa Gloves +3"}) -- "Call Beast"+2
@@ -54,7 +54,7 @@ function init_gear_sets()
 	sets.SpurAxe = {}     -- no Spur axe owned; empty so Spur never swaps your weapon (TP-safe)
 	sets.SpurAxesDW = {}
 
-	sets.precast.JA['Feral Howl'] = {body="An. Jackcoat +1"} -- Enhances "Feral Howl"
+	sets.precast.JA['Feral Howl'] = {body="An. Jackcoat +3"} -- Enhances "Feral Howl"
 
 	-- Reward: potency scales with MND; Totemic pieces add "Reward"+ and cut its recast.
 	sets.precast.JA.Reward = {
@@ -63,7 +63,7 @@ function init_gear_sets()
 		back="Pastoralist's Mantle",waist="Null Belt",legs="Ankusa Trousers +3",feet="Ankusa Gaiters +3"}
 	-- LINKTRI 2026-11-06: Ankusa Trousers +3 ("Reward" recast -21 vs Tot. Trousers +1 -17), Ankusa Gaiters +3 ("Reward"+41 vs +1's +35)
 	-- LINKTRI 2026-10-27: feet Ankusa Gaiters +1 ("Reward"+35) over Tot. Gaiters +1 (+32). Body stays Tot. Jackcoat +1:
-	-- it has "Reward"+22 on top of the same Reward III augment An. Jackcoat +1 has. Ankusa/Totemic legs tie (recast -17).
+	-- it has "Reward"+22 on top of the same Reward III augment An. Jackcoat +3 has. Ankusa/Totemic legs tie (recast -17).
 	sets.precast.JA.Reward.ear2 = "Hoxne Earring" -- MR7 all stats +15 (MND for Reward potency); original: ear2="Odnowa Earring +1"
 
 	sets.precast.JA.Reward.Theta = set_combine(sets.precast.JA.Reward, {ammo="Pet Food Theta"})
@@ -74,7 +74,7 @@ function init_gear_sets()
 	sets.RewardAxesDW = {}
 
 	-- Charm: all five Ankusa pieces ("Charm"+46)
-	sets.precast.JA.Charm = {head="Ankusa Helm +1",body="An. Jackcoat +1",hands="Ankusa Gloves +3",legs="Ankusa Trousers +3",feet="Ankusa Gaiters +3"} -- LINKTRI 2026-11-06: +3 hands/legs/feet
+	sets.precast.JA.Charm = {head="Ankusa Helm +3",body="An. Jackcoat +3",hands="Ankusa Gloves +3",legs="Ankusa Trousers +3",feet="Ankusa Gaiters +3"} -- LINKTRI 2026-11-06: +3 hands/legs/feet
 
 	-- CURING WALTZ (Gleti's Cuirass and Dashing Subligar: "Waltz" potency +10% each)
 	sets.precast.Waltz = {
