@@ -904,20 +904,15 @@ function init_gear_sets()
         hands="Geo. Mitaines +4",
         ring1="Murky Ring",
         ring2="Chirich Ring +1",
-        back="Nantosuelta's Cape",
+        back="Null Shawl", -- LINKTRI 2026-11-08: Acc+50, DA+7%, Store TP+7; original: "Nantosuelta's Cape"
         waist="Null Belt",
         legs="Azimuth Tights +3",
         feet="Azimuth Gaiters +3"
     }
         
-    sets.engaged.DW = {
-        ammo="Amar Cluster",
-        head="Befouled Crown",
-        neck="Asperity Necklace",
-        ear1="Dudgeon Earring",
-        ear2="Heartseeker Earring",
-        body="Mallquis Saio +2",
-        hands={ name="Gazu Bracelets +1", augments={'Path: A',}},
+    -- LINKTRI 2026-11-08: dual wield (/NIN or /DNC) now uses the same gear as the normal engaged set.
+    -- The old template set (Befouled Crown, Mallquis Saio +2, Nexus Cape, etc.) was much weaker.
+    sets.engaged.DW = set_combine(sets.engaged, {})},
         ring1="Hetairoi Ring",
         ring2="Petrov Ring",
         back="Nexus Cape",
