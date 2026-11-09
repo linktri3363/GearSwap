@@ -912,14 +912,7 @@ function init_gear_sets()
         
     -- LINKTRI 2026-11-08: dual wield (/NIN or /DNC) now uses the same gear as the normal engaged set.
     -- The old template set (Befouled Crown, Mallquis Saio +2, Nexus Cape, etc.) was much weaker.
-    sets.engaged.DW = set_combine(sets.engaged, {})},
-        ring1="Hetairoi Ring",
-        ring2="Petrov Ring",
-        back="Nexus Cape",
-        waist="Witful Belt",
-        legs="Assid. Pants +1",
-        feet="Battlecast Gaiters"
-    }
+    sets.engaged.DW = set_combine(sets.engaged, {})
 
     --------------------------------------
     -- Custom buff sets
