@@ -149,13 +149,13 @@ function init_gear_sets()
     -- Treasure Hunter procs on a Quick Draw (WeaponskillMode/CastingMode "Proc"): DT gear plus TH pieces.
     sets.precast.CorsairShot.Proc = {
         ammo = gear.RAbullet,
-        head = "Nyame Helm",             -- original: "Wh. Rarab Cap +1" (stored)
+        head = "Chass. Tricorne +3",            -- LINKTRI 2026-11-11: DT-10%; was "Nyame Helm"
         neck = "Loricate Torque +1",
         ear1 = "Alabaster Earring",      -- original: "Genmei Earring"
         ear2 = "Etiolation Earring",     -- original: "Sanare Earring"
-        body = "Nyame Mail",             -- original: "Emet Harness +1" (not owned)
+        body = "Chasseur's Frac +3",            -- LINKTRI 2026-11-11: DT-13%; was "Nyame Mail"
         hands = "Malignance Gloves",
-        ring1 = "Defending Ring",
+        ring1 = "Chirich Ring +1",               -- LINKTRI 2026-11-11: Regen+2; only one DT ring needed (Murky); was "Defending Ring"
         ring2 = "Murky Ring",            -- original: "Dark Ring" (not owned)
         back = gear.tp_jse_back,         -- original: "Moonlight Cape" (not owned)
         waist = "Chaac Belt",            -- original: "Flume Belt +1" (not owned); Treasure Hunter+1
@@ -409,7 +409,7 @@ function init_gear_sets()
         ear2 = "Etiolation Earring",     -- original: "Sanare Earring"
         body = "Nyame Mail",             -- original: "Meg. Cuirie +2" (not owned)
         hands = "Malignance Gloves",
-        ring1 = "Defending Ring",
+        ring1 = "Chirich Ring +1",               -- LINKTRI 2026-11-11: Regen+2; only one DT ring needed (Murky); was "Defending Ring"
         ring2 = "Murky Ring",            -- original: "Dark Ring" (not owned)
         back = gear.tp_jse_back,         -- original: "Moonlight Cape" (not owned)
         waist = "Null Belt",             -- original: "Flume Belt +1" (not owned)
@@ -494,27 +494,27 @@ function init_gear_sets()
         ear2 = "Odnowa Earring +1",      -- original: "Sanare Earring"
         body = "Adamantite Armor",       -- original: "Nyame Mail"; DT-20%
         hands = "Nyame Gauntlets",
-        ring1 = "Defending Ring",
-        ring2 = "Chirich Ring +1",       -- original: "Shadow Ring" (not owned); Regen+2
+        ring1 = "Chirich Ring +1",               -- LINKTRI 2026-11-11: Regen+2; only one DT ring needed (Murky); was "Defending Ring"
+        ring2 = "Murky Ring",                    -- LINKTRI 2026-11-11: DT-10%, Acc+15; was "Chirich Ring +1"
         back = gear.tp_jse_back,         -- original: "Moonlight Cape" (not owned)
         waist = "Null Belt",             -- original: "Carrier's Sash"; Regen+3
-        legs = "Nyame Flanchard",        -- original: "Carmine Cuisses +1" (not owned)
+        legs = "Chas. Culottes +3",             -- LINKTRI 2026-11-11: DT-12%; was "Nyame Flanchard"
         feet = "Nyame Sollerets"
     }
 
     sets.idle.PDT = {
         ammo = gear.RAbullet,
-        head = "Nyame Helm",
+        head = "Chass. Tricorne +3",            -- LINKTRI 2026-11-11: DT-10%; was "Nyame Helm"
         neck = "Loricate Torque +1",
         ear1 = "Alabaster Earring",      -- original: "Etiolation Earring"
         ear2 = "Etiolation Earring",     -- original: "Sanare Earring"
         body = "Adamantite Armor",       -- original: "Nyame Mail"
         hands = "Nyame Gauntlets",
-        ring1 = "Defending Ring",
+        ring1 = "Chirich Ring +1",               -- LINKTRI 2026-11-11: Regen+2; only one DT ring needed (Murky); was "Defending Ring"
         ring2 = "Murky Ring",            -- original: "Dark Ring" (not owned)
         back = gear.tp_jse_back,         -- original: "Shadow Mantle" (not owned)
         waist = "Null Belt",             -- original: "Flume Belt +1" (not owned)
-        legs = "Nyame Flanchard",
+        legs = "Chas. Culottes +3",             -- LINKTRI 2026-11-11: DT-12%; was "Nyame Flanchard"
         feet = "Nyame Sollerets"         -- original: "Malignance Boots"
     }
 
@@ -525,17 +525,17 @@ function init_gear_sets()
     -- Defense sets
     sets.defense.PDT = {
         ammo = gear.RAbullet,
-        head = "Nyame Helm",
+        head = "Chass. Tricorne +3",            -- LINKTRI 2026-11-11: DT-10%; was "Nyame Helm"
         neck = "Loricate Torque +1",
         ear1 = "Alabaster Earring",      -- original: "Genmei Earring"
         ear2 = "Odnowa Earring +1",      -- original: "Tuisto Earring"
         body = "Adamantite Armor",       -- original: "Nyame Mail"; DT-20%
         hands = "Nyame Gauntlets",
-        ring1 = "Defending Ring",
+        ring1 = "Chirich Ring +1",               -- LINKTRI 2026-11-11: Regen+2; only one DT ring needed (Murky); was "Defending Ring"
         ring2 = "Murky Ring",            -- original: "Warden's Ring"
         back = gear.tp_jse_back,         -- original: "Shadow Mantle" (not owned)
         waist = "Null Belt",             -- original: "Flume Belt +1" (not owned)
-        legs = "Nyame Flanchard",
+        legs = "Chas. Culottes +3",             -- LINKTRI 2026-11-11: DT-12%; was "Nyame Flanchard"
         feet = "Nyame Sollerets"
     }
 
@@ -550,7 +550,7 @@ function init_gear_sets()
         ear2 = "Etiolation Earring",     -- original: "Sanare Earring"
         body = "Nyame Mail",
         hands = "Nyame Gauntlets",
-        ring1 = "Defending Ring",
+        ring1 = "Chirich Ring +1",               -- LINKTRI 2026-11-11: Regen+2; only one DT ring needed (Murky); was "Defending Ring"
         ring2 = "Murky Ring",            -- original: "Shadow Ring" (not owned)
         back = gear.tp_jse_back,         -- original: "Moonlight Cape" (not owned); M.Eva+50
         waist = "Null Belt",             -- original: "Carrier's Sash"; M.Eva+30
@@ -619,7 +619,7 @@ function init_gear_sets()
     -- original: Carmine Mask +1, Combatant's Torque, Cessance, Telos, Meg. Cuirie +2, Ramuh Ring +1, Olseni Belt,
     --           Carmine Cuisses +1, Malignance Boots
 
-    -- DT-51%: Malignance head/body/hands/feet (6+9+5+4) + Null Loop 5 + Defending 10 + Chas. Culottes +3 12
+    -- DT-51%: Malignance head/body/hands/feet (6+9+5+4) + Null Loop 5 + Murky 10 + Chas. Culottes +3 12
     sets.engaged.DT = {
         ammo = gear.RAbullet,
         head = "Malignance Chapeau",
@@ -628,8 +628,8 @@ function init_gear_sets()
         ear2 = "Telos Earring",          -- original: "Brutal Earring" (stored)
         body = "Malignance Tabard",
         hands = "Malignance Gloves",
-        ring1 = "Defending Ring",
-        ring2 = "Chirich Ring +1",       -- original: "Petrov Ring"
+        ring1 = "Chirich Ring +1",               -- LINKTRI 2026-11-11: Store TP+6, Acc+10; was "Defending Ring"
+        ring2 = "Murky Ring",                    -- LINKTRI 2026-11-11: DT-10%, Acc+15; was "Chirich Ring +1"
         back = gear.tp_jse_back,
         waist = "Sailfi Belt +1",        -- original: "Windbuffet Belt +1" (not owned)
         legs = "Chas. Culottes +3",      -- original: "Malignance Tights"
