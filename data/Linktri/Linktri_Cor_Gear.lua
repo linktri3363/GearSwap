@@ -8,8 +8,8 @@ near_porter = false
 -- line keeps its original in a comment.
 -- Roles: Phantom Roll support (Compensator + Lanun/Chasseur's), ranged damage (Vanir Gun) and Savage Blade
 -- melee (Naegling). Death Penalty is in progress - add it to the weapon sets once it's finished.
--- Snapshot available from gear: Ikenga's Hat 6 + Vest 9 + Clogs 5, Lanun Gants +1 9, Chas. Culottes +3 9,
--- Crepuscular Ring 3 = 41% (cap 70% including Flurry).
+-- Snapshot available from gear: Ikenga's Hat 6 + Vest 9 + Clogs 5, Lanun Gants +3 13, Lanun Trews +3 10,
+-- Crepuscular Ring 3 = 46% (cap 70% including Flurry). (2026-11-10: was 41% with Lanun Gants +1 / Chas. Culottes +3.)
 -- ======================================================================================================
 
 -- Setup vars that are user-dependent.  Can override this function in a sidecar file.
@@ -93,10 +93,10 @@ function init_gear_sets()
     -- Precast sets to enhance JAs
 
     sets.precast.JA["Triple Shot"] = {body = "Chasseur's Frac +3"}
-    sets.precast.JA["Snake Eye"] = {legs = "Lanun Trews +1"}
+    sets.precast.JA["Snake Eye"] = {legs = "Lanun Trews +3"}
     sets.precast.JA["Wild Card"] = {feet = "Lanun Bottes +1"} -- LINKTRI: original: "Lanun Bottes +3" (not owned); +1 enhances Wild Card
-    sets.precast.JA["Random Deal"] = {body = "Lanun Frac +1"} -- LINKTRI: original: "Lanun Frac +3" (not owned)
-    sets.precast.FoldDoubleBust = {hands = "Lanun Gants +1"}
+    sets.precast.JA["Random Deal"] = {body = "Lanun Frac +3"} -- LINKTRI 2026-11-10: Random Deal +50
+    sets.precast.FoldDoubleBust = {hands = "Lanun Gants +3"}
 
     -- LINKTRI: Phantom Roll. No main-hand swap (Rostam isn't owned, and a main swap would wipe your TP);
     -- Compensator goes on through CompensatorMode. Barataria Ring = Phantom Roll+5.
@@ -223,18 +223,18 @@ function init_gear_sets()
 
     sets.precast.FC.Cure = set_combine(sets.precast.FC, {}) -- original: ear2 = "Mendi. Earring" (not owned)
 
-    -- LINKTRI: Snapshot when you fire. 41% from gear (see the header); Flurry II adds 30%, so it trades
-    -- Ikenga's Hat (Snapshot+6) for Chass. Tricorne +3 (Rapid Shot+18) and still sits at ~65%.
+    -- LINKTRI: Snapshot when you fire. 46% from gear (see the header); Flurry II adds 30%, so it trades
+    -- Ikenga's Hat (Snapshot+6) for Chass. Tricorne +3 (Rapid Shot+18) and still sits at 70%.
     sets.precast.RA = {
         ammo = gear.RAbullet,
         head = "Ikenga's Hat",           -- original: "Chass. Tricorne +3"; Snapshot+6
         neck = "Null Loop",              -- original: "Comm. Charm +2" (not owned)
         body = "Ikenga's Vest",          -- original: "Laksa. Frac +3" (not owned); Snapshot+9
-        hands = "Lanun Gants +1",        -- original: "Carmine Fin. Ga. +1" (not owned); Snapshot+9
+        hands = "Lanun Gants +3",        -- original: "Carmine Fin. Ga. +1" (not owned); Snapshot+13 (LINKTRI 2026-11-10: was Lanun Gants +1)
         ring1 = "Crepuscular Ring",      -- Snapshot+3
         back = gear.snapshot_jse_back,
         waist = "Null Belt",             -- original: "Impulse Belt" (not owned)
-        legs = "Chas. Culottes +3",      -- original: "Laksa. Trews +3" (not owned); Snapshot+9
+        legs = "Lanun Trews +3",         -- original: "Laksa. Trews +3" (not owned); Snapshot+10 (LINKTRI 2026-11-10: was Chas. Culottes +3, Snapshot+9)
         feet = "Ikenga's Clogs"          -- original: "Meg. Jam. +2" (not owned); Snapshot+5
     }
 
@@ -349,7 +349,7 @@ function init_gear_sets()
         neck = "Baetyl Pendant",         -- original: "Comm. Charm +2" (not owned); MAB+13
         ear1 = "Moonshade Earring",
         ear2 = "Chas. Earring +2",       -- original: "Friomisi Earring" (not owned); AGI+13, M.Acc+19
-        body = "Nyame Mail",             -- original: "Laksa. Frac +3" (not owned)
+        body = "Lanun Frac +3",          -- original: "Laksa. Frac +3"; LINKTRI 2026-11-10: MAB+61 (Nyame Mail MAB+30, WSD+12%)
         hands = "Nyame Gauntlets",       -- original: "Carmine Fin. Ga. +1" (not owned)
         ring1 = "Ephramad's Ring",       -- original: "Archon Ring" (not owned); AGI+10
         ring2 = "Dingir Ring",
@@ -367,7 +367,7 @@ function init_gear_sets()
         neck = "Baetyl Pendant",
         ear1 = "Moonshade Earring",
         ear2 = "Hecate's Earring",       -- original: "Friomisi Earring" (not owned)
-        body = "Nyame Mail",             -- original: "Laksa. Frac +3" (not owned)
+        body = "Lanun Frac +3",          -- original: "Laksa. Frac +3"; LINKTRI 2026-11-10: MAB+61 (Nyame Mail MAB+30, WSD+12%)
         hands = "Nyame Gauntlets",       -- original: "Carmine Fin. Ga. +1" (not owned)
         ring1 = "Metamor. Ring +1",
         ring2 = "Dingir Ring",
@@ -384,7 +384,7 @@ function init_gear_sets()
         neck = "Baetyl Pendant",         -- original: "Comm. Charm +2" (not owned)
         ear1 = "Crematio Earring",
         ear2 = "Hecate's Earring",       -- original: "Friomisi Earring" (not owned)
-        body = "Nyame Mail",             -- original: "Laksa. Frac +3" (not owned)
+        body = "Lanun Frac +3",          -- original: "Laksa. Frac +3"; LINKTRI 2026-11-10: MAB+61 (Nyame Mail MAB+30, WSD+12%)
         hands = "Nyame Gauntlets",       -- original: "Carmine Fin. Ga. +1" (not owned)
         ring1 = "Ephramad's Ring",       -- original: "Regal Ring" (not owned); AGI+10
         ring2 = "Dingir Ring",
@@ -472,7 +472,7 @@ function init_gear_sets()
     -- original RA.Acc: Malignance Chapeau, Iskur Gorget, Enervating, Telos, Laksa. Frac +3, Malignance Gloves, Regal Ring,
     --                  Ilabrat Ring, Yemaya Belt, Laksa. Trews +3, Malignance Boots
 
-    sets.buff["Triple Shot"] = {body = "Chasseur's Frac +3"} -- Triple Shot+14%
+    sets.buff["Triple Shot"] = {body = "Chasseur's Frac +3", hands = "Lanun Gants +3"} -- Triple Shot+14%; LINKTRI 2026-11-10: Lanun Gants +3 (Triple Shot occasionally becomes Quad Shot)
 
     -- Sets to return to when not performing an action.
 
