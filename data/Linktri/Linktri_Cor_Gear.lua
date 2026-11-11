@@ -94,7 +94,7 @@ function init_gear_sets()
 
     sets.precast.JA["Triple Shot"] = {body = "Chasseur's Frac +3"}
     sets.precast.JA["Snake Eye"] = {legs = "Lanun Trews +3"}
-    sets.precast.JA["Wild Card"] = {feet = "Lanun Bottes +1"} -- LINKTRI: original: "Lanun Bottes +3" (not owned); +1 enhances Wild Card
+    sets.precast.JA["Wild Card"] = {feet = "Lanun Bottes +3"} -- LINKTRI 2026-11-11: enhances Wild Card
     sets.precast.JA["Random Deal"] = {body = "Lanun Frac +3"} -- LINKTRI 2026-11-10: Random Deal +50
     sets.precast.FoldDoubleBust = {hands = "Lanun Gants +3"}
 
@@ -103,7 +103,7 @@ function init_gear_sets()
     sets.precast.CorsairRoll = {
         -- original: main = "Rostam" (not owned)
         range = "Compensator",
-        head = "Lanun Tricorne +1",
+        head = "Lanun Tricorne +3",     -- LINKTRI 2026-11-11: Phantom Roll +50, enhances Winning Streak (was +1)
         neck = "Loricate Torque +1",     -- original: "Regal Necklace" (not owned); DT-6%
         ear1 = "Alabaster Earring",      -- original: "Etiolation Earring"; DT-5%
         ear2 = "Etiolation Earring",     -- original: "Sanare Earring"; MDT-3%
@@ -342,7 +342,7 @@ function init_gear_sets()
     sets.precast.WS["Split Shot"] = sets.precast.WS["Last Stand"]
     sets.precast.WS["Split Shot"].Acc = sets.precast.WS["Last Stand"].Acc
 
-    -- Magical WS: Nyame (MAB+30 each), Chass. Bottes +3 (MAB+50), Orpheus's Sash.
+    -- Magical WS: Nyame (MAB+30 each), Lanun Frac +3 (MAB+61), Lanun Bottes +3 (MAB+55, WSD+10%), Orpheus's Sash.
     sets.precast.WS["Leaden Salute"] = {
         ammo = gear.MAbullet,
         head = "Pixie Hairpin +1",
@@ -356,7 +356,7 @@ function init_gear_sets()
         back = gear.magic_wsd_jse_back,
         waist = "Orpheus's Sash",        -- original: "Eschan Stone"
         legs = "Nyame Flanchard",
-        feet = "Chass. Bottes +3"        -- original: "Lanun Bottes +3" (not owned); MAB+50
+        feet = "Lanun Bottes +3"         -- LINKTRI 2026-11-11: MAB+55, WSD+10% (was Chass. Bottes +3, MAB+50)
     }
 
     sets.precast.WS["Leaden Salute"].Acc = set_combine(sets.precast.WS["Leaden Salute"], {head = "Nyame Helm", ring1 = "Crepuscular Ring"})
@@ -374,7 +374,7 @@ function init_gear_sets()
         back = gear.magic_wsd_jse_back,
         waist = "Orpheus's Sash",        -- original: "Eschan Stone"
         legs = "Nyame Flanchard",
-        feet = "Chass. Bottes +3"        -- original: "Lanun Bottes +3" (not owned)
+        feet = "Lanun Bottes +3"         -- LINKTRI 2026-11-11: MAB+55, WSD+10% (was Chass. Bottes +3, MAB+50)
         -- original: ammo = "Animikii Bullet" (not owned; a dagger WS doesn't need a bullet)
     }
 
@@ -391,7 +391,7 @@ function init_gear_sets()
         back = gear.magic_wsd_jse_back,
         waist = "Orpheus's Sash",        -- original: "Eschan Stone"
         legs = "Nyame Flanchard",
-        feet = "Chass. Bottes +3"        -- original: "Lanun Bottes +3" (not owned)
+        feet = "Lanun Bottes +3"         -- LINKTRI 2026-11-11: MAB+55, WSD+10% (was Chass. Bottes +3, MAB+50)
     }
 
     sets.precast.WS["Wildfire"].Acc = set_combine(sets.precast.WS["Wildfire"], {ring1 = "Crepuscular Ring"})
