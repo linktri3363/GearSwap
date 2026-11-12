@@ -795,7 +795,7 @@ function init_gear_sets()
         sub="Umbra Strap",
         ammo = "Staunch Tathlum +1",  -- original: "Homiliary" (Homiliary is not GEO-equippable)
         head="Null Masque",
-        neck="Sibyl Scarf",
+        neck = { name="Loricate Torque +1", augments={'Path: A',}},  -- LINKTRI 2026-11-12: was "Sibyl Scarf" (on the PorterPacker list, so it can't be worn while packing)
         ear1="Alabaster Earring",
         ear2="Relaxing Earring",
         body={ name="Nyame Mail", augments={'Path: B',}},

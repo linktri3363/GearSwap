@@ -107,7 +107,7 @@ function init_gear_sets()
         sub = "Clerisy Strap +1",  -- original: "Oneiros Grip" (not owned)
         ammo = "Homiliary",
         head = "Null Masque",
-        neck = "Sibyl Scarf",
+        neck = { name="Loricate Torque +1", augments={'Path: A',}},  -- LINKTRI 2026-11-12: was "Sibyl Scarf" (on the PorterPacker list, so it can't be worn while packing)
         ear1 = "Etiolation Earring",
         ear2 = "Alabaster Earring",  -- original: "Ethereal Earring" (not owned)
         body = "Nyame Mail",
