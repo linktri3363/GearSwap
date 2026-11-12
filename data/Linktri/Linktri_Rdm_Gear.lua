@@ -90,7 +90,7 @@ function init_gear_sets()
     -- Precast Sets
 
     -- Precast sets to enhance JAs
-    sets.precast.JA["Chainspell"] = {body = "Viti. Tabard +1"}
+    sets.precast.JA["Chainspell"] = {body = "Viti. Tabard +3"}
 
     -- Waltz set (chr and vit)
     sets.precast.Waltz = {}
@@ -109,7 +109,7 @@ function init_gear_sets()
         neck = "Voltsurge Torque",
         ear1 = "Malignance Earring",  -- original: "Loquac. Earring" (stored; Leth. Earring +1 is FC+8)
         ear2 = "Leth. Earring +1",
-        body = "Viti. Tabard +1",
+        body = "Viti. Tabard +3",
         hands = "Bunzi's Gloves",  -- original: "Gende. Gages +1" (not owned) -- no FC hands owned; Bunzi DT-8
         ring1 = "Kishar Ring",
         ring2 = "Lebeche Ring",
@@ -293,7 +293,7 @@ function init_gear_sets()
         neck = "Voltsurge Torque",
         ear1 = "Malignance Earring",  -- original: "Enchntr. Earring +1" (not owned)
         ear2 = "Leth. Earring +1",
-        body = "Viti. Tabard +1",  -- original: "Zendik Robe" (not owned)
+        body = "Viti. Tabard +3",  -- original: "Zendik Robe" (not owned)
         hands = "Bunzi's Gloves",  -- original: "Gende. Gages +1" (not owned)
         ring1 = "Kishar Ring",
         ring2 = "Lebeche Ring",  -- original: "Prolix Ring" (not owned)
@@ -370,7 +370,7 @@ function init_gear_sets()
         neck = "Voltsurge Torque",  -- original: "Debilis Medallion" (not owned)
         ear1 = "Meili Earring",
         ear2 = { name="Alabaster Earring", augments={'Path: A',}},  -- original: "Mendi. Earring" (not owned)
-        body = "Viti. Tabard +1",
+        body = "Viti. Tabard +3",
         hands = { name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},  -- original: "Hieros Mittens" (not owned)
         ring1 = "Metamor. Ring +1",  -- original: "Haoma's Ring" (not owned), then Stikini (ring2-side)
         ring2 = "Menelaus's Ring",
@@ -423,7 +423,7 @@ function init_gear_sets()
         head = "Befouled Crown",
         -- neck = "Incanter's Torque"  -- removed: (not owned)
         -- ear2 = "Mimir Earring"  -- removed: (not owned)
-        hands = "Viti. Gloves +1",
+        hands = "Viti. Gloves +3",
         back = { name="Ghostfyre Cape", augments={'Enfb.mag. skill +3','Enha.mag. skill +2','Enh. Mag. eff. dur. +17',}},
         -- waist = "Olympus Sash"  -- removed: (not owned)
         legs = "Atrophy Tights +3"
@@ -435,7 +435,7 @@ function init_gear_sets()
     sets.midcast.Temper.DW = set_combine(sets.midcast.Temper, {})  -- original: {sub = "Pukulatmuj"} (not owned)
     sets.midcast.Enspell = sets.midcast.Temper
     sets.midcast.Enspell.DW = set_combine(sets.midcast.Enspell, {})  -- original: {sub = "Pukulatmuj"} (not owned)
-    sets.midcast.BoostStat = {hands = "Viti. Gloves +1"}
+    sets.midcast.BoostStat = {hands = "Viti. Gloves +3"}
     sets.midcast.Stoneskin = {
         neck = "Nodens Gorget",
         -- ear2 = "Earthcry Earring"  -- removed: (not owned)
@@ -585,7 +585,7 @@ function init_gear_sets()
         neck = "Voltsurge Torque",
         ear1 = "Malignance Earring",  -- original: "Enchntr. Earring +1" (not owned)
         ear2 = "Leth. Earring +1",  -- original: "Loquac. Earring" (stored)
-        body = "Viti. Tabard +1",  -- original: "Zendik Robe" (not owned)
+        body = "Viti. Tabard +3",  -- original: "Zendik Robe" (not owned)
         hands = "Bunzi's Gloves",  -- original: "Gende. Gages +1" (not owned)
         ring1 = "Kishar Ring",
         ring2 = "Lebeche Ring",  -- original: "Prolix Ring" (not owned)
@@ -679,7 +679,7 @@ function init_gear_sets()
         neck = "Null Loop",  -- original: "Dls. Torque +2" (not owned)
         ear1 = "Malignance Earring",
         ear2 = "Psystorm Earring",  -- original: "Snotra Earring" (not owned)
-        body = "Viti. Tabard +1",  -- original: "Zendik Robe" (not owned)
+        body = "Viti. Tabard +3",  -- original: "Zendik Robe" (not owned)
         hands = "Leth. Ganth. +3",  -- original: "Volte Gloves" (not owned)
         ring1 = "Metamor. Ring +1",
         ring2 = "Stikini Ring",
@@ -734,7 +734,7 @@ function init_gear_sets()
         neck = "Unmoving Collar",  -- original: "Unmoving Collar +1" (owned Unmoving Collar non-+1)
         ear1 = "Meili Earring",  -- original: "Mendi. Earring" (not owned)
         ear2 = { name="Odnowa Earring +1", augments={'Path: A',}},  -- original: "Gifted Earring" (not owned)  -- sides 2026-10-23
-        body = "Viti. Tabard +1",
+        body = "Viti. Tabard +3",
         hands = { name="Kaykaus Cuffs +1", augments={'MP+80','MND+12','Mag. Acc.+20',}},  -- original: "Kaykaus Cuffs" (unaugmented name; you own the +1)
         ring1 = "Defending Ring",  -- original: "Meridian Ring" (not owned); Lebeche is ring2-side
         ring2 = "Menelaus's Ring",  -- original: "Gelatinous Ring +1" (not owned)  -- sides 2026-10-23
@@ -995,7 +995,7 @@ function init_gear_sets()
         ring2 = "Chirich Ring +1",  -- original: "Ramuh Ring +1" (not owned)
         back = "Ghostfyre Cape",
         waist = "Sailfi Belt +1",  -- original: "Windbuffet Belt +1" (not owned)
-        legs = "Malignance Tights",  -- original: "Carmine Cuisses +1" (not owned)
+        legs = "Viti. Tights +3",  -- LINKTRI 2026-11-11: Enspell damage and Accuracy (was Malignance Tights; original: "Carmine Cuisses +1")
         feet = "Malignance Boots"
     }
 
