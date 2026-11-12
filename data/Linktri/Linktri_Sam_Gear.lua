@@ -188,7 +188,7 @@ function init_gear_sets()
     sets.precast.WS["Tachi: Jinpu"] = {
         ammo = "Knobkierrie",
         head = {name = "Nyame Helm", augments = {"Path: B"}},
-        neck = "Sibyl Scarf",
+        neck = "Baetyl Pendant",  -- LINKTRI 2026-11-12: MAB+13 (was "Sibyl Scarf", MAB+10)
         ear1 = "Moonshade Earring",
         ear2 = "Kasuga Earring +1",
         body = {name = "Nyame Mail", augments = {"Path: B"}},
@@ -319,7 +319,7 @@ function init_gear_sets()
         sub = "Utu Grip",
         ammo = "Staunch Tathlum +1",
         head = "Null Masque",
-        neck = "Sibyl Scarf",
+        neck = {name = "Loricate Torque +1", augments = {"Path: A"}},  -- LINKTRI 2026-11-12: was "Sibyl Scarf"
         ear1 = "Etiolation Earring",
         ear2 = "Sanare Earring",
         body = "Nyame Mail",

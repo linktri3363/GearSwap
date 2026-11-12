@@ -580,7 +580,7 @@ sets.weapons.RedProcStaff = {main = "Cobra Staff"}
     sets.packing = {
         ammo = "Staunch Tathlum +1",
         head = "Null Masque",
-        neck = "Sibyl Scarf",
+        neck = { name="Loricate Torque +1", augments={'Path: A',}},  -- LINKTRI 2026-11-12: was "Sibyl Scarf"
         ear1 = "Alabaster Earring",  -- sides swapped 2026-10-19 to match idle/defense; Alabaster replaced "Ethereal Earring" (not owned)
         ear2 = "Etiolation Earring",
         body = { name="Nyame Mail", augments={'Path: B',}},
