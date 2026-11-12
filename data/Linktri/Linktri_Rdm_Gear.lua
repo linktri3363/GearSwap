@@ -127,7 +127,7 @@ function init_gear_sets()
     sets.precast.WS = {
         range = empty,
         ammo = "Voluspa Tathlum",
-        head = "Viti. Chapeau +1",
+        head = "Viti. Chapeau +3",
         neck = "Asperity Necklace",
         ear1 = "Sherida Earring",
         ear2 = "Moonshade Earring",  -- original: ear1 Telos (Cessance not owned), ear2 Sherida  -- sides 2026-10-23
@@ -450,7 +450,7 @@ function init_gear_sets()
         sub = "Enki Strap",
         range = empty,
         ammo = "Regal Gem",
-        head = "Viti. Chapeau +1",
+        head = "Viti. Chapeau +3",
         neck = "Null Loop",  -- original: "Dls. Torque +2" (not owned)
         ear1 = "Malignance Earring",
         ear2 = "Psystorm Earring",  -- original: "Snotra Earring" (not owned)
@@ -461,7 +461,7 @@ function init_gear_sets()
         back = gear.nuke_jse_back,
         waist = "Obstin. Sash",
         legs = "Leth. Fuseau +3",  -- original: "Chironic Hose" (not owned)
-        feet = "Vitiation Boots +1"
+        feet = "Vitiation Boots +3"
     }
 
     sets.midcast["Enfeebling Magic"].Resistant = {
@@ -469,7 +469,7 @@ function init_gear_sets()
         sub = "Enki Strap",
         range = empty,
         ammo = "Regal Gem",
-        head = "Viti. Chapeau +1",
+        head = "Viti. Chapeau +3",
         neck = "Null Loop",  -- original: "Dls. Torque +2" (not owned)
         ear1 = "Malignance Earring",
         ear2 = "Psystorm Earring",  -- original: "Snotra Earring" (not owned)
@@ -480,7 +480,7 @@ function init_gear_sets()
         back = gear.nuke_jse_back,
         waist = "Null Belt",  -- original: "Luminary Sash" (owned, swapped: Luminary Sash MAcc+10 -> Null Belt MAcc+30)
         legs = "Leth. Fuseau +3",  -- original: "Chironic Hose" (not owned)
-        feet = "Vitiation Boots +1"
+        feet = "Vitiation Boots +3"
     }
 
     sets.midcast.DurationOnlyEnfeebling =
@@ -754,7 +754,7 @@ function init_gear_sets()
         sub = "Umbra Strap",  -- original: "Oneiros Grip" (not owned)
         range = empty,
         ammo = "Impatiens",
-        head = "Viti. Chapeau +1",
+        head = "Viti. Chapeau +3",
         neck = "Loricate Torque +1",
         ear1 = "Etiolation Earring",
         ear2 = { name="Alabaster Earring", augments={'Path: A',}},  -- original: "Ethereal Earring" (not owned)
@@ -834,7 +834,7 @@ function init_gear_sets()
         -- sub = "Sacro Bulwark",
         -- range = empty,
         -- ammo = "Homiliary",
-        -- head = "Viti. Chapeau +1",
+        -- head = "Viti. Chapeau +3",
         -- neck = "Loricate Torque +1",
         -- ear1 = "Etiolation Earring",
         -- ear2 = { name="Alabaster Earring", augments={'Path: A',}},
