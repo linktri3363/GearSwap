@@ -102,9 +102,9 @@ function init_gear_sets()
 	sets.precast.JA['Sharpshot'] = {legs="Orion Braccae +1"} -- original: "Orion Braccae +3" (you own the +1: Sharpshot+12)
 	sets.precast.JA['Double Shot'] = {}  -- original: back=gear.tp_ranger_jse_back (Belenus's Cape, not owned)
 	-- LINKTRI: Arcadian +1 (relic) and Amini +3 (empyrean) job ability pieces.
-	sets.precast.JA['Eagle Eye Shot'] = {legs="Arc. Braccae +1"}       -- enhances Eagle Eye Shot
-	sets.precast.JA['Flashy Shot'] = {hands="Arc. Bracers +1"}         -- enhances Flashy Shot
-	sets.precast.JA['Stealth Shot'] = {feet="Arcadian Socks +1"}       -- enhances Stealth Shot
+	sets.precast.JA['Eagle Eye Shot'] = {legs="Arc. Braccae +2"}       -- enhances Eagle Eye Shot
+	sets.precast.JA['Flashy Shot'] = {hands="Arc. Bracers +2"}         -- enhances Flashy Shot
+	sets.precast.JA['Stealth Shot'] = {feet="Arcadian Socks +3"}       -- enhances Stealth Shot
 	sets.precast.JA['Unlimited Shot'] = {feet="Amini Bottillons +3"}   -- enhances Unlimited Shot
 
 	-- Fast cast sets for spells (Baetyl 4, Etiolation 1, Dread Jupon 7, Sombra Mittens 3, Rawhide Trousers 5)
@@ -120,7 +120,7 @@ function init_gear_sets()
 
 	-- Ranged sets (snapshot)
 
-	-- LINKTRI: Snapshot 46% (see the header). Arc. Bracers +1 (4%) / Arc. Braccae +1 (5%) are lower than Ikenga's.
+	-- LINKTRI: Snapshot 46% (see the header). Arc. Bracers +2 (5%) / Arc. Braccae +2 (6%) are lower than Ikenga's.
 	-- Under Flurry II (+30%) the Vest swaps for Arc. Jerkin +1 (Rapid Shot+12%): 67%, under the cap.
 	-- original: body="Amini Caban +3" (no Snapshot), hands="Carmine Fin. Ga. +1", waist="Impulse Belt" (not owned),
 	--           legs="Orion Braccae +3" (you own the +1, no Snapshot)
