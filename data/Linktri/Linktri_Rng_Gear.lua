@@ -101,9 +101,9 @@ function init_gear_sets()
 	sets.precast.JA['Shadowbind'] = {hands="Orion Bracers +1"}
 	sets.precast.JA['Sharpshot'] = {legs="Orion Braccae +1"} -- original: "Orion Braccae +3" (you own the +1: Sharpshot+12)
 	sets.precast.JA['Double Shot'] = {}  -- original: back=gear.tp_ranger_jse_back (Belenus's Cape, not owned)
-	-- LINKTRI: Arcadian +1 (relic) and Amini +3 (empyrean) job ability pieces.
-	sets.precast.JA['Eagle Eye Shot'] = {legs="Arc. Braccae +2"}       -- enhances Eagle Eye Shot
-	sets.precast.JA['Flashy Shot'] = {hands="Arc. Bracers +2"}         -- enhances Flashy Shot
+	-- LINKTRI: Arcadian +3 (relic) and Amini +3 (empyrean) job ability pieces.
+	sets.precast.JA['Eagle Eye Shot'] = {legs="Arc. Braccae +3"}       -- enhances Eagle Eye Shot
+	sets.precast.JA['Flashy Shot'] = {hands="Arc. Bracers +3"}         -- enhances Flashy Shot
 	sets.precast.JA['Stealth Shot'] = {feet="Arcadian Socks +3"}       -- enhances Stealth Shot
 	sets.precast.JA['Unlimited Shot'] = {feet="Amini Bottillons +3"}   -- enhances Unlimited Shot
 
@@ -120,8 +120,8 @@ function init_gear_sets()
 
 	-- Ranged sets (snapshot)
 
-	-- LINKTRI: Snapshot 46% (see the header). Arc. Bracers +2 (5%) / Arc. Braccae +2 (6%) are lower than Ikenga's.
-	-- Under Flurry II (+30%) the Vest swaps for Arc. Jerkin +1 (Rapid Shot+12%): 67%, under the cap.
+	-- LINKTRI: Snapshot 46% (see the header). Arc. Bracers +3 (6%) / Arc. Braccae +3 (7%) are lower than Ikenga's.
+	-- Under Flurry II (+30%) the Vest swaps for Arc. Jerkin +3 (Rapid Shot+16%): 67%, under the cap.
 	-- original: body="Amini Caban +3" (no Snapshot), hands="Carmine Fin. Ga. +1", waist="Impulse Belt" (not owned),
 	--           legs="Orion Braccae +3" (you own the +1, no Snapshot)
 	sets.precast.RA = {
@@ -131,7 +131,7 @@ function init_gear_sets()
 
 	sets.precast.RA.Flurry = set_combine(sets.precast.RA, {})
 	-- original Flurry2: head="Orion Beret +3", waist="Yemaya Belt", legs="Adhemar Kecks +1" (not owned)
-	sets.precast.RA.Flurry2 = set_combine(sets.precast.RA, {body="Arc. Jerkin +1"})
+	sets.precast.RA.Flurry2 = set_combine(sets.precast.RA, {body="Arc. Jerkin +3"})
 
 
 	-- Weaponskill sets
@@ -142,9 +142,10 @@ function init_gear_sets()
     sets.precast.WS = {
         head="Nyame Helm",neck="Null Loop",ear1="Moonshade Earring",ear2="Amini Earring +2",
         body="Ikenga's Vest",hands="Nyame Gauntlets",ring1="Ephramad's Ring",ring2="Dingir Ring",
-        back=gear.wsd_ranger_jse_back,waist="Eschan Stone",legs="Nyame Flanchard",feet="Amini Bottillons +3"}
+        back=gear.wsd_ranger_jse_back,waist="Eschan Stone",legs="Arc. Braccae +3",feet="Amini Bottillons +3"}
 	-- LINKTRI 2026-11-02: body Ikenga's Vest R30 (TP Bonus+200 on every hit, PDL+7%, R.Atk+70), hands Nyame Gauntlets (WSD+10%, R.Atk+60).
 	-- original: body="Nyame Mail", hands="Meg. Gloves +2"
+	-- LINKTRI 2026-11-14: legs Arc. Braccae +3 (WSD+10%, R.Acc+47, R.Atk+81) over Nyame Flanchard (WSD+11%, R.Acc+40, R.Atk+60).
 
     sets.precast.WS.Acc = set_combine(sets.precast.WS, {waist="Null Belt"})
 
@@ -222,8 +223,8 @@ function init_gear_sets()
 	--These sets will overlay based on accuracy level, regardless of other options.
 	sets.buff.Camouflage = {body="Orion Jerkin +1"}
 	sets.buff.Camouflage.Acc = {}
-	sets.buff['Double Shot'] = {}  -- original: back=gear.tp_ranger_jse_back (Belenus's Cape, not owned)
-	sets.buff['Double Shot'].Acc = {}
+	sets.buff['Double Shot'] = {body="Arc. Jerkin +3"}  -- LINKTRI 2026-11-14: Double Shot damage +11, Double Shot occasionally becomes Triple Shot (original: back=gear.tp_ranger_jse_back, Belenus's Cape, not owned)
+	sets.buff['Double Shot'].Acc = {body="Arc. Jerkin +3"}
 	sets.buff.Barrage = {hands="Orion Bracers +1"}         -- Barrage+2
 	sets.buff['Velocity Shot'] = {body="Amini Caban +3"}   -- LINKTRI: Velocity Shot+11% (RNG.lua equips it while the buff is up)
 
