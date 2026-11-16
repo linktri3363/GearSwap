@@ -43,7 +43,7 @@ end
 function init_gear_sets()
     -- LINKTRI REBUILD 2026-11-15: every set rebuilt from the Nov 14 RUN inventory export. The old sets were the template
     -- and used 83 items you don't own (Aettir/Lionheart/Epeolatry-era gear, Ogma's capes, Moonlight gear, etc.).
-    -- Core: Erilaz +3 (empyrean, DT), Futhark +1 (relic), Runeist +1 (AF), Nyame R25 B, Null pieces.
+    -- Core: Erilaz +3 (empyrean, DT), Futhark +1/+3 (relic), Runeist +1 (AF), Nyame R25 B, Null pieces.
     -- Rings: Murky ring1 / Defending ring2 (DT), Pernicious ring1 / Supershear ring2 (enmity), Chirich +1 ring2.
     -- Earrings: Alabaster/Cryptic/Halasz/Etiolation/Telos/Moonshade/Mache +1/Crematio ear1;
     --           Odnowa +1/Trux/Erilaz +1 (right ear only)/Sherida/Odr/Tuisto/Hecate's ear2.
@@ -53,7 +53,7 @@ function init_gear_sets()
     -- Enmity sets
     --------------------------------------
 
-    -- Enmity about +50 (Unmoving 9, Cryptic 4, Trux 5, Pernicious 5, Supershear 5, Fravashi 6, Futhark Mitons 4,
+    -- Enmity about +52 (Unmoving 9, Cryptic 4, Trux 5, Pernicious 5, Supershear 5, Fravashi 6, Futhark Mitons 6,
     -- Eri. Leg Guards 13, Erilaz Greaves 8) plus Erilaz Surcoat's enmity retention.
     sets.Enmity = {
         ammo = "Staunch Tathlum +1",
@@ -62,7 +62,7 @@ function init_gear_sets()
         ear1 = "Cryptic Earring",
         ear2 = "Trux Earring",
         body = "Erilaz Surcoat +3",
-        hands = "Futhark Mitons +1",
+        hands = "Futhark Mitons +3",
         ring1 = "Pernicious Ring",
         ring2 = "Supershear Ring",
         back = "Fravashi Mantle",
@@ -100,16 +100,16 @@ function init_gear_sets()
     -- Precast sets
     --------------------------------------
 
-    -- Job abilities (Runeist +1 AF, Futhark +1 relic)
-    sets.precast.JA["Vallation"] = set_combine(sets.Enmity, {body = "Runeist Coat +1", legs = "Futhark Trousers +1"})
+    -- Job abilities (Runeist +1 AF, Futhark relic)
+    sets.precast.JA["Vallation"] = set_combine(sets.Enmity, {body = "Runeist Coat +1", legs = "Futhark Trousers +3"})
     sets.precast.JA["Valiance"] = sets.precast.JA["Vallation"]
     sets.precast.JA["Pflug"] = set_combine(sets.Enmity, {feet = "Runeist Bottes +1"})
     sets.precast.JA["Battuta"] = set_combine(sets.Enmity, {head = "Fu. Bandeau +1"})
     sets.precast.JA["Liement"] = set_combine(sets.Enmity, {body = "Futhark Coat +1"})
     sets.precast.JA["Gambit"] = set_combine(sets.Enmity, {hands = "Runeist Mitons +1"})
-    sets.precast.JA["Rayke"] = set_combine(sets.Enmity, {feet = "Futhark Boots +1"})
+    sets.precast.JA["Rayke"] = set_combine(sets.Enmity, {feet = "Futhark Boots +3"})
     sets.precast.JA["Elemental Sforzo"] = set_combine(sets.Enmity, {body = "Futhark Coat +1"})
-    sets.precast.JA["Swordplay"] = set_combine(sets.Enmity, {hands = "Futhark Mitons +1"})
+    sets.precast.JA["Swordplay"] = set_combine(sets.Enmity, {hands = "Futhark Mitons +3"})
     sets.precast.JA["Embolden"] = set_combine(sets.Enmity, {})
     sets.precast.JA["One for All"] = set_combine(sets.Enmity, {})
     sets.precast.JA["Provoke"] = set_combine(sets.Enmity, {})
@@ -120,15 +120,15 @@ function init_gear_sets()
     sets.precast.JA["Aggressor"] = set_combine(sets.Enmity, {})
     sets.precast.JA["Animated Flourish"] = set_combine(sets.Enmity, {})
 
-    sets.precast.JA["Vallation"].DT = set_combine(sets.Enmity.DT, {body = "Runeist Coat +1", legs = "Futhark Trousers +1"})
+    sets.precast.JA["Vallation"].DT = set_combine(sets.Enmity.DT, {body = "Runeist Coat +1", legs = "Futhark Trousers +3"})
     sets.precast.JA["Valiance"].DT = sets.precast.JA["Vallation"].DT
     sets.precast.JA["Pflug"].DT = set_combine(sets.Enmity.DT, {feet = "Runeist Bottes +1"})
     sets.precast.JA["Battuta"].DT = set_combine(sets.Enmity.DT, {head = "Fu. Bandeau +1"})
     sets.precast.JA["Liement"].DT = set_combine(sets.Enmity.DT, {body = "Futhark Coat +1"})
     sets.precast.JA["Gambit"].DT = set_combine(sets.Enmity.DT, {hands = "Runeist Mitons +1"})
-    sets.precast.JA["Rayke"].DT = set_combine(sets.Enmity.DT, {feet = "Futhark Boots +1"})
+    sets.precast.JA["Rayke"].DT = set_combine(sets.Enmity.DT, {feet = "Futhark Boots +3"})
     sets.precast.JA["Elemental Sforzo"].DT = set_combine(sets.Enmity.DT, {body = "Futhark Coat +1"})
-    sets.precast.JA["Swordplay"].DT = set_combine(sets.Enmity.DT, {hands = "Futhark Mitons +1"})
+    sets.precast.JA["Swordplay"].DT = set_combine(sets.Enmity.DT, {hands = "Futhark Mitons +3"})
     sets.precast.JA["Embolden"].DT = set_combine(sets.Enmity.DT, {})
     sets.precast.JA["One for All"].DT = set_combine(sets.Enmity.DT, {})
     sets.precast.JA["Provoke"].DT = set_combine(sets.Enmity.DT, {})
@@ -213,8 +213,8 @@ function init_gear_sets()
         feet = "Erilaz Greaves +3"
     }
     sets.precast.FC.DT = set_combine(sets.precast.FC, {ring1 = { name="Murky Ring", augments={'Path: A',}}, legs = "Eri. Leg Guards +3"})
-    -- Enhancing: Futhark Trousers +1 (enhancing casting time -13%) and Siegel Sash (-8%).
-    sets.precast.FC["Enhancing Magic"] = set_combine(sets.precast.FC, {waist = "Siegel Sash", legs = "Futhark Trousers +1"})
+    -- Enhancing: Futhark Trousers +3 (enhancing casting time -15%) and Siegel Sash (-8%).
+    sets.precast.FC["Enhancing Magic"] = set_combine(sets.precast.FC, {waist = "Siegel Sash", legs = "Futhark Trousers +3"})
     sets.precast.FC["Enhancing Magic"].DT = set_combine(sets.precast.FC["Enhancing Magic"], {ring1 = { name="Murky Ring", augments={'Path: A',}}})
     sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {neck = "Magoraga Beads"})
     sets.precast.FC.Cure = set_combine(sets.precast.FC, {})
@@ -309,16 +309,16 @@ function init_gear_sets()
         waist = "Rumination Sash"
     })
 
-    -- Enhancing: Erilaz Galea +3 (duration+25%), Futhark Trousers +1 (duration+20%), Runeist Mitons +1 (skill+15),
+    -- Enhancing: Erilaz Galea +3 (duration+25%), Futhark Trousers +3 (duration+30%), Runeist Mitons +1 (skill+15),
     -- Andoaa (skill), Stikini.
     sets.midcast["Enhancing Magic"] = set_combine(sets.midcast.FastRecast, {
         head = "Erilaz Galea +3",
         ear1 = "Andoaa Earring",
         hands = "Runeist Mitons +1",
         ring1 = "Stikini Ring",
-        legs = "Futhark Trousers +1"
+        legs = "Futhark Trousers +3"
     })
-    sets.midcast["Enhancing Magic"].SIRD = set_combine(sets.midcast.FastRecast.SIRD, {legs = "Futhark Trousers +1"})
+    sets.midcast["Enhancing Magic"].SIRD = set_combine(sets.midcast.FastRecast.SIRD, {legs = "Futhark Trousers +3"})
 
     -- Phalanx: Fu. Bandeau +1 (Phalanx received +5) plus enhancing skill. No Phalanx-augmented Herculean/Taeon owned.
     sets.midcast["Phalanx"] = set_combine(sets.midcast["Enhancing Magic"], {head = "Fu. Bandeau +1"})
