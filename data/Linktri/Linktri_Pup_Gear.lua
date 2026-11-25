@@ -131,12 +131,12 @@ function init_gear_sets()
 
     -- Precast sets to enhance JAs
     sets.precast.JA["Tactical Switch"] = {feet = "Karagoz Scarpe +3"} -- original: Pitre Babouches +3
-    sets.precast.JA["Repair"] = {ammo = "Automat. Oil +3", feet = "Foire Babouches +3"} -- original: feet Foire Bab. +2, hands Foire Dastanas +2
+    sets.precast.JA["Repair"] = {ammo = "Automat. Oil +3", feet = "Foire Babouches +4"} -- original: feet Foire Bab. +2, hands Foire Dastanas +2
     sets.precast.JA["Maintenance"] = {ammo = "Automat. Oil +3", head = "Foire Taj +3"} -- original: Foire Taj +2
 
     -- original: main Ohtas (not owned), body Foire Tobe +2
     sets.precast.JA.Maneuver = {
-        hands = "Foire Dastanas +3",
+        hands = "Foire Dastanas +4",
         ear1 = "Burana Earring",
         body = "Kara. Farsetto +3",
         back = "Visucius's Mantle"
@@ -276,7 +276,7 @@ function init_gear_sets()
         ring2 = { name="Murky Ring", augments={'Path: A',}},
         back = "Visucius's Mantle",
         waist = "Isa Belt",
-        legs = "Foire Churidars +3",
+        legs = "Foire Churidars +4",
         feet = "Mpaca's Boots"
     }
     sets.idle.Pet.Engaged.LightTank = set_combine(sets.idle.Pet.Engaged.Tank, {})
@@ -299,7 +299,7 @@ function init_gear_sets()
         feet = "Karagoz Scarpe +3"
     }
     -- Healer (Soulsoother head): Cure potency, MND, MP
-    sets.idle.Pet.Engaged.Heal = set_combine(sets.idle.Pet.Engaged.Magic, {legs = "Foire Churidars +3"})
+    sets.idle.Pet.Engaged.Heal = set_combine(sets.idle.Pet.Engaged.Magic, {legs = "Foire Churidars +4"})
     -- Nuker (Spiritreaver head): MAB/MAcc, Refresh
     sets.idle.Pet.Engaged.Nuke = set_combine(sets.idle.Pet.Engaged.Magic, {
         body = "Udug Jacket", legs = "Pitre Churidars +3", feet = "Pitre Babouches +3"})
@@ -307,7 +307,7 @@ function init_gear_sets()
     -- Midcast sets for pet actions (equipped when the automaton starts casting)
     -- Refraction Cape: automaton INT/MND+8, MAcc+3 (Visucius augments are physical only)
     sets.midcast.Pet.Cure = set_combine(sets.idle.Pet.Engaged.Heal, {
-        legs = "Foire Churidars +3", feet = "Karagoz Scarpe +3", back = "Refraction Cape"}) -- original: legs Tali'ah Sera. +2
+        legs = "Foire Churidars +4", feet = "Karagoz Scarpe +3", back = "Refraction Cape"}) -- original: legs Tali'ah Sera. +2
     -- original: full Tali'ah +2, Enmerkar/Domesticator's Earring, Stikini x2
     sets.midcast.Pet["Enfeebling Magic"] = {
         -- ammo = "Voluspa Tathlum", -- removed: non-oil ammo unequips the animator
@@ -586,7 +586,7 @@ function user_job_customize_idle_set(idleSet)
         elseif state.IdleMode.value == "PDT" then
             local dt = sets.PetEngagedPDT
             if tank_modes:contains(state.PetMode.value) then
-                dt = set_combine(dt, {legs = "Foire Churidars +3"}) -- keep the automaton's DT legs
+                dt = set_combine(dt, {legs = "Foire Churidars +4"}) -- keep the automaton's DT legs
             end
             idleSet = set_combine(idleSet, dt)
         end
