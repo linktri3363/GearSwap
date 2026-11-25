@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------------------------------------------
 -- LINKTRI (2026-10-20) SCH audit notes:
---   * Gear rebuilt around what you own: Arbatel +3, Pedagogy +3, Academic +4 (Acad. Mortar. +4 is stored), Agwu R15.
+--   * Gear rebuilt around what you own: Arbatel +3, Pedagogy +3/+4, Academic +4 (Acad. Mortar. +4 is stored), Agwu R15.
 --     Items replaced keep an "original:" comment so they can be restored if acquired.
 --   * Rare items (one copy per character) never sit in both ear or both ring slots of one set.
 --   * Fixed sides to avoid "Failed to equip" mirror swaps:
@@ -185,7 +185,7 @@ function init_gear_sets()
 
     -- Precast sets to enhance JAs
 
-    sets.precast.JA["Tabula Rasa"] = {legs = "Peda. Pants +3"}
+    sets.precast.JA["Tabula Rasa"] = {legs = "Peda. Pants +4"}
     sets.precast.JA["Enlightenment"] = {body="Peda. Gown +3"}
 
     -- FC about 72%: Grioavolr 11, Clerisy 3, Merlinic Hood 8, Voltsurge 4, Malignance 4, Etiolation 1, Agwu's Robe 8,
@@ -205,7 +205,7 @@ function init_gear_sets()
         back = "Perimede Cape",
         waist = "Embla Sash",               -- FC+5  -- original: Witful Belt (Haste only)
         legs = "Agwu's Slops",              -- FC+7  -- original: Psycloth Lappas (not owned)
-        feet = "Peda. Loafers +3"           -- FC+8  -- original: Regal Pumps +1 (FC+4~5)
+        feet = "Peda. Loafers +4"           -- FC+8  -- original: Regal Pumps +1 (FC+4~5)
     }
 
     -- LINKTRI: SCH.lua equips this over FC when the spell matches your active Arts (white magic in Light Arts,
@@ -268,7 +268,7 @@ function init_gear_sets()
         ear1 = "Malignance Earring",
 		ear2 = "Meili Earring",
         body = kaykaus_bliaut,              -- Cure potency II +4%, +6%
-        hands = "Peda. Bracers +3",         -- Cure potency II +3%  -- original: Kaykaus Cuffs +1
+        hands = "Peda. Bracers +4",         -- Cure potency II +3%  -- original: Kaykaus Cuffs +1
         ring1 = "Menelaus's Ring",          -- Cure potency +5%  -- original: Janniston Ring (not owned)
         ring2 = "Lebeche Ring",             -- Cure potency +3%
         back = "Vates Cape +1",             -- Enmity-8  -- original: Tempered Cape +1 (not owned)
@@ -289,7 +289,7 @@ function init_gear_sets()
     sets.Cure_Received = {hands = "Agwu's Gages"}
     sets.Self_Refresh = {feet = "Inspirited Boots"} -- original: also back = "Grapevine Cape", waist = "Gishdubar Sash" (not owned)
 
-    -- Cursna: Healing magic skill (Peda. +19/+19/+20, Meili +10, Vates +6) and Menelaus's Ring (Cursna+20)
+    -- Cursna: Healing magic skill (Peda. +19/+20/+21, Meili +10, Vates +6) and Menelaus's Ring (Cursna+20)
     sets.midcast.Cursna = {
         main = gear.grioavolr_fc_staff,
         sub = "Clemency Grip",
@@ -299,13 +299,13 @@ function init_gear_sets()
         ear1 = "Malignance Earring",
 		ear2 = "Meili Earring",
         body = "Peda. Gown +3",             -- Healing +19  -- original: Zendik Robe (not owned)
-        hands = "Peda. Bracers +3",         -- Healing +19  -- original: Hieros Mittens (not owned)
+        hands = "Peda. Bracers +4",         -- Healing +19  -- original: Hieros Mittens (not owned)
         ring1 = "Menelaus's Ring",          -- Cursna+20  -- original: ring1 Haoma's Ring (not owned), ring2 Menelaus's Ring
         ring2 = "Lebeche Ring",
         back = "Vates Cape +1",             -- Healing +6  -- original: Oretan. Cape +1 (not owned)
         waist = "Embla Sash",               -- original: Witful Belt
         legs = "Agwu's Slops",              -- original: Psycloth Lappas (not owned)
-        feet = "Peda. Loafers +3"           -- Healing +20, FC+8  -- original: Vanya Clogs (not owned)
+        feet = "Peda. Loafers +4"           -- Healing +20, FC+8  -- original: Vanya Clogs (not owned)
     }
 
     sets.midcast.StatusRemoval =
@@ -352,7 +352,7 @@ function init_gear_sets()
 
     sets.midcast.BarElement = set_combine(sets.precast.FC["Enhancing Magic"], {legs = "Shedir Seraweels"})
 
-    sets.midcast.Storm = set_combine(sets.midcast["Enhancing Magic"], {feet = "Peda. Loafers +3"})
+    sets.midcast.Storm = set_combine(sets.midcast["Enhancing Magic"], {feet = "Peda. Loafers +4"})
 
     -- original: {ring2 = "Sheltered Ring"} (not owned)
     sets.midcast.Protect = set_combine(sets.midcast["Enhancing Magic"], {})
@@ -448,7 +448,7 @@ function init_gear_sets()
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
         waist = "Null Belt",                -- original: Acuity Belt +1 (not owned)
-        legs = "Peda. Pants +3",            -- Dark magic +19  -- original: Chironic Hose (not owned)
+        legs = "Peda. Pants +4",            -- Dark magic +19  -- original: Chironic Hose (not owned)
         feet = "Agwu's Pigaches"            -- Drain/Aspir +20  -- original: gear.merlinic_aspir_feet (augments not owned)
     }
 
@@ -488,7 +488,7 @@ function init_gear_sets()
         ring2 = "Stikini Ring",             -- original: Archon Ring (not owned)
         back = gear.nuke_jse_back,
         waist = "Fucho-no-Obi",             -- Drain/Aspir +8
-        legs = "Peda. Pants +3",            -- Drain/Aspir +15  -- original: Chironic Hose (not owned)
+        legs = "Peda. Pants +4",            -- Drain/Aspir +15  -- original: Chironic Hose (not owned)
         feet = "Agwu's Pigaches"            -- Drain/Aspir +20  -- original: gear.merlinic_aspir_feet (augments not owned)
     }
 
@@ -506,7 +506,7 @@ function init_gear_sets()
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
         waist = "Null Belt",                -- original: Acuity Belt +1 (not owned)
-        legs = "Peda. Pants +3",            -- original: Chironic Hose (not owned)
+        legs = "Peda. Pants +4",            -- original: Chironic Hose (not owned)
         feet = "Agwu's Pigaches"            -- original: gear.merlinic_aspir_feet (augments not owned)
     }
 
@@ -528,7 +528,7 @@ function init_gear_sets()
         back = gear.nuke_jse_back,
         waist = "Embla Sash",               -- original: Witful Belt
         legs = "Agwu's Slops",              -- FC+7  -- original: Psycloth Lappas (not owned)
-        feet = "Peda. Loafers +3"           -- FC+8  -- original: Regal Pumps +1
+        feet = "Peda. Loafers +4"           -- FC+8  -- original: Regal Pumps +1
     }
 
     sets.midcast.Stun.Resistant = {
@@ -707,7 +707,7 @@ function init_gear_sets()
         ear1 = "Alabaster Earring",
         ear2 = "Etiolation Earring",        -- original: Ethereal Earring (not owned)
         body = "Arbatel Gown +3",
-        hands = "Peda. Bracers +3",
+        hands = "Peda. Bracers +4",
         ring1 = "Murky Ring",
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,          -- original: Umbra Cape (not owned)
@@ -844,8 +844,8 @@ function init_gear_sets()
     sets.buff["Immanence"] = {hands = "Arbatel Bracers +3"}
     sets.buff["Penury"] = {legs = "Arbatel Pants +3"}
     sets.buff["Parsimony"] = {legs = "Arbatel Pants +3"}
-    sets.buff["Celerity"] = {feet = "Peda. Loafers +3"}
-    sets.buff["Alacrity"] = {feet = "Peda. Loafers +3"}
+    sets.buff["Celerity"] = {feet = "Peda. Loafers +4"}
+    sets.buff["Alacrity"] = {feet = "Peda. Loafers +4"}
     sets.buff["Klimaform"] = {feet = "Arbatel Loafers +3"}
 
     -- HPDown/HPCure are only used by Sel's curecheat (dormant). Unowned items left as-is.
