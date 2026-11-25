@@ -299,13 +299,13 @@ function init_gear_sets()
         ear1 = "Malignance Earring",
 		ear2 = "Meili Earring",
         body = "Peda. Gown +3",             -- Healing +19  -- original: Zendik Robe (not owned)
-        hands = "Peda. Bracers +4",         -- Healing +19  -- original: Hieros Mittens (not owned)
+        hands = "Peda. Bracers +4",         -- Healing +20  -- original: Hieros Mittens (not owned)
         ring1 = "Menelaus's Ring",          -- Cursna+20  -- original: ring1 Haoma's Ring (not owned), ring2 Menelaus's Ring
         ring2 = "Lebeche Ring",
         back = "Vates Cape +1",             -- Healing +6  -- original: Oretan. Cape +1 (not owned)
         waist = "Embla Sash",               -- original: Witful Belt
         legs = "Agwu's Slops",              -- original: Psycloth Lappas (not owned)
-        feet = "Peda. Loafers +4"           -- Healing +20, FC+8  -- original: Vanya Clogs (not owned)
+        feet = "Peda. Loafers +4"           -- Healing +21, FC+8  -- original: Vanya Clogs (not owned)
     }
 
     sets.midcast.StatusRemoval =
@@ -448,7 +448,7 @@ function init_gear_sets()
         ring2 = "Stikini Ring",
         back = gear.nuke_jse_back,
         waist = "Null Belt",                -- original: Acuity Belt +1 (not owned)
-        legs = "Peda. Pants +4",            -- Dark magic +19  -- original: Chironic Hose (not owned)
+        legs = "Peda. Pants +4",            -- Dark magic +20  -- original: Chironic Hose (not owned)
         feet = "Agwu's Pigaches"            -- Drain/Aspir +20  -- original: gear.merlinic_aspir_feet (augments not owned)
     }
 
